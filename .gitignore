@@ -1,4 +1,5 @@
 settings.py
+package-lock.json
 .idea/*
 
 # Created by .ignore support plugin (hsz.mobi)
