@@ -1,7 +1,7 @@
 {
   "name": "dash_leaflet",
-  "version": "0.1.7",
-  "description": "Vestas Dash Leaflet",
+  "version": "0.0.1",
+  "description": "Leaflet component for Dash",
   "main": "build/index.js",
   "scripts": {
     "start": "webpack-serve ./webpack.serve.config.js --open",
@@ -14,8 +14,11 @@
     "build:all": "npm run build:js && npm run build:js-dev && npm run build:py",
     "build:all-activated": "(. venv/bin/activate || venv\\scripts\\activate && npm run build:all)"
   },
-  "author": "Martin Qvist martin@laenke.io",
-  "license": "UNLICENSED",
+  "author": "Emil Haldrup Eriksen martin@laenke.io",
+  "contributors": [
+    "Martin Qvist martin@laenke.io"
+  ],
+  "license": "MIT",
   "dependencies": {
     "chroma-js": "^2.0.4",
     "d3": "^5.9.2",
