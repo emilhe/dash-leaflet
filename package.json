@@ -1,6 +1,6 @@
 {
   "name": "dash_leaflet",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Leaflet component for Dash",
   "main": "build/index.js",
   "scripts": {
@@ -14,9 +14,9 @@
     "build:all": "npm run build:js && npm run build:js-dev && npm run build:py",
     "build:all-activated": "(. venv/bin/activate || venv\\scripts\\activate && npm run build:all)"
   },
-  "author": "Emil Haldrup Eriksen emher@vestas.com",
+  "author": "Emil Haldrup Eriksen",
   "contributors": [
-    "Martin Qvist martin@laenke.io"
+    "Martin Qvist"
   ],
   "license": "MIT",
   "dependencies": {
