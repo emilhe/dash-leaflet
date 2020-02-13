@@ -14,7 +14,7 @@
     "build:all": "npm run build:js && npm run build:js-dev && npm run build:py",
     "build:all-activated": "(. venv/bin/activate || venv\\scripts\\activate && npm run build:all)"
   },
-  "author": "Emil Haldrup Eriksen martin@laenke.io",
+  "author": "Emil Haldrup Eriksen emher@vestas.com",
   "contributors": [
     "Martin Qvist martin@laenke.io"
   ],
