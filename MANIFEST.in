@@ -1,0 +1,5 @@
+include dash_leaflet/dash_leaflet.min.js
+include dash_leaflet/dash_leaflet.dev.js
+include dash_leaflet/metadata.json
+include dash_leaflet/package.json
+include README.md
