@@ -24,6 +24,11 @@ export default class Marker extends Component {
         // Instantiate the Icon
         nProps.icon = this.props.icon === null ? new L.Icon.Default() : L.icon(this.props.icon);
 
+        // eslint-disable-next-line
+        nProps.onclick = (e) => {
+            this.props.setProps({ click_lat_lng: [e.latlng.lat, e.latlng.lng] });
+        }
+
         // We need to use the non-JSX syntax to avoid having to list all props
         const el = React.createElement(
             LeafletMarker,
@@ -148,5 +153,14 @@ Marker.propTypes = {
     /**
      * The attribution string for the component
      */
-    attribution: PropTypes.string
+    attribution: PropTypes.string,
+
+    // Events
+    setProps: PropTypes.func,
+
+    /**
+     * Dash callback property. Receives [lat, lng] upon click.
+     */
+    click_lat_lng: PropTypes.arrayOf(PropTypes.number),
+
 };

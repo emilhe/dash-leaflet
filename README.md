@@ -5,18 +5,16 @@ Dash Leaflet is a light wrapper around React-Leaflet. The syntax is similar to o
     import dash
     import dash_leaflet as dl
     import dash_html_components as html
-
+    
     app = dash.Dash()
     app.layout = html.Div([
-        dl.Map(style={'width': '1000px', 'height': '500px'}, center=[56.05, 10.25], zoom=10, children=[
-            dl.TileLayer(url="https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"),
-        ])
+        dl.Map(style={'width': '1000px', 'height': '500px'}, center=[56.05, 10.25], zoom=10, children=dl.TileLayer())
     ])
     
     if __name__ == '__main__':
         app.run_server(debug=False)
 
-Not all React-Leaflet component have been implemented, but the basics are in place:
+Not all React-Leaflet components have been implemented, but the basics are in place:
 
 * TileLayer
 * WMSTileLayer
