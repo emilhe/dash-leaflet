@@ -26,7 +26,7 @@ export default class Marker extends Component {
 
         // eslint-disable-next-line
         nProps.onclick = (e) => {
-            this.props.setProps({ click_lat_lng: [e.latlng.lat, e.latlng.lng] });
+            this.props.setProps({ n_clicks: this.props.n_clicks + 1 });
         }
 
         // We need to use the non-JSX syntax to avoid having to list all props
@@ -41,7 +41,8 @@ export default class Marker extends Component {
 }
 
 Marker.defaultProps = {
-    icon: null
+    icon: null,
+    n_clicks: 0
 }
 
 Marker.propTypes = {
@@ -159,8 +160,8 @@ Marker.propTypes = {
     setProps: PropTypes.func,
 
     /**
-     * Dash callback property. Receives [lat, lng] upon click.
+     * Dash callback property. Number of times the marker has been clicked
      */
-    click_lat_lng: PropTypes.arrayOf(PropTypes.number),
+    n_clicks: PropTypes.number,
 
 };
