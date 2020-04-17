@@ -1,6 +1,6 @@
 {
   "name": "dash_leaflet",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "Leaflet component for Dash",
   "main": "build/index.js",
   "scripts": {
@@ -23,10 +23,14 @@
     "chroma-js": "^2.0.4",
     "d3": "^5.9.2",
     "geotiff": "^1.0.0-beta.6",
-    "leaflet": "^1.5.1",
+    "leaflet": "^1.6.0",
+    "leaflet.locatecontrol": "^0.71.1",
+    "leaflet.markercluster": "^1.4.1",
     "proj4": "^2.5.0",
     "ramda": "^0.25.0",
-    "react-leaflet": "^2.4.0"
+    "react-leaflet": "^2.6.3",
+    "react-leaflet-markercluster": "^2.0.0-rc3",
+    "prop-types": "^15.7.2"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",

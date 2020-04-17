@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.7] - 2020-17-04
+
+### Added
+
+- LocationControl object added.
+
+## [0.0.6] - 2020-16-04
+
+### Added
+
+- MarkerClusterGroup object added.
+
 ## [0.0.5] - 2020-11-04
 
 ### Changed

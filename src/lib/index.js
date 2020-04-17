@@ -7,7 +7,9 @@ import GeoTIFFOverlay from './components/GeoTIFFOverlay.react';
 // import GridLayer from './components/GridLayer.react';
 import ImageOverlay from './components/ImageOverlay.react';
 import LayerGroup from './components/LayerGroup.react';
+import MarkerClusterGroup from './components/MarkerClusterGroup.react';
 import Map from './components/Map.react';
+import LocateControl from './components/LocateControl.react';
 // import MapLayer from './components/MapLayer.react';
 import Marker from './components/Marker.react';
 // import Path from './components/Path.react';
@@ -28,6 +30,7 @@ export {
     GeoTIFFOverlay,
     ImageOverlay,
     LayerGroup,
+    MarkerClusterGroup,
     Map,
     Marker,
     Polyline,
@@ -38,5 +41,6 @@ export {
     TileLayer,
     Tooltip,
     VideoOverlay,
-    WMSTileLayer
+    WMSTileLayer,
+    LocateControl
 };
