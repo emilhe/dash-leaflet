@@ -1,6 +1,6 @@
 {
   "name": "dash_leaflet",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "Leaflet component for Dash",
   "main": "build/index.js",
   "scripts": {
@@ -24,6 +24,7 @@
     "d3": "^5.9.2",
     "geotiff": "^1.0.0-beta.6",
     "leaflet": "^1.6.0",
+    "leaflet.locatecontrol": "^0.71.1",
     "leaflet.markercluster": "^1.4.1",
     "proj4": "^2.5.0",
     "ramda": "^0.25.0",
