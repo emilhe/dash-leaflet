@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import { CircleMarker as LeafletCircleMarker } from 'react-leaflet';
+import Marker from "./Marker.react";
 
 /**
  * CircleMarker is a wrapper of CircleMarker in react-leaflet.
@@ -13,12 +14,7 @@ export default class CircleMarker extends Component {
 
         // eslint-disable-next-line
         nProps.onclick = (e) => {
-            nProps.setProps({ click_lat_lng: [e.latlng.lat, e.latlng.lng] });
-        }
-
-        // eslint-disable-next-line
-        nProps.ondblclick = (e) => {
-            nProps.setProps({ dbl_click_lat_lng: [e.latlng.lat, e.latlng.lng] });
+            this.props.setProps({ n_clicks: this.props.n_clicks + 1 });
         }
 
         // We need to use the non-JSX syntax to avoid having to list all props
@@ -30,6 +26,10 @@ export default class CircleMarker extends Component {
 
         return el
     }
+}
+
+CircleMarker.defaultProps = {
+    n_clicks: 0
 }
 
 CircleMarker.propTypes = {
@@ -157,12 +157,7 @@ CircleMarker.propTypes = {
     setProps: PropTypes.func,
 
     /**
-     * Dash callback property. Receives [lat, lng] upon click.
+     * Dash callback property. Number of times the marker has been clicked
      */
-    click_lat_lng: PropTypes.arrayOf(PropTypes.number),
-
-    /**
-     * Dash callback property. Receives [lat, lng] upon double click.
-     */
-    dbl_click_lat_lng: PropTypes.arrayOf(PropTypes.number)
+    n_clicks: PropTypes.number
 }

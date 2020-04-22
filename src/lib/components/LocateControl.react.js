@@ -2,6 +2,7 @@ import React, {Component, Node} from 'react';
 import PropTypes from 'prop-types';
 
 import LeafletLocateControl from "../LocateControl";
+import MapLayer from "./MapLayer.react";
 require('leaflet.locatecontrol/dist/L.Control.Locate.min.css');
 
 /**
@@ -21,10 +22,14 @@ export default class LocateControl extends Component {
     }
 }
 
+// LocateControl.defaultProps = {
+//     startDirectly: false
+// };
+
 LocateControl.propTypes = {
 
     /**
-     * The children of this component (dynamic)
+     * The children of this component (dynamic).
      */
     children: PropTypes.node,
 
@@ -34,9 +39,20 @@ LocateControl.propTypes = {
     className: PropTypes.string,
 
     /**
-     * The ID used to identify this component in Dash callbacks
+     * The ID used to identify this component in Dash callbacks.
      */
     id: PropTypes.string,
+
+     /**
+     * If true, the location control is activated on map load.
+     */
+    startDirectly: PropTypes.bool,
+
+    /**
+     * Location control options (a dict). See list of options in the code,
+     * https://github.com/domoritz/leaflet-locatecontrol/blob/gh-pages/src/L.Control.Locate.js#L146
+     */
+    options: PropTypes.object,
 
 };
 
