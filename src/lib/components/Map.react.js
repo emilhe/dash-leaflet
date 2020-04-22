@@ -18,6 +18,11 @@ export default class Map extends Component {
         }
 
         // eslint-disable-next-line
+        nProps.onlocationfound = (e) => {
+            this.props.setProps({ location_lat_lon_acc: [e.latlng.lat, e.latlng.lng, e.accuracy] });
+        }
+
+        // eslint-disable-next-line
         nProps.ondblclick = (e) => {
             this.props.setProps({ dbl_click_lat_lng: [e.latlng.lat, e.latlng.lng] });
         }
@@ -356,7 +361,13 @@ Map.propTypes = {
     /**
      * Dash callback property. Receives [lat, lng] upon double click.
      */
-    dbl_click_lat_lng: PropTypes.arrayOf(PropTypes.number)
+    dbl_click_lat_lng: PropTypes.arrayOf(PropTypes.number),
+
+    /**
+     * Dash callback property. Receives [lat, lng, accuracy] when user location is found.
+     */
+    location_lat_lon_acc: PropTypes.arrayOf(PropTypes.number)
+
 };
 
 
