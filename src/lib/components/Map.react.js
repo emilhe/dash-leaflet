@@ -38,6 +38,13 @@ export default class Map extends Component {
     }
 }
 
+Map.defaultProps = {
+    // Set some values to enable small examples.
+    center: [56, 10],
+    zoom: 6,
+    // Per default, fill parent container.
+    style: {'width': "100%", 'height': "100%"}
+};
 
 Map.propTypes = {
     /**

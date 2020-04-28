@@ -27,13 +27,33 @@ class GeoJSON extends Component {
 //         click: zoomToFeature
 //     });
 // }
-        console.log(this.props);
-        console.log(map);
+        function highlightFeature(e) {
+            var layer = e.target;
+
+            layer.setStyle({
+                weight: 5,
+                color: '#666',
+                dashArray: '',
+                fillOpacity: 0.7
+            });
+
+            if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                layer.bringToFront();
+            }
+        }
+
+        var el;
 
         // Attach event handlers. TODO: Which event handlers?
         function onEachFeature(feature, layer) {
+            console.log(this.mycomp());
+            console.log(this.mycomp.leafletElement.resetStyle(e.target));
+            // console.log(this.mycomp.resetStyle(e.target));
+            console.log(el);
             layer.on({
-                click: (e) => map.fitBounds(e.target.getBounds())
+                click: (e) => map.fitBounds(e.target.getBounds()),
+                mouseover: highlightFeature,
+                mouseout: (e) => el.geojson.resetStyle(e.target)
             });
             // layer.onclick = (e) => map.fitBounds(e.target.getBounds());
           // // does this feature have a property named popupContent?
@@ -45,11 +65,11 @@ class GeoJSON extends Component {
         nProps.onEachFeature = onEachFeature;
 
         // We need to use the non-JSX syntax to avoid having to list all props
-        const el = React.createElement(
+        el = React.createElement(
             LeafletGeoJSON,
-            nProps,
+            {...nProps, ref: ref => this.mycomp = ref},
             nProps.children
-        )
+        );
 
         return el
     }

@@ -23,6 +23,7 @@ import TileLayer from './components/TileLayer.react';
 import Tooltip from './components/Tooltip.react';
 import VideoOverlay from './components/VideoOverlay.react';
 import WMSTileLayer from './components/WMSTileLayer.react';
+import ScaleControl from './components/ScaleControl.react';
 
 export {
     Circle,
@@ -44,5 +45,6 @@ export {
     VideoOverlay,
     WMSTileLayer,
     LocateControl,
-    GeoJSON
+    GeoJSON,
+    ScaleControl
 };
