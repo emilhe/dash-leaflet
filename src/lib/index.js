@@ -7,6 +7,7 @@ import GeoTIFFOverlay from './components/GeoTIFFOverlay.react';
 // import GridLayer from './components/GridLayer.react';
 import ImageOverlay from './components/ImageOverlay.react';
 import LayerGroup from './components/LayerGroup.react';
+import GeoJSON from './components/GeoJSON.react';
 import MarkerClusterGroup from './components/MarkerClusterGroup.react';
 import Map from './components/Map.react';
 import LocateControl from './components/LocateControl.react';
@@ -42,5 +43,6 @@ export {
     Tooltip,
     VideoOverlay,
     WMSTileLayer,
-    LocateControl
+    LocateControl,
+    GeoJSON
 };
