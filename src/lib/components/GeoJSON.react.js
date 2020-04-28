@@ -10,23 +10,26 @@ import {withLeaflet} from "react-leaflet";
  */
 class GeoJSON extends Component {
 
+      constructor(props) {
+    super(props);
+    this.myRef = React.createRef();  // Create reference to be used for geojson object
+  }
+
     render() {
         const nProps = Object.assign({}, this.props);
         const { map } = this.props.leaflet;
+        var el;
 
-        // Read feature style information from style property if it exists.
-        nProps.style = (feature) => {
-              if (feature.style)
-                  return feature.style
-        };
+        function applyStyle(feature){
+            if (feature.style)
+                return feature.style
+        }
 
-//         function onEachFeature(feature, layer) {
-//     layer.on({
-//         mouseover: highlightFeature,
-//         mouseout: resetHighlight,
-//         click: zoomToFeature
-//     });
-// }
+        function zoomToFeature(e) {
+            map.fitBounds(e.target.getBounds())
+        }
+
+
         function highlightFeature(e) {
             var layer = e.target;
 
@@ -42,32 +45,28 @@ class GeoJSON extends Component {
             }
         }
 
-        var el;
-
-        // Attach event handlers. TODO: Which event handlers?
-        function onEachFeature(feature, layer) {
-            console.log(this.mycomp());
-            console.log(this.mycomp.leafletElement.resetStyle(e.target));
-            // console.log(this.mycomp.resetStyle(e.target));
-            console.log(el);
-            layer.on({
-                click: (e) => map.fitBounds(e.target.getBounds()),
-                mouseover: highlightFeature,
-                mouseout: (e) => el.geojson.resetStyle(e.target)
-            });
-            // layer.onclick = (e) => map.fitBounds(e.target.getBounds());
-          // // does this feature have a property named popupContent?
-          // if (feature.properties && feature.properties.popupContent) {
-          //   layer.bindPopup(feature.properties.popupContent);
-          // }
+        function resetHighlight(e){
+            el.ref.current.leafletElement.resetStyle(e.target);
         }
 
-        nProps.onEachFeature = onEachFeature;
+        function onEachFeature(feature, layer) {
+            layer.on({
+                mouseover: highlightFeature,
+                mouseout: resetHighlight,
+                click: zoomToFeature
+            });
+        }
 
+        // Bind styles.
+        nProps.style = applyStyle;
+        // Bind events.
+        nProps.onEachFeature = onEachFeature;
+        // Bind reference to nProps.
+        nProps.ref = this.myRef;
         // We need to use the non-JSX syntax to avoid having to list all props
         el = React.createElement(
             LeafletGeoJSON,
-            {...nProps, ref: ref => this.mycomp = ref},
+            nProps,
             nProps.children
         );
 
