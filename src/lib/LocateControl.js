@@ -19,6 +19,7 @@ class LocateControl extends Component {
   render() {
     return null;
   }
+
 }
 
 export default withLeaflet(LocateControl);

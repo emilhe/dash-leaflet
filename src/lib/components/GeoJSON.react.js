@@ -11,36 +11,25 @@ export default class GeoJSON extends Component {
     render() {
         const nProps = Object.assign({}, this.props);
 
-        // function getColor(d) {
-        //     return d > 1000 ? '#800026' :
-        //            d > 500  ? '#BD0026' :
-        //            d > 200  ? '#E31A1C' :
-        //            d > 100  ? '#FC4E2A' :
-        //            d > 50   ? '#FD8D3C' :
-        //            d > 20   ? '#FEB24C' :
-        //            d > 10   ? '#FED976' :
-        //                       '#FFEDA0';
-        // }
-        //
-        // function style(feature) {
-        //     return {
-        //         fillColor: getColor(feature.properties.density),
-        //         weight: 2,
-        //         opacity: 1,
-        //         color: 'white',
-        //         dashArray: '3',
-        //         fillOpacity: 0.7
-        //     };
+        // Read feature style information from style property if it exists.
+        nProps.style = (feature) => {
+            if ('style' in feature)
+                return feature.style
+        } ;
+
+        // nProps.onEachFeature = (feature, layer) => {
+        //     layer.on({
+        //         click: (e) => map.fitBounds(e.target.getBounds());
+        //     });
         // }
 
-        nProps.style = (feature) => {
-            // Look for a feature specific style.
-            if (nProps.style_map && 'id' in feature && feature.id in nProps.style_map)
-                return nProps.style_map[feature.id];
-            // Look for a default style.
-            if (nProps.default_style)
-                return nProps.default_style;
-        } ;
+//         function onEachFeature(feature, layer) {
+//     layer.on({
+//         mouseover: highlightFeature,
+//         mouseout: resetHighlight,
+//         click: zoomToFeature
+//     });
+// }
 
         // // eslint-disable-next-line
         // nProps.onclick = (e) => {
@@ -69,16 +58,6 @@ GeoJSON.propTypes = {
      * GeoJSON data
      */
     data: PropTypes.object,
-
-    /**
-     * Default style.
-     */
-    default_style: PropTypes.object,
-
-    /**
-     * Customized style via a mapping <id, style>
-     */
-    style_map: PropTypes.object,
 
     /**
      * Attribution
