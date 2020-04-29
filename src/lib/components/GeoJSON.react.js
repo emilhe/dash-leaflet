@@ -10,51 +10,65 @@ import {withLeaflet} from "react-leaflet";
  */
 class GeoJSON extends Component {
 
-      constructor(props) {
-    super(props);
-    this.myRef = React.createRef();  // Create reference to be used for geojson object
-  }
+    constructor(props) {
+        super(props);
+        this.myRef = React.createRef();  // Create reference to be used for geojson object
+    }
 
     render() {
         const nProps = Object.assign({}, this.props);
         const { map } = this.props.leaflet;
         var el;
 
+        // If the feature has a style property, apply the style.
         function applyStyle(feature){
-            if (feature.style)
-                return feature.style
+            if (feature.properties && feature.properties.style)
+                return feature.properties.style
         }
 
-        function zoomToFeature(e) {
-            map.fitBounds(e.target.getBounds())
-        }
-
-
-        function highlightFeature(e) {
-            var layer = e.target;
-
-            layer.setStyle({
-                weight: 5,
-                color: '#666',
-                dashArray: '',
-                fillOpacity: 0.7
-            });
-
-            if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-                layer.bringToFront();
+        function handleClick(e){
+            const feature = e.target.feature;
+            // // Update feature_clicks property.
+            console.log(this);
+            this.setProps({ feature_clicks: feature });
+            // Zoom to position if zoomOnClick is enabled.
+            if (feature.properties && feature.properties.zoomOnClick){
+                map.fitBounds(e.target.getBounds());
             }
+            // Other?
         }
 
-        function resetHighlight(e){
-            el.ref.current.leafletElement.resetStyle(e.target);
+        function handleMouseover(e){
+            const feature = e.target.feature;
+            // Apply hover style if provided..
+            if(feature.properties && feature.properties.hoverStyle){
+                const layer = e.target;
+                layer.setStyle(feature.properties.hoverStyle);
+                if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                    layer.bringToFront();
+                }
+            }
+            // Other?
+        }
+
+        function handleMouseout(e){
+            const feature = e.target.feature;
+            // If hover style was applied, remove it again.
+            if(feature.properties && feature.properties.hoverStyle)
+                el.ref.current.leafletElement.resetStyle(e.target);
         }
 
         function onEachFeature(feature, layer) {
-            layer.on({
-                mouseover: highlightFeature,
-                mouseout: resetHighlight,
-                click: zoomToFeature
-            });
+            // Bind popup if provided.
+            if (feature.properties && feature.properties.popupContent)
+                layer.bindPopup(feature.properties.popupContent);
+            //  Always listen to click events (maybe add option to disable via a property?)
+            const eventHandlers = {click: handleClick.bind(this)};
+            //  Listen to hover events only if hoverStyle is set (maybe add option to enable via a property?)
+            if (feature.properties && feature.properties.hoverStyle)
+                eventHandlers.mouseover = handleMouseover;
+            eventHandlers.mouseout = handleMouseout;
+            layer.on(eventHandlers);
         }
 
         // Bind styles.
@@ -104,6 +118,11 @@ GeoJSON.propTypes = {
 
     // Events
     setProps: PropTypes.func,
+
+    /**
+     * X
+     */
+    feature_clicks: PropTypes.object
 
 }
 
