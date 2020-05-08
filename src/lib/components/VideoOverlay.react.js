@@ -40,7 +40,7 @@ VideoOverlay.propTypes = {
     /**
      * The URL of the video
      */
-    url: PropTypes.string.isRequired,
+    url: PropTypes.oneOf(PropTypes.string, PropTypes.arrayOf(PropTypes.string)).isRequired,
 
     /**
      * The geographical bounds the video is tied to.

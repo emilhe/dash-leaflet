@@ -2,11 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.10] - 2020-06-05
+
+### Changed
+
+- Support of multiple urls for VideoOverlay
+
 ## [0.0.9] - 2020-28-04
 
 ### Added
 
 - ScaleControl object added.
+
+
 
 ## [0.0.8] - 2020-22-04
 

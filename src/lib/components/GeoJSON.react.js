@@ -22,11 +22,12 @@ class GeoJSON extends Component {
 
         function getFeatureValue(feature, key) {
             // If the feature has a value itself, it takes precedence.
-            if (feature.leaflet && key in feature.leaflet)
-                return feature.leaflet[key];
+            if (nProps.featureOptions && feature.id && feature.id in nProps.featureOptions &&
+                key in nProps.featureOptions[feature.id])
+                return nProps.featureOptions[feature.id][key];
             // Next, we look for a style in the featureOptions property.
-            if (nProps.featureOptions && key in nProps.featureOptions)
-                return nProps.featureOptions[key]
+            if (nProps.options && key in nProps.options)
+                return nProps.options[key]
         }
 
         function applyStyle(feature) {
@@ -92,9 +93,24 @@ class GeoJSON extends Component {
             nProps,
             nProps.children
         );
+        // // TODO: Is this necessary?
+        // this.contextValue = Object.assign({}, props.leaflet);
+        // this.contextValue.popupContainer = el;
 
         return el
     }
+
+    // updateLeafletElement(fromProps, toProps) {
+    //     //         if (toProps.opacity !== fromProps.opacity) {
+    //     //     this.leafletElement.setOpacity(toProps.opacity);
+    //     // }
+    //
+    //     if (toProps.data !== fromProps.data) {
+    //         this.leafletElement.set
+    //     } else {
+    //         this.setStyleIfChanged(fromProps, toProps)
+    //     }
+    // }
 
 }
 
@@ -133,10 +149,9 @@ GeoJSON.propTypes = {
     // Feature property defaults
 
     /**
-     * The options that can be changed for each feature. Note that these options are defaults. To change options
-     * for a particular feature, attach a dict to the feature under the key "leaflet" with the same options as below.
+     * Options to be applied across all features.
      */
-    featureOptions: PropTypes.shape({
+    options: PropTypes.shape({
         // Default style of the feature.
         style: PropTypes.object,
         // Style to apply on mouse hover.
@@ -145,6 +160,22 @@ GeoJSON.propTypes = {
         zoomToBoundsOnClick: PropTypes.bool,
         // If set, a popup will be created on the feature with this content.
         popupContent: PropTypes.string
+    }),
+
+    /**
+     * Options to be applied per feature (an id must be assigned to target a feature).
+     */
+    featureOptions: PropTypes.shape({
+        id: {
+            // Default style of the feature.
+            style: PropTypes.object,
+            // Style to apply on mouse hover.
+            hoverStyle: PropTypes.object,
+            // If true, map will zoom to feature on click.
+            zoomToBoundsOnClick: PropTypes.bool,
+            // If set, a popup will be created on the feature with this content.
+            popupContent: PropTypes.string
+        }
     }),
 
     // Events
