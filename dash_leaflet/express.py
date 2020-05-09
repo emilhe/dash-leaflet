@@ -13,14 +13,14 @@ def categorical_colorbar(*args, categories, colorscale, **kwargs):
 def geojson(data, *args, style, **kwargs):
     feature_id = "id"
     # Check if id is present and unique.
-    ids = [f["id"] for f in data["features"] if hasattr(f, "id")]
+    ids = [f["id"] for f in data["features"] if "id" in f]
     id_valid = len(list(set(ids))) == len(data["features"])
     if not id_valid:
         feature_id = "leaflet_id" if len(ids) > 0 else "id"
         for i, f in enumerate(data["features"]):
             f[feature_id] = i
     # Setup options (for now assumed to be style only).
-    featureOptions = {f["id"]: dict(style=style(f)) for f in data["features"]}
+    featureOptions = {f[feature_id]: dict(style=style(f)) for f in data["features"]}
     return dl.GeoJSON(*args, data=data, featureOptions=featureOptions, featureId=feature_id, **kwargs)
 
 

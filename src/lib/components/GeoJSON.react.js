@@ -22,9 +22,9 @@ class GeoJSON extends Component {
 
         function getFeatureValue(feature, key) {
             // If the feature has a value itself, it takes precedence.
-            if (nProps.featureOptions && feature.id && feature.id in nProps.featureOptions &&
-                key in nProps.featureOptions[feature.id])
-                return nProps.featureOptions[feature.id][key];
+            if (nProps.featureOptions && nProps.featureId in feature && feature[nProps.featureId] in nProps.featureOptions &&
+                key in nProps.featureOptions[feature[nProps.featureId]])
+                return nProps.featureOptions[feature[nProps.featureId]][key];
             // Next, we look for a style in the featureOptions property.
             if (nProps.options && key in nProps.options)
                 return nProps.options[key]
