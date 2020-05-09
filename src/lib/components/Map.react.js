@@ -43,7 +43,7 @@ Map.defaultProps = {
     center: [56, 10],
     zoom: 6,
     // Per default, fill parent container.
-    style: {'width': "100%", 'height': "100%"}
+    style: {'width': "100%", 'height': "100%", "position": "relative"}
 };
 
 Map.propTypes = {

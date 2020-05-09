@@ -46,7 +46,7 @@ class GeoJSON extends Component {
         function handleMouseover(e) {
             const feature = e.target.feature;
             // Update feature_mouseover property.
-            this.setProps({featureMouseover: feature});
+            this.setProps({featureHover: feature});
             // Apply hover style if provided.
             const hoverStyle = getFeatureValue(feature, "hoverStyle");
             if (hoverStyle) {
@@ -61,7 +61,7 @@ class GeoJSON extends Component {
         function handleMouseout(e) {
             const feature = e.target.feature;
             // Update feature_mouseover property.
-            this.setProps({featureMouseout: feature});
+            this.setProps({featureHover: null});
             // If hover style was applied, remove it again.
             if (getFeatureValue(feature, "hoverStyle"))
                 el.ref.current.leafletElement.resetStyle(e.target);
@@ -187,14 +187,14 @@ GeoJSON.propTypes = {
     featureClick: PropTypes.object,
 
     /**
-     * Last feature mouseover.
+     * Last feature hover.
      */
-    featureMouseover: PropTypes.object,
+    featureHover: PropTypes.object,
 
-    /**
-     * Last feature mouseout.
-     */
-    featureMouseout: PropTypes.object
+    // /**
+    //  * Last feature mouseout.
+    //  */
+    // featureMouseout: PropTypes.object
 
 }
 

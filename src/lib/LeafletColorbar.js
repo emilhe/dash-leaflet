@@ -88,7 +88,7 @@ const Colorbar = Control.extend({
                 const title = tooltip? "title=\"" + x.toFixed(dec) + "\"" : "";
                 h += `<span "${title}" style="display: inline-block; background-color: rgba(${rgba[0]},${rgba[1]},${rgba[2]},${rgba[3]*opacity}); width: 1px; height: ${height}px"></span>`;
             }
-            h += `</div><div style="display: block; padding-bottom: 1.3em; margin-right: ${10 - width/(nTicks - 1)}px; margin-top: -3px">`
+            h += `</div><div style="display: block; padding-bottom: 0em; margin-right: ${10 - width/(nTicks - 1)}px; margin-top: -3px">`
             // Add the ticks.
             h += `<span style="display: inline-block; transform: translate(-50%,0); text-align: center; width: ${tickPositions[0]* width}px"></span>`;
             for (let i=0; i<nTicks; i++) {
