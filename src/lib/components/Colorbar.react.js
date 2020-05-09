@@ -49,12 +49,12 @@ Colorbar.propTypes = {
     /**
      * Domain minimum of the colorbar. Translates to the first color of the colorscale.
      */
-    domainMin: PropTypes.number,
+    min: PropTypes.number,
 
     /**
      * Domain maximum of the colorbar. Translates to the last color of the colorscale.
      */
-    domainMax: PropTypes.number,
+    max: PropTypes.number,
 
     /**
      * The number or positions of discrete classes in the colorbar. If not set the 
@@ -79,6 +79,21 @@ Colorbar.propTypes = {
      * If set, fixes the tick decimal points to the given number.
      */
     tickDecimals: PropTypes.number,
+
+    /**
+     * If set, these values are used for ticks (rather than the ones genrated based on nTicks).
+     */
+    tickValues: PropTypes.arrayOf(PropTypes.number),
+
+   /**
+     * If set, this text will be used instead of the data values.
+     */
+    tickText: PropTypes.arrayOf(PropTypes.string),
+
+    /**
+     * If true, the value will be shown as tooltip on hover.
+     */
+    tooltip: PropTypes.bool,
 
     /**
      * Opacity of the colorbar. Use it to match the perceived colors from an overlay 

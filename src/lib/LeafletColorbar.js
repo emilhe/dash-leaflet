@@ -14,15 +14,18 @@ const Colorbar = Control.extend({
         colorscale: 'Viridis',
         width: 100,
         height: 10,
-        domainMin: 0,
-        domainMax: 1,
+        min: 0,
+        max: 1,
         classes: null,
         opacity: 1,
         nTicks: 3,
         tickDecimals: null,
+        tickValues: null,
+        tickText: null,
         unit: "",
         style: {},
-        className: null
+        className: null,
+        tooltip: true,
     },
 	initialize: function (options) {
 		Util.setOptions(this, options);
@@ -39,51 +42,77 @@ const Colorbar = Control.extend({
 	_update: function () {
 		if (!this._map) { return; }
 
+        // Unpack stuff.
+        const {min, max, colorscale, classes, tickDecimals, unit, width, height, tooltip, opacity} = this.options;
+        const range = max - min;
+        let {tickValues, tickText} = this.options;
         // Create the colorscale
         let scale;
-        if (this.options.classes !== null) {
-            scale = chroma.scale(this.options.colorscale)
-                          .domain([this.options.domainMin, this.options.domainMax])
-                          .classes(this.options.classes);
+        if (classes !== null) {
+            scale = chroma.scale(colorscale).domain([min, max]).classes(classes);
         } else {
-            scale = chroma.scale(this.options.colorscale)
-                          .domain([this.options.domainMin, this.options.domainMax]);
+            scale = chroma.scale(colorscale).domain([min, max]);
         }
-
         // Calculate default precision
-        const prec = Math.log10(Math.abs(this.options.domainMax - this.options.domainMin));
+        const prec = Math.log10(Math.abs(range));
         let dec = Math.max(0, 2 - prec);
-
-        if (this.options.tickDecimals !== null) {
-            dec = this.options.tickDecimals;
+        if (tickDecimals !== null) {
+            dec = tickDecimals;
         }
+        // Calculate ticks.
+        let nTicks = this.options.nTicks;
+        if (tickValues === null) {
+            tickValues = [];
+            for (let i = 0; i < nTicks; i++) {
+                tickValues.push(min + range * i / (nTicks - 1))
+            }
+        }
+        else{
+            nTicks = tickValues.length;
+        }
+        // Calculate tick positions.
+        let tickPositions = tickValues.map(function (tick) { return (tick -  min) / range });
+        tickPositions.push(1-tickPositions[tickPositions.length]);
+        // Calculate tick labels. TODO: Raise an error, if lengths do not match?
+        tickText = tickText ? tickText :
+            tickValues.map(function (tick) { return String(tick.toFixed(dec)) + " " + String(unit)});
 
         let h = '';
-        if (this.options.width > this.options.height) {
+        if (width > height) {
             // Horizontal
             h += `<div style="display: block">`
-            for (let i=0; i<this.options.width; i++) {
-                const x = (this.options.domainMax - this.options.domainMin)*i/this.options.width + this.options.domainMin;
+            // Draw the colorbar itself.
+            for (let i=0; i<width; i++) {
+                const x = range*i/width + min;
                 const rgba = scale(x).get('rgba');
-                h += `<span title="${x.toFixed(dec)}" style="display: inline-block; background-color: rgba(${rgba[0]},${rgba[1]},${rgba[2]},${rgba[3]*this.options.opacity}); width: 1px; height: ${this.options.height}px"></span>`;
+                const title = tooltip? "title=\"" + x.toFixed(dec) + "\"" : "";
+                h += `<span "${title}" style="display: inline-block; background-color: rgba(${rgba[0]},${rgba[1]},${rgba[2]},${rgba[3]*opacity}); width: 1px; height: ${height}px"></span>`;
             }
-            h += `</div><div style="display: block; padding-bottom: 1.3em; margin-right: ${10 - this.options.width/(this.options.nTicks - 1)}px; margin-top: -3px">`
-            for (let i=0; i<this.options.nTicks; i++) {
-                h += `<span style="display: inline-block; transform: translate(-50%,0); text-align: center; width: ${this.options.width/(this.options.nTicks - 1)}px">${(this.options.domainMin + (this.options.domainMax - this.options.domainMin)*i/(this.options.nTicks - 1)).toFixed(dec)} ${this.options.unit}</span>`;
+            h += `</div><div style="display: block; padding-bottom: 1.3em; margin-right: ${10 - width/(nTicks - 1)}px; margin-top: -3px">`
+            // Add the ticks.
+            h += `<span style="display: inline-block; transform: translate(-50%,0); text-align: center; width: ${tickPositions[0]* width}px"></span>`;
+            for (let i=0; i<nTicks; i++) {
+                let shift = (tickPositions[i+1] - tickPositions[i]) * width;
+                h += `<span style="display: inline-block; transform: translate(-50%,0); text-align: center; width: ${shift}px">${tickText[i]}</span>`;
             }
             h += `</div>`
 
         } else {
             // Vertical
             h += `<div style="display: inline-block; margin-top: 5px">`
-            for (let i=0; i<this.options.height; i++) {
-                const x = this.options.domainMax - (this.options.domainMax - this.options.domainMin)*i/this.options.height;
+            // Draw the colorbar itself.
+            for (let i=0; i<height; i++) {
+                const x = max - range*i/height;
                 const rgba = scale(x).get('rgba');
-                h += `<span title="${x.toFixed(dec)}" style="display: block; background-color: rgba(${rgba[0]},${rgba[1]},${rgba[2]},${rgba[3]*this.options.opacity}); height: 1px; width: ${this.options.width}px"></span>`;
+                const title = tooltip? "title=\"" + x.toFixed(dec) + "\"" : "";
+                h += `<span ${title} style="display: block; background-color: rgba(${rgba[0]},${rgba[1]},${rgba[2]},${rgba[3]*opacity}); height: 1px; width: ${width}px"></span>`;
             }
-            h += `</div><div style="position: relative; display: inline-block; vertical-align: top; height: ${this.options.height}px; padding-left: 0.3em; margin-top: 5px">`
-            for (let i=0; i<this.options.nTicks; i++) {
-                h += `<span style="display: block; margin-bottom: ${this.options.height/(this.options.nTicks-1)}px; line-height: 0px; white-space: nowrap">${(this.options.domainMax + (this.options.domainMin - this.options.domainMax)*i/(this.options.nTicks - 1)).toFixed(dec)} ${this.options.unit}</span>`;
+            h += `</div><div style="position: relative; display: inline-block; vertical-align: top; height: ${height}px; padding-left: 0.3em; margin-top: 5px">`
+            // Add the ticks.
+            h += `<span style="display: block; margin-bottom: ${tickPositions[0]* height }px; line-height: 0px; white-space: nowrap"></span>`;
+            for (let i=0; i<nTicks; i++) {
+                let shift  = (tickPositions[i+1] - tickPositions[i]) * height;
+                h += `<span style="display: block; margin-bottom: ${shift}px; line-height: 0px; white-space: nowrap">${tickText[i]}</span>`;
             }
             h += `</div>`
         }
@@ -104,12 +133,12 @@ const Colorbar = Control.extend({
         this.options.unit = unit;
         this._update();
     },
-    setDomainMin: function (domainMin) {
-        this.options.domainMin = domainMin;
+    setMin: function (min) {
+        this.options.min = min;
         this._update();
     },
-    setDomainMax: function (domainMax) {
-        this.options.domainMax = domainMax;
+    setMax: function (max) {
+        this.options.max = max;
         this._update();
     },
     setClasses: function (classes) {
@@ -124,8 +153,20 @@ const Colorbar = Control.extend({
         this.options.nTicks = nTicks;
         this._update();
     },
+    setTickValues: function (tickValues) {
+        this.options.tickValues = tickValues;
+        this._update();
+    },
+    setTickText: function (tickText) {
+        this.options.tickText = tickText;
+        this._update();
+    },
     setTickDecimals: function (tickDecimals) {
         this.options.tickDecimals = tickDecimals;
+        this._update();
+    },
+    setTooltip: function (tooltip) {
+        this.options.tooltip = tooltip;
         this._update();
     },
     setClassName: function (oldClass, newClass) {
@@ -152,11 +193,14 @@ class LeafletColorbar extends MapControl {
         if (toProps.colorscale !== fromProps.colorscale) {
             this.leafletElement.setColorscale(toProps.colorscale);
         }
-        if (toProps.domainMin !== fromProps.domainMin) {
-            this.leafletElement.setDomainMin(toProps.domainMin);
+        if (toProps.tooltip !== fromProps.tooltip) {
+            this.leafletElement.setTooltip(toProps.tooltip);
         }
-        if (toProps.domainMax !== fromProps.domainMax) {
-            this.leafletElement.setDomainMax(toProps.domainMax);
+        if (toProps.min !== fromProps.min) {
+            this.leafletElement.setMin(toProps.min);
+        }
+        if (toProps.max !== fromProps.max) {
+            this.leafletElement.setMax(toProps.max);
         }
         if (toProps.unit !== fromProps.unit) {
             this.leafletElement.setUnit(toProps.unit);
@@ -172,6 +216,12 @@ class LeafletColorbar extends MapControl {
         }
         if (toProps.tickDecimals !== fromProps.tickDecimals) {
             this.leafletElement.setTickDecimals(toProps.tickDecimals);
+        }
+        if (toProps.tickValues !== fromProps.tickValues) {
+            this.leafletElement.setTickValues(toProps.tickValues);
+        }
+        if (toProps.tickText !== fromProps.tickText) {
+            this.leafletElement.setTickText(toProps.tickText);
         }
         if (toProps.className !== fromProps.className) {
             this.leafletElement.setClassName(fromProps.className, toProps.className);
