@@ -114,6 +114,10 @@ class GeoJSON extends Component {
 
 }
 
+GeoJSON.defaultProps = {
+    featureId: "id"
+};
+
 GeoJSON.propTypes = {
 
     /**
@@ -178,6 +182,11 @@ GeoJSON.propTypes = {
         }
     }),
 
+    /**
+     * Which feature property to be used for matching with the featureOptions id.
+     */
+    featureId: PropTypes.string,
+
     // Events
     setProps: PropTypes.func,
 
@@ -190,11 +199,6 @@ GeoJSON.propTypes = {
      * Last feature hover.
      */
     featureHover: PropTypes.object,
-
-    // /**
-    //  * Last feature mouseout.
-    //  */
-    // featureMouseout: PropTypes.object
 
 }
 
