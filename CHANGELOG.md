@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.11] - 2020-11-05
+
+### Changed
+
+- GeoJSON object added.
+
 ## [0.0.10] - 2020-06-05
 
 ### Changed
