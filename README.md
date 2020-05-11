@@ -1,39 +1,31 @@
 # Dash Leaflet
 
-Dash Leaflet is a light wrapper around React-Leaflet. The syntax is similar to other Dash components, with naming conventions following the React-Leaflet API. A minimal working example can be implemented in a few lines, 
- 
-    import dash
-    import dash_leaflet as dl
-    import dash_html_components as html
-    
-    app = dash.Dash()
-    app.layout = html.Div([
-        dl.Map(style={'width': '1000px', 'height': '500px'}, center=[56.05, 10.25], zoom=10, children=dl.TileLayer())
-    ])
-    
-    if __name__ == '__main__':
-        app.run_server(debug=False)
+Dash Leaflet is a light wrapper around React-Leaflet. The syntax is similar to other Dash components, with naming conventions following the React-Leaflet API. 
 
-Not all React-Leaflet components have been implemented, but the basics are in place:
+## Getting started
 
-* TileLayer
-* WMSTileLayer
-* LayerGroup
-* Polygon
-* Polyline
-* Rectangle
-* Circle
-* CircleMarker
-* Marker
-* ImageOverlay
-* VideoOverlay
-* Popup
-* Tooltip
+The easiest way to get started is to install the latest version of Dash and Dash Leaflet via pip.
 
-Component documentation is available on the React-Leaflet website,
+```
+pip install dash==1.12.0
+pip install dash-leaflet
+```
 
-https://react-leaflet.js.org/docs/en/components 
+Once the installation is completed, paste the following lines of code into a .py file and run it.
 
-More advanced Dash Leaflet examples are available in the usage gallery,
+````
+import dash
+import dash_leaflet as dl
 
-https://github.com/thedirtyfew/dash-leaflet/blob/master/usage_gallery.py
+app = dash.Dash()
+app.layout = dl.Map(dl.TileLayer(), style={'width': '1000px', 'height': '500px'})
+
+if __name__ == '__main__':
+    app.run_server()    
+````
+
+If you visit http://127.0.0.1:8050/ in your browser, you should see a Leaflet map.
+
+## Documentation
+
+The documentation has been moved to [Heroku](https://dash-leaflet.herokuapp.com/) to enable an interactive example gallery. 

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.12] - 2020-11-05
+
+### Changed
+
+- Property added to GeoJSON object (n_click).
+- Link added to heroku documentation.
+
 ## [0.0.11] - 2020-11-05
 
 ### Changed
