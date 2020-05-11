@@ -33,8 +33,10 @@ class GeoJSON extends Component {
 
         function handleClick(e) {
             const feature = e.target.feature;
+            this.n_clicks = this.n_clicks + 1;
             // Update featureClick property.
             this.setProps({featureClick: feature});
+            this.setProps({n_clicks: this.n_clicks});
             // If needed, zoomToBoundsOnClick.
             if (getOptionValue(feature, "zoomToBoundsOnClick"))
                 map.fitBounds(e.target.getBounds());
@@ -95,7 +97,8 @@ class GeoJSON extends Component {
 }
 
 GeoJSON.defaultProps = {
-    featureId: "id"
+    featureId: "id",
+    n_clicks: 0
 };
 
 GeoJSON.propTypes = {
@@ -175,6 +178,11 @@ GeoJSON.propTypes = {
 
     // Events
     setProps: PropTypes.func,
+
+    /**
+     * Dash callback property. Number of times the marker has been clicked
+     */
+    n_clicks: PropTypes.number,
 
     /**
      * Last feature clicked.
