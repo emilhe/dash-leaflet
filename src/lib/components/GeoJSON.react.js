@@ -1,7 +1,7 @@
 import React, {Component, Node} from 'react';
 import PropTypes from 'prop-types';
 
-import {GeoJSON as LeafletGeoJSON} from 'react-leaflet';
+import LeafletGeoJSON from '../LeafletGeoJSON';
 import {withLeaflet} from "react-leaflet";
 
 /**
@@ -16,22 +16,19 @@ class GeoJSON extends Component {
     }
 
     render() {
-        const nProps = Object.assign({}, this.props);
+        let el;
+        let nProps = Object.assign({}, this.props);
         const {map} = this.props.leaflet;
-        var el;
 
-        function getFeatureValue(feature, key) {
+        function getOptionValue(feature, key) {
+            const {defaultOptions, featureOptions} = nProps;
             // If the feature has a value itself, it takes precedence.
-            if (nProps.featureOptions && nProps.featureId in feature && feature[nProps.featureId] in nProps.featureOptions &&
-                key in nProps.featureOptions[feature[nProps.featureId]])
-                return nProps.featureOptions[feature[nProps.featureId]][key];
+            if (featureOptions && nProps.featureId in feature && feature[nProps.featureId] in featureOptions &&
+                key in featureOptions[feature[nProps.featureId]])
+                return featureOptions[feature[nProps.featureId]][key];
             // Next, we look for a style in the featureOptions property.
-            if (nProps.options && key in nProps.options)
-                return nProps.options[key]
-        }
-
-        function applyStyle(feature) {
-            return getFeatureValue(feature, "style");
+            if (defaultOptions && key in defaultOptions)
+                return nProps.defaultOptions[key]
         }
 
         function handleClick(e) {
@@ -39,7 +36,7 @@ class GeoJSON extends Component {
             // Update featureClick property.
             this.setProps({featureClick: feature});
             // If needed, zoomToBoundsOnClick.
-            if (getFeatureValue(feature, "zoomToBoundsOnClick"))
+            if (getOptionValue(feature, "zoomToBoundsOnClick"))
                 map.fitBounds(e.target.getBounds());
         }
 
@@ -48,7 +45,7 @@ class GeoJSON extends Component {
             // Update feature_mouseover property.
             this.setProps({featureHover: feature});
             // Apply hover style if provided.
-            const hoverStyle = getFeatureValue(feature, "hoverStyle");
+            const hoverStyle = getOptionValue(feature, "hoverStyle");
             if (hoverStyle) {
                 const layer = e.target;
                 layer.setStyle(hoverStyle);
@@ -63,13 +60,13 @@ class GeoJSON extends Component {
             // Update feature_mouseover property.
             this.setProps({featureHover: null});
             // If hover style was applied, remove it again.
-            if (getFeatureValue(feature, "hoverStyle"))
+            if (getOptionValue(feature, "hoverStyle"))
                 el.ref.current.leafletElement.resetStyle(e.target);
         }
 
         function onEachFeature(feature, layer) {
             // Bind popup if provided.
-            const popupContent = getFeatureValue(feature, "popupContent");
+            const popupContent = getOptionValue(feature, "popupContent");
             if (popupContent)
                 layer.bindPopup(popupContent);
             //  Always listen to events (maybe add option to disable via a property?)
@@ -81,8 +78,6 @@ class GeoJSON extends Component {
             );
         }
 
-        // Bind styles.
-        nProps.style = applyStyle;
         // Bind events.
         nProps.onEachFeature = onEachFeature;
         // Bind reference to nProps.
@@ -93,24 +88,9 @@ class GeoJSON extends Component {
             nProps,
             nProps.children
         );
-        // // TODO: Is this necessary?
-        // this.contextValue = Object.assign({}, props.leaflet);
-        // this.contextValue.popupContainer = el;
 
         return el
     }
-
-    // updateLeafletElement(fromProps, toProps) {
-    //     //         if (toProps.opacity !== fromProps.opacity) {
-    //     //     this.leafletElement.setOpacity(toProps.opacity);
-    //     // }
-    //
-    //     if (toProps.data !== fromProps.data) {
-    //         this.leafletElement.set
-    //     } else {
-    //         this.setStyleIfChanged(fromProps, toProps)
-    //     }
-    // }
 
 }
 
@@ -150,14 +130,10 @@ GeoJSON.propTypes = {
      */
     style: PropTypes.object,
 
-    // Feature property defaults
-
     /**
-     * Options to be applied across all features.
+     * Interactivity to be applied across all features.
      */
-    options: PropTypes.shape({
-        // Default style of the feature.
-        style: PropTypes.object,
+    defaultOptions: PropTypes.shape({
         // Style to apply on mouse hover.
         hoverStyle: PropTypes.object,
         // If true, map will zoom to feature on click.
@@ -167,12 +143,15 @@ GeoJSON.propTypes = {
     }),
 
     /**
-     * Options to be applied per feature (an id must be assigned to target a feature).
+     * Style to be applied across all features.
+     */
+    defaultStyle: PropTypes.object,
+
+    /**
+     * Interactivity to be applied per feature (an id must be assigned to target a feature).
      */
     featureOptions: PropTypes.shape({
         id: {
-            // Default style of the feature.
-            style: PropTypes.object,
             // Style to apply on mouse hover.
             hoverStyle: PropTypes.object,
             // If true, map will zoom to feature on click.
@@ -183,7 +162,14 @@ GeoJSON.propTypes = {
     }),
 
     /**
-     * Which feature property to be used for matching with the featureOptions id.
+     * Style to be applied per feature (an id must be assigned to target a feature).
+     */
+    featureStyle: PropTypes.shape({
+        id: PropTypes.object,
+    }),
+
+    /**
+     * Which feature property to be used for matching as the feature id.
      */
     featureId: PropTypes.string,
 
@@ -200,6 +186,6 @@ GeoJSON.propTypes = {
      */
     featureHover: PropTypes.object,
 
-}
+};
 
 export default withLeaflet(GeoJSON);

@@ -2,8 +2,6 @@ import json
 import dash_leaflet as dl
 
 
-# Utils methods
-
 def categorical_colorbar(*args, categories, colorscale, **kwargs):
     indices = list(range(len(categories) + 1))
     return dl.Colorbar(*args, min=0, max=len(categories), classes=indices, colorscale=colorscale, tooltip=False,
@@ -12,21 +10,24 @@ def categorical_colorbar(*args, categories, colorscale, **kwargs):
 
 def geojson(data, *args, style, **kwargs):
     feature_id = "id"
-    # Check if id is present and unique.
-    ids = [f["id"] for f in data["features"] if "id" in f]
-    id_valid = len(list(set(ids))) == len(data["features"])
-    if not id_valid:
-        feature_id = "leaflet_id" if len(ids) > 0 else "id"
+    # If id missing and/or not unique, a new id (this list index) is assigned (this is NOT recommended).
+    if not _validate_feature_ids(data):
+        feature_id = "dash_id"
         for i, f in enumerate(data["features"]):
             f[feature_id] = i
-    # Setup options (for now assumed to be style only).
-    featureOptions = {f[feature_id]: dict(style=style(f)) for f in data["features"]}
-    return dl.GeoJSON(*args, data=data, featureOptions=featureOptions, featureId=feature_id, **kwargs)
+    # Setup style.
+    feature_style = {f[feature_id]: style(f) for f in data["features"]}
+    return dl.GeoJSON(*args, data=data, featureStyle=feature_style, featureId=feature_id, **kwargs)
 
 
-# Data samples.
+def geojson_style(data, style):
+    # If an id is there, use it.
+    if _validate_feature_ids(data):
+        return {f["id"]: style(f) for f in data["features"]}
+    # Otherwise, use the list index.
+    return {i: style(f) for i, f in enumerate(data["features"])}
 
-def us_states_population_density():
-    with open("us-states.json", 'r') as f:
-        data = json.load(f)
-    return data
+
+def _validate_feature_ids(data):
+    ids = [f["id"] for f in data["features"] if "id" in f]
+    return len(list(set(ids))) == len(data["features"])

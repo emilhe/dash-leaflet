@@ -186,9 +186,11 @@ const Colorbar = Control.extend({
 })
 
 class LeafletColorbar extends MapControl {
+
     createLeafletElement(props) {
         return new Colorbar(props);
     }
+
     updateLeafletElement(fromProps, toProps) {
         if (toProps.colorscale !== fromProps.colorscale) {
             this.leafletElement.setColorscale(toProps.colorscale);
