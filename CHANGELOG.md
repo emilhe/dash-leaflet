@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.13] - 2020-11-05
+
+### Changed
+
+- Options property added to MarkerClusterGroup.
+
 ## [0.0.12] - 2020-11-05
 
 ### Changed

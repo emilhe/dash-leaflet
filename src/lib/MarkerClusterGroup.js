@@ -10,7 +10,7 @@ require('react-leaflet-markercluster/dist/styles.min.css');
 class MarkerClusterGroup extends MapLayer {
 
   createLeafletElement(props) {
-    const el = new L.markerClusterGroup(props);
+    const el = new L.markerClusterGroup(props.options);
     this.contextValue = {
       ...props.leaflet,
       layerContainer: el

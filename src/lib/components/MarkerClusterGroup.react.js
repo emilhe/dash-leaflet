@@ -47,9 +47,16 @@ MarkerClusterGroup.propTypes = {
     className: PropTypes.string,
 
     /**
-     * The ID used to identify this component in Dash callbacks
+     * The ID used to identify this component in Dash callbacks.
      */
     id: PropTypes.string,
+
+    /**
+     * Marker cluster group options (a dict). See list of options here
+     * https://github.com/Leaflet/Leaflet.markercluster#all-options
+     */
+    options: PropTypes.object,
+
 
     // Events
     setProps: PropTypes.func,
