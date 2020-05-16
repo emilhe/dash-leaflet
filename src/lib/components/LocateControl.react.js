@@ -1,30 +1,34 @@
 import React, {Component, Node} from 'react';
 import PropTypes from 'prop-types';
+import { withLeaflet } from "react-leaflet";
+import Locate from "leaflet.locatecontrol";
 
-import LeafletLocateControl from "../LocateControl";
-import MapLayer from "./MapLayer.react";
 require('leaflet.locatecontrol/dist/L.Control.Locate.min.css');
 
 /**
  * LocateControl is a wrapper of LocateControl in react-leaflet. The component requires linking font-awesome, i.e.
  * app = dash.Dash(external_stylesheets=['https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'])
  */
-export default class LocateControl extends Component {
-    render() {
-        // We need to use the non-JSX syntax to avoid having to list all props
-        const el = React.createElement(
-            LeafletLocateControl,
-            this.props,
-            this.props.children
-        )
+class LocateControl extends Component {
 
-        return el
+  componentDidMount() {
+    const { options, startDirectly } = this.props;
+    const { map } = this.props.leaflet;
+
+    const lc = new Locate(options);
+    lc.addTo(map);
+
+    if (startDirectly) {
+      // request location update and set location
+      lc.start();
     }
-}
+  }
 
-// LocateControl.defaultProps = {
-//     startDirectly: false
-// };
+  render() {
+    return null;
+  }
+
+}
 
 LocateControl.propTypes = {
 
@@ -56,3 +60,4 @@ LocateControl.propTypes = {
 
 };
 
+export default withLeaflet(LocateControl);
