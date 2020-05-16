@@ -9,45 +9,21 @@ import LeafletGeoTIFFOverlay from '../LeafletGeoTIFFOverlay';
 export default class GeoTIFFOverlay extends Component {
     render() {
         const nProps = Object.assign({}, this.props);
-
-        // Check if nProps onclick isn't already set. This won't happen in Dash,
-        // but can happen if you use the component in plain Javascript.
-        if (!nProps.onclick) {
-            nProps.onclick = (e) => {
-                const idx = e.target.getIndexForLatLng(e.latlng.lat, e.latlng.lng);
-                const val = e.target.getValueAtLatLng(e.latlng.lat, e.latlng.lng);
-
-                // Again this is to check if we're in the Javascript or Dash world.
-                if (nProps.setProps) {
-                    nProps.setProps({ click_lat_lng_val: [e.latlng.lat, e.latlng.lng, val] });
-                    nProps.setProps({ click_lat_lng_idx: [e.latlng.lat, e.latlng.lng, idx] });
-                }
-            }
+        // Bind events.
+        nProps.onclick = (e) => {
+            const idx = e.target.getIndexForLatLng(e.latlng.lat, e.latlng.lng);
+            const val = e.target.getValueAtLatLng(e.latlng.lat, e.latlng.lng);
+            nProps.setProps({ click_lat_lng_val: [e.latlng.lat, e.latlng.lng, val] });
+            nProps.setProps({ click_lat_lng_idx: [e.latlng.lat, e.latlng.lng, idx] });
         }
-
-        // Check if nProps ondblclick isn't already set. This won't happen in Dash,
-        // but can happen if you use the component in plain Javascript.
-        if (!nProps.ondblclick) {
-            nProps.ondblclick = (e) => {
-                const idx = e.target.getIndexForLatLng(e.latlng.lat, e.latlng.lng);
-                const val = e.target.getValueAtLatLng(e.latlng.lat, e.latlng.lng);
-
-                // Again this is to check if we're in the Javascript or Dash world.
-                if (nProps.setProps) {
-                    nProps.setProps({ dbl_click_lat_lng_val: [e.latlng.lat, e.latlng.lng, val] });
-                    nProps.setProps({ dbl_click_lat_lng_idx: [e.latlng.lat, e.latlng.lng, idx] });
-                }
-            }
+        nProps.ondblclick = (e) => {
+            const idx = e.target.getIndexForLatLng(e.latlng.lat, e.latlng.lng);
+            const val = e.target.getValueAtLatLng(e.latlng.lat, e.latlng.lng);
+            nProps.setProps({ dbl_click_lat_lng_val: [e.latlng.lat, e.latlng.lng, val] });
+            nProps.setProps({ dbl_click_lat_lng_idx: [e.latlng.lat, e.latlng.lng, idx] });
         }
-
-        // Use non-JSX syntax to avoid having to list all props
-        const el = React.createElement(
-            LeafletGeoTIFFOverlay,
-            nProps,
-            nProps.children
-        )
-
-        return el
+        // Render the leaflet component.
+        return <LeafletGeoTIFFOverlay {...nProps} />
     }
 }
 

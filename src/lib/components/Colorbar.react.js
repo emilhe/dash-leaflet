@@ -8,14 +8,7 @@ import LeafletColorbar from '../LeafletColorbar';
  */
 export default class Colorbar extends Component {
     render() {
-        // We need to use the non-JSX syntax to avoid having to list all props
-        const el = React.createElement(
-            LeafletColorbar,
-            this.props,
-            this.props.children
-        )
-
-        return el
+        return <LeafletColorbar {...this.props}/>
     }
 }
 

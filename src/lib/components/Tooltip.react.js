@@ -9,14 +9,7 @@ import { Tooltip as LeafletTooltip } from 'react-leaflet';
  */
 export default class Tooltip extends Component {
     render() {
-        // We need to use the non-JSX syntax to avoid having to list all props
-        const el = React.createElement(
-            LeafletTooltip,
-            this.props,
-            this.props.children
-        )
-
-        return el
+        return <LeafletTooltip {...this.props} />
     }
 }
 

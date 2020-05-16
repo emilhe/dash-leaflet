@@ -9,14 +9,7 @@ import { ScaleControl as LeafletScaleControl } from 'react-leaflet';
  */
 export default class ScaleControl extends Component {
     render() {
-        // We need to use the non-JSX syntax to avoid having to list all props
-        const el = React.createElement(
-            LeafletScaleControl,
-            this.props,
-            this.props.children
-        )
-
-        return el
+        return <LeafletScaleControl {...this.props} />
     }
 }
 

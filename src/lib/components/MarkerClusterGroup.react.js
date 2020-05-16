@@ -9,18 +9,11 @@ require('react-leaflet-markercluster/dist/styles.min.css');
  * It takes similar properties to its react-leaflet counterpart.
  */
 export default class MarkerClusterGroup extends Component {
+
     render() {
-        const nProps = Object.assign({}, this.props);
-
-        // We need to use the non-JSX syntax to avoid having to list all props
-        const el = React.createElement(
-            LeafletMarkerClusterGroup,
-            nProps,
-            nProps.children
-        )
-
-        return el
+        return <LeafletMarkerClusterGroup {...this.props}/>
     }
+
 }
 
 MarkerClusterGroup.propTypes = {

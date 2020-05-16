@@ -9,14 +9,7 @@ import { Path as LeafletPath } from 'react-leaflet';
  */
 export default class Path extends Component {
     render() {
-        // Use non-JSX syntax to avoid having to list all props
-        const el = React.createElement(
-            LeafletPath,
-            this.props,
-            this.props.children
-        )
-
-        return el
+        return <LeafletPath {...this.props} />
     }
 }
 

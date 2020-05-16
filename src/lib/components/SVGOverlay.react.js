@@ -9,32 +9,21 @@ import LeafletSVGOverlay from '../LeafletSVGOverlay';
 export default class SVGOverlay extends Component {
     render() {
         const nProps = Object.assign({}, this.props);
-
-        // eslint-disable-next-line
+        // Bind events.
         nProps.onclick = (e) => {
-            this.props.setProps({ click_lat_lng: [e.latlng.lat, e.latlng.lng] });
+            nProps.setProps({ click_lat_lng: [e.latlng.lat, e.latlng.lng] });
         }
-
-        // eslint-disable-next-line
         nProps.ondblclick = (e) => {
-            this.props.setProps({ dbl_click_lat_lng: [e.latlng.lat, e.latlng.lng] });
+            nProps.setProps({ dbl_click_lat_lng: [e.latlng.lat, e.latlng.lng] });
         }
-
-        var svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        // Create SVG element.
+        const svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         svgElement.setAttribute('xmlns', "http://www.w3.org/2000/svg");
         svgElement.setAttribute('viewBox', "0 0 200 200");
         svgElement.innerHTML = nProps.svg;
-        
         nProps.svg = svgElement
-
-        // // Use non-JSX syntax to avoid having to list all props
-        const el = React.createElement(
-            LeafletSVGOverlay,
-            nProps,
-            nProps.children
-        )
-
-        return el
+        // Render the leaflet component.
+        return <LeafletSVGOverlay {...nProps}/>
     }
 }
 

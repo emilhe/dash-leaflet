@@ -9,13 +9,7 @@ import { GridLayer as LeafletGridLayer } from 'react-leaflet';
  */
 export default class GridLayer extends Component {
     render() {
-        // Use non-JSX syntax to avoid having to list all props
-        const el = React.createElement(
-            LeafletGridLayer,
-            this.props
-        )
-
-        return el
+        return <LeafletGridLayer {...this.props} />
     }
 }
 

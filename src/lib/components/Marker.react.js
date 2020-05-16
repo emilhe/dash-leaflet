@@ -20,23 +20,14 @@ import { Marker as LeafletMarker } from 'react-leaflet';
 export default class Marker extends Component {
     render() {
         const nProps = Object.assign({}, this.props);
-
-        // Instantiate the Icon
-        nProps.icon = this.props.icon === null ? new L.Icon.Default() : L.icon(this.props.icon);
-
-        // eslint-disable-next-line
+        // Map properties.
+        nProps.icon = nProps.icon === null ? new L.Icon.Default() : L.icon(nProps.icon);
+        // Bind events.
         nProps.onclick = (e) => {
-            this.props.setProps({ n_clicks: this.props.n_clicks + 1 });
+            nProps.setProps({ n_clicks: nProps.n_clicks + 1 });
         }
-
-        // We need to use the non-JSX syntax to avoid having to list all props
-        const el = React.createElement(
-            LeafletMarker,
-            nProps,
-            nProps.children
-        )
-
-        return el
+        // Render the leaflet component.
+        return <LeafletMarker {...nProps}/>
     }
 }
 

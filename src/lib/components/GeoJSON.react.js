@@ -16,7 +16,6 @@ class GeoJSON extends Component {
     }
 
     render() {
-        let el;
         let nProps = Object.assign({}, this.props);
         const {map} = this.props.leaflet;
 
@@ -33,10 +32,10 @@ class GeoJSON extends Component {
 
         function handleClick(e) {
             const feature = e.target.feature;
-            this.n_clicks = this.n_clicks + 1;
+            nProps.n_clicks = nProps.n_clicks + 1;  // This is necessary, i am not sure why
             // Update featureClick property.
-            this.setProps({featureClick: feature});
-            this.setProps({n_clicks: this.n_clicks});
+            nProps.setProps({featureClick: feature});
+            nProps.setProps({n_clicks: nProps.n_clicks});
             // If needed, zoomToBoundsOnClick.
             if (getOptionValue(feature, "zoomToBoundsOnClick"))
                 map.fitBounds(e.target.getBounds());
@@ -45,7 +44,7 @@ class GeoJSON extends Component {
         function handleMouseover(e) {
             const feature = e.target.feature;
             // Update feature_mouseover property.
-            this.setProps({featureHover: feature});
+            nProps.setProps({featureHover: feature});
             // Apply hover style if provided.
             const hoverStyle = getOptionValue(feature, "hoverStyle");
             if (hoverStyle) {
@@ -60,10 +59,12 @@ class GeoJSON extends Component {
         function handleMouseout(e) {
             const feature = e.target.feature;
             // Update feature_mouseover property.
-            this.setProps({featureHover: null});
+            nProps.setProps({featureHover: null});
             // If hover style was applied, remove it again.
-            if (getOptionValue(feature, "hoverStyle"))
+            if (getOptionValue(feature, "hoverStyle")){
                 el.ref.current.leafletElement.resetStyle(e.target);
+            }
+
         }
 
         function onEachFeature(feature, layer) {
@@ -73,24 +74,17 @@ class GeoJSON extends Component {
                 layer.bindPopup(popupContent);
             //  Always listen to events (maybe add option to disable via a property?)
             layer.on({
-                    click: handleClick.bind(this),
-                    mouseover: handleMouseover.bind(this),
-                    mouseout: handleMouseout.bind(this)
+                    click: handleClick,
+                    mouseover: handleMouseover,
+                    mouseout: handleMouseout
                 }
             );
         }
 
         // Bind events.
         nProps.onEachFeature = onEachFeature;
-        // Bind reference to nProps.
-        nProps.ref = this.myRef;
-        // We need to use the non-JSX syntax to avoid having to list all props
-        el = React.createElement(
-            LeafletGeoJSON,
-            nProps,
-            nProps.children
-        );
-
+        // Render the leaflet component.
+        const el = <LeafletGeoJSON {...nProps} ref={this.myRef}/>
         return el
     }
 

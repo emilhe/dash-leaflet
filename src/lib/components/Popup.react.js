@@ -9,14 +9,7 @@ import { Popup as LeafletPopup } from 'react-leaflet';
  */
 export default class Popup extends Component {
     render() {
-        // We need to use the non-JSX syntax to avoid having to list all props
-        const el = React.createElement(
-            LeafletPopup,
-            this.props,
-            this.props.children
-        )
-
-        return el
+        return <LeafletPopup {...this.props} />
     }
 }
 

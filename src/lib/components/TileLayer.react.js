@@ -9,14 +9,7 @@ import { TileLayer as LeafletTileLayer } from 'react-leaflet';
  */
 export default class TileLayer extends Component {
     render() {
-        // We need to use the non-JSX syntax to avoid having to list all props
-        const el = React.createElement(
-            LeafletTileLayer,
-            this.props,
-            this.props.children
-        )
-
-        return el
+        return <LeafletTileLayer {...this.props} />
     }
 }
 

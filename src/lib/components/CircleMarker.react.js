@@ -11,20 +11,12 @@ import Marker from "./Marker.react";
 export default class CircleMarker extends Component {
     render() {
         const nProps = Object.assign({}, this.props);
-
-        // eslint-disable-next-line
+        // Bind events.
         nProps.onclick = (e) => {
-            this.props.setProps({ n_clicks: this.props.n_clicks + 1 });
+            nProps.setProps({ n_clicks: nProps.n_clicks + 1 });
         }
-
-        // We need to use the non-JSX syntax to avoid having to list all props
-        const el = React.createElement(
-            LeafletCircleMarker,
-            nProps,
-            nProps.children
-        )
-
-        return el
+        // Render the leaflet component.
+        return <LeafletCircleMarker {...nProps}/>
     }
 }
 

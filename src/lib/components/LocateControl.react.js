@@ -12,14 +12,13 @@ require('leaflet.locatecontrol/dist/L.Control.Locate.min.css');
 class LocateControl extends Component {
 
   componentDidMount() {
+    // Add component to map.
     const { options, startDirectly } = this.props;
     const { map } = this.props.leaflet;
-
     const lc = new Locate(options);
     lc.addTo(map);
-
+    // Start if needed.
     if (startDirectly) {
-      // request location update and set location
       lc.start();
     }
   }

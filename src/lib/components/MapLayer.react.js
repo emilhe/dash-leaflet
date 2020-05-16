@@ -9,14 +9,7 @@ import { MapLayer as LeafletMapLayer } from 'react-leaflet';
  */
 export default class MapLayer extends Component {
     render() {
-        // Use non-JSX syntax to avoid having to list all props
-        const el = React.createElement(
-            LeafletMapLayer,
-            this.props,
-            this.props.children
-        )
-
-        return el
+        return <LeafletMapLayer {...this.props}/>
     }
 }
 

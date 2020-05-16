@@ -9,14 +9,7 @@ import { DivOverlay as LeafletDivOverlay } from 'react-leaflet';
  */
 export default class DivOverlay extends Component {
     render() {
-        // Use non-JSX syntax to avoid having to list all props
-        const el = React.createElement(
-            LeafletDivOverlay,
-            this.props,
-            this.props.children
-        )
-
-        return el
+        return <LeafletDivOverlay {...this.props}/>
     }
 }
 

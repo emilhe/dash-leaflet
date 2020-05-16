@@ -9,14 +9,7 @@ import { WMSTileLayer as LeafletWMSTileLayer } from 'react-leaflet';
  */
 export default class WMSTileLayer extends Component {
     render() {
-        // We need to use the non-JSX syntax to avoid having to list all props
-        const el = React.createElement(
-            LeafletWMSTileLayer,
-            this.props,
-            this.props.children
-        )
-
-        return el
+        return <LeafletWMSTileLayer {...this.props}/>
     }
 }
 

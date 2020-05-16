@@ -10,25 +10,15 @@ import { ImageOverlay as LeafletImageOverlay } from 'react-leaflet';
 export default class ImageOverlay extends Component {
     render() {
         const nProps = Object.assign({}, this.props);
-
-        // eslint-disable-next-line
+        // Bind events.
         nProps.onclick = (e) => {
             nProps.setProps({ click_lat_lng: [e.latlng.lat, e.latlng.lng] });
         }
-
-        // eslint-disable-next-line
         nProps.ondblclick = (e) => {
             nProps.setProps({ dbl_click_lat_lng: [e.latlng.lat, e.latlng.lng] });
         }
-
-        // We need to use the non-JSX syntax to avoid having to list all props
-        const el = React.createElement(
-            LeafletImageOverlay,
-            nProps,
-            nProps.children
-        )
-
-        return el
+        // Render the leaflet component.
+        return <LeafletImageOverlay {...nProps} />
     }
 }
 
