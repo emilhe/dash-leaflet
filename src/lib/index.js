@@ -12,6 +12,7 @@ import MarkerClusterGroup from './components/MarkerClusterGroup.react';
 import Map from './components/Map.react';
 import LocateControl from './components/LocateControl.react';
 // import MapLayer from './components/MapLayer.react';
+import PolylineDecorator from './components/PolylineDecorator.react';
 import Marker from './components/Marker.react';
 // import Path from './components/Path.react';
 import Polyline from './components/Polyline.react';
@@ -46,5 +47,6 @@ export {
     WMSTileLayer,
     LocateControl,
     GeoJSON,
-    ScaleControl
+    ScaleControl,
+    PolylineDecorator
 };

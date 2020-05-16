@@ -1,6 +1,6 @@
 {
   "name": "dash_leaflet",
-  "version": "0.0.13",
+  "version": "0.0.14rc1",
   "description": "Leaflet component for Dash",
   "main": "build/index.js",
   "scripts": {
@@ -26,6 +26,7 @@
     "leaflet": "^1.6.0",
     "leaflet.locatecontrol": "^0.71.1",
     "leaflet.markercluster": "^1.4.1",
+    "leaflet-polylinedecorator": "^1.6.0",
     "proj4": "^2.5.0",
     "ramda": "^0.25.0",
     "react-leaflet": "^2.6.3",
