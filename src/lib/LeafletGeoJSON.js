@@ -11,7 +11,7 @@ function getFeatureStyle(props, feature) {
         return defaultStyle
 }
 
-class GeoJSON extends Path {
+class LeafletGeoJSON extends Path {
 
   createLeafletElement(props) {
     // Setup style function to match signature of Leaflet GeoJSON object.
@@ -30,4 +30,4 @@ class GeoJSON extends Path {
 
 }
 
-export default withLeaflet(GeoJSON)
+export default withLeaflet(LeafletGeoJSON)

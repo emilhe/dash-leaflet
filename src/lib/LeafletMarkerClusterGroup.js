@@ -7,7 +7,7 @@ import L from "leaflet";
 require("leaflet.markercluster");
 require('react-leaflet-markercluster/dist/styles.min.css');
 
-class MarkerClusterGroup extends MapLayer {
+class LeafletMarkerClusterGroup extends MapLayer {
 
   createLeafletElement(props) {
     const el = new L.markerClusterGroup(props.options);
@@ -20,4 +20,4 @@ class MarkerClusterGroup extends MapLayer {
 
 }
 
-export default withLeaflet(MarkerClusterGroup);
+export default withLeaflet(LeafletMarkerClusterGroup);

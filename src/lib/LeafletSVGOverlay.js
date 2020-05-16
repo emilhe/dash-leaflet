@@ -1,11 +1,12 @@
 import { withLeaflet, MapLayer } from 'react-leaflet';
 
-import { SVGOverlay as LeafletSVGOverlay, latLngBounds } from 'leaflet';
+import { SVGOverlay as LSVGOverlay, latLngBounds } from 'leaflet';
 
 // NOTE: This component is not fully tested. Consider it beta.
-class SVGOverlay extends MapLayer {
+class LeafletSVGOverlay extends MapLayer {
+
   createLeafletElement(props) {
-    const el = new LeafletSVGOverlay(
+    const el = new LSVGOverlay(
         props.svg,
         props.bounds,
         this.getOptions(props)
@@ -34,4 +35,4 @@ class SVGOverlay extends MapLayer {
 
 }
 
-export default withLeaflet(SVGOverlay)
+export default withLeaflet(LeafletSVGOverlay)
