@@ -5,8 +5,19 @@ require("leaflet-polylinedecorator");
 class LeafletPolylineDecorator extends MapLayer {
 
   createLeafletElement(props) {
-    // Setup arguments to match polylineDecorated constructor.
     const patterns = [];
+    let paths = props.positions;
+    // Map children into appropriate leaflet objects.
+    if(!paths){
+      const child = this.props.children.props._dashprivate_layout;
+      if(child.type === "Polygon"){
+        paths = L.polygon(child.props.positions, {...child.props})
+      }
+      if(child.type === "Polyline"){
+        paths = L.polyline(child.props.positions, {...child.props})
+      }
+    }
+    // Setup patterns.
     let pattern;
     for(pattern of props.patterns){
       if("dash" in pattern){
@@ -17,15 +28,13 @@ class LeafletPolylineDecorator extends MapLayer {
       }
       if("marker" in pattern){
         patterns.push({symbol: L.Symbol.marker(pattern.marker), ...pattern})
+        if("markerOptions" in pattern.marker && "icon" in pattern.marker.markerOptions){
+          pattern.marker.markerOptions.icon = L.icon({...pattern.marker.markerOptions.icon})
+        }
       }
     }
     // Create the leaflet element.
-    const el = new L.polylineDecorator(props.positions, {patterns: patterns});
-    // TODO: Is the necessary?
-    this.contextValue = Object.assign({}, props.leaflet);
-    this.contextValue.popupContainer = this.leafletElement;
-
-    return el
+    return new L.polylineDecorator(paths, {patterns: patterns});
   }
 
 }

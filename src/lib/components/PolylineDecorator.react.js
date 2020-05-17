@@ -8,38 +8,47 @@ import LeafletPolylineDecorator from '../LeafletPolylineDecorator';
  */
 export default class PolylineDecorator extends Component {
     render() {
-        const nProps = Object.assign({}, this.props);
-        // Try to extract positions from child.
-        if(!this.props.positions){
-            nProps.positions = this.props.children.props._dashprivate_layout.props.positions
-        }
         // Render the leaflet component.
-        return <LeafletPolylineDecorator {...nProps}/>
+        return <LeafletPolylineDecorator {...this.props}/>
     }
 }
 
 PolylineDecorator.propTypes = {
 
     /**
-     * The children of this component. Must be a PolyLine or a Polygon.
-     */
-    children: PropTypes.node,
-
-    /**
      * An array of geographical points (lat, lon)
      */
-    positions: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
+    positions: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.oneOf(PropTypes.number, PropTypes.arrayOf(PropTypes.number)))),
+
+    /**
+     * The children of this component. If positions are not specified, an attempt is made to read them from the
+     * children property. In this case, the children must be a single PolyLine or a single Polygon.
+     */
+    children: PropTypes.node,
 
     /**
      * List of patterns to be added.
      */
     patterns: PropTypes.arrayOf(PropTypes.shape({
+        // Options of the pattern itself.
         offset: PropTypes.string,
         endOffset: PropTypes.string,
         repeat: PropTypes.string,
-        dash: PropTypes.object,
-        arrowHead: PropTypes.object,
-        marker: PropTypes.object,
+        // What to draw; either dashes, arrow heads or (arbitrary) makers.
+        dash: PropTypes.shape({
+            pixelSize: PropTypes.number,
+            pathOptions: PropTypes.object
+        }),
+        arrowHead: PropTypes.shape({
+            polygon: PropTypes.bool,
+            pixelSize: PropTypes.number,
+            headAngle: PropTypes.number,
+            pathOptions: PropTypes.object
+        }),
+        marker: PropTypes.shape({
+            markerOptions: PropTypes.object,
+            rotate: PropTypes.bool
+        })
     })),
 
     /**
