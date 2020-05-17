@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.14] - 2020-17-05
+
+### Changed
+
+- PolylineDecorator component added.
+
 ## [0.0.13] - 2020-11-05
 
 ### Changed
