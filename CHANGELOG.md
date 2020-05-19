@@ -2,9 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.0.14] - 2020-17-05
+## [0.0.15] - 2020-17-05
 
 ### Changed
+
+- PolylineDecorator component properties "positions" and "children" changed to dynamic.
+
+## [0.0.14] - 2020-17-05
+
+### Added
 
 - PolylineDecorator component added.
 
