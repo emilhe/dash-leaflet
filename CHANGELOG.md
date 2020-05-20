@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.0.15] - 2020-17-05
+## [0.0.16] - 2020-20-05
+
+### Added
+
+- Pane component added.
+
+## [0.0.15] - 2020-19-05
 
 ### Changed
 
