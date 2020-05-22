@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.17] - 2020-19-05
+
+### Changed
+
+- Pane component bug fixed.
+- Verification of scrollWheelZoom type corrected.
+
 ## [0.0.16] - 2020-20-05
 
 ### Added

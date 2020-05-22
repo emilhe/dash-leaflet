@@ -11,6 +11,7 @@ import GeoJSON from './components/GeoJSON.react';
 import MarkerClusterGroup from './components/MarkerClusterGroup.react';
 import Map from './components/Map.react';
 import LocateControl from './components/LocateControl.react';
+import Pane from './components/Pane.react';
 // import MapLayer from './components/MapLayer.react';
 import PolylineDecorator from './components/PolylineDecorator.react';
 import Marker from './components/Marker.react';
@@ -48,5 +49,6 @@ export {
     LocateControl,
     GeoJSON,
     ScaleControl,
-    PolylineDecorator
+    PolylineDecorator,
+    Pane
 };

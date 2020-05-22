@@ -26,7 +26,7 @@ Polygon.propTypes = {
     /**
      * An array of geographical points (lat, lon)
      */
-    positions: PropTypes.arrayOf(PropTypes.oneOf(PropTypes.number, PropTypes.arrayOf(PropTypes.number))).isRequired,
+    positions: PropTypes.arrayOf(PropTypes.oneOf([PropTypes.number, PropTypes.arrayOf(PropTypes.number)])).isRequired,
 
     // Static parameters
 

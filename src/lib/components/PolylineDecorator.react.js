@@ -18,7 +18,7 @@ PolylineDecorator.propTypes = {
     /**
      * An array of geographical points (lat, lon)
      */
-    positions: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.oneOf(PropTypes.number, PropTypes.arrayOf(PropTypes.number)))),
+    positions: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.oneOf([PropTypes.number, PropTypes.arrayOf(PropTypes.number)]))),
 
     /**
      * The children of this component. If positions are not specified, an attempt is made to read them from the
