@@ -30,11 +30,15 @@ DivMarker.propTypes = {
     position: PropTypes.arrayOf(PropTypes.number).isRequired,
 
     /**
-     * Icon object to use for rendering the marker. See Icon
-     * documentation for details on how to customize the marker
-     * icon. If not specified, an instance of L.Icon.Default is used.
+     * Options passed to DivIcon constructor.
      */
-    iconOptions: PropTypes.object,
+    iconOptions: PropTypes.shape({
+        iconSize: PropTypes.arrayOf(PropTypes.number),
+        iconAnchor: PropTypes.arrayOf(PropTypes.number),
+        popupAnchor: PropTypes.arrayOf(PropTypes.number),
+        className: PropTypes.arrayOf(PropTypes.number),
+        html: PropTypes.string
+    }),
 
     /**
      * Whether the marker is draggable with mouse/touch or not.
