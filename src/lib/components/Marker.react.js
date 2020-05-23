@@ -43,9 +43,7 @@ Marker.propTypes = {
     position: PropTypes.arrayOf(PropTypes.number).isRequired,
 
     /**
-     * Icon object to use for rendering the marker. See Icon
-     * documentation for details on how to customize the marker
-     * icon. If not specified, an instance of L.Icon.Default is used.
+     * Options passed to Icon constructor.
      */
     icon: PropTypes.object,
 
