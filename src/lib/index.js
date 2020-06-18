@@ -27,6 +27,9 @@ import Tooltip from './components/Tooltip.react';
 import VideoOverlay from './components/VideoOverlay.react';
 import WMSTileLayer from './components/WMSTileLayer.react';
 import ScaleControl from './components/ScaleControl.react';
+import LayersControl from './components/LayersControl.react';
+import Overlay from './components/Overlay.react';
+import BaseLayer from './components/BaseLayer.react';
 
 export {
     Circle,
@@ -52,5 +55,8 @@ export {
     ScaleControl,
     PolylineDecorator,
     Pane,
-    DivMarker
+    DivMarker,
+    LayersControl,
+    Overlay,
+    BaseLayer
 };
