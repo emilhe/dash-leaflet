@@ -15,8 +15,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
-        with:
-          node-version: 12
+      with:
+        node-version: 12
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
