@@ -1,6 +1,6 @@
 {
   "name": "dash_leaflet",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "Leaflet component for Dash",
   "main": "build/index.js",
   "scripts": {
@@ -16,7 +16,8 @@
   },
   "author": "Emil Haldrup Eriksen",
   "contributors": [
-    "Martin Qvist"
+    "Martin Qvist",
+    "r-chris"
   ],
   "license": "MIT",
   "dependencies": {
