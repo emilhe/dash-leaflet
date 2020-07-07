@@ -28,4 +28,13 @@ If you visit http://127.0.0.1:8050/ in your browser, you should see a Leaflet ma
 
 ## Documentation
 
-The documentation has been moved to [Heroku](https://dash-leaflet.herokuapp.com/) to enable an interactive example gallery. 
+The documentation has been moved to [Heroku](https://dash-leaflet.herokuapp.com/) to enable an interactive example gallery.
+
+
+## Contributing
+- git clone git@github.com:thedirtyfew/dash-leaflet.git
+- cd dash-leaflet
+- python3 -m venv venv && . venv/bin/activate
+- pip install -r requirements.txt
+- npm i --ignore-scripts 
+- npm run build:all
