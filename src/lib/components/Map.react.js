@@ -13,7 +13,6 @@ export default class Map extends Component {
         const nProps = Object.assign({}, this.props);
         // Bind events.
         nProps.onViewportChanged = (e) => {
-            console.log({ center: e.center, zoom: e.zoom, viewport: e })
             nProps.setProps({ changed_zoom: e.zoom, changed_center: e.center });
         }
         nProps.onclick = (e) => {
