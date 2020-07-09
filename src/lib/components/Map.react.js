@@ -21,6 +21,10 @@ export default class Map extends Component {
         nProps.ondblclick = (e) => {
             nProps.setProps({ dbl_click_lat_lng: [e.latlng.lat, e.latlng.lng] });
         }
+        // TODO: Does this affect performance? Maybe make it optional.
+        nProps.onViewportChanged = (e) => {
+            nProps.setProps({ viewport: e , zoom: e.zoom, center: e.center});
+        }
         // Render the leaflet component.
         return <LeafletMap {...nProps} />
     }
@@ -201,7 +205,7 @@ Map.propTypes = {
      * Whether the map automatically handles browser window resize to update itself.
      */
     trackResize: PropTypes.bool,
-
+    
     /**
      * The Coordinate Reference System to use. Don't change this if you're not sure 
      * what it means.
@@ -349,6 +353,7 @@ Map.propTypes = {
     attribution: PropTypes.string,
 
     // Events
+
     setProps: PropTypes.func,
 
     /**
