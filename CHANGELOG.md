@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.20] - 2020-09-07
+
+### Added
+
+- Added tracking of map zoom and center.
+- Added tracking marker position.
+- Added build instructions to readme.
+
+## [0.0.19] - 2020-09-07
+
+### Added
+
+- Added some build automation (github actions).
+
 ## [0.0.18] - 2020-22-06
 
 ### Changed
