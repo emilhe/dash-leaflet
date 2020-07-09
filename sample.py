@@ -15,8 +15,8 @@ app.layout = html.Div([
 
 @app.callback(
     Output('map-store', 'data'),
-    [Input('map', 'changed_zoom'),
-     Input('map', 'changed_center')],
+    [Input('map', 'zoom'),
+     Input('map', 'center')],
     [State('map-store', 'data')]
 )
 def store_map_viewport(z, c, data):
@@ -38,6 +38,8 @@ def store_map_viewport(z, c, data):
     [State('map-store', 'data')])
 def update_map_viewport(ts, data):
     if not ts:
+        raise PreventUpdate
+    if data is None:
         raise PreventUpdate
     return data['center'], data['zoom']
 

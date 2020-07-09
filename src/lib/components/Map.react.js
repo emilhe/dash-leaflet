@@ -13,7 +13,7 @@ export default class Map extends Component {
         const nProps = Object.assign({}, this.props);
         // Bind events.
         nProps.onViewportChanged = (e) => {
-            nProps.setProps({ changed_zoom: e.zoom, changed_center: e.center });
+            nProps.setProps({ zoom: e.zoom, center: e.center });
         }
         nProps.onclick = (e) => {
             nProps.setProps({ click_lat_lng: [e.latlng.lat, e.latlng.lng] });
@@ -369,15 +369,6 @@ Map.propTypes = {
      */
     location_lat_lon_acc: PropTypes.arrayOf(PropTypes.number),
 
-
-    /**
-     * Dash callback property for viewport changed (zoom)
-     */
-    changed_zoom:  PropTypes.number,
-    /**
-     * Dash callback property for viewport changed (center)
-     */
-    changed_center: PropTypes.arrayOf(PropTypes.number)
 
 
 };
