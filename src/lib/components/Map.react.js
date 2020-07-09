@@ -21,12 +21,18 @@ export default class Map extends Component {
         nProps.ondblclick = (e) => {
             nProps.setProps({ dbl_click_lat_lng: [e.latlng.lat, e.latlng.lng] });
         }
+        if(this.props.trackViewport){
+        nProps.onViewportChanged = (e) => {
+            nProps.setProps({ viewport: e , zoom: e.zoom, center: e.center});
+            }
+        }
         // Render the leaflet component.
         return <LeafletMap {...nProps} />
     }
 }
 
 Map.defaultProps = {
+    trackViewport: true,
     // Set some values to enable small examples.
     center: [56, 10],
     zoom: 6,
@@ -201,7 +207,7 @@ Map.propTypes = {
      * Whether the map automatically handles browser window resize to update itself.
      */
     trackResize: PropTypes.bool,
-
+    
     /**
      * The Coordinate Reference System to use. Don't change this if you're not sure 
      * what it means.
@@ -320,6 +326,14 @@ Map.propTypes = {
      * bounce back when pinch-zooming.
      */
     bounceAtZoomLimits: PropTypes.bool,
+
+    // Event control parameters
+
+    /**
+     * If true, the view port of the map will be tracked, i.e. the viewport, zoom and center properties will be updated on pan/zoom.
+     */
+    trackViewport: PropTypes.bool,
+
 
     // Standard parameters
 
