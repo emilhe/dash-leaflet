@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withLeaflet } from "react-leaflet";
 import Supercluster from 'supercluster';
@@ -11,20 +11,17 @@ import { GeoJSON } from 'leaflet'
 class SuperCluster extends Component {
 
     componentDidMount() {
-        const { map } = this.props.leaflet;
+        const nProps = Object.assign({}, this.props);
+        const { map } = nProps.leaflet;
         const asyncfunc = async () => {
-            let data = this.props.data 
+            let data = nProps.data
             // Download data if needed.
-            if (~data.features) {
+            if (!data.features) {
                 const response = await fetch(data);
                 data = await response.json();
             }
             // Create index.
-            const index = new Supercluster({
-                radius: 60,
-                extent: 256,
-                maxZoom: 18
-            })
+            const index = new Supercluster(nProps.options)
             index.load(data.features);
             this.index = index;
             // Create markers container.
@@ -39,26 +36,33 @@ class SuperCluster extends Component {
                 const bbox = [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()]
                 // Update the data.
                 var clusters = index.getClusters(bbox, zoom);
-                markers.clearLayers();
+                markers.clearLayers();  
                 markers.addData(clusters);
+            }
+
+            function handleClick(e){
+                var clusterId = e.layer.feature.properties.cluster_id;
+                var center = e.latlng;
+                var expansionZoom;
+                // Zoom to bounds on cluster click.
+                if (nProps.zoomToBoundsOnClick && clusterId) {
+                    expansionZoom = index.getClusterExpansionZoom(clusterId);
+                    map.flyTo(center, expansionZoom);
+                }
+                // Dash events.
+                nProps.n_clicks = nProps.n_clicks + 1
+                nProps.setProps({n_clicks: nProps.n_clicks});
+                nProps.setProps({marker_click: e.layer.feature})
             }
 
             // Do initial update.
             update();
             // Bind component to map.
             markers.addTo(map)
-            // Bind update.
+            // Bind update on map move (this is where the "magic" happens).
             map.on('moveend', update);
-            // Bind click-to-zoom.
-            markers.on('click', function (e) {
-                var clusterId = e.layer.feature.properties.cluster_id;
-                var center = e.latlng;
-                var expansionZoom;
-                if (clusterId) {
-                    expansionZoom = index.getClusterExpansionZoom(clusterId);
-                    map.flyTo(center, expansionZoom);
-                }
-            })
+            // Bind click event(s).
+            markers.on('click', handleClick)
         }
 
         asyncfunc();
@@ -90,37 +94,46 @@ class SuperCluster extends Component {
 }
 
 SuperCluster.defaultProps = {
+    zoomToBoundsOnClick: true,
+    n_clicks: 0,
+    marker_click: null
 };
 
 SuperCluster.propTypes = {
 
     /**
-     * GeoJSON data
+     * GeoJSON data. Either actual data or an url.
      */
     data: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
 
+    
     /**
-     * Attribution
+     * Options passed to SuperCluster, https://github.com/mapbox/supercluster.
      */
-    children: PropTypes.node,
+    options: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
 
     /**
-     * A custom class name to assign to the image. Empty by default.
+     * If true, zoom on cluster click.
      */
-    className: PropTypes.string,
+    zoomToBoundsOnClick: PropTypes.bool,
 
     /**
      * The ID used to identify this component in Dash callbacks
      */
     id: PropTypes.string,
 
-    /**
-     * The CSS style of the component (dynamic)
-     */
-    style: PropTypes.object,
-
     // Events
     setProps: PropTypes.func,
+
+    /**
+     * Dash callback property. Number of times the marker has been clicked
+     */
+    n_clicks: PropTypes.number,
+
+    /**
+     * Last feature clicked.
+     */
+    marker_click: PropTypes.object,
 
 };
 
