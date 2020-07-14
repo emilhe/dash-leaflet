@@ -22,7 +22,7 @@ class SuperCluster extends Component {
 
 }
 
-SuperCluster.defaultProps = {
+SuperCluster.defaultProps = {   
     zoomToBoundsOnClick: true,
     format: "geojson",
     n_clicks: 0,

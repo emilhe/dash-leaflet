@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-
 // This forces webpack to use url-loader, and returns the proper base64 encoded URLs to Leaflet
 import L from 'leaflet';
 delete L.Icon.Default.prototype._getIconUrl;
