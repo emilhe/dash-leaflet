@@ -1,7 +1,8 @@
 import { GeoJSON } from 'leaflet'
 import { withLeaflet, MapLayer } from 'react-leaflet';
 import Supercluster from 'supercluster';
-import {decode} from 'geobuf'
+import { decode } from 'geobuf'
+import { toByteArray } from 'base64-js';
 
 class LeafletSuperCluster extends MapLayer {
 
@@ -10,8 +11,8 @@ class LeafletSuperCluster extends MapLayer {
     super.componentDidMount()
     // Mount component.
     const { map } = this.props.leaflet;
-    const { zoomToBoundsOnClick, options, format, url, data} = this.props;
-    const { leafletElement} = this;
+    const { zoomToBoundsOnClick, options, format, url, data } = this.props;
+    const { leafletElement } = this;
     let index;
 
     function update() {
@@ -38,7 +39,7 @@ class LeafletSuperCluster extends MapLayer {
 
     // Fetch data.
     const asyncfunc = async () => {
-      let geojson = data
+      let geojson = data;
       // Download data if needed.
       if (!data && url) {
         const response = await fetch(url);
@@ -49,7 +50,11 @@ class LeafletSuperCluster extends MapLayer {
           geojson = await response.arrayBuffer();
         }
       }
-      // Do any data transformations needed to arrive at geojson data.
+      // Convert to binary array if needed.
+      else {
+        geojson = toByteArray(geojson)
+      }
+      // Do any data transformations needed to arrive at geojson data. TODO: Might work only in node?
       if (format === "geobuf") {
         var Pbf = require('pbf');
         geojson = decode(new Pbf(geojson));
@@ -79,35 +84,43 @@ class LeafletSuperCluster extends MapLayer {
     this.leafletElement.on('click', handleClick)
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
+    const { map } = this.props.leaflet;
     // Remove manually added event handlers.
-    map.on('moveend', update);
-    this.leafletElement.off('click', handleClick)
+    map.on('moveend', 'update');
+    this.leafletElement.off('click', 'handleClick')
     // Call super.
     super.componentWillUnmount();
   }
 
   createLeafletElement(props) {
-    return new GeoJSON(null, {pointToLayer: this._defaultCreateClusterIcon});
+    const dash = props.setProps;
+    return new GeoJSON(null, { pointToLayer: (x, y) => this._defaultCreateClusterIcon(x, y, dash) });
   }
 
   updateLeafletElement(fromProps, toProps) {
     // TODO: Implement this.
   }
 
-  _defaultCreateClusterIcon(feature, latlng) {
+  _defaultCreateClusterIcon(feature, latlng, dash) {
     if (!feature.properties.cluster) {
-      const marker_options = feature.properties.marker_options ? feature.properties.marker_options : {}
-      const marker = L.marker(latlng, marker_options);
+      // Resolve marker options.
+      const markerOptions = Object.assign({}, feature.properties.markerOptions);
+      // If we are calling via Dash (setProps check), create icons dynamically.
+      if (dash && markerOptions.icon) {
+        markerOptions.icon = L.icon(markerOptions.icon);
+      }
+      // Construct marker
+      const marker = L.marker(latlng, markerOptions);
       // Add tooltip if present in feature properties.
       if (feature.properties.tooltip) {
-        const tooltip_options = feature.properties.tooltip_options ? feature.properties.tooltip_options : {}
-        marker.bindTooltip(feature.properties.tooltip, tooltip_options)
+        const tooltipOptions = feature.properties.tooltipOptions ? feature.properties.tooltipOptions : {}
+        marker.bindTooltip(feature.properties.tooltip, tooltipOptions)
       }
       // Add popup if present in feature properties.
       if (feature.properties.popup) {
-        const popup_options = feature.properties.popup_options ? feature.properties.popup_options : {}
-        marker.bindPopup(feature.properties.popup, popup_options)
+        const popupOptions = feature.properties.popupOptions ? feature.properties.popupOptions : {}
+        marker.bindPopup(feature.properties.popup, popupOptions)
       }
       return marker;
     }
