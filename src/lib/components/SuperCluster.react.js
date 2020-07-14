@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withLeaflet } from "react-leaflet";
 import Supercluster from 'supercluster';
 import { GeoJSON } from 'leaflet'
+import {decode} from 'geobuf'
 
 /**
  * LayerGroup is a wrapper of LayerGroup in react-leaflet.
@@ -16,10 +17,31 @@ class SuperCluster extends Component {
         const asyncfunc = async () => {
             let data = nProps.data
             // Download data if needed.
-            if (!data.features) {
-                const response = await fetch(data);
-                data = await response.json();
+            if (!data && nProps.url) {
+                const response = await fetch(nProps.url);
+                if(nProps.format == "geojson"){
+                    data = await response.json();
+                }
+                if(nProps.format == "geobuf"){
+                    data = await response.arrayBuffer();
+                }
             }
+            // Do any data transformations needed to arrive at geojson data.
+            if(nProps.format === "geobuf"){
+                var Pbf = require('pbf');
+                data = decode(new Pbf(data));
+            }
+            // Add cluster properties if they are missing.
+            data.features = data.features.map(feature => {
+                if(!feature.properties){
+                    feature["properties"] = {}
+                }
+                if(!feature.properties.cluster){
+                    feature["properties"]["cluster"] = false
+                }
+                return feature
+            })
+
             // Create index.
             const index = new Supercluster(nProps.options)
             index.load(data.features);
@@ -95,22 +117,33 @@ class SuperCluster extends Component {
 
 SuperCluster.defaultProps = {
     zoomToBoundsOnClick: true,
+    format: "geojson",
     n_clicks: 0,
     marker_click: null
 };
 
 SuperCluster.propTypes = {
 
-    /**
-     * GeoJSON data. Either actual data or an url.
+   /**
+     * Data (consider using url for better performance).
      */
-    data: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+    data: PropTypes.object,
 
-    
+    /**
+     * Url to data (use instead of data for better performance).
+     */
+    url: PropTypes.string, 
+
+    /**
+     * Data format.
+     */
+    format: PropTypes.oneOf(["geojson", "geobuf"]),
+
+
     /**
      * Options passed to SuperCluster, https://github.com/mapbox/supercluster.
      */
-    options: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+    options: PropTypes.object,
 
     /**
      * If true, zoom on cluster click.
