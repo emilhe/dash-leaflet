@@ -3,6 +3,7 @@ import { withLeaflet, MapLayer } from 'react-leaflet';
 import Supercluster from 'supercluster';
 import { decode } from 'geobuf'
 import { toByteArray } from 'base64-js';
+import { max } from 'ramda';
 
 class LeafletSuperCluster extends MapLayer {
 
@@ -11,9 +12,11 @@ class LeafletSuperCluster extends MapLayer {
     super.componentDidMount()
     // Mount component.
     const { map } = this.props.leaflet;
-    const { zoomToBoundsOnClick, options, format, url, data } = this.props;
-    const { leafletElement } = this;
+    const { zoomToBoundsOnClick, options, format, url, data, spiderfy} = this.props;
+    const { leafletElement, _defaultSpiderfy } = this;
+    let {maxZoom} = this.props;
     let index;
+    let expanded_cluster = null;
 
     function update() {
       // Get map state.
@@ -21,7 +24,10 @@ class LeafletSuperCluster extends MapLayer {
       const zoom = map.getZoom()
       const bbox = [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()]
       // Update the data.
-      var clusters = index.getClusters(bbox, zoom);
+      let clusters = index.getClusters(bbox, zoom);
+      if(zoom == index.options.maxZoom && spiderfy){
+        clusters = _defaultSpiderfy(index, clusters, expanded_cluster)
+      }
       leafletElement.clearLayers();
       leafletElement.addData(clusters);
     }
@@ -33,6 +39,8 @@ class LeafletSuperCluster extends MapLayer {
       // Zoom to bounds on cluster click.
       if (zoomToBoundsOnClick && clusterId) {
         expansionZoom = index.getClusterExpansionZoom(clusterId);
+        expansionZoom = expansionZoom <= index.options.maxZoom? expansionZoom : index.options.maxZoom
+        expanded_cluster = clusterId;
         map.flyTo(center, expansionZoom);
       }
     }
@@ -48,10 +56,10 @@ class LeafletSuperCluster extends MapLayer {
         }
         if (format == "geobuf") {
           geojson = await response.arrayBuffer();
-        }
+        }   
       }
-      // Convert to binary array if needed.
-      else {
+      // Unless the data are geojson, do base64 decoding.
+      if (format != "geojson") {
         geojson = toByteArray(geojson)
       }
       // Do any data transformations needed to arrive at geojson data. TODO: Might work only in node?
@@ -69,6 +77,13 @@ class LeafletSuperCluster extends MapLayer {
         }
         return feature
       })
+      // Derive max zoom from map if not explicitly provided.
+      if(!maxZoom && map){
+        maxZoom = map.maxZoom
+      }
+      else{
+        maxZoom = 20  // Some sane default.
+      }
       // Create index.
       index = new Supercluster(options)
       index.load(geojson.features);
@@ -102,8 +117,36 @@ class LeafletSuperCluster extends MapLayer {
     // TODO: Implement this.
   }
 
+  // TODO: Make these method adjustable by the user.
+
   _defaultCreateClusterIcon(feature, latlng, dash) {
+    // TODO: Add options for other types of markers? Circles? Custom stuff? Functional injection?
     if (!feature.properties.cluster) {
+        return this._defaultCreateMarker(feature, latlng, dash)
+    }
+    return this._defaultCreateCluster(feature, latlng, dash)
+  }
+
+  _defaultCreateCluster(feature, latlng, dash){
+    let {iconSize, classNames} = this.props.clusterOptions;
+    var count = feature.properties.point_count;
+    let className = ""
+    for (var i in classNames) {
+        if(count > classNames[i]["minCount"]){
+            className = classNames[i]["className"]
+        }
+    }
+    var icon = L.divIcon({
+      html: '<div><span>' + feature.properties.point_count_abbreviated + '</span></div>',
+      className: className,
+      iconSize: L.point(iconSize, iconSize)
+    });
+    return L.marker(latlng, {
+      icon: icon
+    });
+  }
+
+  _defaultCreateMarker(feature, latlng, dash){
       // Resolve marker options.
       const markerOptions = Object.assign({}, feature.properties.markerOptions);
       // If we are calling via Dash (setProps check), create icons dynamically.
@@ -123,21 +166,18 @@ class LeafletSuperCluster extends MapLayer {
         marker.bindPopup(feature.properties.popup, popupOptions)
       }
       return marker;
+  }
+
+  _defaultSpiderfy(index, clusters, expanded_cluster){
+    console.log(clusters)
+    if(expanded_cluster){
+      const leaves = index.getLeaves(expanded_cluster);
+      // Remove expanded cluster.
+      clusters = clusters.filter(item => item.properties.cluster_id !== expanded_cluster);
+      // Add leaves.
+      clusters = clusters.concat(leaves);
     }
-
-    var count = feature.properties.point_count;
-    var size =
-      count < 100 ? 'small' :
-        count < 1000 ? 'medium' : 'large';
-    var icon = L.divIcon({
-      html: '<div><span>' + feature.properties.point_count_abbreviated + '</span></div>',
-      className: 'marker-cluster marker-cluster-' + size,
-      iconSize: L.point(40, 40)
-    });
-
-    return L.marker(latlng, {
-      icon: icon
-    });
+    return clusters
   }
 
 }

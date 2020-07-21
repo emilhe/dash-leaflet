@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withLeaflet} from "react-leaflet";
 import LeafletSuperCluster from '../LeafletSuperCluster';
@@ -26,10 +26,23 @@ SuperCluster.defaultProps = {
     zoomToBoundsOnClick: true,
     format: "geojson",
     n_clicks: 0,
-    marker_click: null
+    marker_click: null,
+    clusterOptions: {
+        iconSize: 40,
+        classNames: [
+            {minCount: 0, className: "marker-cluster marker-cluster-small"},
+            {minCount: 100, className: "marker-cluster marker-cluster-medium"},
+            {minCount: 1000, className: "marker-cluster marker-cluster-large"},
+        ]
+    }
 };
 
 SuperCluster.propTypes = {
+
+    /**
+     * TODO: Implement this one.
+     */
+    spiderfy: PropTypes.bool,
 
    /**
      * Data (consider using url for better performance).
@@ -50,6 +63,17 @@ SuperCluster.propTypes = {
      * Options passed to SuperCluster, https://github.com/mapbox/supercluster.
      */
     options: PropTypes.object,
+
+    /**
+     * Option for customization of the clusters.
+     */
+    clusterOptions: PropTypes.shape({
+        iconSize: PropTypes.number,
+        classNames: PropTypes.arrayOf(PropTypes.shape({
+            minCount: PropTypes.number,
+            className: PropTypes.string
+        }))
+    }),
 
     /**
      * If true, zoom on cluster click.
