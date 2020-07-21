@@ -14,19 +14,49 @@ class LeafletSuperCluster extends MapLayer {
     const { map } = this.props.leaflet;
     const { zoomToBoundsOnClick, options, format, url, data, spiderfy} = this.props;
     const { leafletElement, _defaultSpiderfy } = this;
-    let {maxZoom} = this.props;
     let index;
-    let expanded_cluster = null;
+    let to_spiderfy;
 
-    function update() {
-      // Get map state.
+    function equalMapState(a, b){
+        // Compare zoom.
+        if(a.zoom != b.zoom){
+            return false
+        }
+        // Compare bbox.
+        for(var i in a.bbox){
+            if(a.bbox[i] != b.bbox[i]){
+                return false
+            }
+        }
+        return true
+    }
+
+    function getMapState(){
       const bounds = map.getBounds()
       const zoom = map.getZoom()
       const bbox = [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()]
+      return {bbox: bbox, zoom: zoom}
+    }
+
+    function update() {
+      const map_state = getMapState();
       // Update the data.
-      let clusters = index.getClusters(bbox, zoom);
-      if(zoom == index.options.maxZoom && spiderfy){
-        clusters = _defaultSpiderfy(index, clusters, expanded_cluster)
+      let clusters = index.getClusters(map_state.bbox, map_state.zoom);
+      console.log("UPDATE")
+      console.log(map_state)
+      if(spiderfy && to_spiderfy){
+        // If map has changes, drop the spiderfy state.
+        console.log(map_state)
+        console.log(to_spiderfy.map_state)
+        console.log(to_spiderfy.map_state == map_state)
+        if(to_spiderfy.map_state && !equalMapState(to_spiderfy.map_state, map_state)){
+            to_spiderfy = null
+        }
+        // Otherwise, do spiderfy.
+        else{
+            clusters = _defaultSpiderfy(index, clusters, to_spiderfy.clusterId)
+            to_spiderfy.map_state = map_state
+        }
       }
       leafletElement.clearLayers();
       leafletElement.addData(clusters);
@@ -39,9 +69,14 @@ class LeafletSuperCluster extends MapLayer {
       // Zoom to bounds on cluster click.
       if (zoomToBoundsOnClick && clusterId) {
         expansionZoom = index.getClusterExpansionZoom(clusterId);
-        expansionZoom = expansionZoom <= index.options.maxZoom? expansionZoom : index.options.maxZoom
-        expanded_cluster = clusterId;
-        map.flyTo(center, expansionZoom);
+        // This is the case where all markers cannot be shown.
+        if(expansionZoom > index.options.maxZoom){
+            to_spiderfy = {"clusterId": clusterId};
+            map.flyTo(center);
+        }
+        else{
+            map.flyTo(center, expansionZoom);
+        }
       }
     }
 
@@ -77,13 +112,6 @@ class LeafletSuperCluster extends MapLayer {
         }
         return feature
       })
-      // Derive max zoom from map if not explicitly provided.
-      if(!maxZoom && map){
-        maxZoom = map.maxZoom
-      }
-      else{
-        maxZoom = 20  // Some sane default.
-      }
       // Create index.
       index = new Supercluster(options)
       index.load(geojson.features);
@@ -114,7 +142,7 @@ class LeafletSuperCluster extends MapLayer {
   }
 
   updateLeafletElement(fromProps, toProps) {
-    // TODO: Implement this.
+    // TODO: Implement this. So far, this method being empty just meant that ALL properties are considered static.
   }
 
   // TODO: Make these method adjustable by the user.
@@ -169,15 +197,14 @@ class LeafletSuperCluster extends MapLayer {
   }
 
   _defaultSpiderfy(index, clusters, expanded_cluster){
-    console.log(clusters)
-    if(expanded_cluster){
-      const leaves = index.getLeaves(expanded_cluster);
-      // Remove expanded cluster.
-      clusters = clusters.filter(item => item.properties.cluster_id !== expanded_cluster);
-      // Add leaves.
-      clusters = clusters.concat(leaves);
-    }
-    return clusters
+    console.log(expanded_cluster)
+    console.log(index)
+    const leaves = index.getLeaves(expanded_cluster, 1000, 0);
+    // Remove expanded cluster.
+    let spiderfied = clusters.filter(item => item.properties.cluster_id !== expanded_cluster);
+    // Add leaves.
+    spiderfied = spiderfied.concat(leaves);
+    return spiderfied
   }
 
 }

@@ -25,8 +25,12 @@ class SuperCluster extends Component {
 SuperCluster.defaultProps = {   
     zoomToBoundsOnClick: true,
     format: "geojson",
+    spiderfy: true,
     n_clicks: 0,
     marker_click: null,
+    options:{
+    maxZoom: 16,
+    },
     clusterOptions: {
         iconSize: 40,
         classNames: [
