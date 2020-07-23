@@ -23,12 +23,15 @@ class SuperCluster extends Component {
 }
 
 SuperCluster.defaultProps = {   
-    zoomToBoundsOnClick: true,
-    format: "geojson",
-    spiderfy: true,
+    // Dash event props.
     n_clicks: 0,
     marker_click: null,
-    options:{
+    // Simple props.
+    format: "geojson",
+    zoomToBoundsOnClick: true,
+    spiderfyOnMaxZoom: true,
+    // Options props.
+    superclusterOptions:{
     maxZoom: 16,
     },
     clusterOptions: {
@@ -38,15 +41,14 @@ SuperCluster.defaultProps = {
             {minCount: 100, className: "marker-cluster marker-cluster-medium"},
             {minCount: 1000, className: "marker-cluster marker-cluster-large"},
         ]
+    },
+    spiderfyOptions: {
+        spiderfyDistanceMultiplier: 1,
+        spiderLegPolylineOptions: { weight: 1.5, color: '#222', opacity: 0.5 },
     }
 };
 
 SuperCluster.propTypes = {
-
-    /**
-     * TODO: Implement this one.
-     */
-    spiderfy: PropTypes.bool,
 
    /**
      * Data (consider using url for better performance).
@@ -64,9 +66,27 @@ SuperCluster.propTypes = {
     format: PropTypes.oneOf(["geojson", "geobuf"]),
 
     /**
+     * If true, zoom on cluster click.
+     */
+    zoomToBoundsOnClick: PropTypes.bool,
+
+    /**
+     * If true, marker that are not resolved at max zoom level will be spiderfied on click.
+     */
+    spiderfyOnMaxZoom: PropTypes.bool,
+
+    /**
      * Options passed to SuperCluster, https://github.com/mapbox/supercluster.
      */
-    options: PropTypes.object,
+    spiderfyOptions: PropTypes.shape({
+        spiderfyDistanceMultiplier: PropTypes.number,
+        spiderLegPolylineOptions: PropTypes.object,
+    }),
+
+    /**
+     * Options passed to SuperCluster, https://github.com/mapbox/supercluster.
+     */
+    superclusterOptions: PropTypes.object,
 
     /**
      * Option for customization of the clusters.
@@ -78,11 +98,6 @@ SuperCluster.propTypes = {
             className: PropTypes.string
         }))
     }),
-
-    /**
-     * If true, zoom on cluster click.
-     */
-    zoomToBoundsOnClick: PropTypes.bool,
 
     /**
      * The ID used to identify this component in Dash callbacks

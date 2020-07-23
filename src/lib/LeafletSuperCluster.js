@@ -12,7 +12,7 @@ class LeafletSuperCluster extends MapLayer {
     super.componentDidMount()
     // Mount component.
     const { map } = this.props.leaflet;
-    const { zoomToBoundsOnClick, options, format, url, data, spiderfy} = this.props;
+    const { zoomToBoundsOnClick, superclusterOptions, format, url, data, spiderfyOnMaxZoom, spiderfyOptions} = this.props;
     const { leafletElement, _defaultSpiderfy } = this;
     let index;
     let to_spiderfy;
@@ -42,19 +42,14 @@ class LeafletSuperCluster extends MapLayer {
       const map_state = getMapState();
       // Update the data.
       let clusters = index.getClusters(map_state.bbox, map_state.zoom);
-      console.log("UPDATE")
-      console.log(map_state)
-      if(spiderfy && to_spiderfy){
+      if(spiderfyOnMaxZoom && to_spiderfy){
         // If map has changes, drop the spiderfy state.
-        console.log(map_state)
-        console.log(to_spiderfy.map_state)
-        console.log(to_spiderfy.map_state == map_state)
         if(to_spiderfy.map_state && !equalMapState(to_spiderfy.map_state, map_state)){
             to_spiderfy = null
         }
         // Otherwise, do spiderfy.
         else{
-            clusters = _defaultSpiderfy(index, clusters, to_spiderfy.clusterId)
+            clusters = _defaultSpiderfy(spiderfyOptions, map, index, clusters, to_spiderfy.clusterId)
             to_spiderfy.map_state = map_state
         }
       }
@@ -113,7 +108,7 @@ class LeafletSuperCluster extends MapLayer {
         return feature
       })
       // Create index.
-      index = new Supercluster(options)
+      index = new Supercluster(superclusterOptions)
       index.load(geojson.features);
       // Do initial update.
       update();
@@ -196,7 +191,60 @@ class LeafletSuperCluster extends MapLayer {
       return marker;
   }
 
-  _defaultSpiderfy(index, clusters, expanded_cluster){
+  _defaultSpiderfy(options, map, index, clusters, expanded_cluster){
+
+    // Source: https://github.com/Leaflet/Leaflet.markercluster/blob/master/src/MarkerCluster.Spiderfier.js
+
+  	_2PI = Math.PI * 2;
+	_circleFootSeparation = 25; //related to circumference of circle
+	_circleStartAngle = 0;
+	_spiralFootSeparation = 28; //related to size of spiral (experiment!)
+	_spiralLengthStart = 11;
+	_spiralLengthFactor = 5;
+	_circleSpiralSwitchover = 9; //show spiral instead of circle from this marker count upwards.
+								// 0 -> always spiral; Infinity -> always circle
+
+  	function _generatePointsCircle(count, centerPt) {
+		var circumference = options.spiderfyDistanceMultiplier * _circleFootSeparation * (2 + count),
+			legLength = circumference / _2PI,  //radius from circumference
+			angleStep = _2PI / count,
+			res = [],
+			i, angle;
+		legLength = Math.max(legLength, 35); // Minimum distance to get outside the cluster icon.
+		res.length = count;
+		for (i = 0; i < count; i++) { // Clockwise, like spiral.
+			angle = _circleStartAngle + i * angleStep;
+			res[i] = new L.Point(centerPt.x + legLength * Math.cos(angle), centerPt.y + legLength * Math.sin(angle))._round();
+		}
+		return res;
+	}
+
+    function _generatePointsSpiral(count, centerPt) {
+		var spiderfyDistanceMultiplier = options.spiderfyDistanceMultiplier;
+        var legLength = spiderfyDistanceMultiplier * _spiralLengthStart;
+        var separation = spiderfyDistanceMultiplier * _spiralFootSeparation;
+        var lengthFactor = spiderfyDistanceMultiplier * _spiralLengthFactor * _2PI;
+        var angle = 0;
+        var res = [];
+        var i;
+
+		res.length = count;
+
+		// Higher index, closer position to cluster center.
+		for (i = count; i >= 0; i--) {
+			// Skip the first position, so that we are already farther from center and we avoid
+			// being under the default cluster icon (especially important for Circle Markers).
+			if (i < count) {
+				res[i] = new L.Point(centerPt.x + legLength * Math.cos(angle), centerPt.y + legLength * Math.sin(angle))._round();
+			}
+			angle += separation / legLength + i * 0.0005;
+			legLength += lengthFactor / angle;
+		}
+		return res;
+	}
+
+    
+
     console.log(expanded_cluster)
     console.log(index)
     const leaves = index.getLeaves(expanded_cluster, 1000, 0);
