@@ -2,9 +2,7 @@
 import Circle from './components/Circle.react';
 import CircleMarker from './components/CircleMarker.react';
 import Colorbar from './components/Colorbar.react';
-// import DivOverlay from './components/DivOverlay.react';
 import GeoTIFFOverlay from './components/GeoTIFFOverlay.react';
-// import GridLayer from './components/GridLayer.react';
 import ImageOverlay from './components/ImageOverlay.react';
 import LayerGroup from './components/LayerGroup.react';
 import GeoJSON from './components/GeoJSON.react';
@@ -12,10 +10,9 @@ import MarkerClusterGroup from './components/MarkerClusterGroup.react';
 import Map from './components/Map.react';
 import LocateControl from './components/LocateControl.react';
 import Pane from './components/Pane.react';
-// import MapLayer from './components/MapLayer.react';
+import DivMarker from './components/DivMarker.react';
 import PolylineDecorator from './components/PolylineDecorator.react';
 import Marker from './components/Marker.react';
-// import Path from './components/Path.react';
 import Polyline from './components/Polyline.react';
 import Polygon from './components/Polygon.react';
 import Popup from './components/Popup.react';
@@ -52,5 +49,6 @@ export {
     ScaleControl,
     PolylineDecorator,
     Pane,
-    SuperCluster
+    SuperCluster,
+    DivMarker
 };

@@ -1,54 +1,44 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-// This forces webpack to use url-loader, and returns the proper base64 encoded URLs to Leaflet
-import L from 'leaflet';
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
- iconRetinaUrl: require('../../../node_modules/leaflet/dist/images/marker-icon-2x.png'),
- iconUrl: require('../../../node_modules/leaflet/dist/images/marker-icon.png'),
- shadowUrl: require('../../../node_modules/leaflet/dist/images/marker-shadow.png'),
-});
-
-import { Marker as LeafletMarker } from 'react-leaflet';
+import LeafletDivMarker from '../LeafletDivMarker';
 
 /**
  * Marker is a wrapper of Marker in react-leaflet.
  * It takes similar properties to its react-leaflet counterpart.
  */
-export default class Marker extends Component {
+export default class DivMarker extends Component {
     render() {
         const nProps = Object.assign({}, this.props);
-        // Map properties.
-        nProps.icon = nProps.icon === null ? new L.Icon.Default() : L.icon(nProps.icon);
         // Bind events.
         nProps.onclick = (e) => {
             nProps.setProps({ n_clicks: nProps.n_clicks + 1 });
         }
-        // TODO: Does this affect performance? Maybe make it optional.
-        nProps.onmoveend = (e) => {
-            nProps.setProps({ position: [e.target._latlng.lat, e.target._latlng.lng]});
-        }
         // Render the leaflet component.
-        return <LeafletMarker {...nProps}/>
+        return <LeafletDivMarker {...nProps}/>
     }
 }
 
-Marker.defaultProps = {
-    icon: null,
+DivMarker.defaultProps = {
     n_clicks: 0
 }
 
-Marker.propTypes = {
+DivMarker.propTypes = {
     /**
      * A geographical point (lat, lon)
      */
     position: PropTypes.arrayOf(PropTypes.number).isRequired,
 
     /**
-     * Options passed to Icon constructor.
+     * Options passed to DivIcon constructor.
      */
-    icon: PropTypes.object,
+    iconOptions: PropTypes.shape({
+        iconSize: PropTypes.arrayOf(PropTypes.number),
+        iconAnchor: PropTypes.arrayOf(PropTypes.number),
+        popupAnchor: PropTypes.arrayOf(PropTypes.number),
+        className: PropTypes.arrayOf(PropTypes.number),
+        html: PropTypes.string
+    }),
 
     /**
      * Whether the marker is draggable with mouse/touch or not.

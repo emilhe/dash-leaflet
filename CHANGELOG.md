@@ -21,6 +21,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Fix of bug in Polygon prop validation.
+- Added DivMarker component.
 
 ## [0.0.17] - 2020-19-05
 
