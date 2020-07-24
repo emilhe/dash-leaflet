@@ -1,6 +1,7 @@
 from .Circle import Circle
 from .CircleMarker import CircleMarker
 from .Colorbar import Colorbar
+from .DivMarker import DivMarker
 from .DivOverlay import DivOverlay
 from .GeoJSON import GeoJSON
 from .GeoTIFFOverlay import GeoTIFFOverlay
@@ -31,6 +32,7 @@ __all__ = [
     "Circle",
     "CircleMarker",
     "Colorbar",
+    "DivMarker",
     "DivOverlay",
     "GeoJSON",
     "GeoTIFFOverlay",

@@ -29,9 +29,10 @@ class App extends Component {
     }
 
     render() {
-        let positions = [[56,10], [56,10], [56,10], [56,10], [56,10]];
+        const pos = [37.8, 50]; // (-37.8, 175.3)
+        let positions = []; //[[56,10], [56,10], [56,10], [56,10], [56,10]];
         for(let i =0; i < 100; i++){
-            positions.push([56,11])
+            positions.push(pos)
         }
         let features = positions.map((pos) => ({"type": "Feature", "geometry": {"type": "Point", "coordinates": [pos[1], pos[0]]}}));
         let geojson = {"type": "FeatureCollection", "features": features};
@@ -46,7 +47,7 @@ class App extends Component {
         return (
             <div>
                 <Map
-                    setProps={this.setProps} zoom={8} center={[56, 10]}
+                    setProps={this.setProps} zoom={8} center={pos}
 //                    setProps={this.setProps} zoom={8} center={[-37, 175]}
                     {...this.state}>
                         <TileLayer/>

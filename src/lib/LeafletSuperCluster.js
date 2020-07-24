@@ -11,9 +11,7 @@ class LeafletSuperCluster extends MapLayer {
         super.componentDidMount();
         // Mount component.
         const {map} = this.props.leaflet;
-        const {superclusterOptions, format, url, data, spiderfyOnMaxZoom, spiderfyOptions} = this.props;
-        // const {zoomToBoundsOnClick, onclick, onhover} = this.props;
-        const {zoomToBoundsOnClick} = this.props;
+        const {superclusterOptions, format, url, data, spiderfyOnMaxZoom, spiderfyOptions, zoomToBoundsOnClick} = this.props;
         const {leafletElement, _defaultSpiderfy} = this;
         let index, to_spiderfy;
 
@@ -72,19 +70,7 @@ class LeafletSuperCluster extends MapLayer {
                     map.flyTo(center, expansionZoom);
                 }
             }
-            // // Propagate click.
-            // onclick(e)
         }
-
-        // function handleMouseover(e) {
-        //     // Propagate hover.
-        //     onhover(e);
-        // }
-        //
-        // function handleMouseout(e) {
-        //     // Propagate hover.
-        //     onhover(null);
-        // }
 
         // Fetch data.
         const asyncfunc = async () => {
@@ -100,8 +86,10 @@ class LeafletSuperCluster extends MapLayer {
                 }
             }
             // Unless the data are geojson, do base64 decoding.
-            if (format != "geojson") {
-                geojson = toByteArray(geojson)
+            else{
+                if (format != "geojson") {
+                    geojson = toByteArray(geojson)
+                }
             }
             // Do any data transformations needed to arrive at geojson data. TODO: Might work only in node?
             if (format == "geobuf") {
@@ -117,22 +105,20 @@ class LeafletSuperCluster extends MapLayer {
                     feature["properties"]["cluster"] = false
                 }
                 return feature
-            })
+            });
             // Create index.
-            index = new Supercluster(superclusterOptions)
+            index = new Supercluster(superclusterOptions);
             index.load(geojson.features);
             // Do initial update.
             update();
             // Bind update on map move (this is where the "magic" happens).
             map.on('moveend', update);
-        }
+        };
 
         // Load data.
         asyncfunc();
         // Bind click event(s).
         this.leafletElement.on('click', handleClick);
-        // this.leafletElement.on('mouseover', handleMouseover);
-        // this.leafletElement.on('mouseout', handleMouseout);
     }
 
     componentWillUnmount() {
@@ -148,7 +134,6 @@ class LeafletSuperCluster extends MapLayer {
 
     createLeafletElement(props) {
         const dash = props.setProps;
-        console.log(props)
         return new GeoJSON(null, {
             pointToLayer: (x, y) => this._defaultCreateClusterIcon(x, y, dash),
             style: () => props.spiderfyOptions.spiderLegPolylineOptions
@@ -263,10 +248,11 @@ class LeafletSuperCluster extends MapLayer {
         }
 
         const cluster = clusters.filter(item => item.properties.cluster_id === expanded_cluster)[0];
-        let center =  map.latLngToLayerPoint(cluster.geometry.coordinates);
+        const lnglat = cluster.geometry.coordinates;
+        let center =  map.latLngToLayerPoint([lnglat[1], lnglat[0]]);
         const leaves = index.getLeaves(expanded_cluster, 1000, 0);
         // Generate positions.
-        let positions, leaf, leg, newPos, line;
+        let positions, leaf, leg, newPos;
         if (leaves.length >= _circleSpiralSwitchover) {
 			positions = _generatePointsSpiral(leaves.length, center);
 		} else {
@@ -278,10 +264,10 @@ class LeafletSuperCluster extends MapLayer {
         for (let i = 0; i < leaves.length; i++) {
             leaf = leaves[i];
             newPos = map.layerPointToLatLng(positions[i]);
-            leg = [cluster.geometry.coordinates, [newPos.lat, newPos.lng]];
+            leg = [cluster.geometry.coordinates, [newPos.lng, newPos.lat]];
             legs.push({"type": "Feature", "geometry": {"type": "LineString", "coordinates": leg}});
             // Update the marker position.
-            leaf.geometry.coordinates = [newPos.lat, newPos.lng];
+            leaf.geometry.coordinates = [newPos.lng, newPos.lat];
         }
         // Remove expanded cluster.
         let spiderfied = clusters.filter(item => item.properties.cluster_id !== expanded_cluster);
