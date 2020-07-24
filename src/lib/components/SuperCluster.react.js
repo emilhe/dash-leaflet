@@ -14,25 +14,30 @@ class SuperCluster extends Component {
         // Bind events.
         nProps.onclick = (e) => {
             nProps.setProps({ n_clicks: nProps.n_clicks + 1 });
-            nProps.setProps({ marker_click: e.layer.feature});
-        }
+            nProps.setProps({ featureClick: e.layer.feature});
+        };
+        nProps.onmouseover = (e) => {
+            nProps.setProps({ featureHover: e.layer.feature});
+        };
+        nProps.onmouseout = (e) => {
+            nProps.setProps({ featureHover: null});
+        };
         // Render the leaflet component.
         return <LeafletSuperCluster {...nProps}/>
       }
 
 }
 
-SuperCluster.defaultProps = {   
+SuperCluster.defaultProps = {
     // Dash event props.
     n_clicks: 0,
-    marker_click: null,
     // Simple props.
     format: "geojson",
     zoomToBoundsOnClick: true,
     spiderfyOnMaxZoom: true,
     // Options props.
-    superclusterOptions:{
-    maxZoom: 16,
+    superclusterOptions: {
+        maxZoom: 16,
     },
     clusterOptions: {
         iconSize: 40,
@@ -44,13 +49,13 @@ SuperCluster.defaultProps = {
     },
     spiderfyOptions: {
         spiderfyDistanceMultiplier: 1,
-        spiderLegPolylineOptions: { weight: 1.5, color: '#222', opacity: 0.5 },
+        spiderLegPolylineOptions: {weight: 1.5, color: '#222', opacity: 0.5},
     }
 };
 
 SuperCluster.propTypes = {
 
-   /**
+    /**
      * Data (consider using url for better performance).
      */
     data: PropTypes.object,
@@ -58,7 +63,7 @@ SuperCluster.propTypes = {
     /**
      * Url to data (use instead of data for better performance).
      */
-    url: PropTypes.string, 
+    url: PropTypes.string,
 
     /**
      * Data format.
@@ -115,7 +120,12 @@ SuperCluster.propTypes = {
     /**
      * Last feature clicked.
      */
-    marker_click: PropTypes.object,
+    featureClick: PropTypes.object,
+
+    /**
+     * Last feature hover.
+     */
+    featureHover: PropTypes.object
 
 };
 

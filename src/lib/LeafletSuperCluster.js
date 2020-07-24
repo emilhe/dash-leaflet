@@ -3,19 +3,19 @@ import { withLeaflet, MapLayer } from 'react-leaflet';
 import Supercluster from 'supercluster';
 import { decode } from 'geobuf'
 import { toByteArray } from 'base64-js';
-import { max } from 'ramda';
 
 class LeafletSuperCluster extends MapLayer {
 
     componentDidMount() {
         // Call super.
-        super.componentDidMount()
+        super.componentDidMount();
         // Mount component.
         const {map} = this.props.leaflet;
-        const {zoomToBoundsOnClick, superclusterOptions, format, url, data, spiderfyOnMaxZoom, spiderfyOptions} = this.props;
+        const {superclusterOptions, format, url, data, spiderfyOnMaxZoom, spiderfyOptions} = this.props;
+        // const {zoomToBoundsOnClick, onclick, onhover} = this.props;
+        const {zoomToBoundsOnClick} = this.props;
         const {leafletElement, _defaultSpiderfy} = this;
-        let index;
-        let to_spiderfy;
+        let index, to_spiderfy;
 
         function equalMapState(a, b) {
             // Compare zoom.
@@ -72,7 +72,19 @@ class LeafletSuperCluster extends MapLayer {
                     map.flyTo(center, expansionZoom);
                 }
             }
+            // // Propagate click.
+            // onclick(e)
         }
+
+        // function handleMouseover(e) {
+        //     // Propagate hover.
+        //     onhover(e);
+        // }
+        //
+        // function handleMouseout(e) {
+        //     // Propagate hover.
+        //     onhover(null);
+        // }
 
         // Fetch data.
         const asyncfunc = async () => {
@@ -118,20 +130,25 @@ class LeafletSuperCluster extends MapLayer {
         // Load data.
         asyncfunc();
         // Bind click event(s).
-        this.leafletElement.on('click', handleClick)
+        this.leafletElement.on('click', handleClick);
+        // this.leafletElement.on('mouseover', handleMouseover);
+        // this.leafletElement.on('mouseout', handleMouseout);
     }
 
     componentWillUnmount() {
         const {map} = this.props.leaflet;
         // Remove manually added event handlers.
         map.on('moveend', 'update');
-        this.leafletElement.off('click', 'handleClick')
+        this.leafletElement.off('click', 'handleClick');
+        this.leafletElement.off('mouseover', 'handleMouseover');
+        this.leafletElement.off('mouseout', 'handleMouseout');
         // Call super.
         super.componentWillUnmount();
     }
 
     createLeafletElement(props) {
         const dash = props.setProps;
+        console.log(props)
         return new GeoJSON(null, {
             pointToLayer: (x, y) => this._defaultCreateClusterIcon(x, y, dash),
             style: () => props.spiderfyOptions.spiderLegPolylineOptions
@@ -139,29 +156,29 @@ class LeafletSuperCluster extends MapLayer {
     }
 
     updateLeafletElement(fromProps, toProps) {
-        // TODO: Implement this. So far, this method being empty just meant that ALL properties are considered static.
+        // MAYBE: Implement this. So far, this method being empty means that ALL properties are considered static.
     }
 
-    // TODO: Make these method adjustable by the user.
+    // MAYBE Make all of these methods adjustable by the user.
 
     _defaultCreateClusterIcon(feature, latlng, dash) {
         // TODO: Add options for other types of markers? Circles? Custom stuff? Functional injection?
         if (!feature.properties.cluster) {
             return this._defaultCreateMarker(feature, latlng, dash)
         }
-        return this._defaultCreateCluster(feature, latlng, dash)
+        return this._defaultCreateCluster(feature, latlng)
     }
 
-    _defaultCreateCluster(feature, latlng, dash) {
+    _defaultCreateCluster(feature, latlng) {
         let {iconSize, classNames} = this.props.clusterOptions;
-        var count = feature.properties.point_count;
-        let className = ""
-        for (var i in classNames) {
+        const count = feature.properties.point_count;
+        let className = "";
+        for (let i in classNames) {
             if (count > classNames[i]["minCount"]) {
                 className = classNames[i]["className"]
             }
         }
-        var icon = L.divIcon({
+        const icon = L.divIcon({
             html: '<div><span>' + feature.properties.point_count_abbreviated + '</span></div>',
             className: className,
             iconSize: L.point(iconSize, iconSize)
