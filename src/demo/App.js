@@ -29,7 +29,10 @@ class App extends Component {
     }
 
     render() {
-        let positions = [[56,10], [56,10], [56,10], [56,10], [56,10], [56,11]];
+        let positions = [[56,10], [56,10], [56,10], [56,10], [56,10]];
+        for(let i =0; i < 100; i++){
+            positions.push([56,11])
+        }
         let features = positions.map((pos) => ({"type": "Feature", "geometry": {"type": "Point", "coordinates": [pos[1], pos[0]]}}));
         let geojson = {"type": "FeatureCollection", "features": features};
         let clusterOptions = {
