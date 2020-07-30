@@ -75,8 +75,8 @@ class LeafletSuperCluster extends MapLayer {
 
         // Fetch data.
         const asyncfunc = async () => {
-            let geojson = data;
             // Download data if needed.
+            let geojson = data;
             if (!data && url) {
                 const response = await fetch(url);
                 if (format === "geojson") {
@@ -107,6 +107,13 @@ class LeafletSuperCluster extends MapLayer {
                 }
                 return feature
             });
+            // Try to guess max zoom.
+            if(!superclusterOptions || !("maxZoom" in superclusterOptions)){
+                const maxZoom = map._layersMaxZoom;
+                if(maxZoom){
+                    superclusterOptions["maxZoom"] = maxZoom;
+                }
+            }
             // Create index.
             index = new Supercluster(superclusterOptions);
             index.load(geojson.features);

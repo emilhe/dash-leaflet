@@ -36,9 +36,6 @@ SuperCluster.defaultProps = {
     zoomToBoundsOnClick: true,
     spiderfyOnMaxZoom: true,
     // Options props.
-    superclusterOptions: {
-        maxZoom: 16,
-    },
     clusterOptions: {
         iconSize: 40,
         classNames: [
