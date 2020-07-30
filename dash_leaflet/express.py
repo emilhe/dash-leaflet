@@ -3,6 +3,7 @@ import geobuf
 import dash_leaflet as dl
 import base64
 
+
 def categorical_colorbar(*args, categories, colorscale, **kwargs):
     indices = list(range(len(categories) + 1))
     return dl.Colorbar(*args, min=0, max=len(categories), classes=indices, colorscale=colorscale, tooltip=False,
@@ -18,6 +19,7 @@ def markers_to_geojson(markers):
             feature["properties"] = {prop: marker[prop] for prop in props}
         geojson["features"].append(feature)
     return geojson
+
 
 def supercluster(markers, *args, **kwargs):
     geojson = markers_to_geojson(markers)
