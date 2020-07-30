@@ -12,8 +12,9 @@ class LeafletSuperCluster extends MapLayer {
         super.componentDidMount();
         // Mount component.
         const {map} = this.props.leaflet;
-        const {superclusterOptions, format, url, data, spiderfyOnMaxZoom, spiderfyOptions, zoomToBoundsOnClick} = this.props;
+        const {format, url, data, spiderfyOnMaxZoom, spiderfyOptions, zoomToBoundsOnClick} = this.props;
         const {leafletElement, _defaultSpiderfy} = this;
+        let {superclusterOptions} = this.props;
         let index, to_spiderfy;
 
         function equalMapState(a, b) {
@@ -73,10 +74,9 @@ class LeafletSuperCluster extends MapLayer {
             }
         }
 
-        // Fetch data.
-        const asyncfunc = async () => {
-            // Download data if needed.
+        async function assembleGeojson(){
             let geojson = data;
+            // Download data if needed.
             if (!data && url) {
                 const response = await fetch(url);
                 if (format === "geojson") {
@@ -107,35 +107,44 @@ class LeafletSuperCluster extends MapLayer {
                 }
                 return feature
             });
+            return geojson
+        }
+
+        function buildIndex(geojson){
             // Try to guess max zoom.
             if(!superclusterOptions || !("maxZoom" in superclusterOptions)){
                 const maxZoom = map._layersMaxZoom;
                 if(maxZoom){
-                    superclusterOptions["maxZoom"] = maxZoom;
+                    if(superclusterOptions){
+                        superclusterOptions["maxZoom"] =  maxZoom;
+                    }
+                    else{
+                        superclusterOptions = {maxZoom: maxZoom};
+                    }
                 }
             }
             // Create index.
             index = new Supercluster(superclusterOptions);
             index.load(geojson.features);
+        }
+
+        function initialize(){
             // Do initial update.
             _update();
             // Bind update on map move (this is where the "magic" happens).
             map.on('moveend', _update);
-        };
+            // Bind click event(s).
+            this.leafletElement.on('click', handleClick);
+        }
 
-        // Load data.
-        asyncfunc();
-        // Bind click event(s).
-        this.leafletElement.on('click', handleClick);
+        assembleGeojson().then(geojson => buildIndex(geojson)).then(initialize.bind(this));
     }
 
     componentWillUnmount() {
         const {map} = this.props.leaflet;
         // Remove manually added event handlers.
-        map.on('moveend', 'update');
+        map.on('moveend', "_update");
         this.leafletElement.off('click', 'handleClick');
-        this.leafletElement.off('mouseover', 'handleMouseover');
-        this.leafletElement.off('mouseout', 'handleMouseout');
         // Call super.
         super.componentWillUnmount();
     }

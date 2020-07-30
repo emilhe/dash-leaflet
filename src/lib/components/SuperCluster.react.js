@@ -55,7 +55,7 @@ SuperCluster.propTypes = {
     /**
      * Data (consider using url for better performance).
      */
-    data: PropTypes.object,
+    data: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
 
     /**
      * Url to data (use instead of data for better performance).
