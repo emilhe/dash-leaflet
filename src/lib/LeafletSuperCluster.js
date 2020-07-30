@@ -3,6 +3,7 @@ import { withLeaflet, MapLayer } from 'react-leaflet';
 import Supercluster from 'supercluster';
 import { decode } from 'geobuf'
 import { toByteArray } from 'base64-js';
+import update from 'immutability-helper';
 
 class LeafletSuperCluster extends MapLayer {
 
@@ -36,7 +37,7 @@ class LeafletSuperCluster extends MapLayer {
             return {bbox: bbox, zoom: zoom}
         }
 
-        function update() {
+        function _update() {
             const map_state = getMapState();
             // Update the data.
             let clusters = index.getClusters(map_state.bbox, map_state.zoom);
@@ -110,9 +111,9 @@ class LeafletSuperCluster extends MapLayer {
             index = new Supercluster(superclusterOptions);
             index.load(geojson.features);
             // Do initial update.
-            update();
+            _update();
             // Bind update on map move (this is where the "magic" happens).
-            map.on('moveend', update);
+            map.on('moveend', _update);
         };
 
         // Load data.
@@ -262,12 +263,11 @@ class LeafletSuperCluster extends MapLayer {
         // Create spiderfied leaves.
         let legs = [];
         for (let i = 0; i < leaves.length; i++) {
-            leaf = leaves[i];
             newPos = map.layerPointToLatLng(positions[i]);
             leg = [cluster.geometry.coordinates, [newPos.lng, newPos.lat]];
             legs.push({"type": "Feature", "geometry": {"type": "LineString", "coordinates": leg}});
             // Update the marker position.
-            leaf.geometry.coordinates = [newPos.lng, newPos.lat];
+            leaves[i] = update(leaves[i], {geometry: {coordinates: {$set: [newPos.lng, newPos.lat]}}})
         }
         // Remove expanded cluster.
         let spiderfied = clusters.filter(item => item.properties.cluster_id !== expanded_cluster);
