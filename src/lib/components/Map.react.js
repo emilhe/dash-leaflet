@@ -14,17 +14,17 @@ export default class Map extends Component {
         // Bind events.
         nProps.onclick = (e) => {
             nProps.setProps({ click_lat_lng: [e.latlng.lat, e.latlng.lng] });
-        }
+        };
         nProps.onlocationfound = (e) => {
             nProps.setProps({ location_lat_lon_acc: [e.latlng.lat, e.latlng.lng, e.accuracy] });
-        }
+        };
         nProps.ondblclick = (e) => {
             nProps.setProps({ dbl_click_lat_lng: [e.latlng.lat, e.latlng.lng] });
-        }
+        };
         // TODO: Does this affect performance? Maybe make it optional.
         nProps.onViewportChanged = (e) => {
             nProps.setProps({ viewport: e , zoom: e.zoom, center: e.center});
-        }
+        };
         // Render the leaflet component.
         return <LeafletMap {...nProps} />
     }

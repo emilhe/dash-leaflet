@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.22] - 2020-30-07
+
+### Changed
+
+- Supercluster: spiderfy bug fixed, added automatic maxZoom detection
+
+## [0.0.21] - 2020-24-07
+
+### Added
+
+- Added Supercluter component.
+
 ## [0.0.20] - 2020-09-07
 
 ### Added
