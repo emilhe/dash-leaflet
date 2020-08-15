@@ -13,10 +13,10 @@ export default class VideoOverlay extends Component {
         // Bind events.
         nProps.onclick = (e) => {
             nProps.setProps({ click_lat_lng: [e.latlng.lat, e.latlng.lng] });
-        }
+        };
         nProps.ondblclick = (e) => {
             nProps.setProps({ dbl_click_lat_lng: [e.latlng.lat, e.latlng.lng] });
-        }
+        };
         // Render the leaflet component.
         return <LeafletVideoOverlay {...nProps}/>
     }
@@ -24,7 +24,7 @@ export default class VideoOverlay extends Component {
 
 VideoOverlay.defaultProps = {
     play: false
-}
+};
 
 VideoOverlay.propTypes = {
     /**
@@ -134,5 +134,6 @@ VideoOverlay.propTypes = {
      * Dash callback property. Receives [lat, lng] upon double click. Requires interactive=True.
      */
     dbl_click_lat_lng: PropTypes.arrayOf(PropTypes.number)
+
 };
 
