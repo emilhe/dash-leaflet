@@ -13,10 +13,10 @@ export default class Polyline extends Component {
         // Bind events.
         nProps.onclick = (e) => {
             nProps.setProps({ click_lat_lng: [e.latlng.lat, e.latlng.lng] });
-        }
+        };
         nProps.ondblclick = (e) => {
             nProps.setProps({ dbl_click_lat_lng: [e.latlng.lat, e.latlng.lng] });
-        }
+        };
         // Render the leaflet component.
         return <LeafletPolyline {...nProps}/>
     }

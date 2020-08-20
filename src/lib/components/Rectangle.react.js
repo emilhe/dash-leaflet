@@ -13,10 +13,10 @@ export default class Rectangle extends Component {
         // Bind events.
         nProps.onclick = (e) => {
             nProps.setProps({ click_lat_lng: [e.latlng.lat, e.latlng.lng] });
-        }
+        };
         nProps.ondblclick = (e) => {
             nProps.setProps({ dbl_click_lat_lng: [e.latlng.lat, e.latlng.lng] });
-        }
+        };
         // Render the leaflet component.
         return <LeafletRectangle {...nProps}/>
     }
@@ -164,4 +164,4 @@ Rectangle.propTypes = {
      * Dash callback property. Receives [lat, lng] upon double click.
      */
     dbl_click_lat_lng: PropTypes.arrayOf(PropTypes.number)
-}
+};

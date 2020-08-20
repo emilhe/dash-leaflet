@@ -24,11 +24,11 @@ export default class Marker extends Component {
         // Bind events.
         nProps.onclick = (e) => {
             nProps.setProps({ n_clicks: nProps.n_clicks + 1 });
-        }
+        };
         // TODO: Does this affect performance? Maybe make it optional.
         nProps.onmoveend = (e) => {
             nProps.setProps({ position: [e.target._latlng.lat, e.target._latlng.lng]});
-        }
+        };
         // Render the leaflet component.
         return <LeafletMarker {...nProps}/>
     }
@@ -37,7 +37,7 @@ export default class Marker extends Component {
 Marker.defaultProps = {
     icon: null,
     n_clicks: 0
-}
+};
 
 Marker.propTypes = {
     /**

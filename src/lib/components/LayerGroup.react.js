@@ -38,5 +38,5 @@ LayerGroup.propTypes = {
     // Events
     setProps: PropTypes.func,
 
-}
+};
 

@@ -12,10 +12,10 @@ export default class SVGOverlay extends Component {
         // Bind events.
         nProps.onclick = (e) => {
             nProps.setProps({ click_lat_lng: [e.latlng.lat, e.latlng.lng] });
-        }
+        };
         nProps.ondblclick = (e) => {
             nProps.setProps({ dbl_click_lat_lng: [e.latlng.lat, e.latlng.lng] });
-        }
+        };
         // Create SVG element.
         const svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         svgElement.setAttribute('xmlns', "http://www.w3.org/2000/svg");

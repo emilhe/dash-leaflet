@@ -48,5 +48,5 @@ Pane.propTypes = {
     // Events
     setProps: PropTypes.func,
 
-}
+};
 

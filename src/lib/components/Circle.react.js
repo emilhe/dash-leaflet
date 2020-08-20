@@ -156,4 +156,4 @@ Circle.propTypes = {
      * Dash callback property. Receives [lat, lng] upon double click.
      */
     dbl_click_lat_lng: PropTypes.arrayOf(PropTypes.number)
-}
+};

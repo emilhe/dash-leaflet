@@ -152,4 +152,4 @@ CircleMarker.propTypes = {
      * Dash callback property. Number of times the marker has been clicked
      */
     n_clicks: PropTypes.number
-}
+};

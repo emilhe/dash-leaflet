@@ -62,4 +62,4 @@ PolylineDecorator.propTypes = {
     // Events
     setProps: PropTypes.func,
 
-}
+};
