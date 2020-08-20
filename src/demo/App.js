@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { Map, TileLayer, SuperCluster, Marker } from '../lib';
 //import LeafletMarkerClusterGroup from '../lib/LeafletMarkerClusterGroup';
 import regeneratorRuntime from "regenerator-runtime";
+import GeoJSON2 from "../lib/components/GeoJSON2.react";
 
 var geojson = {"type": "FeatureCollection", "features": [
     {"type": "Feature", "geometry": {"type": "Point", "coordinates": [10, 56]}, 
@@ -13,6 +14,16 @@ var geojson = {"type": "FeatureCollection", "features": [
             {"type": "Feature", "geometry": {"type": "Point", "coordinates": [10, 55]}, 
     "properties": {"cluster": false, "marker_options": {"opacity": 0.5}}}
     ]}
+
+
+window.dash_clientside = Object.assign({}, window.dash_clientside, {
+    clientside: {
+        hest(feature, latlng) {
+            return L.marker(latlng);
+        }
+    }
+});
+
 
 class App extends Component {
 
@@ -29,6 +40,16 @@ class App extends Component {
     }
 
     render() {
+
+     //    let pointToLayer = new Function(
+     // "return function " + this.props.pointToLayer + "(){ alert('sweet!')}"
+     //    )();
+     //
+     //    pointToLayer();
+
+        console.log(window.dash_clientside.clientside.hest);
+        // let a = hest();
+
         const pos = [37.8, 50]; // (-37.8, 175.3)
         let positions = []; //[[56,10], [56,10], [56,10], [56,10], [56,10]];
         for(let i =0; i < 100; i++){
@@ -51,8 +72,11 @@ class App extends Component {
 //                    setProps={this.setProps} zoom={8} center={[-37, 175]}
                     {...this.state}>
                         <TileLayer/>
-                            <SuperCluster setProps={this.setProps} data={geojson} maxZoom={16} clusterOptions={clusterOptions}>
-                            </SuperCluster>
+                        <GeoJSON2 data={geojson} pointToLayer={"hest"}>
+                            </GeoJSON2>
+
+                            {/*<SuperCluster setProps={this.setProps} data={geojson} maxZoom={16} clusterOptions={clusterOptions}>*/}
+                            {/*</SuperCluster>*/}
                 </Map>
             </div>
         )
