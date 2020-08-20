@@ -9,17 +9,25 @@ import { WMSTileLayer as LeafletWMSTileLayer } from 'react-leaflet';
  */
 export default class WMSTileLayer extends Component {
     render() {
-        return <LeafletWMSTileLayer {...this.props}/>
+        const nProps = Object.assign({}, this.props);
+        // Strip leaflet props.
+        delete nProps.id;
+        delete nProps.children;
+        delete nProps.setProps;
+        delete nProps.loading_state;
+        // Render layer.
+        return <LeafletWMSTileLayer {...nProps}/>
     }
 }
 
 WMSTileLayer.propTypes = {
+
     /**
      * Base URL of the WMS service
      */
     url: PropTypes.string.isRequired,
 
-    // Static parameters
+    // Inherited from TileLayer
 
     /**
      * Comma-separated list of WMS layers to show.
@@ -181,6 +189,11 @@ WMSTileLayer.propTypes = {
     noWrap: PropTypes.bool,
 
     /**
+     * The leaflet pane of the component
+     */
+    pane: PropTypes.string,
+
+    /**
      * A custom class name to assign to the tile layer. Empty by default.
      */
     className: PropTypes.string,
@@ -191,7 +204,14 @@ WMSTileLayer.propTypes = {
      */
     keepBuffer: PropTypes.number,
 
-    // Inherited from MapLayer
+    // Inherited from Layer
+
+    /**
+     * The attribution string for the component (dynamic)
+     */
+    attribution: PropTypes.string,
+
+    // Dash related properties
 
     /**
      * The ID used to identify this component in Dash callbacks
@@ -203,16 +223,8 @@ WMSTileLayer.propTypes = {
      */
     children: PropTypes.node,
 
-    /**
-     * The leaflet pane of the component
-     */
-    pane: PropTypes.string,
-
-    /**
-     * The attribution string for the component (dynamic)
-     */
-    attribution: PropTypes.string,
-
     // Events
+
     setProps: PropTypes.func,
+
 };
