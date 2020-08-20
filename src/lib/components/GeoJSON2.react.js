@@ -24,13 +24,11 @@ class GeoJSON2 extends Component {
 }
 
 GeoJSON2.defaultProps = {
-    namespace: "window.dash_clientside.clientside"
 };
 
 GeoJSON2.propTypes = {
     data: PropTypes.object,
     pointToLayer: PropTypes.string,
-    namespace: PropTypes.string
 };
 
 export default withLeaflet(GeoJSON2);
