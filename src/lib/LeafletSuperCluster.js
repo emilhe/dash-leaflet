@@ -5,57 +5,136 @@ import { decode } from 'geobuf'
 import { toByteArray } from 'base64-js';
 import update from 'immutability-helper';
 
+// region Util functions
+
+function getMapState(map) {
+    const bounds = map.getBounds();
+    const zoom = map.getZoom();
+    const bbox = [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()];
+    return {bbox: bbox, zoom: zoom}
+}
+
+function equalMapState(a, b) {
+    // Compare zoom.
+    if (a.zoom !== b.zoom) {
+        return false
+    }
+    // Compare bbox.
+    for (let i in a.bbox) {
+        if (a.bbox[i] !== b.bbox[i]) {
+            return false
+        }
+    }
+    return true
+}
+
+function buildIndex(geojson, map, superclusterOptions){
+    // Try to guess max zoom.
+    if(!superclusterOptions || !("maxZoom" in superclusterOptions)){
+        const maxZoom = map._layersMaxZoom;
+        if(maxZoom){
+            if(superclusterOptions){
+                superclusterOptions["maxZoom"] =  maxZoom;
+            }
+            else{
+                superclusterOptions = {maxZoom: maxZoom};
+            }
+        }
+    }
+    // Create index.
+    const index = new Supercluster(superclusterOptions);
+    index.load(geojson.features);
+    return index
+}
+
+async function assembleGeojson(data, url, format){
+    // Handle case when there is not data.
+    if (!data && !url){
+        return {features: []};
+    }
+    // Download data if needed.
+    let geojson = data;
+    if (!data && url) {
+        const response = await fetch(url);
+        if (format === "geojson") {
+            geojson = await response.json();
+        }
+        if (format == "geobuf") {
+            geojson = await response.arrayBuffer();
+        }
+    }
+    // Unless the data are geojson, do base64 decoding.
+    else{
+        if (format != "geojson") {
+            geojson = toByteArray(geojson)
+        }
+    }
+    // Do any data transformations needed to arrive at geojson data. TODO: Might work only in node?
+    if (format == "geobuf") {
+        var Pbf = require('pbf');
+        geojson = decode(new Pbf(geojson));
+    }
+    // Add cluster properties if they are missing.
+    geojson.features = geojson.features.map(feature => {
+        if (!feature.properties) {
+            feature["properties"] = {}
+        }
+        if (!feature.properties.cluster) {
+            feature["properties"]["cluster"] = false
+        }
+        return feature
+    });
+    return geojson
+}
+
+// endregion
+
 class LeafletSuperCluster extends MapLayer {
+
+    // region Leaflet element
+
+    constructor(props) {
+        super(props);
+        this.index = null;
+        this.to_spiderfy = null;
+    }
+
+    createLeafletElement(props) {
+        const dash = props.setProps;
+        return new GeoJSON(null, {
+            pointToLayer: (x, y) => this._defaultCreateClusterIcon(x, y, dash),
+            style: () => props.spiderfyOptions.spiderLegPolylineOptions
+        });
+    }
+
+    // MAYBE: Implement this. So far, this method being empty means that ALL properties are considered static.
+
+    updateLeafletElement(fromProps, toProps) {
+        if (toProps.data !== fromProps.data || toProps.url !== fromProps.url) {
+            // Update props.
+            this.props.url = toProps.url;
+            this.props.data = toProps.data;
+            this.props.format = toProps.format;
+            // Update data.
+            const {map} = this.props.leaflet;
+            assembleGeojson(toProps.data, toProps.url, toProps.format)
+                .then(geojson => buildIndex(geojson, map, this.props.superclusterOptions)).then(index => {
+                this.index = index;
+                this._update();
+            });
+        }
+    }
+
+    // endregion
+
+    // region React lifecycle methods
 
     componentDidMount() {
         // Call super.
         super.componentDidMount();
         // Mount component.
         const {map} = this.props.leaflet;
-        const {format, url, data, spiderfyOnMaxZoom, spiderfyOptions, zoomToBoundsOnClick} = this.props;
-        const {leafletElement, _defaultSpiderfy} = this;
-        let {superclusterOptions} = this.props;
-        let index, to_spiderfy;
-
-        function equalMapState(a, b) {
-            // Compare zoom.
-            if (a.zoom !== b.zoom) {
-                return false
-            }
-            // Compare bbox.
-            for (var i in a.bbox) {
-                if (a.bbox[i] !== b.bbox[i]) {
-                    return false
-                }
-            }
-            return true
-        }
-
-        function getMapState() {
-            const bounds = map.getBounds()
-            const zoom = map.getZoom()
-            const bbox = [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()]
-            return {bbox: bbox, zoom: zoom}
-        }
-
-        function _update() {
-            const map_state = getMapState();
-            // Update the data.
-            let clusters = index.getClusters(map_state.bbox, map_state.zoom);
-            if (spiderfyOnMaxZoom && to_spiderfy) {
-                // If map has changes, drop the spiderfy state.
-                if (to_spiderfy.map_state && !equalMapState(to_spiderfy.map_state, map_state)) {
-                    to_spiderfy = null
-                }
-                // Otherwise, do spiderfy.
-                else {
-                    clusters = _defaultSpiderfy(spiderfyOptions, map, index, clusters, to_spiderfy.clusterId);
-                    to_spiderfy.map_state = map_state;
-                }
-            }
-            leafletElement.clearLayers();
-            leafletElement.addData(clusters);
-        }
+        const {format, url, data, zoomToBoundsOnClick} = this.props;
 
         function handleClick(e) {
             const clusterId = e.layer.feature.properties.cluster_id;
@@ -63,10 +142,10 @@ class LeafletSuperCluster extends MapLayer {
             let expansionZoom;
             // Zoom to bounds on cluster click.
             if (zoomToBoundsOnClick && clusterId) {
-                expansionZoom = index.getClusterExpansionZoom(clusterId);
+                expansionZoom = this.index.getClusterExpansionZoom(clusterId);
                 // This is the case where all markers cannot be shown.
-                if (expansionZoom > index.options.maxZoom) {
-                    to_spiderfy = {"clusterId": clusterId};
+                if (expansionZoom > this.index.options.maxZoom) {
+                    this.to_spiderfy = {"clusterId": clusterId};
                     map.flyTo(center);
                 } else {
                     map.flyTo(center, expansionZoom);
@@ -74,70 +153,19 @@ class LeafletSuperCluster extends MapLayer {
             }
         }
 
-        async function assembleGeojson(){
-            let geojson = data;
-            // Download data if needed.
-            if (!data && url) {
-                const response = await fetch(url);
-                if (format === "geojson") {
-                    geojson = await response.json();
-                }
-                if (format == "geobuf") {
-                    geojson = await response.arrayBuffer();
-                }
-            }
-            // Unless the data are geojson, do base64 decoding.
-            else{
-                if (format != "geojson") {
-                    geojson = toByteArray(geojson)
-                }
-            }
-            // Do any data transformations needed to arrive at geojson data. TODO: Might work only in node?
-            if (format == "geobuf") {
-                var Pbf = require('pbf');
-                geojson = decode(new Pbf(geojson));
-            }
-            // Add cluster properties if they are missing.
-            geojson.features = geojson.features.map(feature => {
-                if (!feature.properties) {
-                    feature["properties"] = {}
-                }
-                if (!feature.properties.cluster) {
-                    feature["properties"]["cluster"] = false
-                }
-                return feature
-            });
-            return geojson
-        }
-
-        function buildIndex(geojson){
-            // Try to guess max zoom.
-            if(!superclusterOptions || !("maxZoom" in superclusterOptions)){
-                const maxZoom = map._layersMaxZoom;
-                if(maxZoom){
-                    if(superclusterOptions){
-                        superclusterOptions["maxZoom"] =  maxZoom;
-                    }
-                    else{
-                        superclusterOptions = {maxZoom: maxZoom};
-                    }
-                }
-            }
-            // Create index.
-            index = new Supercluster(superclusterOptions);
-            index.load(geojson.features);
-        }
-
-        function initialize(){
+        function initialize(index) {
+            this.index = index;
             // Do initial update.
-            _update();
+            this._update();
             // Bind update on map move (this is where the "magic" happens).
-            map.on('moveend', _update);
+            map.on('moveend', this._update.bind(this));
             // Bind click event(s).
-            this.leafletElement.on('click', handleClick);
+            this.leafletElement.on('click', handleClick.bind(this));
         }
 
-        assembleGeojson().then(geojson => buildIndex(geojson)).then(initialize.bind(this));
+        assembleGeojson(data, url, format)
+            .then(geojson => buildIndex(geojson, map, this.props.superclusterOptions))
+            .then(initialize.bind(this));
     }
 
     componentWillUnmount() {
@@ -149,19 +177,31 @@ class LeafletSuperCluster extends MapLayer {
         super.componentWillUnmount();
     }
 
-    createLeafletElement(props) {
-        const dash = props.setProps;
-        return new GeoJSON(null, {
-            pointToLayer: (x, y) => this._defaultCreateClusterIcon(x, y, dash),
-            style: () => props.spiderfyOptions.spiderLegPolylineOptions
-        });
+    // endregion
+
+    _update() {
+        const {map} = this.props.leaflet;
+        const {to_spiderfy} = this;
+        const {spiderfyOptions} = this.props;
+        const map_state = getMapState(map);
+        // Update the data.
+        let clusters = this.index.getClusters(map_state.bbox, map_state.zoom);
+        if (this.props.spiderfyOnMaxZoom && to_spiderfy) {
+            // If map has changes, drop the spiderfy state.
+            if (to_spiderfy.map_state && !equalMapState(to_spiderfy.map_state, map_state)) {
+                this.to_spiderfy = null;  // TODO: Will this work?
+            }
+            // Otherwise, do spiderfy.
+            else {
+                clusters = this._defaultSpiderfy(spiderfyOptions, map, this.index, clusters, to_spiderfy.clusterId);
+                to_spiderfy.map_state = map_state;
+            }
+        }
+        this.leafletElement.clearLayers();
+        this.leafletElement.addData(clusters);
     }
 
-    updateLeafletElement(fromProps, toProps) {
-        // MAYBE: Implement this. So far, this method being empty means that ALL properties are considered static.
-    }
-
-    // MAYBE Make all of these methods adjustable by the user.
+    // region Drawing (maybe make all of these methods adjustable by the user?)
 
     _defaultCreateClusterIcon(feature, latlng, dash) {
         // TODO: Add options for other types of markers? Circles? Custom stuff? Functional injection?
@@ -266,16 +306,16 @@ class LeafletSuperCluster extends MapLayer {
 
         const cluster = clusters.filter(item => item.properties.cluster_id === expanded_cluster)[0];
         const lnglat = cluster.geometry.coordinates;
-        let center =  map.latLngToLayerPoint([lnglat[1], lnglat[0]]);
+        let center = map.latLngToLayerPoint([lnglat[1], lnglat[0]]);
         const leaves = index.getLeaves(expanded_cluster, 1000, 0);
         // Generate positions.
         let positions, leaf, leg, newPos;
         if (leaves.length >= _circleSpiralSwitchover) {
-			positions = _generatePointsSpiral(leaves.length, center);
-		} else {
-			center.y += 10; // Otherwise circles look wrong => hack for standard blue icon, renders differently for other icons.
-			positions = _generatePointsCircle(leaves.length, center);
-		}
+            positions = _generatePointsSpiral(leaves.length, center);
+        } else {
+            center.y += 10; // Otherwise circles look wrong => hack for standard blue icon, renders differently for other icons.
+            positions = _generatePointsCircle(leaves.length, center);
+        }
         // Create spiderfied leaves.
         let legs = [];
         for (let i = 0; i < leaves.length; i++) {
@@ -293,6 +333,8 @@ class LeafletSuperCluster extends MapLayer {
 
         return spiderfied
     }
+
+    // endregion
 
 }
 
