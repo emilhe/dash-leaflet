@@ -1,6 +1,6 @@
-import React, {Component, Node} from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import LeafletGeoJSON from '../LeafletGeoJSON';
+import LeafletGeoJSON2 from '../LeafletGeoJSON2';
 import {resolveFunctionalProps} from '../utils'
 import {withLeaflet} from "react-leaflet";
 
@@ -17,18 +17,41 @@ class GeoJSON2 extends Component {
     }
 
     render() {
-        let nProps = resolveFunctionalProps(this.props, ["pointToLayer"]);
-        return <LeafletGeoJSON {...nProps} ref={this.myRef}/>
+        let nProps = Object.assign({}, this.props);
+        nProps.options = resolveFunctionalProps(nProps.options,
+            ["pointToLayer", "style", "onEachFeature", "filter", "coordsToLatLng"]);
+        return <LeafletGeoJSON2 {...nProps} ref={this.myRef}/>
     }
 
 }
 
 GeoJSON2.defaultProps = {
+    format: "geojson",
 };
 
 GeoJSON2.propTypes = {
-    data: PropTypes.object,
-    pointToLayer: PropTypes.string,
+
+    /**
+     * Data (consider using url for better performance).
+     */
+    data: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+
+    /**
+     * Url to data (use instead of data for better performance).
+     */
+    url: PropTypes.string,
+
+    /**
+     * Data format.
+     */
+    format: PropTypes.oneOf(["geojson", "geobuf"]),
+
+    /**
+     * Options for the GeoJSON object (see https://leafletjs.com/reference-1.6.0.html#geojson-option for details).
+     */
+    options: PropTypes.object
+
+
 };
 
 export default withLeaflet(GeoJSON2);
