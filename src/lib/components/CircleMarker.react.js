@@ -14,7 +14,7 @@ export default class CircleMarker extends Component {
         // Bind events.
         nProps.onclick = (e) => {
             nProps.setProps({ n_clicks: nProps.n_clicks + 1 });
-        }
+        };
         // Render the leaflet component.
         return <LeafletCircleMarker {...nProps}/>
     }
@@ -22,7 +22,7 @@ export default class CircleMarker extends Component {
 
 CircleMarker.defaultProps = {
     n_clicks: 0
-}
+};
 
 CircleMarker.propTypes = {
     /**

@@ -56,7 +56,6 @@ async function assembleGeojson(data, url, format){
     return geojson
 }
 
-
 export {
     resolveFunctionalProp,
   resolveFunctionalProps,

@@ -13,7 +13,7 @@ export default class DivMarker extends Component {
         // Bind events.
         nProps.onclick = (e) => {
             nProps.setProps({ n_clicks: nProps.n_clicks + 1 });
-        }
+        };
         // Render the leaflet component.
         return <LeafletDivMarker {...nProps}/>
     }
@@ -21,7 +21,7 @@ export default class DivMarker extends Component {
 
 DivMarker.defaultProps = {
     n_clicks: 0
-}
+};
 
 DivMarker.propTypes = {
     /**
