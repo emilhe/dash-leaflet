@@ -24,16 +24,23 @@ class GeoJSON2 extends Component {
         // Add event handlers.
         nProps.onclick = (e) => {
             const feature = e.layer.feature;
+            let bounds = e.layer.getBounds();
+            bounds = [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]];
             nProps.setProps({ n_clicks: nProps.n_clicks + 1 });
             nProps.setProps({featureClick: feature});
+            nProps.setProps({boundsClick: bounds});
         };
         nProps.onmouseover = (e) => {
             const feature = e.layer.feature;
+            let bounds = e.layer.getBounds();
+            bounds = [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]];
             nProps.setProps({featureHover: feature});
+            nProps.setProps({boundsHover: bounds});
         };
         nProps.onmouseout = (e) => {
-            const feature = e.layer.feature;
+            // const feature = e.layer.feature;
             nProps.setProps({featureHover: null});
+            nProps.setProps({boundsHover: null});
         };
         // Render the GeoJSON element.
         return <LeafletGeoJSON2 {...nProps} ref={this.myRef}/>
@@ -98,9 +105,19 @@ GeoJSON2.propTypes = {
     featureClick: PropTypes.object,
 
     /**
+     * Last feature clicked.
+     */
+    boundsClick: PropTypes.object,
+
+    /**
      * Last feature hover.
      */
     featureHover: PropTypes.object,
+
+    /**
+     * Last feature clicked.
+     */
+    boundsHover: PropTypes.object,
 
 };
 

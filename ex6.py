@@ -1,14 +1,12 @@
 import json
-
 import dash
 import dash_html_components as html
 import dash_leaflet as dl
 import dash_leaflet.express as dlx
-from dash.dependencies import Output, Input
-
 import some_module
 
 from dash_extensions import transcrypt
+from dash.dependencies import Output, Input
 
 # Create some sample data.
 markers = [dict(lat=56, lon=10)]
