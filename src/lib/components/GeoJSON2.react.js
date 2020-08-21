@@ -18,14 +18,31 @@ class GeoJSON2 extends Component {
 
     render() {
         let nProps = Object.assign({}, this.props);
+        // Resolve functional properties.
         nProps.options = resolveFunctionalProps(nProps.options,
             ["pointToLayer", "style", "onEachFeature", "filter", "coordsToLatLng"]);
+        // Add event handlers.
+        nProps.onclick = (e) => {
+            const feature = e.layer.feature;
+            nProps.setProps({ n_clicks: nProps.n_clicks + 1 });
+            nProps.setProps({featureClick: feature});
+        };
+        nProps.onmouseover = (e) => {
+            const feature = e.layer.feature;
+            nProps.setProps({featureHover: feature});
+        };
+        nProps.onmouseout = (e) => {
+            const feature = e.layer.feature;
+            nProps.setProps({featureHover: null});
+        };
+        // Render the GeoJSON element.
         return <LeafletGeoJSON2 {...nProps} ref={this.myRef}/>
     }
 
 }
 
 GeoJSON2.defaultProps = {
+    n_clicks: 0,
     format: "geojson",
 };
 
@@ -49,8 +66,41 @@ GeoJSON2.propTypes = {
     /**
      * Options for the GeoJSON object (see https://leafletjs.com/reference-1.6.0.html#geojson-option for details).
      */
-    options: PropTypes.object
+    options: PropTypes.object,
 
+    // Dash related properties.
+
+    /**
+     * Children
+     */
+    children: PropTypes.node,
+
+    /**
+     * The ID used to identify this component in Dash callbacks
+     */
+    id: PropTypes.string,
+
+    /**
+     * Special Dash property.
+     */
+    setProps: PropTypes.func,
+
+    // Dash events.
+
+    /**
+     * Dash callback property. Number of times the marker has been clicked
+     */
+    n_clicks: PropTypes.number,
+
+    /**
+     * Last feature clicked.
+     */
+    featureClick: PropTypes.object,
+
+    /**
+     * Last feature hover.
+     */
+    featureHover: PropTypes.object,
 
 };
 

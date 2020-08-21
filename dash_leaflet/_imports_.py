@@ -4,6 +4,7 @@ from .Colorbar import Colorbar
 from .DivMarker import DivMarker
 from .DivOverlay import DivOverlay
 from .GeoJSON import GeoJSON
+from .GeoJSON2 import GeoJSON2
 from .GeoTIFFOverlay import GeoTIFFOverlay
 from .GridLayer import GridLayer
 from .ImageOverlay import ImageOverlay
@@ -35,6 +36,7 @@ __all__ = [
     "DivMarker",
     "DivOverlay",
     "GeoJSON",
+    "GeoJSON2",
     "GeoTIFFOverlay",
     "GridLayer",
     "ImageOverlay",
