@@ -1,14 +1,15 @@
-import React, {Component, Node} from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-
 import LeafletGeoJSON from '../LeafletGeoJSON';
+import {resolveFunctionalProps, resolveFunctionalProp} from '../utils'
 import {withLeaflet} from "react-leaflet";
+
 
 /**
  * LayerGroup is a wrapper of LayerGroup in react-leaflet.
  * It takes similar properties to its react-leaflet counterpart.
  */
-class GeoJSON extends Component {
+class GeoJSON2 extends Component {
 
     constructor(props) {
         super(props);
@@ -17,105 +18,93 @@ class GeoJSON extends Component {
 
     render() {
         let nProps = Object.assign({}, this.props);
-        const {map} = this.props.leaflet;
-
-        function getOptionValue(feature, key) {
-            const {defaultOptions, featureOptions} = nProps;
-            // If the feature has a value itself, it takes precedence.
-            if (featureOptions && nProps.featureId in feature && feature[nProps.featureId] in featureOptions &&
-                key in featureOptions[feature[nProps.featureId]])
-                return featureOptions[feature[nProps.featureId]][key];
-            // Next, we look for a style in the featureOptions property.
-            if (defaultOptions && key in defaultOptions)
-                return nProps.defaultOptions[key]
+        // Resolve functional properties in options.
+        nProps.options = resolveFunctionalProps(nProps.options,
+            ["pointToLayer", "style", "onEachFeature", "filter", "coordsToLatLng"]);
+        // Resolve also hover style.
+        if(nProps.hoverStyle){
+            nProps.hoverStyle = resolveFunctionalProp(nProps.hoverStyle);
         }
-
-        function handleClick(e) {
-            const feature = e.target.feature;
-            nProps.n_clicks = nProps.n_clicks + 1;  // This is necessary, i am not sure why
-            // Update featureClick property.
+        // Add event handlers.
+        nProps.onclick = (e) => {
+            const feature = e.layer.feature;
+            let bounds = e.layer.getBounds();
+            bounds = [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]];
+            nProps.setProps({ n_clicks: nProps.n_clicks + 1 });
             nProps.setProps({featureClick: feature});
-            nProps.setProps({n_clicks: nProps.n_clicks});
-            // If needed, zoomToBoundsOnClick.
-            if (getOptionValue(feature, "zoomToBoundsOnClick"))
-                map.fitBounds(e.target.getBounds());
-        }
-
-        function handleMouseover(e) {
-            const feature = e.target.feature;
-            // Update feature_mouseover property.
+            nProps.setProps({boundsClick: bounds});
+        };
+        nProps.onmouseover = (e) => {
+            const feature = e.layer.feature;
+            let bounds = e.layer.getBounds();
+            bounds = [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]];
             nProps.setProps({featureHover: feature});
-            // Apply hover style if provided.
-            const hoverStyle = getOptionValue(feature, "hoverStyle");
-            if (hoverStyle) {
-                const layer = e.target;
-                layer.setStyle(hoverStyle);
+            nProps.setProps({boundsHover: bounds});
+            // Hover styling.
+            if (nProps.hoverStyle) {
+                e.layer.setStyle(nProps.hoverStyle(feature));
                 if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-                    layer.bringToFront();
+                    e.layer.bringToFront();
                 }
             }
-        }
-
-        function handleMouseout(e) {
-            const feature = e.target.feature;
-            // Update feature_mouseover property.
+        };
+        nProps.onmouseout = (e) => {
             nProps.setProps({featureHover: null});
-            // If hover style was applied, remove it again.
-            if (getOptionValue(feature, "hoverStyle")){
-                el.ref.current.leafletElement.resetStyle(e.target);
+            nProps.setProps({boundsHover: null});
+            // Hover styling.
+            if (nProps.hoverStyle) {
+                el.ref.current.leafletElement.resetStyle(e.layer);
             }
-
-        }
-
-        function onEachFeature(feature, layer) {
-            // Bind popup if provided.
-            const popupContent = getOptionValue(feature, "popupContent");
-            if (popupContent)
-                layer.bindPopup(popupContent);
-            //  Always listen to events (maybe add option to disable via a property?)
-            layer.on({
-                    click: handleClick,
-                    mouseover: handleMouseover,
-                    mouseout: handleMouseout
-                }
-            );
-        }
-
-        // Bind events.
-        nProps.onEachFeature = onEachFeature;
-        // Render the leaflet component.
-        const el = <LeafletGeoJSON {...nProps} ref={this.myRef}/>
+        };
+        // Render the GeoJSON element.
+        const el = <LeafletGeoJSON {...nProps} ref={this.myRef}/>;
         return el
     }
 
 }
 
-GeoJSON.defaultProps = {
-    featureId: "id",
-    n_clicks: 0
+GeoJSON2.defaultProps = {
+    n_clicks: 0,
+    format: "geojson",
 };
 
-GeoJSON.propTypes = {
+GeoJSON2.propTypes = {
 
     /**
-     * GeoJSON data
+     * Options for the GeoJSON object (see https://leafletjs.com/reference-1.6.0.html#geojson-option for details).
      */
-    data: PropTypes.object,
+    options: PropTypes.object,
+
+    // Properties used to inject the geojson data.
 
     /**
-     * Attribution
+     * Data (consider using url for better performance).
      */
-    attribution: PropTypes.string,
+    data: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
 
     /**
-     * Attribution
+     * Url to data (use instead of data for better performance).
+     */
+    url: PropTypes.string,
+
+    /**
+     * Data format.
+     */
+    format: PropTypes.oneOf(["geojson", "geobuf"]),
+
+    // Convenience wrappers specific to Dash Leaflet.
+
+    /**
+     * Style function applied on hover.
+     */
+    hoverStyle: PropTypes.string,
+
+    // Dash related properties.
+
+    /**
+     * Children
      */
     children: PropTypes.node,
-
-    /**
-     * A custom class name to assign to the image. Empty by default.
-     */
-    className: PropTypes.string,
 
     /**
      * The ID used to identify this component in Dash callbacks
@@ -123,58 +112,14 @@ GeoJSON.propTypes = {
     id: PropTypes.string,
 
     /**
-     * The CSS style of the component (dynamic)
+     * Special Dash property.
      */
-    style: PropTypes.object,
-
-    /**
-     * Interactivity to be applied across all features.
-     */
-    defaultOptions: PropTypes.shape({
-        // Style to apply on mouse hover.
-        hoverStyle: PropTypes.object,
-        // If true, map will zoom to feature on click.
-        zoomToBoundsOnClick: PropTypes.bool,
-        // If set, a popup will be created on the feature with this content.
-        popupContent: PropTypes.string
-    }),
-
-    /**
-     * Style to be applied across all features.
-     */
-    defaultStyle: PropTypes.object,
-
-    /**
-     * Interactivity to be applied per feature (an id must be assigned to target a feature).
-     */
-    featureOptions: PropTypes.shape({
-        id: {
-            // Style to apply on mouse hover.
-            hoverStyle: PropTypes.object,
-            // If true, map will zoom to feature on click.
-            zoomToBoundsOnClick: PropTypes.bool,
-            // If set, a popup will be created on the feature with this content.
-            popupContent: PropTypes.string
-        }
-    }),
-
-    /**
-     * Style to be applied per feature (an id must be assigned to target a feature).
-     */
-    featureStyle: PropTypes.shape({
-        id: PropTypes.object,
-    }),
-
-    /**
-     * Which feature property to be used for matching as the feature id.
-     */
-    featureId: PropTypes.string,
-
-    // Events
     setProps: PropTypes.func,
 
+    // Dash events.
+
     /**
-     * Dash callback property. Number of times the marker has been clicked
+     * Dash callback property. Number of times the object has been clicked.
      */
     n_clicks: PropTypes.number,
 
@@ -184,10 +129,21 @@ GeoJSON.propTypes = {
     featureClick: PropTypes.object,
 
     /**
-     * Last feature hover.
+     * Bounds of last feature clicked.
+     */
+    featureClickBounds: PropTypes.object,
+
+    /**
+     * Last feature hovered.
      */
     featureHover: PropTypes.object,
+
+    /**
+     * Bounds of last feature hovered.
+     */
+    featureHoverBounds: PropTypes.object,
 
 };
 
 export default withLeaflet(GeoJSON);
+

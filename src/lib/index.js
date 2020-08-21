@@ -6,7 +6,6 @@ import GeoTIFFOverlay from './components/GeoTIFFOverlay.react';
 import ImageOverlay from './components/ImageOverlay.react';
 import LayerGroup from './components/LayerGroup.react';
 import GeoJSON from './components/GeoJSON.react';
-import GeoJSON2 from './components/GeoJSON2.react';
 import MarkerClusterGroup from './components/MarkerClusterGroup.react';
 import Map from './components/Map.react';
 import LocateControl from './components/LocateControl.react';
@@ -47,7 +46,6 @@ export {
     WMSTileLayer,
     LocateControl,
     GeoJSON,
-    GeoJSON2,
     ScaleControl,
     PolylineDecorator,
     Pane,
