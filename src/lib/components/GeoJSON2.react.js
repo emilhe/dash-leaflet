@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import LeafletGeoJSON2 from '../LeafletGeoJSON2';
-import {resolveFunctionalProps} from '../utils'
+import {resolveFunctionalProps, resolveFunctionalProp} from '../utils'
 import {withLeaflet} from "react-leaflet";
 
 
@@ -18,9 +18,13 @@ class GeoJSON2 extends Component {
 
     render() {
         let nProps = Object.assign({}, this.props);
-        // Resolve functional properties.
+        // Resolve functional properties in options.
         nProps.options = resolveFunctionalProps(nProps.options,
             ["pointToLayer", "style", "onEachFeature", "filter", "coordsToLatLng"]);
+        // Resolve also hover style.
+        if(nProps.hoverStyle){
+            nProps.hoverStyle = resolveFunctionalProp(nProps.hoverStyle);
+        }
         // Add event handlers.
         nProps.onclick = (e) => {
             const feature = e.layer.feature;
@@ -36,14 +40,25 @@ class GeoJSON2 extends Component {
             bounds = [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]];
             nProps.setProps({featureHover: feature});
             nProps.setProps({boundsHover: bounds});
+            // Hover styling.
+            if (nProps.hoverStyle) {
+                e.layer.setStyle(nProps.hoverStyle(feature));
+                if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                    e.layer.bringToFront();
+                }
+            }
         };
         nProps.onmouseout = (e) => {
-            // const feature = e.layer.feature;
             nProps.setProps({featureHover: null});
             nProps.setProps({boundsHover: null});
+            // Hover styling.
+            if (nProps.hoverStyle) {
+                el.ref.current.leafletElement.resetStyle(e.layer);
+            }
         };
         // Render the GeoJSON element.
-        return <LeafletGeoJSON2 {...nProps} ref={this.myRef}/>
+        const el = <LeafletGeoJSON2 {...nProps} ref={this.myRef}/>;
+        return el
     }
 
 }
@@ -75,6 +90,11 @@ GeoJSON2.propTypes = {
      */
     options: PropTypes.object,
 
+    /**
+     * Style function applied on hover.
+     */
+    hoverStyle: PropTypes.string,
+
     // Dash related properties.
 
     /**
@@ -95,7 +115,7 @@ GeoJSON2.propTypes = {
     // Dash events.
 
     /**
-     * Dash callback property. Number of times the marker has been clicked
+     * Dash callback property. Number of times the object has been clicked.
      */
     n_clicks: PropTypes.number,
 
@@ -105,19 +125,19 @@ GeoJSON2.propTypes = {
     featureClick: PropTypes.object,
 
     /**
-     * Last feature clicked.
+     * Bounds of last feature clicked.
      */
-    boundsClick: PropTypes.object,
+    featureClickBounds: PropTypes.object,
 
     /**
-     * Last feature hover.
+     * Last feature hovered.
      */
     featureHover: PropTypes.object,
 
     /**
-     * Last feature clicked.
+     * Bounds of last feature hovered.
      */
-    boundsHover: PropTypes.object,
+    featureHoverBounds: PropTypes.object,
 
 };
 

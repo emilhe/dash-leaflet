@@ -2,13 +2,15 @@ import {decode} from "geobuf";
 import { toByteArray } from 'base64-js';
 
 
+function resolveFunctionalProp(prop){
+    return new Function("return function (...args){return " + prop + "(...args)}")()
+}
+
 function resolveFunctionalProps(props, functionalProps){
     let nProps = Object.assign({}, props);
     for(let prop of functionalProps) {
         if (nProps[prop]) {
-            nProps[prop] = new Function(
-                "return function (...args){return " + nProps[prop] + "(...args)}"
-            )();
+            nProps[prop] = resolveFunctionalProp(nProps[prop]);
         }
     }
     return nProps
@@ -56,6 +58,7 @@ async function assembleGeojson(data, url, format){
 
 
 export {
+    resolveFunctionalProp,
   resolveFunctionalProps,
     assembleGeojson
 };
