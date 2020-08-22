@@ -3,3 +3,4 @@ dash==1.12.0
 palettable
 pyyaml
 colorcet
+geobuf

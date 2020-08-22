@@ -1,30 +1,41 @@
 import { GeoJSON } from 'leaflet'
-import { withLeaflet, MapLayer } from 'react-leaflet';
+import { withLeaflet, Path } from 'react-leaflet';
 import {assembleGeojson} from "./utils";
 
-class LeafletGeoJSON extends MapLayer {
+class LeafletGeoJSON extends Path {
 
     createLeafletElement(props) {
-        return new GeoJSON(null, {...this.props.options});
+        return new GeoJSON(null, {...props.options});
     }
 
     updateLeafletElement(fromProps, toProps) {
-      // // Update style on change.
-      // if (toProps.featureStyle !== fromProps.featureStyle || toProps.defaultStyle !== fromProps.defaultStyle) {
-      //     this.leafletElement.options.style = (feature) => getFeatureStyle(toProps, feature);
-      //     this.leafletElement.setStyle((feature) => getFeatureStyle(toProps, feature));
-      // }
+        // Change style (dynamic).
+        if (typeof toProps.style === 'function') {
+            this.leafletElement.setStyle(toProps.style)
+        } else {
+            this.setStyleIfChanged(fromProps, toProps)
+        }
+        // Change data (dynamic).
+        if (toProps.url !== fromProps.url ||
+            toProps.data !== fromProps.data ||
+            toProps.format !== fromProps.format) {
+            this._init(toProps)
+        }
     }
 
     componentDidMount() {
         // Call super.
         super.componentDidMount();
         // Get the data.
-        const {format, url, data} = this.props;
-        assembleGeojson(data, url, format).then(this._update.bind(this));
+        this._init(this.props)
     }
 
-    _update(geojson) {
+    _init(props){
+        const {format, url, data} = props;
+        assembleGeojson(data, url, format).then(this._redraw.bind(this));
+    }
+
+    _redraw(geojson) {
         this.leafletElement.clearLayers();
         this.leafletElement.addData(geojson);
     }
