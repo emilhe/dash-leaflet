@@ -23,7 +23,7 @@ import Tooltip from './components/Tooltip.react';
 import VideoOverlay from './components/VideoOverlay.react';
 import WMSTileLayer from './components/WMSTileLayer.react';
 import ScaleControl from './components/ScaleControl.react';
-import SuperCluster from './components/SuperCluster.react';
+// import SuperCluster from './components/SuperCluster.react';
 
 export {
     Circle,
@@ -49,6 +49,6 @@ export {
     ScaleControl,
     PolylineDecorator,
     Pane,
-    SuperCluster,
+    // SuperCluster,
     DivMarker,
 };

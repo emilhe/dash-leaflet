@@ -17,29 +17,31 @@ class GeoJSON extends Component {
     }
 
     render() {
-        let nProps = Object.assign({}, this.props);
-        // Resolve functional properties in options.
-        nProps.options = resolveFunctionalProps(nProps.options,
+        let nProps = resolveFunctionalProps(this.props, ["hoverStyle", "clusterToLayer"])
+        // Resolve functional properties in geojson options.
+        nProps.geojsonOptions = resolveFunctionalProps(nProps.options,
             ["pointToLayer", "style", "onEachFeature", "filter", "coordsToLatLng"]);
-        // Resolve also hover style.
-        if(nProps.hoverStyle){
-            nProps.hoverStyle = resolveFunctionalProp(nProps.hoverStyle);
-        }
         // Add event handlers.
         nProps.onclick = (e) => {
             const feature = e.layer.feature;
-            let bounds = e.layer.getBounds();
-            bounds = [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]];
-            nProps.setProps({ n_clicks: nProps.n_clicks + 1 });
             nProps.setProps({featureClick: feature});
-            nProps.setProps({boundsClick: bounds});
+            nProps.setProps({ n_clicks: nProps.n_clicks + 1 });
+            // Bounds event.
+            if(e.layer.getBounds) {
+                let bounds = e.layer.getBounds();
+                bounds = [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]];
+                nProps.setProps({boundsClick: bounds});
+            }
         };
         nProps.onmouseover = (e) => {
             const feature = e.layer.feature;
-            let bounds = e.layer.getBounds();
-            bounds = [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]];
             nProps.setProps({featureHover: feature});
-            nProps.setProps({boundsHover: bounds});
+            // Bounds event.
+            if (e.layer.getBounds) {
+                let bounds = e.layer.getBounds();
+                bounds = [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]];
+                nProps.setProps({boundsHover: bounds});
+            }
             // Hover styling.
             if (nProps.hoverStyle) {
                 e.layer.setStyle(nProps.hoverStyle(feature));
@@ -66,6 +68,9 @@ class GeoJSON extends Component {
 GeoJSON.defaultProps = {
     n_clicks: 0,
     format: "geojson",
+    cluster: false,
+    spiderfyOnMaxZoom: true,
+    zoomToBoundsOnClick: true,
 };
 
 GeoJSON.propTypes = {
@@ -73,7 +78,29 @@ GeoJSON.propTypes = {
     /**
      * Options for the GeoJSON object (see https://leafletjs.com/reference-1.6.0.html#geojson-option for details).
      */
-    options: PropTypes.object,
+    geojsonOptions: PropTypes.object,
+
+    // Properties related to clustering.
+
+    /**
+     * If true, clustering will be performed.
+     */
+    cluster: PropTypes.bool,
+
+    /**
+     * Function that determines how a cluster is drawn.
+     */
+    clusterToLayer: PropTypes.string,
+
+    /**
+     * If true, marker that are not resolved at max zoom level will be spiderfied on click.
+     */
+    spiderfyOnMaxZoom: PropTypes.bool,
+
+    /**
+     * Options for the SuperCluster object (see https://github.com/mapbox/supercluster for details).
+     */
+    superClusterOptions: PropTypes.object,
 
     // Properties used to inject the geojson data.
 
@@ -98,6 +125,11 @@ GeoJSON.propTypes = {
      * Style function applied on hover.
      */
     hoverStyle: PropTypes.string,
+
+    /**
+     * If true, zoom on cluster click.
+     */
+    zoomToBoundsOnClick: PropTypes.bool,    // TODO: GENERAL OR CLUSTER?
 
     // Dash related properties.
 

@@ -1,30 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withLeaflet} from "react-leaflet";
-import LeafletSuperCluster from '../LeafletSuperCluster';
+// import LeafletSuperCluster from '../LeafletSuperCluster';
+import GeoJSON from './GeoJSON.react';
 
 /**
  * LayerGroup is a wrapper of LayerGroup in react-leaflet.
  * It takes similar properties to its react-leaflet counterpart.
  */
-class SuperCluster extends Component {
+class SuperCluster extends GeoJSON {
 
     render() {
-        const nProps = Object.assign({}, this.props);
-        // Bind events.
-        nProps.onclick = (e) => {
-            nProps.setProps({ n_clicks: nProps.n_clicks + 1 });
-            nProps.setProps({ featureClick: e.layer.feature});
-        };
-        nProps.onmouseover = (e) => {
-            nProps.setProps({ featureHover: e.layer.feature});
-        };
-        nProps.onmouseout = (e) => {
-            nProps.setProps({ featureHover: null});
-        };
-        // Render the leaflet component.
-        return <LeafletSuperCluster {...nProps}/>
-      }
+        let obj = super.render();
+        console.log(obj)
+        return obj
+    }
 
 }
 
