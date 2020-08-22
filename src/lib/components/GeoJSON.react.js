@@ -70,7 +70,7 @@ GeoJSON.defaultProps = {
     format: "geojson",
     cluster: false,
     spiderfyOnMaxZoom: true,
-    zoomToBoundsOnClick: true,
+    zoomToClusterOnClick: true,
 };
 
 GeoJSON.propTypes = {
@@ -83,7 +83,7 @@ GeoJSON.propTypes = {
     // Properties related to clustering.
 
     /**
-     * If true, clustering will be performed.
+     * If true, marker clustering will be performed.
      */
     cluster: PropTypes.bool,
 
@@ -93,7 +93,12 @@ GeoJSON.propTypes = {
     clusterToLayer: PropTypes.string,
 
     /**
-     * If true, marker that are not resolved at max zoom level will be spiderfied on click.
+     * If true, zoom to cluster on click.
+     */
+    zoomToClusterOnClick: PropTypes.bool,
+
+    /**
+     * If true, markers that are not resolved at max zoom level will be spiderfied on click.
      */
     spiderfyOnMaxZoom: PropTypes.bool,
 
@@ -126,10 +131,10 @@ GeoJSON.propTypes = {
      */
     hoverStyle: PropTypes.string,
 
-    /**
-     * If true, zoom on cluster click.
-     */
-    zoomToBoundsOnClick: PropTypes.bool,    // TODO: GENERAL OR CLUSTER?
+    // /**
+    //  * If true, zoom on cluster click.
+    //  */
+    // zoomToBoundsOnClick: PropTypes.bool,    // TODO: GENERAL OR CLUSTER?
 
     // Dash related properties.
 

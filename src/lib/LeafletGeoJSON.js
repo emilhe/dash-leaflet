@@ -54,20 +54,17 @@ class LeafletGeoJSON extends Path {
     }
 
     componentDidMount() {
-        // Call super.
         super.componentDidMount();
-        // Get the data.
         this._setData(this.props)
     }
 
-    // TODO: Implement unmount?
     componentWillUnmount() {
-        const {map} = this.props.leaflet;
         // Remove manually added event handlers.
-        if(this.props.cluster){
+        if(this.props.cluster) {
+            const {map} = this.props.leaflet;
             map.off('moveend', this._render_clusters.bind(this));
+            this.leafletElement.off('click', this._click_clusters.bind(this));
         }
-        // this.leafletElement.off('click', 'handleClick');
         // Call super.
         super.componentWillUnmount();
     }
@@ -117,16 +114,22 @@ class LeafletGeoJSON extends Path {
         const clusterId = e.layer.feature.properties.cluster_id;
         const {latlng} = e;
         const {index} = this.cluster_props
-        const {zoomToBoundsOnClick} = this.props
-        let expansionZoom;
-        // Zoom to bounds on cluster click.
-        if (zoomToBoundsOnClick && clusterId) {
-            expansionZoom = index.getClusterExpansionZoom(clusterId);
-            // This is the case where all markers cannot be shown.
-            if (expansionZoom > index.options.maxZoom) {
-                this.cluster_props.to_spiderfy = {"clusterId": clusterId};
+        const {zoomToClusterOnClick, spiderfyOnMaxZoom} = this.props
+        // Return early if possible.
+        if(!zoomToClusterOnClick && ! spiderfyOnMaxZoom){
+            return
+        }
+        // Set spiderfy.
+        const expansionZoom = index.getClusterExpansionZoom(clusterId)
+        const spiderfy = expansionZoom > index.options.maxZoom;
+        if(spiderfy){
+            this.cluster_props.to_spiderfy = {"clusterId": clusterId};
+        }
+        // Fly to.
+        if(zoomToClusterOnClick){
+            if(spiderfy) {
                 map.flyTo(latlng);
-            } else {
+            }else{
                 map.flyTo(latlng, expansionZoom);
             }
         }
