@@ -92,46 +92,59 @@ class LeafletGeoJSON extends Path {
     _render_clusters() {
         const {map} = this.props.leaflet;
         const {to_spiderfy, index} = this.cluster_props;
-        const map_state = getMapState(map);
+        const bounds = map.getBounds();
+        const bbox = [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()];
+        const zoom = map.getZoom();
         // Update the data.
-        let clusters = index.getClusters(map_state.bbox, map_state.zoom);
+        let clusters = index.getClusters(bbox, zoom);
         if (this.props.spiderfyOnMaxZoom && to_spiderfy) {
-            // If map has changes, drop the spiderfy state.
-            if (to_spiderfy.map_state && !equalMapState(to_spiderfy.map_state, map_state)) {
-                this.to_spiderfy = null;  // TODO: Will this work?
+            // If zoom level has changes, drop the spiderfy state.
+            if (to_spiderfy.zoom && to_spiderfy.zoom !== zoom) {
+                this.cluster_props.to_spiderfy = null;  // TODO: Will this work?
             }
             // Otherwise, do spiderfy.
             else {
                 clusters = defaultSpiderfy(map, index, clusters, to_spiderfy.clusterId);
-                to_spiderfy.map_state = map_state;
+                to_spiderfy.zoom = zoom;
             }
         }
         this._draw(clusters)
     }
 
     _click_clusters(e) {
-        const {map} = this.props.leaflet;
-        const clusterId = e.layer.feature.properties.cluster_id;
-        const {latlng} = e;
-        const {index} = this.cluster_props
+        // Check if any actions are enabled.
         const {zoomToClusterOnClick, spiderfyOnMaxZoom} = this.props
-        // Return early if possible.
-        if(!zoomToClusterOnClick && ! spiderfyOnMaxZoom){
+        if (!zoomToClusterOnClick && !spiderfyOnMaxZoom) {
             return
         }
+        // Check if we hit a cluster at all.
+        if (!e.layer.feature.properties) {
+            return
+        }
+        const clusterId = e.layer.feature.properties.cluster_id;
+        if (!clusterId) {
+            return
+        }
+        // Do stuff.
+        const {latlng} = e;
+        const {map} = this.props.leaflet;
+        const {index} = this.cluster_props
         // Set spiderfy.
         const expansionZoom = index.getClusterExpansionZoom(clusterId)
         const spiderfy = expansionZoom > index.options.maxZoom;
-        if(spiderfy){
+        if (spiderfy) {
             this.cluster_props.to_spiderfy = {"clusterId": clusterId};
         }
         // Fly to.
-        if(zoomToClusterOnClick){
-            if(spiderfy) {
+        if (zoomToClusterOnClick) {
+            if (spiderfy) {
                 map.flyTo(latlng);
-            }else{
+            } else {
                 map.flyTo(latlng, expansionZoom);
             }
+        }
+        else{
+            this._render_clusters()
         }
     }
 
@@ -273,27 +286,6 @@ function defaultSpiderfy(map, index, clusters, expanded_cluster) {
     spiderfied = spiderfied.concat(legs);
 
     return spiderfied
-}
-
-function getMapState(map) {
-    const bounds = map.getBounds();
-    const zoom = map.getZoom();
-    const bbox = [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()];
-    return {bbox: bbox, zoom: zoom}
-}
-
-function equalMapState(a, b) {
-    // Compare zoom.
-    if (a.zoom !== b.zoom) {
-        return false
-    }
-    // Compare bbox.
-    for (let i in a.bbox) {
-        if (a.bbox[i] !== b.bbox[i]) {
-            return false
-        }
-    }
-    return true
 }
 
 export default withLeaflet(LeafletGeoJSON)
