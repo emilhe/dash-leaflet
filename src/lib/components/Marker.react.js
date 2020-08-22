@@ -11,6 +11,7 @@ L.Icon.Default.mergeOptions({
 });
 
 import { Marker as LeafletMarker } from 'react-leaflet';
+import {registerDefaultEvents} from "../utils";
 
 /**
  * Marker is a wrapper of Marker in react-leaflet.
@@ -18,13 +19,9 @@ import { Marker as LeafletMarker } from 'react-leaflet';
  */
 export default class Marker extends Component {
     render() {
-        const nProps = Object.assign({}, this.props);
+        const nProps = registerDefaultEvents(this);
         // Map properties.
         nProps.icon = nProps.icon === null ? new L.Icon.Default() : L.icon(nProps.icon);
-        // Bind events.
-        nProps.onclick = (e) => {
-            nProps.setProps({ n_clicks: nProps.n_clicks + 1 });
-        };
         // TODO: Does this affect performance? Maybe make it optional.
         nProps.onmoveend = (e) => {
             nProps.setProps({ position: [e.target._latlng.lat, e.target._latlng.lng]});

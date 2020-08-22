@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import { VideoOverlay as LeafletVideoOverlay } from 'react-leaflet';
+import {registerDefaultEvents} from "../utils";
 
 /**
  * VideoOverlay is a wrapper of VideoOverlay in react-leaflet.
@@ -9,16 +10,7 @@ import { VideoOverlay as LeafletVideoOverlay } from 'react-leaflet';
  */
 export default class VideoOverlay extends Component {
     render() {
-        const nProps = Object.assign({}, this.props);
-        // Bind events.
-        nProps.onclick = (e) => {
-            nProps.setProps({ click_lat_lng: [e.latlng.lat, e.latlng.lng] });
-        };
-        nProps.ondblclick = (e) => {
-            nProps.setProps({ dbl_click_lat_lng: [e.latlng.lat, e.latlng.lng] });
-        };
-        // Render the leaflet component.
-        return <LeafletVideoOverlay {...nProps}/>
+        return <LeafletVideoOverlay {...registerDefaultEvents(this)}/>
     }
 }
 

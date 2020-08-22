@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import { CircleMarker as LeafletCircleMarker } from 'react-leaflet';
-import Marker from "./Marker.react";
+import {registerDefaultEvents} from "../utils";
 
 /**
  * CircleMarker is a wrapper of CircleMarker in react-leaflet.
@@ -10,13 +10,7 @@ import Marker from "./Marker.react";
  */
 export default class CircleMarker extends Component {
     render() {
-        const nProps = Object.assign({}, this.props);
-        // Bind events.
-        nProps.onclick = (e) => {
-            nProps.setProps({ n_clicks: nProps.n_clicks + 1 });
-        };
-        // Render the leaflet component.
-        return <LeafletCircleMarker {...nProps}/>
+        return <LeafletCircleMarker {...registerDefaultEvents(this)}/>
     }
 }
 
@@ -149,7 +143,7 @@ CircleMarker.propTypes = {
     setProps: PropTypes.func,
 
     /**
-     * Dash callback property. Number of times the marker has been clicked
+     * Dash callback property. Number of times the object has been clicked
      */
     n_clicks: PropTypes.number
 };

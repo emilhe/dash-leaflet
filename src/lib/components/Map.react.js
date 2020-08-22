@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Map as LeafletMap } from 'react-leaflet';
 import '../../../node_modules/leaflet/dist/leaflet.css';
+import {registerDefaultEvents} from "../utils";
 
 /**
  * Map is a wrapper of Map in react-leaflet.
@@ -10,16 +11,10 @@ import '../../../node_modules/leaflet/dist/leaflet.css';
  */
 export default class Map extends Component {
     render() {
-        const nProps = Object.assign({}, this.props);
-        // Bind events.
-        nProps.onclick = (e) => {
-            nProps.setProps({ click_lat_lng: [e.latlng.lat, e.latlng.lng] });
-        };
+        const nProps = registerDefaultEvents(this)
+        // Bind extra events.
         nProps.onlocationfound = (e) => {
             nProps.setProps({ location_lat_lon_acc: [e.latlng.lat, e.latlng.lng, e.accuracy] });
-        };
-        nProps.ondblclick = (e) => {
-            nProps.setProps({ dbl_click_lat_lng: [e.latlng.lat, e.latlng.lng] });
         };
         // TODO: Does this affect performance? Maybe make it optional.
         nProps.onViewportChanged = (e) => {

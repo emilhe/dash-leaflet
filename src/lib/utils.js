@@ -2,8 +2,34 @@ import {decode} from "geobuf";
 import { toByteArray } from 'base64-js';
 
 
+function registerDefaultEvents(obj){
+    const nProps = Object.assign({}, obj.props);
+    const propTypes = obj.__proto__.constructor.propTypes
+    // Click event.
+    if("n_clicks" in propTypes || "click_lat_lng" in propTypes) {
+        nProps.onclick = (e) => {
+            if ("n_clicks" in propTypes) {
+                nProps.setProps({n_clicks: nProps.n_clicks + 1});
+            }
+            if ("click_lat_lng" in propTypes) {
+                nProps.setProps({click_lat_lng: [e.latlng.lat, e.latlng.lng]});
+            }
+        };
+    }
+    // Double click events.
+    if("dbl_click_lat_lng" in propTypes) {
+        nProps.ondblclick = (e) => {
+            nProps.setProps({ dbl_click_lat_lng: [e.latlng.lat, e.latlng.lng] });
+        };
+    }
+
+    return nProps
+
+
+}
+
 function resolveFunctionalProp(prop){
-    return new Function("return function (...args){return " + prop + "(...args)}")()
+    return new Function("return " + prop)()
 }
 
 function resolveFunctionalProps(props, functionalProps){
@@ -59,5 +85,6 @@ async function assembleGeojson(data, url, format){
 export {
     resolveFunctionalProp,
   resolveFunctionalProps,
-    assembleGeojson
+    assembleGeojson,
+    registerDefaultEvents
 };

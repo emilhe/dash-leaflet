@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import LeafletDivMarker from '../LeafletDivMarker';
+import {registerDefaultEvents} from "../utils";
 
 /**
  * Marker is a wrapper of Marker in react-leaflet.
@@ -9,13 +10,7 @@ import LeafletDivMarker from '../LeafletDivMarker';
  */
 export default class DivMarker extends Component {
     render() {
-        const nProps = Object.assign({}, this.props);
-        // Bind events.
-        nProps.onclick = (e) => {
-            nProps.setProps({ n_clicks: nProps.n_clicks + 1 });
-        };
-        // Render the leaflet component.
-        return <LeafletDivMarker {...nProps}/>
+        return <LeafletDivMarker {...registerDefaultEvents(this)}/>
     }
 }
 
@@ -142,8 +137,8 @@ DivMarker.propTypes = {
     setProps: PropTypes.func,
 
     /**
-     * Dash callback property. Number of times the marker has been clicked
+     * Dash callback property. Number of times the object has been clicked
      */
-    n_clicks: PropTypes.number,
+    n_clicks: PropTypes.number
 
 };

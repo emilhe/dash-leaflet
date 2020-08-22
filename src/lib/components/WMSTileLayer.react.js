@@ -9,7 +9,7 @@ import { WMSTileLayer as LeafletWMSTileLayer } from 'react-leaflet';
  */
 export default class WMSTileLayer extends Component {
     render() {
-        const nProps = Object.assign({}, this.props);
+        let nProps = Object.assign({}, this.props);
         // Strip leaflet props.
         delete nProps.id;
         delete nProps.children;

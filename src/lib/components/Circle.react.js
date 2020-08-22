@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import { Circle as LeafletCircle } from 'react-leaflet';
+import { registerDefaultEvents } from '../utils'
 
 /**
  * Circle is a wrapper of Circle in react-leaflet.
@@ -9,18 +10,13 @@ import { Circle as LeafletCircle } from 'react-leaflet';
  */
 export default class Circle extends Component {
     render() {
-        const nProps = Object.assign({}, this.props);
-        // Bind events.
-        nProps.onclick = (e) => {
-            nProps.setProps({ click_lat_lng: [e.latlng.lat, e.latlng.lng] });
-        };
-        nProps.ondblclick = (e) => {
-            nProps.setProps({ dbl_click_lat_lng: [e.latlng.lat, e.latlng.lng] });
-        };
-        // Render the leaflet component.
-        return <LeafletCircle {...nProps}/>
+        return <LeafletCircle {...registerDefaultEvents(this)}/>
     }
 }
+
+Circle.defaultProps = {
+    n_clicks: 0
+};
 
 Circle.propTypes = {
     /**
@@ -148,12 +144,7 @@ Circle.propTypes = {
     setProps: PropTypes.func,
 
     /**
-     * Dash callback property. Receives [lat, lng] upon click.
+     * Dash callback property. Number of times the object has been clicked
      */
-    click_lat_lng: PropTypes.arrayOf(PropTypes.number),
-
-    /**
-     * Dash callback property. Receives [lat, lng] upon double click.
-     */
-    dbl_click_lat_lng: PropTypes.arrayOf(PropTypes.number)
+    n_clicks: PropTypes.number
 };

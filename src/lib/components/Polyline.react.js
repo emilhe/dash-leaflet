@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import { Polyline as LeafletPolyline } from 'react-leaflet';
+import {registerDefaultEvents} from "../utils";
 
 /**
  * Polyline is a wrapper of Polyline in react-leaflet.
@@ -9,16 +10,7 @@ import { Polyline as LeafletPolyline } from 'react-leaflet';
  */
 export default class Polyline extends Component {
     render() {
-        const nProps = Object.assign({}, this.props);
-        // Bind events.
-        nProps.onclick = (e) => {
-            nProps.setProps({ click_lat_lng: [e.latlng.lat, e.latlng.lng] });
-        };
-        nProps.ondblclick = (e) => {
-            nProps.setProps({ dbl_click_lat_lng: [e.latlng.lat, e.latlng.lng] });
-        };
-        // Render the leaflet component.
-        return <LeafletPolyline {...nProps}/>
+        return <LeafletPolyline {...registerDefaultEvents(this)}/>
     }
 }
 

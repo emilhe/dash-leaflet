@@ -8,7 +8,6 @@ import LeafletPolylineDecorator from '../LeafletPolylineDecorator';
  */
 export default class PolylineDecorator extends Component {
     render() {
-        // Render the leaflet component.
         return <LeafletPolylineDecorator {...this.props}/>
     }
 }

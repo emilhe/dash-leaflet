@@ -2,20 +2,14 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import LeafletSVGOverlay from '../LeafletSVGOverlay';
+import {registerDefaultEvents} from "../utils";
 
 /**
  * NOTE: This component is not fully tested. Consider it beta.
  */
 export default class SVGOverlay extends Component {
     render() {
-        const nProps = Object.assign({}, this.props);
-        // Bind events.
-        nProps.onclick = (e) => {
-            nProps.setProps({ click_lat_lng: [e.latlng.lat, e.latlng.lng] });
-        };
-        nProps.ondblclick = (e) => {
-            nProps.setProps({ dbl_click_lat_lng: [e.latlng.lat, e.latlng.lng] });
-        };
+        const nProps = registerDefaultEvents(this)
         // Create SVG element.
         const svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         svgElement.setAttribute('xmlns', "http://www.w3.org/2000/svg");
