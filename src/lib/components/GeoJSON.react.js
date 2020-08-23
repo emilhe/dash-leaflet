@@ -19,7 +19,7 @@ class GeoJSON extends Component {
     render() {
         let nProps = resolveFunctionalProps(this.props, ["hoverStyle", "clusterToLayer"])
         // Resolve functional properties in geojson options.
-        nProps.geojsonOptions = resolveFunctionalProps(nProps.options,
+        nProps.geojsonOptions = resolveFunctionalProps(nProps.geojsonOptions,
             ["pointToLayer", "style", "onEachFeature", "filter", "coordsToLatLng"]);
         // Add event handlers.
         nProps.onclick = (e) => {

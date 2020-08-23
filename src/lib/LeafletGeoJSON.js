@@ -4,7 +4,7 @@ import {assembleGeojson} from "./utils";
 import Supercluster from "supercluster";
 import update from "immutability-helper";
 
-// TODO: Maybe make a seperate style file?
+// TODO: Maybe make a separate style file?
 require('react-leaflet-markercluster/dist/styles.min.css');
 
 class LeafletGeoJSON extends Path {
