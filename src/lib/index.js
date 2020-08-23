@@ -6,7 +6,6 @@ import GeoTIFFOverlay from './components/GeoTIFFOverlay.react';
 import ImageOverlay from './components/ImageOverlay.react';
 import LayerGroup from './components/LayerGroup.react';
 import GeoJSON from './components/GeoJSON.react';
-import MarkerClusterGroup from './components/MarkerClusterGroup.react';
 import Map from './components/Map.react';
 import LocateControl from './components/LocateControl.react';
 import Pane from './components/Pane.react';
@@ -23,7 +22,6 @@ import Tooltip from './components/Tooltip.react';
 import VideoOverlay from './components/VideoOverlay.react';
 import WMSTileLayer from './components/WMSTileLayer.react';
 import ScaleControl from './components/ScaleControl.react';
-// import SuperCluster from './components/SuperCluster.react';
 
 export {
     Circle,
@@ -32,7 +30,6 @@ export {
     GeoTIFFOverlay,
     ImageOverlay,
     LayerGroup,
-    MarkerClusterGroup,
     Map,
     Marker,
     Polyline,
@@ -49,6 +46,5 @@ export {
     ScaleControl,
     PolylineDecorator,
     Pane,
-    // SuperCluster,
     DivMarker,
 };

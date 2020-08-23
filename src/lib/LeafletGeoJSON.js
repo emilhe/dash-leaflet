@@ -9,7 +9,6 @@ class LeafletGeoJSON extends Path {
     constructor(props) {
         super(props);
         this.cluster_props = {index: null, to_spiderfy: null}
-        // TODO: Where to put initial values?
     }
 
     createLeafletElement(props) {
