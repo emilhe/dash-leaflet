@@ -1,8 +1,11 @@
-import { GeoJSON, Marker, DivIcon, Point } from 'leaflet'
+import { GeoJSON, Marker} from 'leaflet'
 import { withLeaflet, Path } from 'react-leaflet';
 import {assembleGeojson} from "./utils";
 import Supercluster from "supercluster";
 import update from "immutability-helper";
+
+// TODO: Maybe make a seperate style file?
+require('react-leaflet-markercluster/dist/styles.min.css');
 
 class LeafletGeoJSON extends Path {
 
@@ -79,7 +82,7 @@ class LeafletGeoJSON extends Path {
         }
         // Setup cluster index.
         const {map} = this.props.leaflet;
-        this.cluster_props.index = buildIndex(geojson, map)
+        this.cluster_props.index = buildIndex(geojson, map, props.superClusterOptions)
         // Bind update on map move (this is where the "magic" happens).
         map.on('moveend', this._render_clusters.bind(this));
         // Bind click event.
@@ -103,7 +106,7 @@ class LeafletGeoJSON extends Path {
             }
             // Otherwise, do spiderfy.
             else {
-                clusters = defaultSpiderfy(map, index, clusters, to_spiderfy.clusterId);
+                clusters = defaultSpiderfy(map, index, clusters, [to_spiderfy.clusterId]);
                 to_spiderfy.zoom = zoom;
             }
         }
@@ -205,10 +208,11 @@ function buildIndex(geojson, map, superclusterOptions){
     return index
 }
 
-function defaultSpiderfy(map, index, clusters, expanded_cluster) {
+function defaultSpiderfy(map, index, clusters, to_spiderfy) {
 
     // Source: https://github.com/Leaflet/Leaflet.markercluster/blob/master/src/MarkerCluster.Spiderfier.js
 
+    const spiderfyDistanceMultiplier = 1; // TODO: Make make it available as option?
     const _2PI = Math.PI * 2;
     const _circleFootSeparation = 25; //related to circumference of circle
     const _circleStartAngle = 0;
@@ -234,7 +238,6 @@ function defaultSpiderfy(map, index, clusters, expanded_cluster) {
     }
 
     function _generatePointsSpiral(count, centerPt) {
-        const spiderfyDistanceMultiplier = 1; // TODO: Make make it available as option?
         const separation = spiderfyDistanceMultiplier * _spiralFootSeparation;
         let legLength = spiderfyDistanceMultiplier * _spiralLengthStart;
         let lengthFactor = spiderfyDistanceMultiplier * _spiralLengthFactor * _2PI;
@@ -257,32 +260,40 @@ function defaultSpiderfy(map, index, clusters, expanded_cluster) {
         return res;
     }
 
-    const cluster = clusters.filter(item => item.properties.cluster_id === expanded_cluster)[0];
-    const lnglat = cluster.geometry.coordinates;
-    let center = map.latLngToLayerPoint([lnglat[1], lnglat[0]]);
-    const leaves = index.getLeaves(expanded_cluster, 1000, 0);
-    // Generate positions.
-    let positions, leg, newPos;
-    if (leaves.length >= _circleSpiralSwitchover) {
-        positions = _generatePointsSpiral(leaves.length, center);
-    } else {
-        center.y += 10; // Otherwise circles look wrong => hack for standard blue icon, renders differently for other icons.
-        positions = _generatePointsCircle(leaves.length, center);
+    function _spiderfy(cluster) {
+        const lnglat = cluster.geometry.coordinates;
+        let center = map.latLngToLayerPoint([lnglat[1], lnglat[0]]);
+        const leaves = index.getLeaves(cluster.properties.cluster_id, 1000, 0);
+        // Generate positions.
+        let positions, leg, newPos;
+        if (leaves.length >= _circleSpiralSwitchover) {
+            positions = _generatePointsSpiral(leaves.length, center);
+        } else {
+            center.y += 10; // Otherwise circles look wrong => hack for standard blue icon, renders differently for other icons.
+            positions = _generatePointsCircle(leaves.length, center);
+        }
+        // Create spiderfied leaves.
+        let legs = [];
+        for (let i = 0; i < leaves.length; i++) {
+            newPos = map.layerPointToLatLng(positions[i]);
+            leg = [cluster.geometry.coordinates, [newPos.lng, newPos.lat]];
+            legs.push({"type": "Feature", "geometry": {"type": "LineString", "coordinates": leg}});
+            // Update the marker position.
+            leaves[i] = update(leaves[i], {geometry: {coordinates: {$set: [newPos.lng, newPos.lat]}}})
+        }
+        return leaves.concat(legs);
     }
-    // Create spiderfied leaves.
-    let legs = [];
-    for (let i = 0; i < leaves.length; i++) {
-        newPos = map.layerPointToLatLng(positions[i]);
-        leg = [cluster.geometry.coordinates, [newPos.lng, newPos.lat]];
-        legs.push({"type": "Feature", "geometry": {"type": "LineString", "coordinates": leg}});
-        // Update the marker position.
-        leaves[i] = update(leaves[i], {geometry: {coordinates: {$set: [newPos.lng, newPos.lat]}}})
+
+    // Check if there are any cluster(s) to spiderfy.
+    const matches = clusters.filter(item => to_spiderfy.includes(item.properties.cluster_id));
+    if(matches.length < 1){
+        return clusters
     }
-    // Remove expanded cluster.
-    let spiderfied = clusters.filter(item => item.properties.cluster_id !== expanded_cluster);
-    // Add leaves.
-    spiderfied = spiderfied.concat(leaves);
-    spiderfied = spiderfied.concat(legs);
+    // Do spiderfy.
+    let spiderfied = clusters.filter(item => !to_spiderfy.includes(item.properties.cluster_id));
+    for (let i = 0; i < matches.length; i++) {
+        spiderfied = spiderfied.concat(_spiderfy(matches[i]))
+    }
 
     return spiderfied
 }

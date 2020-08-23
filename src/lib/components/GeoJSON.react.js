@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import LeafletGeoJSON from '../LeafletGeoJSON';
-import {resolveFunctionalProps, resolveFunctionalProp} from '../utils'
+import {resolveFunctionalProps} from '../utils'
 import {withLeaflet} from "react-leaflet";
 
 
