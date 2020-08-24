@@ -102,7 +102,7 @@ GeoJSON.propTypes = {
     /**
      * Style function applied on hover.
      */
-    hoverStyle: PropTypes.string,
+    hoverStyle: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 
     /**
      * If true, zoom to feature bounds on click.

@@ -99,10 +99,9 @@ class LeafletGeoJSON extends Path {
             return
         }
         // If clustering is not enabled, just fly to feature.
-        const bounds = e.layer.getBounds();
         if(!cluster){
-            if(bounds){
-                map.fitBounds(bounds);
+            if(e.layer.getBounds){
+                map.fitBounds(e.layer.getBounds());
             }
             return
         }

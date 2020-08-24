@@ -71,7 +71,10 @@ function registerDefaultEvents(obj){
 }
 
 function resolveFunctionalProp(prop){
-    return new Function("return " + prop)()
+    if(typeof prop === "string"){
+        return new Function("return " + prop)()
+    }
+    return (...args) => prop
 }
 
 function resolveFunctionalProps(props, functionalProps){
