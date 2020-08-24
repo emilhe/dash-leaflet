@@ -70,7 +70,7 @@ GeoJSON.defaultProps = {
     format: "geojson",
     cluster: false,
     spiderfyOnMaxZoom: true,
-    zoomToClusterOnClick: true,
+    zoomToBoundsOnClick: true,
 };
 
 GeoJSON.propTypes = {
@@ -79,33 +79,6 @@ GeoJSON.propTypes = {
      * Options for the GeoJSON object (see https://leafletjs.com/reference-1.6.0.html#geojson-option for details).
      */
     geojsonOptions: PropTypes.object,
-
-    // Properties related to clustering.
-
-    /**
-     * If true, marker clustering will be performed.
-     */
-    cluster: PropTypes.bool,
-
-    /**
-     * Function that determines how a cluster is drawn.
-     */
-    clusterToLayer: PropTypes.string,
-
-    /**
-     * If true, zoom to cluster on click.
-     */
-    zoomToClusterOnClick: PropTypes.bool,
-
-    /**
-     * If true, markers that are not resolved at max zoom level will be spiderfied on click.
-     */
-    spiderfyOnMaxZoom: PropTypes.bool,
-
-    /**
-     * Options for the SuperCluster object (see https://github.com/mapbox/supercluster for details).
-     */
-    superClusterOptions: PropTypes.object,
 
     // Properties used to inject the geojson data.
 
@@ -131,10 +104,32 @@ GeoJSON.propTypes = {
      */
     hoverStyle: PropTypes.string,
 
-    // /**
-    //  * If true, zoom on cluster click.
-    //  */
-    // zoomToBoundsOnClick: PropTypes.bool,    // TODO: GENERAL OR CLUSTER?
+    /**
+     * If true, zoom to feature bounds on click.
+     */
+    zoomToBoundsOnClick: PropTypes.bool,
+
+    // Properties related to clustering.
+
+    /**
+     * If true, marker clustering will be performed.
+     */
+    cluster: PropTypes.bool,
+
+    /**
+     * Function that determines how a cluster is drawn.
+     */
+    clusterToLayer: PropTypes.string,
+
+    /**
+     * If true, markers that are not resolved at max zoom level will be spiderfied on click.
+     */
+    spiderfyOnMaxZoom: PropTypes.bool,
+
+    /**
+     * Options for the SuperCluster object (see https://github.com/mapbox/supercluster for details).
+     */
+    superClusterOptions: PropTypes.object,
 
     // Dash related properties.
 

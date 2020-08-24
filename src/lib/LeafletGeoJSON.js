@@ -61,11 +61,11 @@ class LeafletGeoJSON extends Path {
     }
 
     componentWillUnmount() {
+        this.leafletElement.off('click', this._handle_click.bind(this));
         // Remove manually added event handlers.
         if(this.props.cluster) {
             const {map} = this.props.leaflet;
             map.off('moveend', this._render_clusters.bind(this));
-            this.leafletElement.off('click', this._click_clusters.bind(this));
         }
         // Call super.
         super.componentWillUnmount();
@@ -76,6 +76,8 @@ class LeafletGeoJSON extends Path {
     }
 
     _init(geojson, props) {
+        // Add click handler.
+        this.leafletElement.on('click', this._handle_click.bind(this));
         // If clustering is not enabled, just draw the geojson.
         if (!props.cluster) {
             return this._draw(geojson)
@@ -85,10 +87,53 @@ class LeafletGeoJSON extends Path {
         this.cluster_props.index = buildIndex(geojson, map, props.superClusterOptions)
         // Bind update on map move (this is where the "magic" happens).
         map.on('moveend', this._render_clusters.bind(this));
-        // Bind click event.
-        this.leafletElement.on('click', this._click_clusters.bind(this));
         // Render the cluster.
         this._render_clusters()
+    }
+
+    _handle_click(e){
+        const {map} = this.props.leaflet;
+        const {zoomToBoundsOnClick, spiderfyOnMaxZoom, cluster} = this.props;
+        // Check if any actions are enabled. If not, just return.
+        if(!zoomToBoundsOnClick && !(cluster && spiderfyOnMaxZoom)){
+            return
+        }
+        // If clustering is not enabled, just fly to feature.
+        const bounds = e.layer.getBounds();
+        if(!cluster){
+            if(bounds){
+                map.fitBounds(bounds);
+            }
+            return
+        }
+        // If we didn't hit a cluster, return early.
+        if (!e.layer.feature.properties) {
+            return
+        }
+        const clusterId = e.layer.feature.properties.cluster_id;
+        if (!clusterId) {
+            return
+        }
+        // It we get to here, a cluster has been clicked.
+        const {latlng} = e;
+        const {index} = this.cluster_props
+        // Set spiderfy.
+        const expansionZoom = index.getClusterExpansionZoom(clusterId)
+        const spiderfy = expansionZoom > index.options.maxZoom;
+        if (spiderfy) {
+            this.cluster_props.to_spiderfy = {"clusterId": clusterId};
+        }
+        // Fly to.
+        if (zoomToBoundsOnClick) {
+            if (spiderfy) {
+                map.flyTo(latlng);
+            } else {
+                map.flyTo(latlng, expansionZoom);
+            }
+        }
+        else{
+            this._render_clusters()
+        }
     }
 
     _render_clusters() {
@@ -111,43 +156,6 @@ class LeafletGeoJSON extends Path {
             }
         }
         this._draw(clusters)
-    }
-
-    _click_clusters(e) {
-        // Check if any actions are enabled.
-        const {zoomToClusterOnClick, spiderfyOnMaxZoom} = this.props
-        if (!zoomToClusterOnClick && !spiderfyOnMaxZoom) {
-            return
-        }
-        // Check if we hit a cluster at all.
-        if (!e.layer.feature.properties) {
-            return
-        }
-        const clusterId = e.layer.feature.properties.cluster_id;
-        if (!clusterId) {
-            return
-        }
-        // Do stuff.
-        const {latlng} = e;
-        const {map} = this.props.leaflet;
-        const {index} = this.cluster_props
-        // Set spiderfy.
-        const expansionZoom = index.getClusterExpansionZoom(clusterId)
-        const spiderfy = expansionZoom > index.options.maxZoom;
-        if (spiderfy) {
-            this.cluster_props.to_spiderfy = {"clusterId": clusterId};
-        }
-        // Fly to.
-        if (zoomToClusterOnClick) {
-            if (spiderfy) {
-                map.flyTo(latlng);
-            } else {
-                map.flyTo(latlng, expansionZoom);
-            }
-        }
-        else{
-            this._render_clusters()
-        }
     }
 
     _draw(geojson) {
