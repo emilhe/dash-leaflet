@@ -11,7 +11,7 @@ class LeafletGeoJSON extends Path {
 
     constructor(props) {
         super(props);
-        this.cluster_props = {index: null, to_spiderfy: null}
+        this.state = {index: null, toSpiderfy: null, geojson: null};
     }
 
     createLeafletElement(props) {
@@ -23,17 +23,26 @@ class LeafletGeoJSON extends Path {
             nProps.pointToLayer = (feature, latlng) => {
                 if (!feature.properties.cluster) {
                     if(pointToLayer){
-                        return pointToLayer(feature, latlng);
+                        return pointToLayer(feature, latlng, this.props.toLayerOptions);
                     }
-                    return defaultPointToLayer(feature, latlng, nProps)
+                    return defaultPointToLayer(feature, latlng, nProps);
                 }
                 if(clusterToLayer){
-                    return clusterToLayer(feature, latlng);
+                    return clusterToLayer(feature, latlng, this.props.toLayerOptions, this.state.index);
                 }
                 return defaultClusterToLayer(feature, latlng, nProps);
             }
             if(!nProps.style){
                 nProps.style = {weight: 1.5, color: '#222', opacity: 0.5}
+            }
+        }
+        // Otherwise, just inject the options.
+        else {
+            nProps.pointToLayer = (feature, latlng) => {
+                if (pointToLayer) {
+                    return pointToLayer(feature, latlng, this.props.toLayerOptions);
+                }
+                return defaultPointToLayer(feature, latlng, nProps)
             }
         }
         // Render the geojson empty initially.
@@ -50,8 +59,18 @@ class LeafletGeoJSON extends Path {
         // Change data (dynamic).
         if (toProps.url !== fromProps.url ||
             toProps.data !== fromProps.data ||
-            toProps.format !== fromProps.format) {
-            this._setData(toProps)
+            toProps.format !== fromProps.format ||
+            toProps.cluster !== fromProps.cluster) {
+            this._setData(toProps);
+        }
+        // Change toLayer options.
+        if(fromProps.toLayerOptions !== toProps.toLayerOptions) {
+            this.state.toLayerOptions = toProps.toLayerOptions;
+            if (!toProps.cluster) {
+                this._draw(this.state.geojson)
+            } else {
+                this._render_clusters()
+            }
         }
     }
 
@@ -76,6 +95,8 @@ class LeafletGeoJSON extends Path {
     }
 
     _init(geojson, props) {
+        // Keep geojson for redraw events. // TODO: Is this too in-efficient?
+        this.state.geojson = geojson;
         // Add click handler.
         this.leafletElement.on('click', this._handle_click.bind(this));
         // If clustering is not enabled, just draw the geojson.
@@ -84,7 +105,7 @@ class LeafletGeoJSON extends Path {
         }
         // Setup cluster index.
         const {map} = this.props.leaflet;
-        this.cluster_props.index = buildIndex(geojson, map, props.superClusterOptions)
+        this.state.index = buildIndex(geojson, map, props.superClusterOptions)
         // Bind update on map move (this is where the "magic" happens).
         map.on('moveend', this._render_clusters.bind(this));
         // Render the cluster.
@@ -115,12 +136,12 @@ class LeafletGeoJSON extends Path {
         }
         // It we get to here, a cluster has been clicked.
         const {latlng} = e;
-        const {index} = this.cluster_props
+        const {index} = this.state
         // Set spiderfy.
         const expansionZoom = index.getClusterExpansionZoom(clusterId)
         const spiderfy = expansionZoom > index.options.maxZoom;
         if (spiderfy) {
-            this.cluster_props.to_spiderfy = {"clusterId": clusterId};
+            this.state.toSpiderfy = {"clusterId": clusterId};
         }
         // Fly to.
         if (zoomToBoundsOnClick) {
@@ -137,21 +158,21 @@ class LeafletGeoJSON extends Path {
 
     _render_clusters() {
         const {map} = this.props.leaflet;
-        const {to_spiderfy, index} = this.cluster_props;
+        const {toSpiderfy, index} = this.state;
         const bounds = map.getBounds();
         const bbox = [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()];
         const zoom = map.getZoom();
         // Update the data.
         let clusters = index.getClusters(bbox, zoom);
-        if (this.props.spiderfyOnMaxZoom && to_spiderfy) {
+        if (this.props.spiderfyOnMaxZoom && toSpiderfy) {
             // If zoom level has changes, drop the spiderfy state.
-            if (to_spiderfy.zoom && to_spiderfy.zoom !== zoom) {
-                this.cluster_props.to_spiderfy = null;  // TODO: Will this work?
+            if (toSpiderfy.zoom && toSpiderfy.zoom !== zoom) {
+                this.state.toSpiderfy = null;  // TODO: Will this work?
             }
             // Otherwise, do spiderfy.
             else {
-                clusters = defaultSpiderfy(map, index, clusters, [to_spiderfy.clusterId]);
-                to_spiderfy.zoom = zoom;
+                clusters = defaultSpiderfy(map, index, clusters, [toSpiderfy.clusterId]);
+                toSpiderfy.zoom = zoom;
             }
         }
         this._draw(clusters)
@@ -215,7 +236,7 @@ function buildIndex(geojson, map, superclusterOptions){
     return index
 }
 
-function defaultSpiderfy(map, index, clusters, to_spiderfy) {
+function defaultSpiderfy(map, index, clusters, toSpiderfy) {
 
     // Source: https://github.com/Leaflet/Leaflet.markercluster/blob/master/src/MarkerCluster.Spiderfier.js
 
@@ -292,12 +313,12 @@ function defaultSpiderfy(map, index, clusters, to_spiderfy) {
     }
 
     // Check if there are any cluster(s) to spiderfy.
-    const matches = clusters.filter(item => to_spiderfy.includes(item.properties.cluster_id));
+    const matches = clusters.filter(item => toSpiderfy.includes(item.properties.cluster_id));
     if(matches.length < 1){
         return clusters
     }
     // Do spiderfy.
-    let spiderfied = clusters.filter(item => !to_spiderfy.includes(item.properties.cluster_id));
+    let spiderfied = clusters.filter(item => !toSpiderfy.includes(item.properties.cluster_id));
     for (let i = 0; i < matches.length; i++) {
         spiderfied = spiderfied.concat(_spiderfy(matches[i]))
     }

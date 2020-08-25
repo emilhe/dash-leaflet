@@ -109,6 +109,11 @@ GeoJSON.propTypes = {
      */
     zoomToBoundsOnClick: PropTypes.bool,
 
+    /**
+     * Options passed to the pointToLayer, clusterToLayer and style functions.
+     */
+    toLayerOptions: PropTypes.object,
+
     // Properties related to clustering.
 
     /**

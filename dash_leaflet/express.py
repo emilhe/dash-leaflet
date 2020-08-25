@@ -14,7 +14,7 @@ def markers_to_geojson(markers):
     geojson = {"type": "FeatureCollection", "features": []}
     for marker in markers:
         feature = {"type": "Feature", "geometry": {"type": "Point", "coordinates": [marker["lon"], marker["lat"]]}}
-        props = [key for key in marker.keys() if key != "position"]
+        props = [key for key in marker.keys() if key not in ["lat", "lon"]]
         if props:
             feature["properties"] = {prop: marker[prop] for prop in props}
         geojson["features"].append(feature)
