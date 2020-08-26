@@ -17,30 +17,30 @@ class GeoJSON extends Component {
     }
 
     render() {
-        let nProps = resolveFunctionalProps(this.props, ["hoverStyle", "clusterToLayer"])
+        // Resolve main functional properties.
+        let nProps = resolveFunctionalProps(this.props,
+            ["hoverStyle", "clusterToLayer"], this);
         // Resolve functional properties in geojson options.
         nProps.geojsonOptions = resolveFunctionalProps(nProps.geojsonOptions,
-            ["pointToLayer", "style", "onEachFeature", "filter", "coordsToLatLng"]);
+            ["pointToLayer", "style", "onEachFeature", "filter", "coordsToLatLng"], this);
         // Add event handlers.
         nProps.onclick = (e) => {
             const feature = e.layer.feature;
             nProps.setProps({featureClick: feature});
             nProps.setProps({ n_clicks: nProps.n_clicks + 1 });
-            // Bounds event.
+            // Add bounds to feature. TODO: Is this the right way?
             if(e.layer.getBounds) {
                 let bounds = e.layer.getBounds();
-                bounds = [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]];
-                nProps.setProps({boundsClick: bounds});
+                feature.bounds = [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]];
             }
         };
         nProps.onmouseover = (e) => {
             const feature = e.layer.feature;
             nProps.setProps({featureHover: feature});
-            // Bounds event.
+            // Add bounds to feature. TODO: Is this the right way?
             if (e.layer.getBounds) {
                 let bounds = e.layer.getBounds();
-                bounds = [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]];
-                nProps.setProps({boundsHover: bounds});
+                feature.bounds = [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]];
             }
             // Hover styling.
             if (nProps.hoverStyle) {
@@ -110,9 +110,10 @@ GeoJSON.propTypes = {
     zoomToBoundsOnClick: PropTypes.bool,
 
     /**
-     * Options passed to the pointToLayer, clusterToLayer and style functions.
+     * Object intended for passing variables to function properties, i.e. clusterToLayer, hoverStyle and
+     * (geojsonOptions) pointToLayer, style, filter, and onEachFeature functions.
      */
-    toLayerOptions: PropTypes.object,
+    funcScope: PropTypes.object,
 
     // Properties related to clustering.
 
@@ -163,22 +164,12 @@ GeoJSON.propTypes = {
     /**
      * Last feature clicked.
      */
-    featureClick: PropTypes.object,
-
-    /**
-     * Bounds of last feature clicked.
-     */
-    featureClickBounds: PropTypes.object,
+    click_feature: PropTypes.object,
 
     /**
      * Last feature hovered.
      */
-    featureHover: PropTypes.object,
-
-    /**
-     * Bounds of last feature hovered.
-     */
-    featureHoverBounds: PropTypes.object,
+    hover_feature: PropTypes.object,
 
 };
 

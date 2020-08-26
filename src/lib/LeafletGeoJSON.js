@@ -23,12 +23,12 @@ class LeafletGeoJSON extends Path {
             nProps.pointToLayer = (feature, latlng) => {
                 if (!feature.properties.cluster) {
                     if(pointToLayer){
-                        return pointToLayer(feature, latlng, this.props.toLayerOptions);
+                        return pointToLayer(feature, latlng);
                     }
                     return defaultPointToLayer(feature, latlng, nProps);
                 }
                 if(clusterToLayer){
-                    return clusterToLayer(feature, latlng, this.props.toLayerOptions, this.state.index);
+                    return clusterToLayer(feature, latlng, this.state.index);
                 }
                 return defaultClusterToLayer(feature, latlng, nProps);
             }
@@ -40,7 +40,7 @@ class LeafletGeoJSON extends Path {
         else {
             nProps.pointToLayer = (feature, latlng) => {
                 if (pointToLayer) {
-                    return pointToLayer(feature, latlng, this.props.toLayerOptions);
+                    return pointToLayer(feature, latlng, this.props);
                 }
                 return defaultPointToLayer(feature, latlng, nProps)
             }
@@ -56,21 +56,20 @@ class LeafletGeoJSON extends Path {
         } else {
             this.setStyleIfChanged(fromProps, toProps)
         }
+        // When funcScope changes, trigger redraw.
+        if(fromProps.funcScope !== toProps.funcScope) {
+            if (!toProps.cluster) {
+                this._draw(this.state.geojson)
+            } else {
+                this._render_clusters()
+            }
+        }
         // Change data (dynamic).
         if (toProps.url !== fromProps.url ||
             toProps.data !== fromProps.data ||
             toProps.format !== fromProps.format ||
             toProps.cluster !== fromProps.cluster) {
             this._setData(toProps);
-        }
-        // Change toLayer options.
-        if(fromProps.toLayerOptions !== toProps.toLayerOptions) {
-            this.state.toLayerOptions = toProps.toLayerOptions;
-            if (!toProps.cluster) {
-                this._draw(this.state.geojson)
-            } else {
-                this._render_clusters()
-            }
         }
     }
 

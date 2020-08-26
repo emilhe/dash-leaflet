@@ -1,49 +1,6 @@
 import {decode} from "geobuf";
 import { toByteArray } from 'base64-js';
 
-function registerGeojsonEvents(props, el) {
-    let nProps = Object.assign({}, props);
-    // Resolve functional properties in options.
-    nProps.options = resolveFunctionalProps(nProps.options,
-        ["pointToLayer", "style", "onEachFeature", "filter", "coordsToLatLng"]);
-    // Resolve also hover style.
-    if (nProps.hoverStyle) {
-        nProps.hoverStyle = resolveFunctionalProp(nProps.hoverStyle);
-    }
-    // Add event handlers.
-    nProps.onclick = (e) => {
-        const feature = e.layer.feature;
-        let bounds = e.layer.getBounds();
-        bounds = [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]];
-        nProps.setProps({n_clicks: nProps.n_clicks + 1});
-        nProps.setProps({featureClick: feature});
-        nProps.setProps({boundsClick: bounds});
-    };
-    nProps.onmouseover = (e) => {
-        const feature = e.layer.feature;
-        let bounds = e.layer.getBounds();
-        bounds = [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]];
-        nProps.setProps({featureHover: feature});
-        nProps.setProps({boundsHover: bounds});
-        // Hover styling.
-        if (nProps.hoverStyle) {
-            e.layer.setStyle(nProps.hoverStyle(feature));
-            if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-                e.layer.bringToFront();
-            }
-        }
-    };
-    nProps.onmouseout = (e) => {
-        nProps.setProps({featureHover: null});
-        nProps.setProps({boundsHover: null});
-        // Hover styling.
-        if (nProps.hoverStyle) {
-            el.ref.current.leafletElement.resetStyle(e.layer);
-        }
-    };
-    return nProps
-}
-
 function registerDefaultEvents(obj){
     const nProps = Object.assign({}, obj.props);
     const propTypes = obj.__proto__.constructor.propTypes
@@ -70,18 +27,22 @@ function registerDefaultEvents(obj){
 
 }
 
-function resolveFunctionalProp(prop){
+function resolveFunctionalProp(prop, context){
     if(typeof prop === "string"){
-        return new Function("return " + prop)()
+        const func = new Function("return " + prop)()
+        if(context){
+            return (...args) => func(...args, context)
+        }
+        return func
     }
     return (...args) => prop
 }
 
-function resolveFunctionalProps(props, functionalProps){
+function resolveFunctionalProps(props, functionalProps, options){
     let nProps = Object.assign({}, props);
     for(let prop of functionalProps) {
         if (nProps[prop]) {
-            nProps[prop] = resolveFunctionalProp(nProps[prop]);
+            nProps[prop] = resolveFunctionalProp(nProps[prop], options);
         }
     }
     return nProps

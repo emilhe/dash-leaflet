@@ -19,14 +19,14 @@ def _resolve_circle_options(options, value):
     return circle_options
 
 
-def point_to_layer(feature, latlng, options):
-    options = _resolve_options(default_options, options)
+def point_to_layer(feature, latlng, context):
+    options = _resolve_options(default_options, context["props"]["funcScope"])
     circle_options = _resolve_circle_options(options, feature["properties"][options["color_prop"]])
     return L.circleMarker(latlng, circle_options)
 
 
-def cluster_to_layer(feature, latlng, options, index):
-    options = _resolve_options(default_options, options)
+def cluster_to_layer(feature, latlng, index, context):
+    options = _resolve_options(default_options, context["props"]["funcScope"])
     # Set color based on mean value of leaves.
     leaves = index.getLeaves(feature["properties"]["cluster_id"])
     value_sum = 0
