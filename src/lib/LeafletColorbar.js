@@ -112,7 +112,7 @@ const Colorbar = Control.extend({
             h += `<span style="display: block; margin-bottom: ${tickPositions[0]* height }px; line-height: 0px; white-space: nowrap"></span>`;
             for (let i=0; i<nTicks; i++) {
                 let shift  = (tickPositions[i+1] - tickPositions[i]) * height;
-                h += `<span style="display: block; margin-bottom: ${shift}px; line-height: 0px; white-space: nowrap">${tickText[i]}</span>`;
+                h += `<span style="display: block; margin-bottom: ${shift}px; line-height: 0px; white-space: nowrap">${tickText[nTicks-i-1]}</span>`;
             }
             h += `</div>`
         }
