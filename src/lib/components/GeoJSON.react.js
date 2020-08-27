@@ -110,10 +110,10 @@ GeoJSON.propTypes = {
     zoomToBoundsOnClick: PropTypes.bool,
 
     /**
-     * Object intended for passing variables to function properties, i.e. clusterToLayer, hoverStyle and
+     * Object intended for passing variables to functional properties, i.e. clusterToLayer, hoverStyle and
      * (geojsonOptions) pointToLayer, style, filter, and onEachFeature functions.
      */
-    funcScope: PropTypes.object,
+    hideout: PropTypes.object,
 
     // Properties related to clustering.
 

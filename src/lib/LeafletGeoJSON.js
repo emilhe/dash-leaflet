@@ -56,8 +56,8 @@ class LeafletGeoJSON extends Path {
         } else {
             this.setStyleIfChanged(fromProps, toProps)
         }
-        // When funcScope changes, trigger redraw.
-        if(fromProps.funcScope !== toProps.funcScope) {
+        // When the content of hideout changes, trigger redraw.
+        if(fromProps.hideout !== toProps.hideout) {
             if (!toProps.cluster) {
                 this._draw(this.state.geojson)
             } else {
