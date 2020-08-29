@@ -10,13 +10,13 @@ def categorical_colorbar(*args, categories, colorscale, **kwargs):
                        tickValues=[item + 0.5 for item in indices[:-1]], tickText=categories, **kwargs)
 
 
-def markers_to_geojson(markers):
+def dicts_to_geojson(dicts, lat="lat", lon="lon"):
     geojson = {"type": "FeatureCollection", "features": []}
-    for marker in markers:
-        feature = {"type": "Feature", "geometry": {"type": "Point", "coordinates": [marker["lon"], marker["lat"]]}}
-        props = [key for key in marker.keys() if key not in ["lat", "lon"]]
+    for d in dicts:
+        feature = {"type": "Feature", "geometry": {"type": "Point", "coordinates": [d[lon], d[lat]]}}
+        props = [key for key in d.keys() if key not in [lat, lon]]
         if props:
-            feature["properties"] = {prop: marker[prop] for prop in props}
+            feature["properties"] = {prop: d[prop] for prop in props}
         geojson["features"].append(feature)
     return geojson
 

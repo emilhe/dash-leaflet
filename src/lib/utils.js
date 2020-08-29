@@ -38,11 +38,11 @@ function resolveFunctionalProp(prop, context){
     return (...args) => prop
 }
 
-function resolveFunctionalProps(props, functionalProps, options){
+function resolveFunctionalProps(props, functionalProps, context){
     let nProps = Object.assign({}, props);
     for(let prop of functionalProps) {
         if (nProps[prop]) {
-            nProps[prop] = resolveFunctionalProp(nProps[prop], options);
+            nProps[prop] = resolveFunctionalProp(nProps[prop], context);
         }
     }
     return nProps

@@ -15,8 +15,8 @@ class LeafletGeoJSON extends Path {
     }
 
     createLeafletElement(props) {
-        const nProps = Object.assign({}, props.geojsonOptions);
-        const {pointToLayer} = props.geojsonOptions
+        const nProps = Object.assign({}, props.options);
+        const {pointToLayer} = props.options
         const {clusterToLayer} = props
         // When in cluster mode, modify point rendering to treat clusters in a particular way.
         if(props.cluster){
@@ -40,7 +40,7 @@ class LeafletGeoJSON extends Path {
         else {
             nProps.pointToLayer = (feature, latlng) => {
                 if (pointToLayer) {
-                    return pointToLayer(feature, latlng, this.props);
+                    return pointToLayer(feature, latlng);
                 }
                 return defaultPointToLayer(feature, latlng, nProps)
             }
@@ -179,7 +179,9 @@ class LeafletGeoJSON extends Path {
 
     _draw(geojson) {
         this.leafletElement.clearLayers();
-        this.leafletElement.addData(geojson);
+        if(geojson){
+            this.leafletElement.addData(geojson);
+        }
     }
 
 }

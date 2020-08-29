@@ -21,7 +21,7 @@ class GeoJSON extends Component {
         let nProps = resolveFunctionalProps(this.props,
             ["hoverStyle", "clusterToLayer"], this);
         // Resolve functional properties in geojson options.
-        nProps.geojsonOptions = resolveFunctionalProps(nProps.geojsonOptions,
+        nProps.options = resolveFunctionalProps(nProps.options,
             ["pointToLayer", "style", "onEachFeature", "filter", "coordsToLatLng"], this);
         // Add event handlers.
         nProps.onclick = (e) => {
@@ -78,7 +78,7 @@ GeoJSON.propTypes = {
     /**
      * Options for the GeoJSON object (see https://leafletjs.com/reference-1.6.0.html#geojson-option for details).
      */
-    geojsonOptions: PropTypes.object,
+    options: PropTypes.object,
 
     // Properties used to inject the geojson data.
 
@@ -111,7 +111,7 @@ GeoJSON.propTypes = {
 
     /**
      * Object intended for passing variables to functional properties, i.e. clusterToLayer, hoverStyle and
-     * (geojsonOptions) pointToLayer, style, filter, and onEachFeature functions.
+     * (options) pointToLayer, style, filter, and onEachFeature functions.
      */
     hideout: PropTypes.object,
 
