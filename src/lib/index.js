@@ -22,6 +22,8 @@ import Tooltip from './components/Tooltip.react';
 import VideoOverlay from './components/VideoOverlay.react';
 import WMSTileLayer from './components/WMSTileLayer.react';
 import ScaleControl from './components/ScaleControl.react';
+import _ from './snippets';
+
 
 export {
     Circle,

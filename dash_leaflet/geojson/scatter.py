@@ -1,7 +1,5 @@
-import math
-
-default_options = dict(vmin=0, vmax=1, colorscale=['yellow', 'red', 'black'], color_prop="value",
-                       circle_options=dict(fillOpacity=1, stroke=False, radius=5))
+default_options = dict(min=0, max=1, colorscale=['yellow', 'red', 'black'], color_prop="value",
+                       popup_prop="popup", circle_options=dict(fillOpacity=1, stroke=False, radius=5))
 
 
 def _resolve_options(x, y):
@@ -12,16 +10,24 @@ def _resolve_options(x, y):
     return z
 
 
-def _resolve_circle_options(options, value):
-    csc = chroma.scale(options.colorscale).domain([options.vmin, options.vmax])
-    circle_options = dict(options.circle_options)
-    circle_options.fillColor = csc(value)
-    return circle_options
+def _get_color(options, value):
+    csc = chroma.scale(options.colorscale).domain([options.min, options.max])
+    return csc(value)
+
+
+def bind_popup(feature, layer, context):
+    options = _resolve_options(default_options, context.props.hideout)
+    if feature.properties and feature.properties[options.popup_prop]:
+        value = feature.properties[options.popup_prop]
+        if Number.isFinite(value):
+            value = value.toString()
+        layer.bindPopup(value)
 
 
 def point_to_layer(feature, latlng, context):
     options = _resolve_options(default_options, context.props.hideout)
-    circle_options = _resolve_circle_options(options, feature.properties[options.color_prop])
+    circle_options = dict(options.circle_options)
+    circle_options.fillColor = _get_color(options, feature.properties[options.color_prop])
     return L.circleMarker(latlng, circle_options)
 
 
@@ -33,9 +39,12 @@ def cluster_to_layer(feature, latlng, index, context):
     for leaf in leaves:
         value_sum += leaf.properties[options.color_prop]
     value_mean = value_sum / len(leaves)
-    circle_options = _resolve_circle_options(options, value_mean)
-    # Set radius so that cluster area = area of leaves.
-    area = math.sqrt(len(leaves))
-    circle_options.radius = circle_options.radius * area
-    # Render a circle.
-    return L.circleMarker(latlng, circle_options)
+    # Render a circle with the number of leaves written in the center.
+    icon = L.divIcon.scatter(dict(
+        html='<div><span>' + feature.properties.point_count_abbreviated + '</span></div>',
+        className="marker-cluster",
+        iconSize=L.point(40, 40),
+        color=_get_color(options, value_mean)
+    ))
+    # icon.style = dict(backgroundColor=_get_color(options, value_mean))
+    return L.marker(latlng, dict(icon=icon))

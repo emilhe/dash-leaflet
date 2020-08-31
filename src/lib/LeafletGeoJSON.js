@@ -107,6 +107,11 @@ class LeafletGeoJSON extends Path {
         this.state.index = buildIndex(geojson, map, props.superClusterOptions)
         // Bind update on map move (this is where the "magic" happens).
         map.on('moveend', this._render_clusters.bind(this));
+        // Move the map if necessary.
+        if (this.props.zoomToBounds) {
+            const dummy = L.geoJSON(geojson);
+            this.props.leaflet.map.fitBounds(dummy.getBounds())
+        }
         // Render the cluster.
         this._render_clusters()
     }
@@ -174,13 +179,17 @@ class LeafletGeoJSON extends Path {
                 toSpiderfy.zoom = zoom;
             }
         }
-        this._draw(clusters)
+        this.leafletElement.clearLayers();
+        this.leafletElement.addData(clusters);
     }
 
     _draw(geojson) {
         this.leafletElement.clearLayers();
-        if(geojson){
+        if(geojson) {
             this.leafletElement.addData(geojson);
+            if(this.props.zoomToBounds){
+                this.props.leaflet.map.fitBounds(this.leafletElement.getBounds())
+            }
         }
     }
 

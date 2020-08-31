@@ -70,7 +70,8 @@ GeoJSON.defaultProps = {
     format: "geojson",
     cluster: false,
     spiderfyOnMaxZoom: true,
-    zoomToBoundsOnClick: true,
+    zoomToBounds: false,
+    zoomToBoundsOnClick: false,
 };
 
 GeoJSON.propTypes = {
@@ -108,6 +109,12 @@ GeoJSON.propTypes = {
      * If true, zoom to feature bounds on click.
      */
     zoomToBoundsOnClick: PropTypes.bool,
+
+    /**
+     * If true, zoom bounds when data are set.
+     */
+    zoomToBounds: PropTypes.bool,
+
 
     /**
      * Object intended for passing variables to functional properties, i.e. clusterToLayer, hoverStyle and
