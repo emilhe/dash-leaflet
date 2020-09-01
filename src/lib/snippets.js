@@ -1,3 +1,5 @@
+require('./snippets.css');
+
 L.DivIcon.Scatter = L.DivIcon.extend({
     createIcon: function(oldIcon) {
            let icon = L.DivIcon.prototype.createIcon.call(this, oldIcon);

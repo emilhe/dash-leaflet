@@ -26,22 +26,22 @@ class GeoJSON extends Component {
         // Add event handlers.
         nProps.onclick = (e) => {
             const feature = e.layer.feature;
-            nProps.setProps({featureClick: feature});
             nProps.setProps({ n_clicks: nProps.n_clicks + 1 });
             // Add bounds to feature. TODO: Is this the right way?
             if(e.layer.getBounds) {
                 let bounds = e.layer.getBounds();
                 feature.bounds = [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]];
             }
+            nProps.setProps({click_feature: feature});
         };
         nProps.onmouseover = (e) => {
             const feature = e.layer.feature;
-            nProps.setProps({featureHover: feature});
             // Add bounds to feature. TODO: Is this the right way?
             if (e.layer.getBounds) {
                 let bounds = e.layer.getBounds();
                 feature.bounds = [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]];
             }
+            nProps.setProps({hover_feature: feature});
             // Hover styling.
             if (nProps.hoverStyle) {
                 e.layer.setStyle(nProps.hoverStyle(feature));
@@ -51,8 +51,7 @@ class GeoJSON extends Component {
             }
         };
         nProps.onmouseout = (e) => {
-            nProps.setProps({featureHover: null});
-            nProps.setProps({boundsHover: null});
+            nProps.setProps({hover_feature: null});
             // Hover styling.
             if (nProps.hoverStyle) {
                 el.ref.current.leafletElement.resetStyle(e.layer);
