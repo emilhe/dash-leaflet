@@ -4,12 +4,19 @@ import PropTypes from 'prop-types';
 import { Map as LeafletMap } from 'react-leaflet';
 import '../../../node_modules/leaflet/dist/leaflet.css';
 import {registerDefaultEvents} from "../utils";
+import LeafletGeoJSON from "../LeafletGeoJSON";
 
 /**
  * Map is a wrapper of Map in react-leaflet.
  * It takes similar properties to its react-leaflet counterpart.
  */
 export default class Map extends Component {
+
+    constructor(props) {
+        super(props);
+        this.el = null; // React.createRef();  // Create reference to be used for map object
+    }
+
     render() {
         const nProps = registerDefaultEvents(this)
         // Bind extra events.
@@ -21,7 +28,18 @@ export default class Map extends Component {
             nProps.setProps({ viewport: e , zoom: e.zoom, center: e.center});
         };
         // Render the leaflet component.
-        return <LeafletMap {...nProps} />
+        this.el = <LeafletMap {...nProps}/>;
+        return this.el
+
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log(this)
+        if(this.props.invalidateSize && this.props.invalidateSize.revision) {
+            if (!prevProps.invalidateSize || prevProps.invalidateSize.revision !== this.props.invalidateSize.revision) {
+                this.el.invalidateSize(this.props.invalidateSize.options)
+            }
+        }
     }
 }
 
@@ -346,6 +364,16 @@ Map.propTypes = {
      * The attribution string for the component (dynamic)
      */
     attribution: PropTypes.string,
+
+    // Special Dash props
+
+    /**
+     * Invalidate size on revision (or option) change.
+     */
+    invalidateSize: PropTypes.shape({
+        revision: PropTypes.any,
+        options: PropTypes.object  // https://leafletjs.com/reference-1.6.0.html#zoom/pan-options
+    }),
 
     // Events
 
