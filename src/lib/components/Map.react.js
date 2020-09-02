@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+// import LeafletMap from '../LeafletMap';
 import { Map as LeafletMap } from 'react-leaflet';
 import '../../../node_modules/leaflet/dist/leaflet.css';
 import {registerDefaultEvents} from "../utils";
@@ -27,6 +28,8 @@ export default class Map extends Component {
         nProps.onViewportChanged = (e) => {
             nProps.setProps({ viewport: e , zoom: e.zoom, center: e.center});
         };
+        // TODO
+
         // Render the leaflet component.
         this.el = <LeafletMap {...nProps}/>;
         return this.el
