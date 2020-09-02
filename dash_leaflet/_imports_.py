@@ -9,6 +9,7 @@ from .LayerGroup import LayerGroup
 from .LocateControl import LocateControl
 from .Map import Map
 from .Marker import Marker
+from .MarkerClusterGroup import MarkerClusterGroup
 from .Pane import Pane
 from .Polygon import Polygon
 from .Polyline import Polyline
@@ -34,6 +35,7 @@ __all__ = [
     "LocateControl",
     "Map",
     "Marker",
+    "MarkerClusterGroup",
     "Pane",
     "Polygon",
     "Polyline",

@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.0] - XXX
+
+### Added
+
+- New geojson subpackage. It contains modules with examples of python function definitions to ease the transition to functional props
+
+### Changed
+
+- The GeoJSON has been completely rewritten to support a wider range of use cases. It now uses functional props
+
+### Removed
+
+- The SuperCluster component has been removed. The GeoJSON component now handles marker clustering
+
 ## [0.0.22] - 2020-30-07
 
 ### Changed
