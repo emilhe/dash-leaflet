@@ -1,5 +1,3 @@
-# Dash Leaflet
-
 Dash Leaflet is a light wrapper around React-Leaflet. The syntax is similar to other Dash components, with naming conventions following the React-Leaflet API. 
 
 ## Getting started
@@ -29,6 +27,8 @@ If you visit http://127.0.0.1:8050/ in your browser, you should see a Leaflet ma
 ## Documentation
 
 The documentation has been moved to [Heroku](https://dash-leaflet.herokuapp.com/) to enable an interactive example gallery. 
+
+NB: The 0.1.0 release contains a number breaking changes, most prominently merging of the `SuperCluster` and `GeoJSON` components into a new `GeoJSON` component power by [functional properties](https://dash-leaflet.herokuapp.com/#func_props).  
 
 ## Build instructions
 

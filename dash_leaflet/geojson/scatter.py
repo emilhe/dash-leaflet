@@ -41,10 +41,11 @@ def cluster_to_layer(feature, latlng, index, context):
     value_mean = value_sum / len(leaves)
     # Render a circle with the number of leaves written in the center.
     icon = L.divIcon.scatter(dict(
-        html='<div><span>' + feature.properties.point_count_abbreviated + '</span></div>',
+        html='<div style="background-color:white;"><span>' +
+             feature.properties.point_count_abbreviated +
+             '</span></div>',
         className="marker-cluster",
         iconSize=L.point(40, 40),
         color=_get_color(options, value_mean)
     ))
-    # icon.style = dict(backgroundColor=_get_color(options, value_mean))
     return L.marker(latlng, dict(icon=icon))
