@@ -23,6 +23,20 @@ class GeoJSON extends Component {
         // Resolve functional properties in geojson options.
         nProps.options = resolveFunctionalProps(nProps.options,
             ["pointToLayer", "style", "onEachFeature", "filter", "coordsToLatLng"], this);
+        // Bind default onEachFeature.
+        if(!nProps.options.onEachFeature){
+            nProps.options.onEachFeature = (feature, layer) => {
+                if(!feature.properties){
+                    return
+                }
+                if(feature.properties.popup){
+                    layer.bindPopup(feature.properties.popup)
+                }
+                if(feature.properties.tooltip){
+                    layer.bindTooltip(feature.properties.tooltip)
+                }
+            }
+        }
         // Add event handlers.
         nProps.onclick = (e) => {
             const feature = e.layer.feature;

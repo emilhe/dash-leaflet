@@ -2,7 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.1.0] - XXX
+## [0.1.1] - NOT RELEASED
+
+### Changed
+
+- The MarkerClusterGroup is again included for backwards compatibility
+- Per default, the GeoJSON now renders tooltip/popup if a tooltip/popup property is available on the feature
+- The GeoJSON example functions (scatter, choropleth) have been moved from Python to JavaScript thus eliminating the dash-transcrypt dependency
+
+## [0.1.0] - 2020-03-09
 
 ### Added
 

@@ -1,4 +1,3 @@
-import json
 import geobuf
 import dash_leaflet as dl
 import base64

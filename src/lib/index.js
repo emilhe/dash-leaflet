@@ -22,7 +22,8 @@ import Tooltip from './components/Tooltip.react';
 import VideoOverlay from './components/VideoOverlay.react';
 import WMSTileLayer from './components/WMSTileLayer.react';
 import ScaleControl from './components/ScaleControl.react';
-import _ from './snippets';
+import MarkerClusterGroup from "./components/MarkerClusterGroup.react";
+import _ from './express';
 
 
 export {
@@ -49,4 +50,5 @@ export {
     PolylineDecorator,
     Pane,
     DivMarker,
+    MarkerClusterGroup
 };
