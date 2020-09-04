@@ -29,7 +29,7 @@ def geojson_to_geobuf(geojson):
 class _PropFuncNamespace:
 
     def _prop_func(self, prop):
-        return f"window.dlx.{self.__class__.__name__.lower()}.{prop}"
+        return f"window.dlx.{self.__class__.__name__[1:].lower()}.{prop}"
 
 
 class _Scatter(_PropFuncNamespace):
