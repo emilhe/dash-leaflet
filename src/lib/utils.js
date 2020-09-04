@@ -21,10 +21,16 @@ function registerDefaultEvents(obj){
             nProps.setProps({ dbl_click_lat_lng: [e.latlng.lat, e.latlng.lng] });
         };
     }
-
+    // Open events (tooltip, popup).
+    if("is_open" in propTypes) {
+        nProps.onClose = () => {
+            nProps.setProps({ is_open: false });
+        };
+        nProps.onOpen = () => {
+          // nProps.setProps({ is_open: true });
+        };
+    }
     return nProps
-
-
 }
 
 function resolveFunctionalProp(prop, context){

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import { Tooltip as LeafletTooltip } from 'react-leaflet';
+import {registerDefaultEvents} from "../utils";
 
 /**
  * Tooltip is a wrapper of Tooltip in react-leaflet.
@@ -9,9 +10,13 @@ import { Tooltip as LeafletTooltip } from 'react-leaflet';
  */
 export default class Tooltip extends Component {
     render() {
-        return <LeafletTooltip {...this.props} />
+        return <LeafletTooltip {...registerDefaultEvents(this)} />
     }
 }
+
+Tooltip.defaultProps = {
+    is_open: false,
+};
 
 Tooltip.propTypes = {
     // Static parameters
@@ -78,5 +83,14 @@ Tooltip.propTypes = {
     /**
      * The attribution string for the component (dynamic)
      */
-    attribution: PropTypes.string
+    attribution: PropTypes.string,
+
+    // Events
+    setProps: PropTypes.func,
+
+    /**
+     * Dash callback property. If it's open or not.
+     */
+    is_open: PropTypes.bool
+
 };

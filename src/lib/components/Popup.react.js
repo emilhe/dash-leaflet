@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import { Popup as LeafletPopup } from 'react-leaflet';
+import {registerDefaultEvents} from "../utils";
 
 /**
  * Popup is a wrapper of Popup in react-leaflet.
@@ -9,9 +10,13 @@ import { Popup as LeafletPopup } from 'react-leaflet';
  */
 export default class Popup extends Component {
     render() {
-        return <LeafletPopup {...this.props} />
+        return <LeafletPopup {...registerDefaultEvents(this)} />
     }
 }
+
+Popup.defaultProps = {
+    is_open: false
+};
 
 Popup.propTypes = {
     /**
@@ -115,5 +120,14 @@ Popup.propTypes = {
     /**
      * The attribution string for the component (dynamic)
      */
-    attribution: PropTypes.string
+    attribution: PropTypes.string,
+
+    // Events
+    setProps: PropTypes.func,
+
+    /**
+     * Dash callback property. If it's open or not.
+     */
+    is_open: PropTypes.bool
+
 };
