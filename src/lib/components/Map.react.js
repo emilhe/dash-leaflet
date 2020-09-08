@@ -1,22 +1,16 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-// import LeafletMap from '../LeafletMap';
-import { Map as LeafletMap } from 'react-leaflet';
+import LeafletMap from '../LeafletMap';
+// import {Map as LeafletMap, withLeaflet} from 'react-leaflet';
 import '../../../node_modules/leaflet/dist/leaflet.css';
 import {registerDefaultEvents} from "../utils";
-import LeafletGeoJSON from "../LeafletGeoJSON";
 
 /**
  * Map is a wrapper of Map in react-leaflet.
  * It takes similar properties to its react-leaflet counterpart.
  */
 export default class Map extends Component {
-
-    constructor(props) {
-        super(props);
-        this.el = null; // React.createRef();  // Create reference to be used for map object
-    }
 
     render() {
         const nProps = registerDefaultEvents(this)
@@ -28,22 +22,10 @@ export default class Map extends Component {
         nProps.onViewportChanged = (e) => {
             nProps.setProps({ viewport: e , zoom: e.zoom, center: e.center});
         };
-        // TODO
-
         // Render the leaflet component.
-        this.el = <LeafletMap {...nProps}/>;
-        return this.el
-
+        return <LeafletMap {...nProps}/>;
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log(this)
-        if(this.props.invalidateSize && this.props.invalidateSize.revision) {
-            if (!prevProps.invalidateSize || prevProps.invalidateSize.revision !== this.props.invalidateSize.revision) {
-                this.el.invalidateSize(this.props.invalidateSize.options)
-            }
-        }
-    }
 }
 
 Map.defaultProps = {
@@ -399,4 +381,4 @@ Map.propTypes = {
 
 };
 
-
+// export default withLeaflet(Map)
