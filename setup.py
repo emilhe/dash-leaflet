@@ -29,5 +29,5 @@ setup(
     long_description=README,
     long_description_content_type="text/markdown",
     url="https://github.com/thedirtyfew/dash-leaflet",
-    install_requires=[]
+    install_requires=["geobuf"]
 )
