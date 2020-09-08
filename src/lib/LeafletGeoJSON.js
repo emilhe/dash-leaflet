@@ -108,7 +108,7 @@ class LeafletGeoJSON extends Path {
         // Bind update on map move (this is where the "magic" happens).
         map.on('moveend', this._render_clusters.bind(this));
         // Move the map if necessary.
-        if (this.props.zoomToBounds) {
+        if (this.props.zoomToBounds && geojson.features.length > 0) {
             const dummy = L.geoJSON(geojson);
             this.props.leaflet.map.fitBounds(dummy.getBounds())
         }
@@ -187,7 +187,7 @@ class LeafletGeoJSON extends Path {
         this.leafletElement.clearLayers();
         if(geojson) {
             this.leafletElement.addData(geojson);
-            if(this.props.zoomToBounds){
+            if(this.props.zoomToBounds && geojson.features.length > 0){
                 this.props.leaflet.map.fitBounds(this.leafletElement.getBounds())
             }
         }
