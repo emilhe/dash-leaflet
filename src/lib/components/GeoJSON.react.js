@@ -135,6 +135,11 @@ GeoJSON.propTypes = {
      */
     hideout: PropTypes.object,
 
+    /**
+     * The leaflet pane of the component
+     */
+    pane: PropTypes.string,
+
     // Properties related to clustering.
 
     /**

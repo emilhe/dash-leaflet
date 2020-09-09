@@ -19,20 +19,20 @@ class LeafletGeoJSON extends Path {
         const {pointToLayer} = props.options
         const {clusterToLayer} = props
         // When in cluster mode, modify point rendering to treat clusters in a particular way.
-        if(props.cluster){
+        if (props.cluster) {
             nProps.pointToLayer = (feature, latlng) => {
                 if (!feature.properties.cluster) {
-                    if(pointToLayer){
+                    if (pointToLayer) {
                         return pointToLayer(feature, latlng);
                     }
                     return defaultPointToLayer(feature, latlng, nProps);
                 }
-                if(clusterToLayer){
+                if (clusterToLayer) {
                     return clusterToLayer(feature, latlng, this.state.index);
                 }
                 return defaultClusterToLayer(feature, latlng, nProps);
             }
-            if(!nProps.style){
+            if (!nProps.style) {
                 nProps.style = {weight: 1.5, color: '#222', opacity: 0.5}
             }
         }
@@ -44,6 +44,10 @@ class LeafletGeoJSON extends Path {
                 }
                 return defaultPointToLayer(feature, latlng, nProps)
             }
+        }
+        // Propagate pane.
+        if (props.leaflet.pane) {
+            nProps.pane = props.leaflet.pane;
         }
         // Render the geojson empty initially.
         return new GeoJSON(null, {...nProps});
