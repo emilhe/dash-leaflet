@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.2] - NOT RELEASED
+
+### Added
+
+- The map now supports different CRS.
+
+### Changed
+
+- The GeoJSON component now supports custom panes.
+
 ## [0.1.1] - 2020-04-09
 
 ### Changed

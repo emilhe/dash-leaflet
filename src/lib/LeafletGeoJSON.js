@@ -53,6 +53,7 @@ class LeafletGeoJSON extends Path {
         return new GeoJSON(null, {...nProps});
     }
 
+
     updateLeafletElement(fromProps, toProps) {
         // Change style (dynamic).
         if (typeof toProps.style === 'function') {
