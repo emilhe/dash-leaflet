@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 
 import { Map as LeafletMap } from 'react-leaflet';
 import '../../../node_modules/leaflet/dist/leaflet.css';
-import {registerDefaultEvents, resolveFunctionalProp} from "../utils";
+import {registerDefaultEvents} from "../utils";
 
-const defaultCrs = ["EPSG3395", "EPSG3857", "EPSG4326", "Earth", "Simple", "Base"]
 
 /**
  * Map is a wrapper of Map in react-leaflet.
@@ -23,12 +22,7 @@ export default class Map extends Component {
             nProps.setProps({ viewport: e , zoom: e.zoom, center: e.center});
         };
         // Setup CRS.
-        if(defaultCrs.includes(nProps.crs)){
-            nProps.crs = L.CRS[nProps.crs]
-        }
-        else{
-            nProps.crs = resolveFunctionalProp(nProps.crs)()
-        }
+        nProps.crs = L.CRS[nProps.crs]
         // Render the leaflet component.
         return <LeafletMap {...nProps} />
     }
@@ -213,24 +207,15 @@ Map.propTypes = {
 
     /**
      * The Coordinate Reference System to use. Don't change this if you're not sure
-     * what it means.
+     * what it means. Set the crs property to one of these strings to use the corresponding Leaflet CRS object
      */
-    crs: PropTypes.oneOfType([
-        /**
-         * Set the crs property to one of these strings to use the corresponding Leaflet CRS object
-         */
-        PropTypes.oneOf([
+    crs: PropTypes.oneOf([
             "EPSG3395",
             "EPSG3857",
             "EPSG4326",
             "Earth",
             "Simple",
             "Base"
-        ]),
-        /**
-         * To use a custom CRS, set the crs property to the full path of a function that returns as CRS object
-         */
-        PropTypes.string,
     ]),
 
     /**
