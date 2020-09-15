@@ -6,6 +6,7 @@ from .GeoJSON import GeoJSON
 from .GeoTIFFOverlay import GeoTIFFOverlay
 from .ImageOverlay import ImageOverlay
 from .LayerGroup import LayerGroup
+from .LayersControl import LayersControl
 from .LocateControl import LocateControl
 from .Map import Map
 from .Marker import Marker
@@ -32,6 +33,7 @@ __all__ = [
     "GeoTIFFOverlay",
     "ImageOverlay",
     "LayerGroup",
+    "LayersControl",
     "LocateControl",
     "Map",
     "Marker",
