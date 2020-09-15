@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - The GeoJSON component now supports custom panes.
+- The GeoJSON now support changing style dynamically.
 
 ## [0.1.1] - 2020-04-09
 

@@ -56,10 +56,10 @@ class LeafletGeoJSON extends Path {
 
     updateLeafletElement(fromProps, toProps) {
         // Change style (dynamic).
-        if (typeof toProps.style === 'function') {
-            this.leafletElement.setStyle(toProps.style)
+        if (typeof toProps.options.style === 'function') {  // TODO: Function handle stuff?
+            this.leafletElement.setStyle(toProps.options.style)
         } else {
-            this.setStyleIfChanged(fromProps, toProps)
+            this.setStyleIfChanged(fromProps.options, toProps.options)
         }
         // When the content of hideout changes, trigger redraw.
         if(fromProps.hideout !== toProps.hideout) {
