@@ -63,6 +63,7 @@ class LeafletGeoJSON extends Path {
         }
         // When the content of hideout changes, trigger redraw.
         if(fromProps.hideout !== toProps.hideout) {
+            this.leafletElement.options = { ...this.leafletElement.options, ...toProps.options }
             if (!toProps.cluster) {
                 this._draw(this.state.geojson)
             } else {
@@ -74,6 +75,7 @@ class LeafletGeoJSON extends Path {
             toProps.data !== fromProps.data ||
             toProps.format !== fromProps.format ||
             toProps.cluster !== fromProps.cluster) {
+            this.leafletElement.options = { ...this.leafletElement.options, ...toProps.options }
             this._setData(toProps);
         }
     }

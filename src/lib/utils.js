@@ -23,19 +23,39 @@ function registerDefaultEvents(obj){
     }
 
     return nProps
-
-
 }
 
-function resolveFunctionalProp(prop, context){
-    if(typeof prop === "string"){
-        const func = new Function("return " + prop)()
-        if(context){
-            return (...args) => func(...args, context)
-        }
-        return func
+function resolveFunctionalProp(prop, context, allow_string=false){
+    // If the prop is not a string, construct a function that returns the prop value.
+    if(typeof prop !== "string") {
+        return (...args) => prop
     }
-    return (...args) => prop
+    // For now, only functions on window are supported.
+    const prefix = prop.substr(0, 7)
+    if(prefix !== "window." && ~allow_string){
+        throw new Error("Currently, only functions on the global window object are supported.")
+    }
+    // Lookup the function in the global window object.
+    const name = prop.substr(7)
+    const func = getDescendantProp(window, name)
+    // Check if the function is there.
+    if(func === undefined){
+        if(~allow_string){
+            throw new Error("The function [" + name + "] was not found in the global window object.")
+        }
+        return (...args) => prop
+    }
+    // Add context.
+    if(context){
+        return (...args) => func(...args, context)
+    }
+    return func
+}
+
+function getDescendantProp(obj, desc) {
+    const arr = desc.split(".");
+    while(arr.length && (obj = obj[arr.shift()]));
+    return obj;
 }
 
 function resolveFunctionalProps(props, functionalProps, context){
