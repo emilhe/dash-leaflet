@@ -15,6 +15,57 @@ class LeafletGeoJSON extends Path {
     }
 
     createLeafletElement(props) {
+        // Render the geojson empty initially.
+        return new GeoJSON(null, {...this._resolveProps(props)});
+    }
+
+    updateLeafletElement(fromProps, toProps) {
+        // Change style (dynamic).
+        if (typeof toProps.options.style === 'function') {  // TODO: Function handle stuff?
+            this.leafletElement.setStyle(toProps.options.style)
+        } else {
+            this.setStyleIfChanged(fromProps.options, toProps.options)
+        }
+        // When the content of hideout changes, trigger redraw.
+        if(fromProps.hideout !== toProps.hideout) {
+            // Update element options. TODO: Maybe handle separately, this is not so efficient...
+            this.leafletElement.options = { ...this.leafletElement.options, ...this._resolveProps(toProps) }
+            // Update the layers.
+            if (!toProps.cluster) {
+                this._draw(this.state.geojson)
+            } else {
+                this._render_clusters()
+            }
+        }
+        // Change data (dynamic).
+        if (toProps.url !== fromProps.url ||
+            toProps.data !== fromProps.data ||
+            toProps.format !== fromProps.format ||
+            toProps.cluster !== fromProps.cluster) {
+            // Update element options. TODO: Maybe handle separately, this is not so efficient...
+            this.leafletElement.options = { ...this.leafletElement.options, ...this._resolveProps(toProps) }
+            // Update the layers.
+            this._setData(toProps);
+        }
+    }
+
+    componentDidMount() {
+        super.componentDidMount();
+        this._setData(this.props)
+    }
+
+    componentWillUnmount() {
+        this.leafletElement.off('click', this._handle_click.bind(this));
+        // Remove manually added event handlers.
+        if(this.props.cluster) {
+            const {map} = this.props.leaflet;
+            map.off('moveend', this._render_clusters.bind(this));
+        }
+        // Call super.
+        super.componentWillUnmount();
+    }
+
+    _resolveProps(props){
         const nProps = Object.assign({}, props.options);
         const {pointToLayer} = props.options
         const {clusterToLayer} = props
@@ -49,51 +100,7 @@ class LeafletGeoJSON extends Path {
         if (props.leaflet.pane) {
             nProps.pane = props.leaflet.pane;
         }
-        // Render the geojson empty initially.
-        return new GeoJSON(null, {...nProps});
-    }
-
-
-    updateLeafletElement(fromProps, toProps) {
-        // Change style (dynamic).
-        if (typeof toProps.options.style === 'function') {  // TODO: Function handle stuff?
-            this.leafletElement.setStyle(toProps.options.style)
-        } else {
-            this.setStyleIfChanged(fromProps.options, toProps.options)
-        }
-        // When the content of hideout changes, trigger redraw.
-        if(fromProps.hideout !== toProps.hideout) {
-            this.leafletElement.options = { ...this.leafletElement.options, ...toProps.options }
-            if (!toProps.cluster) {
-                this._draw(this.state.geojson)
-            } else {
-                this._render_clusters()
-            }
-        }
-        // Change data (dynamic).
-        if (toProps.url !== fromProps.url ||
-            toProps.data !== fromProps.data ||
-            toProps.format !== fromProps.format ||
-            toProps.cluster !== fromProps.cluster) {
-            this.leafletElement.options = { ...this.leafletElement.options, ...toProps.options }
-            this._setData(toProps);
-        }
-    }
-
-    componentDidMount() {
-        super.componentDidMount();
-        this._setData(this.props)
-    }
-
-    componentWillUnmount() {
-        this.leafletElement.off('click', this._handle_click.bind(this));
-        // Remove manually added event handlers.
-        if(this.props.cluster) {
-            const {map} = this.props.leaflet;
-            map.off('moveend', this._render_clusters.bind(this));
-        }
-        // Call super.
-        super.componentWillUnmount();
+        return nProps
     }
 
     _setData(props) {
