@@ -1,6 +1,6 @@
 {
   "name": "dash_leaflet",
-  "version": "0.1.2rc3",
+  "version": "0.1.3",
   "description": "Leaflet component for Dash",
   "main": "build/index.js",
   "scripts": {

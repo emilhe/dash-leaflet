@@ -2,15 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.1.2] - NOT RELEASED
+## [0.1.3] - 2020-17-09
 
 ### Added
 
-- The map now supports different CRS.
-
-### Changed
-
-- The GeoJSON component now supports custom panes.
+- The map now supports [different CRS](https://github.com/thedirtyfew/dash-leaflet/issues/31).
+- The GeoJSON component now [supports custom panes](https://github.com/thedirtyfew/dash-leaflet/issues/38).
+- The GeoJSON now supports [changing style dynamically](https://github.com/thedirtyfew/dash-leaflet/issues/42).
 
 ## [0.1.1] - 2020-04-09
 
