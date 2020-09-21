@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.4] - UNRELEASED
+
+### Changed
+
+- Minor changes to GeoJSON standard functions adding support for discrete/continuous color scales for both scatter and choropleth
+
 ## [0.1.3] - 2020-17-09
 
 ### Added

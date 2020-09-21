@@ -42,7 +42,7 @@ class _Scatter(_PropFuncNamespace):
 class _Choropleth(_PropFuncNamespace):
 
     def __init__(self):
-        self.discrete = self._prop_func("discrete")
+        self.style = self._prop_func("style")
 
 
 scatter = _Scatter()
