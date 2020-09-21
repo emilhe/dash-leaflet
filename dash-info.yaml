@@ -1,0 +1,29 @@
+pkg_help_description: >-
+    With naming conventions following the 'React-Leaflet' API
+    and syntax similar to other 'Dash' components, 'dashLeaflet'
+    is a lightweight wrapper around 'React-Leaflet'.    
+pkg_help_title: >-
+    A Lightweight Wrapper around 'React-Leaflet' for 'Dash' 
+pkg_authors: >-
+    c(person("Emil", "Haldrup Eriksen",  email = "emil.h.eriksen@gmail.com", role = c("aut", "cre")))
+pkg_copyright: >-
+    Emil Haldrup Eriksen
+r_examples:
+    - name: dlMap  
+      dontrun: FALSE
+      code: |
+            if (interactive() && require(dash)) {
+              library(dash)
+              library(dashLeaflet)
+
+              app <- Dash$new()
+
+              app$layout(dlMap(
+                  dlTileLayer(),
+                  style = list(width = '1000px',
+                               height = '500px')
+                  )
+              )
+
+              app$run_server()
+            }

@@ -1,0 +1,15 @@
+Package: dashLeaflet
+Title: A Lightweight Wrapper around 'React-Leaflet' for 'Dash' 
+Version: 0.1.3
+Description: With naming conventions following the 'React-Leaflet' API and syntax similar to other 'Dash' components, 'dashLeaflet' is a lightweight wrapper around 'React-Leaflet'.    
+Depends: R (>= 3.0.2)
+Imports: 
+Suggests: dash, dashHtmlComponents, jsonlite, plotly
+Authors@R: c(person("Emil", "Haldrup Eriksen",  email = "emil.h.eriksen@gmail.com", role = c("aut", "cre")))
+License: MIT + file LICENSE
+Copyright: Emil Haldrup Eriksen
+URL: https://github.com/thedirtyfew/dash-leaflet
+BugReports: https://github.com/thedirtyfew/dash-leaflet/issues
+Encoding: UTF-8
+LazyData: true
+KeepSource: true
