@@ -23,6 +23,9 @@ import VideoOverlay from './components/VideoOverlay.react';
 import WMSTileLayer from './components/WMSTileLayer.react';
 import ScaleControl from './components/ScaleControl.react';
 import MarkerClusterGroup from "./components/MarkerClusterGroup.react";
+import LayersControl from "./components/LayersControl.react";
+import Overlay from "./components/Overlay.react";
+import BaseLayer from "./components/BaseLayer.react";
 import _ from './express';
 
 
@@ -50,5 +53,8 @@ export {
     PolylineDecorator,
     Pane,
     DivMarker,
-    MarkerClusterGroup
+    MarkerClusterGroup,
+    LayersControl,
+    Overlay,
+    BaseLayer,
 };
