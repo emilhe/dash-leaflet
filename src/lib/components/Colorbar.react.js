@@ -13,9 +13,9 @@ export default class Colorbar extends Component {
 
 Colorbar.propTypes = {
     /**
-     * Position of the colorbar. One of 'topleft', 'topright', 'bottomleft', 'bottomright'
+     * Position of the colorbar.
      */
-    position: PropTypes.string,
+    position: PropTypes.oneOf(['topleft', 'topright', 'bottomleft', 'bottomright']),
 
     /**
      * Chroma-js colorscale. Either a colorscale name, e.g. "Viridis", or a list of colors,

@@ -16,6 +16,11 @@ export default class ScaleControl extends Component {
 ScaleControl.propTypes = {
 
     /**
+     * Position.
+     */
+    position: PropTypes.oneOf(['topleft', 'topright', 'bottomleft', 'bottomright']),
+
+    /**
      * Imperial scale or not.
      */
     imperial: PropTypes.bool,
