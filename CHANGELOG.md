@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [0.1.4] - UNRELEASED
 
+### Added
+
+- Added Freedraw component
+
 ### Changed
 
 - Minor changes to GeoJSON standard functions adding support for discrete/continuous color scales for both scatter and choropleth

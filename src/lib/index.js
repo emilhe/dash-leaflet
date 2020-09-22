@@ -23,6 +23,7 @@ import VideoOverlay from './components/VideoOverlay.react';
 import WMSTileLayer from './components/WMSTileLayer.react';
 import ScaleControl from './components/ScaleControl.react';
 import MarkerClusterGroup from "./components/MarkerClusterGroup.react";
+import Freedraw from "./components/Freedraw.react";
 import _ from './express';
 
 
@@ -50,5 +51,6 @@ export {
     PolylineDecorator,
     Pane,
     DivMarker,
-    MarkerClusterGroup
+    MarkerClusterGroup,
+    Freedraw
 };

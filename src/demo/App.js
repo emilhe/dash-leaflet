@@ -1,10 +1,12 @@
 /* eslint no-magic-numbers: 0 */
 import React, { Component } from 'react';
 
-import { Map, TileLayer, SuperCluster, Marker } from '../lib';
+import { Map, TileLayer} from '../lib';
+import LeafletFreedraw from 'react-leaflet-freedraw';
+import {ALL} from 'react-leaflet-freedraw';
 //import LeafletMarkerClusterGroup from '../lib/LeafletMarkerClusterGroup';
-import regeneratorRuntime from "regenerator-runtime";
-import GeoJSON2 from "../lib/components/GeoJSON2.react";
+// import regeneratorRuntime from "regenerator-runtime";
+// import GeoJSON2 from "../lib/components/GeoJSON2.react";
 
 var geojson = {"type": "FeatureCollection", "features": [
     {"type": "Feature", "geometry": {"type": "Point", "coordinates": [10, 56]}, 
@@ -72,11 +74,9 @@ class App extends Component {
 //                    setProps={this.setProps} zoom={8} center={[-37, 175]}
                     {...this.state}>
                         <TileLayer/>
-                        <GeoJSON2 data={geojson} pointToLayer={"hest"}>
-                            </GeoJSON2>
+    < LeafletFreedraw mode = { ALL }
 
-                            {/*<SuperCluster setProps={this.setProps} data={geojson} maxZoom={16} clusterOptions={clusterOptions}>*/}
-                            {/*</SuperCluster>*/}
+    />
                 </Map>
             </div>
         )
