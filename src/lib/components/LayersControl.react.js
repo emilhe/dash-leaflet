@@ -1,9 +1,8 @@
 import React, {Component, Children} from 'react';
 import PropTypes from 'prop-types';
 
-import { LayersControl as LeafletLayersControl } from 'react-leaflet';
-import {withLeaflet} from "react-leaflet/lib/context";
-
+import LeafletLayersControl from '../LeafletLayersControl';
+import {withLeaflet} from "react-leaflet";
 
 
 /**
@@ -13,8 +12,6 @@ import {withLeaflet} from "react-leaflet/lib/context";
 
 
 function createElement(layout, element=null) {
-    console.log("HELLO")
-    console.log(layout)
     // Figure out what component
     if (!element) {
         element = resolveComponent(layout);
