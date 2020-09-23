@@ -1,89 +1,9 @@
-import { Control } from 'leaflet'
-import React, {
-  cloneElement,
-  Component,
-  Children,
-  Fragment,
-} from 'react'
-import {LeafletProvider, MapControl, withLeaflet} from "react-leaflet";
+import {Control} from 'leaflet'
+import React, {Children, cloneElement, Fragment,} from 'react'
+import {LayersControl, MapControl, withLeaflet} from "react-leaflet";
 
-// Abtract class for layer container, extended by BaseLayer and Overlay
-export class ControlledLayer extends Component {
-
-  componentDidUpdate({ checked }) {
-    if (this.props.leaflet.map == null) {
-      return
-    }
-    // Handle dynamically (un)checking the layer => adding/removing from the map
-    if (this.props.checked === true && (checked == null || checked === false)) {
-      this.props.leaflet.map.addLayer(this.layer)
-    } else if (
-      checked === true &&
-      (this.props.checked == null || this.props.checked === false)
-    ) {
-      this.props.leaflet.map.removeLayer(this.layer)
-    }
-  }
-
-  componentWillUnmount() {
-    this.props.removeLayerControl(this.layer)
-  }
-
-  addLayer() {
-    throw new Error('Must be implemented in extending class')
-  }
-
-  removeLayer(layer) {
-    this.props.removeLayer(layer)
-  }
-
-  render() {
-    const { children } = this.props
-    return children ? (
-      <LeafletProvider value={this.contextValue}>{children}</LeafletProvider>
-    ) : null
-  }
-}
-
-class BaseLayer extends ControlledLayer {
-  constructor(props) {
-    super(props)
-    this.contextValue = {
-      ...props.leaflet,
-      layerContainer: {
-        addLayer: this.addLayer.bind(this),
-        removeLayer: this.removeLayer.bind(this),
-      },
-    }
-  }
-
-  addLayer = (layer) => {
-    this.layer = layer // Keep layer reference to handle dynamic changes of props
-    const { addBaseLayer, checked, name } = this.props
-    addBaseLayer(layer, name, checked)
-  }
-}
-
-class Overlay extends ControlledLayer {
-  constructor(props) {
-    super(props)
-    this.contextValue = {
-      ...props.leaflet,
-      layerContainer: {
-        addLayer: this.addLayer.bind(this),
-        removeLayer: this.removeLayer.bind(this),
-      },
-    }
-  }
-
-  addLayer = (layer) => {
-    this.layer = layer // Keep layer reference to handle dynamic changes of props
-    const { addOverlay, checked, name } = this.props
-    addOverlay(layer, name, checked)
-  }
-}
-
-class LayersControl extends MapControl {
+// Copied from https://github.com/PaulLeCam/react-leaflet/blob/master/src/LayersControl.js
+class LeafletLayersControl extends MapControl {
 
   constructor(props) {
     super(props)
@@ -142,30 +62,20 @@ class LayersControl extends MapControl {
     this.leafletElement.removeLayer(layer)
   }
 
+  // ONLY MODIFICATION IS HERE
   render() {
-    console.log("REAL CHILDREN")
-    console.log(this.props.children)
     const children = Children.map(this.props.children, (child) => {
-      // console.log(child);
-      // console.log(~child);
-      // if (~child) {
-      //   return null;
-      // }
       const clone = cloneElement(child, this.controlProps)
-      const nProps = {...child.props._dashprivate_layout.props, ...this.controlProps};
-      console.log(nProps)
-      clone.props._dashprivate_layout.props = nProps;
+      clone.props._dashprivate_layout.props = {...child.props._dashprivate_layout.props, ...this.controlProps};
       return clone
     })
-    console.log("MAPPED CHILDREN")
-    console.log(children)
     return <Fragment>{children}</Fragment>
   }
 }
 
-const LayersControlExport = withLeaflet(LayersControl)
+const LayersControlExport = withLeaflet(LeafletLayersControl)
 
-LayersControlExport.BaseLayer = BaseLayer
-LayersControlExport.Overlay = Overlay
+LayersControlExport.BaseLayer = LayersControl.BaseLayer
+LayersControlExport.Overlay = LayersControl.Overlay
 
 export default LayersControlExport

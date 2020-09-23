@@ -1,15 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import { LayersControl as LeafletLayersControl } from 'react-leaflet';
-
 /**
- * LayersControl is a wrapper of LayersControl in react-leaflet.
+ * Overlay is a wrapper of LayersControl.Overlay in react-leaflet.
  * It takes similar properties to its react-leaflet counterpart.
  */
 export default class Overlay extends Component {
     render() {
-        return <LeafletLayersControl.Overlay {...this.props} />
+        return null;
     }
 }
 

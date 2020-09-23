@@ -1,16 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import { LayersControl as LeafletLayersControl } from 'react-leaflet';
-
 /**
- * LayersControl is a wrapper of LayersControl in react-leaflet.
+ * BaseLayer is a wrapper of LayersControl.BaseLayer in react-leaflet.
  * It takes similar properties to its react-leaflet counterpart.
  */
 export default class BaseLayer extends Component {
     render() {
-        console.log("THIS SHOULD NEVER HAPPEN")
-        return null; // <LeafletLayersControl.BaseLayer {...this.props} />
+        return null;
     }
 }
 
