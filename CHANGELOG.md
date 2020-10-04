@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.4] - UNRELEASED
+
+### Added
+
+- Added tracking of map bounds
+
 ## [0.1.4] - 2020-23-09
 
 ### Added
