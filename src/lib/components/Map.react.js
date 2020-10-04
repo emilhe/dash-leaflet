@@ -23,6 +23,10 @@ export default class Map extends Component {
         nProps.onlocationfound = (e) => {
             nProps.setProps({ location_lat_lon_acc: [e.latlng.lat, e.latlng.lng, e.accuracy] });
         };
+        nProps.whenReady = () => {
+            const bounds = this.myRef.current.leafletElement.getBounds();
+            nProps.setProps({bounds: [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]]})
+        }
         // TODO: Does this affect performance? Maybe make it optional.
         nProps.onViewportChanged = (e) => {
             const bounds = this.myRef.current.leafletElement.getBounds();
