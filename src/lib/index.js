@@ -26,6 +26,7 @@ import MarkerClusterGroup from "./components/MarkerClusterGroup.react";
 import LayersControl from "./components/LayersControl.react";
 import Overlay from "./components/Overlay.react";
 import BaseLayer from "./components/BaseLayer.react";
+import EasyButton from "./components/EasyButton.react";
 import _ from './express';
 
 
@@ -57,4 +58,5 @@ export {
     LayersControl,
     Overlay,
     BaseLayer,
+    EasyButton
 };
