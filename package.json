@@ -17,7 +17,8 @@
   "author": "Emil Haldrup Eriksen",
   "contributors": [
     "Martin Qvist",
-    "r-chris"
+    "r-chris",
+    "Chrlryo"
   ],
   "license": "MIT",
   "dependencies": {
@@ -32,6 +33,7 @@
     "leaflet-polylinedecorator": "^1.6.0",
     "leaflet.locatecontrol": "^0.71.1",
     "leaflet.markercluster": "^1.4.1",
+    "leaflet-measure": "^3.1.0",
     "lzma": "^2.3.2",
     "pbf": "^3.2.1",
     "proj4": "^2.5.0",
