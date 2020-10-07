@@ -20,6 +20,9 @@ playground/*
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+.DS_Store
+app.py
+
 
 # Sensitive or high-churn files
 .idea/**/dataSources/
