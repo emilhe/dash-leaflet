@@ -9,16 +9,13 @@ export default class Measure extends Component {
 
     render() {
         const nProps = Object.assign({}, this.props);
-        nProps.action = () => {
-            this.props.setProps({n_clicks: this.props.n_clicks + 1});
-        };
         return <LeafletMeasure {...nProps}/>
     }
 
 }
 
 Measure.defaultProps = {
-    n_clicks: 0
+    secondaryLengthUnit: undefined
 };
 
 Measure.propTypes = {
@@ -83,13 +80,8 @@ Measure.propTypes = {
      */
     id: PropTypes.string,
 
-
     // Events
     setProps: PropTypes.func,
 
-    /**
-     * Dash callback property. Number of times the object has been clicked
-     */
-    n_clicks: PropTypes.number
 
 };
