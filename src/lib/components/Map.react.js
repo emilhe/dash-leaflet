@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import { Map as LeafletMap } from 'react-leaflet';
+import {Map as LeafletMap} from 'react-leaflet';
 import '../../../node_modules/leaflet/dist/leaflet.css';
 import {registerDefaultEvents} from "../utils";
 
@@ -11,20 +11,32 @@ import {registerDefaultEvents} from "../utils";
  * It takes similar properties to its react-leaflet counterpart.
  */
 export default class Map extends Component {
+
+        constructor(props) {
+        super(props);
+        this.myRef = React.createRef();  // Create reference to be used for map object
+    }
+
     render() {
         const nProps = registerDefaultEvents(this)
         // Bind extra events.
         nProps.onlocationfound = (e) => {
             nProps.setProps({ location_lat_lon_acc: [e.latlng.lat, e.latlng.lng, e.accuracy] });
         };
+        nProps.whenReady = () => {
+            const bounds = this.myRef.current.leafletElement.getBounds();
+            nProps.setProps({bounds: [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]]})
+        }
         // TODO: Does this affect performance? Maybe make it optional.
         nProps.onViewportChanged = (e) => {
-            nProps.setProps({ viewport: e , zoom: e.zoom, center: e.center});
+            const bounds = this.myRef.current.leafletElement.getBounds();
+            nProps.setProps({ viewport: e , zoom: e.zoom, center: e.center,
+                bounds: [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]]})
         };
         // Setup CRS.
         nProps.crs = L.CRS[nProps.crs]
         // Render the leaflet component.
-        return <LeafletMap {...nProps} />
+        return <LeafletMap {...nProps} ref={this.myRef}/>;
     }
 }
 
