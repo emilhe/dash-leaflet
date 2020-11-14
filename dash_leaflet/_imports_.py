@@ -13,7 +13,7 @@ from .LocateControl import LocateControl
 from .Map import Map
 from .Marker import Marker
 from .MarkerClusterGroup import MarkerClusterGroup
-from .Measure import Measure
+from .MeasureControl import MeasureControl
 from .Overlay import Overlay
 from .Pane import Pane
 from .Polygon import Polygon
@@ -44,7 +44,7 @@ __all__ = [
     "Map",
     "Marker",
     "MarkerClusterGroup",
-    "Measure",
+    "MeasureControl",
     "Overlay",
     "Pane",
     "Polygon",
