@@ -27,7 +27,7 @@ import LayersControl from "./components/LayersControl.react";
 import Overlay from "./components/Overlay.react";
 import BaseLayer from "./components/BaseLayer.react";
 import EasyButton from "./components/EasyButton.react";
-import Measure from "./components/Measure.react";
+import MeasureControl from "./components/MeasureControl.react";
 import _ from './express';
 
 
@@ -60,5 +60,5 @@ export {
     Overlay,
     BaseLayer,
     EasyButton,
-    Measure
+    MeasureControl
 };

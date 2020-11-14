@@ -5,7 +5,7 @@ import LeafletMeasure from '../LeafletMeasure';
 /**
  * Measure is based on https://github.com/ljagis/leaflet-measure
  */
-export default class Measure extends Component {
+export default class MeasureControl extends Component {
 
     render() {
         return <LeafletMeasure {...this.props}/>
@@ -13,11 +13,11 @@ export default class Measure extends Component {
 
 }
 
-Measure.defaultProps = {
+MeasureControl.defaultProps = {
     secondaryLengthUnit: undefined
 };
 
-Measure.propTypes = {
+MeasureControl.propTypes = {
 
     /**
      * The position of this component.
