@@ -8,8 +8,7 @@ import LeafletMeasure from '../LeafletMeasure';
 export default class Measure extends Component {
 
     render() {
-        const nProps = Object.assign({}, this.props);
-        return <LeafletMeasure {...nProps}/>
+        return <LeafletMeasure {...this.props}/>
     }
 
 }
