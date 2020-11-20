@@ -12,7 +12,7 @@ import {registerDefaultEvents} from "../utils";
  */
 export default class Map extends Component {
 
-        constructor(props) {
+    constructor(props) {
         super(props);
         this.myRef = React.createRef();  // Create reference to be used for map object
     }
@@ -21,23 +21,36 @@ export default class Map extends Component {
         const nProps = registerDefaultEvents(this)
         // Bind extra events.
         nProps.onlocationfound = (e) => {
-            nProps.setProps({ location_lat_lon_acc: [e.latlng.lat, e.latlng.lng, e.accuracy] });
+            nProps.setProps({location_lat_lon_acc: [e.latlng.lat, e.latlng.lng, e.accuracy]});
         };
         nProps.whenReady = () => {
-            const bounds = this.myRef.current.leafletElement.getBounds();
-            nProps.setProps({bounds: [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]]})
+            const el = this.myRef.current;
+            if (el) {
+                const bounds = el.leafletElement.getBounds();
+                nProps.setProps({bounds: [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]]})
+            }
         }
         // TODO: Does this affect performance? Maybe make it optional.
         nProps.onViewportChanged = (e) => {
-            const bounds = this.myRef.current.leafletElement.getBounds();
-            nProps.setProps({ viewport: e , zoom: e.zoom, center: e.center,
-                bounds: [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]]})
+            const el = this.myRef.current;
+            if (el) {
+                const bounds = el.leafletElement.getBounds();
+                nProps.setProps({
+                    viewport: e, zoom: e.zoom, center: e.center,
+                    bounds: [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]]
+                })
+            } else {
+                nProps.setProps({
+                    viewport: e, zoom: e.zoom, center: e.center,
+                })
+            }
         };
         // Setup CRS.
         nProps.crs = L.CRS[nProps.crs]
         // Render the leaflet component.
         return <LeafletMap {...nProps} ref={this.myRef}/>;
     }
+
 }
 
 Map.defaultProps = {
@@ -222,12 +235,12 @@ Map.propTypes = {
      * what it means. Set the crs property to one of these strings to use the corresponding Leaflet CRS object
      */
     crs: PropTypes.oneOf([
-            "EPSG3395",
-            "EPSG3857",
-            "EPSG4326",
-            "Earth",
-            "Simple",
-            "Base"
+        "EPSG3395",
+        "EPSG3857",
+        "EPSG4326",
+        "Earth",
+        "Simple",
+        "Base"
     ]),
 
     /**
