@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.9rc1] - 2020-26-11
+
+### Changed
+
+- Breaking syntax changes in functional properties.
+
 ## [0.1.8] - 2020-20-11
 
 ### Changed

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import LeafletGeoJSON from '../LeafletGeoJSON';
-import {resolveFunctionalProps} from '../utils'
+import {resolveProps} from 'dash-extensions'
 import {withLeaflet} from "react-leaflet";
 
 
@@ -18,10 +18,10 @@ class GeoJSON extends Component {
 
     render() {
         // Resolve main functional properties.
-        let nProps = resolveFunctionalProps(this.props,
+        let nProps = resolveProps(this.props,
             ["hoverStyle", "clusterToLayer"], this);
         // Resolve functional properties in geojson options.
-        nProps.options = resolveFunctionalProps(nProps.options,
+        nProps.options = resolveProps(nProps.options,
             ["pointToLayer", "style", "onEachFeature", "filter", "coordsToLatLng"], this);
         // Bind default onEachFeature.
         if(!nProps.options.onEachFeature){
