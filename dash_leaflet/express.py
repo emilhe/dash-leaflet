@@ -22,30 +22,3 @@ def dicts_to_geojson(dicts, lat="lat", lon="lon"):
 
 def geojson_to_geobuf(geojson):
     return base64.b64encode(geobuf.encode(geojson)).decode()
-
-
-# region Function properties
-
-class _PropFuncNamespace:
-
-    def _prop_func(self, prop):
-        return f"window.dlx.{self.__class__.__name__[1:].lower()}.{prop}"
-
-
-class _Scatter(_PropFuncNamespace):
-
-    def __init__(self):
-        self.point_to_layer = self._prop_func("point_to_layer")
-        self.cluster_to_layer = self._prop_func("cluster_to_layer")
-
-
-class _Choropleth(_PropFuncNamespace):
-
-    def __init__(self):
-        self.style = self._prop_func("style")
-
-
-scatter = _Scatter()
-choropleth = _Choropleth()
-
-# endregion

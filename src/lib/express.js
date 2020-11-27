@@ -19,7 +19,7 @@ L.divIcon.scatter = function(opts) {
 function resolve(primary, fallback, keys){
     const obj = {}
     for(let i = 0; i < keys.length; i++){
-        obj[keys[i]] = primary[keys[i]]? primary[keys[i]] : fallback[keys[i]]
+        obj[keys[i]] = (primary && primary[keys[i]])? primary[keys[i]] : fallback[keys[i]]
     }
     return obj
 }
