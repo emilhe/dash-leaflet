@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.1.9rc1] - 2020-26-11
+## [0.1.10] - 2020-27-11
 
 ### Changed
 

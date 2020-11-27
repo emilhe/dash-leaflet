@@ -26,16 +26,16 @@ function resolve(primary, fallback, keys){
 
 // region Color
 
-const color_defaults = {min:0, max:1, colorscale:['yellow', 'red', 'black']}
+const colorDefaults = {min:0, max:1, colorscale:['yellow', 'red', 'black']}
 
-function get_color_continuous(options, value){
-    const {min, max, colorscale} = resolve(options, color_defaults, ["min", "max", "colorscale"])
+function getColorContinuous(options, value){
+    const {min, max, colorscale} = resolve(options, colorDefaults, ["min", "max", "colorscale"])
     const csc = chroma.scale(colorscale).domain([min, max])
     return csc(value)
 }
 
-function get_color_discrete(options, value) {
-    const {classes, colorscale} = resolve(options, color_defaults, ["classes", "colorscale"])
+function getColorDiscrete(options, value) {
+    const {classes, colorscale} = resolve(options, colorDefaults, ["classes", "colorscale"])
     let color = null;
     for (let i = 0; i < classes.length; ++i) {
         if (value > classes[i]) {
@@ -45,47 +45,47 @@ function get_color_discrete(options, value) {
     return color
 }
 
-function get_color(options, value){
-    const {classes} = resolve(options, color_defaults, ["classes"])
+function getColor(options, value){
+    const {classes} = resolve(options, colorDefaults, ["classes"])
     if(classes){
-        return get_color_discrete(options, value)
+        return getColorDiscrete(options, value)
     }
-    return get_color_continuous(options, value)
+    return getColorContinuous(options, value)
 }
 
 // endregion
 
 
-const scatter_defaults = {color_prop: "value", circle_options: {fillOpacity:1, stroke:false, radius:5}};
-const choropleth_defaults = {color_prop: "value", style:{}}
+const scatterDefaults = {colorProp: "value", circleOptions: {fillOpacity:1, stroke:false, radius:5}};
+const choroplethDefaults = {colorProp: "value", style:{}}
 
 
 
 window.dlx = Object.assign({}, window.dlx, {
     scatter: {
 
-        point_to_layer: function(feature, latlng, context){
-            const {circle_options, color_prop} = resolve(context.props.hideout, scatter_defaults,
-                ["circle_options", "color_prop"])
-            circle_options.fillColor = get_color(context.props.hideout, feature.properties[color_prop]);
-            return L.circleMarker(latlng, circle_options);
+        pointToLayer: function(feature, latlng, context){
+            const {circleOptions, colorProp} = resolve(context.props.hideout, scatterDefaults,
+                ["circleOptions", "colorProp"])
+            circleOptions.fillColor = getColor(context.props.hideout, feature.properties[colorProp]);
+            return L.circleMarker(latlng, circleOptions);
         },
 
-        cluster_to_layer: function (feature, latlng, index, context) {
-            const {color_prop} = resolve(context.props.hideout, scatter_defaults, ["color_prop"])
+        clusterToLayer: function (feature, latlng, index, context) {
+            const {colorProp} = resolve(context.props.hideout, scatterDefaults, ["colorProp"])
             // Set color based on mean value of leaves.
             const leaves = index.getLeaves(feature.properties.cluster_id);
-            let value_sum = 0;
+            let valueSum = 0;
             for (let i = 0; i < leaves.length; ++i) {
-                value_sum += leaves[i].properties[color_prop]
+                valueSum += leaves[i].properties[colorProp]
             }
-            const value_mean = value_sum / leaves.length;
+            const valueMean = valueSum / leaves.length;
             // Render a circle with the number of leaves written in the center.
             const icon = L.divIcon.scatter({
                 html: '<div style="background-color:white;"><span>' + feature.properties.point_count_abbreviated + '</span></div>',
                 className: "marker-cluster",
                 iconSize: L.point(40, 40),
-                color: get_color(context.props.hideout, value_mean)
+                color: getColor(context.props.hideout, valueMean)
             });
             return L.marker(latlng, {icon : icon})
         }
@@ -95,9 +95,9 @@ window.dlx = Object.assign({}, window.dlx, {
     choropleth: {
 
         style: function (feature, context) {
-            const {style, color_prop} = resolve(context.props.hideout, choropleth_defaults, 
-                ["style", "color_prop"])
-            style.fillColor = get_color(context.props.hideout, feature.properties[color_prop])
+            const {style, colorProp} = resolve(context.props.hideout, choroplethDefaults,
+                ["style", "colorProp"])
+            style.fillColor = getColor(context.props.hideout, feature.properties[colorProp])
             return style
         }
 
