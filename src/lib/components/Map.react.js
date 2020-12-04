@@ -47,6 +47,8 @@ export default class Map extends Component {
         };
         // Setup CRS.
         nProps.crs = L.CRS[nProps.crs]
+        // Strip bounds. It can confuse maps between tabs.
+        delete nProps.bounds
         // Render the leaflet component.
         return <LeafletMap {...nProps} ref={this.myRef}/>;
     }

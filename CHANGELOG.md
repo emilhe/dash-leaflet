@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.11] - 2020-04-12
+
+### Changed
+
+- New attempt at fixing a [bug](https://github.com/thedirtyfew/dash-leaflet/issues/56) typically seen with multiple maps in multiple tabs.
+
 ## [0.1.10] - 2020-27-11
 
 ### Changed
