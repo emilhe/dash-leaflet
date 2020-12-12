@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.12] - 2020-12-12
+
+### Changed
+
+- Regression (bounds passed from Dash not applied) due to fix in 0.1.11 [fixed](https://github.com/thedirtyfew/dash-leaflet/issues/62)
+
 ## [0.1.11] - 2020-04-12
 
 ### Changed

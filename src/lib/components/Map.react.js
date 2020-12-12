@@ -25,30 +25,30 @@ export default class Map extends Component {
         };
         nProps.whenReady = () => {
             const el = this.myRef.current;
-            if (el) {
-                const bounds = el.leafletElement.getBounds();
-                nProps.setProps({bounds: [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]]})
+            // Only update on initial load, i.e. when nProps.bounds has not yet been set.
+            if (!el || nProps.bounds !== undefined) {
+                return
             }
+            // Update bounds.
+            const bounds = el.leafletElement.getBounds();
+            nProps.setProps({bounds: [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]]})
         }
         // TODO: Does this affect performance? Maybe make it optional.
         nProps.onViewportChanged = (e) => {
             const el = this.myRef.current;
-            if (el) {
-                const bounds = el.leafletElement.getBounds();
-                nProps.setProps({
-                    viewport: e, zoom: e.zoom, center: e.center,
-                    bounds: [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]]
-                })
-            } else {
-                nProps.setProps({
-                    viewport: e, zoom: e.zoom, center: e.center,
-                })
+            // If the element is not there, skip the update.
+            if (!el) {
+                return
             }
+            // Update bounds and view port.
+            const bounds = el.leafletElement.getBounds();
+            nProps.setProps({
+                viewport: e, zoom: e.zoom, center: e.center,
+                bounds: [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]]
+            })
         };
         // Setup CRS.
         nProps.crs = L.CRS[nProps.crs]
-        // Strip bounds. It can confuse maps between tabs.
-        delete nProps.bounds
         // Render the leaflet component.
         return <LeafletMap {...nProps} ref={this.myRef}/>;
     }
