@@ -6,7 +6,6 @@ import { withLeaflet } from "react-leaflet";
 class LayersControl extends Component {
 
     _init_layers() {
-        console.log("INIT")
         return React.Children.map(this.props.children, (child) => {
             const props = child.props._dashprivate_layout.props;
             return {name: props.name, checked: props.checked}
@@ -14,7 +13,8 @@ class LayersControl extends Component {
     }
 
     _update_layers(name, value) {
-        const layers = this.props.layers? this.props.layers : this._init_layers();
+        let layers = this.props.layers? [...this.props.layers]: this._init_layers();
+        layers = layers.map(layer => {return {...layer}});
         for (let i=0; i < layers.length; i++) {
             if (name === layers[i].name) {
                 layers[i].checked = value
@@ -27,23 +27,16 @@ class LayersControl extends Component {
         const { map } = this.props.leaflet;
         // Monitor layer events.
         map.on('layeradd', (e) =>{
-            if(!e.layer.name){
-                return
+            if(e.layer.name){
+                this.props.setProps({ layers: this._update_layers(e.layer.name, true)});
             }
-            const layers = this._update_layers(e.layer.name, true);
-            console.log("ADD")
-            console.log(layers)
-            this.props.setProps({ layers: layers})
         })
         map.on('layerremove', (e) =>{
             if(!e.layer.name){
-                return
+                this.props.setProps({ layers: this._update_layers(e.layer.name, false) });
             }
-            const layers = this._update_layers(e.layer.name, false);
-            console.log("REMOVE")
-            console.log(layers)
-            this.props.setProps({ layers: layers })
-        })}
+        })
+    }
 
     render() {
         // Inject components into window.
