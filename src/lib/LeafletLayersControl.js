@@ -39,6 +39,7 @@ class LeafletLayersControl extends MapControl {
   }
 
   addBaseLayer(layer, name, checked) {
+    layer.name = name;
     if (checked && this.props.leaflet.map != null) {
       this.props.leaflet.map.addLayer(layer)
     }
@@ -46,6 +47,7 @@ class LeafletLayersControl extends MapControl {
   }
 
   addOverlay(layer, name, checked) {
+    layer.name = name;
     if (checked && this.props.leaflet.map != null) {
       this.props.leaflet.map.addLayer(layer)
     }
