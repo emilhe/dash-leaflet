@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.13rc1] - 2020-30-12
+
+### Added
+
+- Added `layers` prop to `LayersControl` component.
+
 ## [0.1.12] - 2020-12-12
 
 ### Changed

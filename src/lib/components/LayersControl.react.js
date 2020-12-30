@@ -13,8 +13,7 @@ class LayersControl extends Component {
     }
 
     _update_layers(name, value) {
-        let layers = this.props.layers? [...this.props.layers]: this._init_layers();
-        layers = layers.map(layer => {return {...layer}});
+        const layers = this.props.layers.map(layer => {return {...layer}});
         for (let i=0; i < layers.length; i++) {
             if (name === layers[i].name) {
                 layers[i].checked = value
@@ -25,6 +24,8 @@ class LayersControl extends Component {
 
     componentDidMount() {
         const { map } = this.props.leaflet;
+        // Set initial value.
+        this.props.setProps({ layers: this._init_layers()})
         // Monitor layer events.
         map.on('layeradd', (e) =>{
             if(e.layer.name){
@@ -32,7 +33,7 @@ class LayersControl extends Component {
             }
         })
         map.on('layerremove', (e) =>{
-            if(!e.layer.name){
+            if(e.layer.name){
                 this.props.setProps({ layers: this._update_layers(e.layer.name, false) });
             }
         })
@@ -81,7 +82,7 @@ LayersControl.propTypes = {
     setProps: PropTypes.func,
 
     /**
-     * XXX
+     * List of layers indicating if they are currently checked or not.
      */
     layers: PropTypes.arrayOf(
         PropTypes.shape({
