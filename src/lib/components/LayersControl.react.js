@@ -5,37 +5,37 @@ import { withLeaflet } from "react-leaflet";
 
 class LayersControl extends Component {
 
-    _init_layers() {
-        return React.Children.map(this.props.children, (child) => {
+    _getInitialValues() {
+        let baseLayer = null;
+        const overlays = [];
+        React.Children.map(this.props.children, (child) => {
+            const dpl = child.props._dashprivate_layout;
             const props = child.props._dashprivate_layout.props;
-            return {name: props.name, checked: props.checked}
-        })
-    }
-
-    _update_layers(name, value) {
-        const layers = this.props.layers.map(layer => {return {...layer}});
-        for (let i=0; i < layers.length; i++) {
-            if (name === layers[i].name) {
-                layers[i].checked = value
+            if(dpl.type === "BaseLayer" && props.checked){
+                baseLayer = props.name;
             }
-        }
-        return layers
+            if(dpl.type === "Overlay" && props.checked){
+                overlays.push(props.name);
+            }
+        })
+        return {baseLayer: baseLayer, overlays: overlays};
     }
 
     componentDidMount() {
         const { map } = this.props.leaflet;
         // Set initial value.
-        this.props.setProps({ layers: this._init_layers()})
+        const initialValues = this._getInitialValues();
+        this.props.setProps({ baseLayer: initialValues.baseLayer})
+        this.props.setProps({ overlays: initialValues.overlays})
         // Monitor layer events.
-        map.on('layeradd', (e) =>{
-            if(e.layer.name){
-                this.props.setProps({ layers: this._update_layers(e.layer.name, true)});
-            }
+        map.on('baselayerchange', (e) =>{
+            this.props.setProps({ baseLayer: e.name});
         })
-        map.on('layerremove', (e) =>{
-            if(e.layer.name){
-                this.props.setProps({ layers: this._update_layers(e.layer.name, false) });
-            }
+        map.on('overlayadd', (e) =>{
+            this.props.setProps({ overlays: this.props.overlays.concat([e.name])})
+        })
+        map.on('overlayremove', (e) =>{
+            this.props.setProps({ overlays: this.props.overlays.filter(item => item !== e.name)})
         })
     }
 
@@ -46,7 +46,7 @@ class LayersControl extends Component {
         dash_leaflet["Overlay"] = LeafletLayersControl.Overlay;
         window["dash_leaflet"] = dash_leaflet;
         // Render the component.
-        return  <LeafletLayersControl {...this.props} />
+        return <LeafletLayersControl {...this.props} />
     }
 
 }
@@ -82,13 +82,14 @@ LayersControl.propTypes = {
     setProps: PropTypes.func,
 
     /**
-     * List of layers indicating if they are currently checked or not.
+     * Name of the currently selected base layer.
      */
-    layers: PropTypes.arrayOf(
-        PropTypes.shape({
-            name: PropTypes.string,
-            checked: PropTypes.bool,
-        }))
+    baseLayer: PropTypes.string,
+
+    /**
+     * Names of the currently selected overlays.
+     */
+    overlays: PropTypes.arrayOf(PropTypes.string),
 
 };
 
