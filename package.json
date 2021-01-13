@@ -1,6 +1,6 @@
 {
   "name": "dash_leaflet",
-  "version": "0.1.13rc2",
+  "version": "0.1.13",
   "description": "Leaflet component for Dash",
   "main": "build/index.js",
   "scripts": {
@@ -46,7 +46,7 @@
     "react-leaflet-fullscreen": "^1.0.1",
     "react-leaflet-markercluster": "^2.0.0-rc3",
     "regenerator-runtime": "^0.13.5",
-    "supercluster": "^7.1.0",
+    "supercluster": "^7.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
