@@ -11,7 +11,7 @@ export default class LayersControl extends Component {
         dash_leaflet["Overlay"] = LeafletLayersControl.Overlay;
         window["dash_leaflet"] = dash_leaflet;
         // Render the component.
-        return  <LeafletLayersControl {...this.props} />
+            return  <LeafletLayersControl {...this.props} />
     }
 
 }

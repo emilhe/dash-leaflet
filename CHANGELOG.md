@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.X] - ?
+
+### Added
+
+- Added FullscreenControl as per [request](https://github.com/thedirtyfew/dash-leaflet/issues/67).
+
 ## [0.1.11] - 2020-04-12
 
 ### Changed
