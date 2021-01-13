@@ -2,13 +2,12 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import { LayerGroup as LeafletLayerGroup } from 'react-leaflet';
-import {withLeaflet} from "react-leaflet/lib/context";
 
 /**
  * LayerGroup is a wrapper of LayerGroup in react-leaflet.
  * It takes similar properties to its react-leaflet counterpart.
  */
-class LayerGroup extends Component {
+export default class LayerGroup extends Component {
     render() {
         return <LeafletLayerGroup {...this.props} />
     }
@@ -40,5 +39,3 @@ LayerGroup.propTypes = {
     setProps: PropTypes.func,
 
 };
-
-export default withLeaflet(LayerGroup);

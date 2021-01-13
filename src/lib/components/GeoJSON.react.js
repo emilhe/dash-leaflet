@@ -9,7 +9,7 @@ import {withLeaflet} from "react-leaflet";
  * LayerGroup is a wrapper of LayerGroup in react-leaflet.
  * It takes similar properties to its react-leaflet counterpart.
  */
-class GeoJSON extends Component {
+export default class GeoJSON extends Component {
 
     constructor(props) {
         super(props);
@@ -197,6 +197,3 @@ GeoJSON.propTypes = {
     hover_feature: PropTypes.object,
 
 };
-
-export default withLeaflet(GeoJSON);
-
