@@ -2,11 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.1.X] - ?
+## [0.1.13] - 2020-13-01
 
 ### Added
 
-- Added FullscreenControl as per [request](https://github.com/thedirtyfew/dash-leaflet/issues/67).
+- Added `layers` prop to `LayersControl` component.
+- Added `FullscreenControl` as per [request](https://github.com/thedirtyfew/dash-leaflet/issues/67).
+
+## [0.1.12] - 2020-12-12
+
+### Changed
+
+- Regression (bounds passed from Dash not applied) due to fix in 0.1.11 [fixed](https://github.com/thedirtyfew/dash-leaflet/issues/62)
 
 ## [0.1.11] - 2020-04-12
 
