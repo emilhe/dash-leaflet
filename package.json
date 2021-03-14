@@ -32,7 +32,7 @@
     "immutability-helper": "^3.1.1",
     "jszip": "^3.5.0",
     "leaflet": "^1.6.0",
-    "leaflet-draw": "^0.4.14",
+    "leaflet-draw": "^1.0.4",
     "leaflet-easybutton": "^2.4.0",
     "leaflet-measure": "^3.1.0",
     "leaflet-polylinedecorator": "^1.6.0",
