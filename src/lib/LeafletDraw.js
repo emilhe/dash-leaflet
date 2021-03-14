@@ -3,7 +3,7 @@ import L from 'leaflet';
 import { MapControl, withLeaflet } from 'react-leaflet';
 
 require('leaflet-draw')
-require('leaflet-draw/dist/leaflet-draw.css')
+require('leaflet-draw/dist/leaflet.draw.css')
 
 export class LeafletDraw extends MapControl {
 
