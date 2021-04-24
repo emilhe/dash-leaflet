@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import {Map as LeafletMap} from 'react-leaflet';
 import '../../../node_modules/leaflet/dist/leaflet.css';
 import {registerDefaultEvents} from "../utils";
-
+import "leaflet-loading"
+@import "~leaflet-loading/src/Control.Loading.css"
 
 /**
  * Map is a wrapper of Map in react-leaflet.

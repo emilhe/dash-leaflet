@@ -10,6 +10,7 @@ from .GeoTIFFOverlay import GeoTIFFOverlay
 from .ImageOverlay import ImageOverlay
 from .LayerGroup import LayerGroup
 from .LayersControl import LayersControl
+from .LoadingControl import LoadingControl
 from .LocateControl import LocateControl
 from .Map import Map
 from .Marker import Marker
@@ -42,6 +43,7 @@ __all__ = [
     "ImageOverlay",
     "LayerGroup",
     "LayersControl",
+    "LoadingControl",
     "LocateControl",
     "Map",
     "Marker",

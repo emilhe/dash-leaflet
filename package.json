@@ -33,6 +33,7 @@
     "jszip": "^3.5.0",
     "leaflet": "^1.6.0",
     "leaflet-easybutton": "^2.4.0",
+    "leaflet-loading": "^0.1.24",
     "leaflet-measure": "^3.1.0",
     "leaflet-polylinedecorator": "^1.6.0",
     "leaflet.locatecontrol": "^0.71.1",
