@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import LeafletGeoJSON from '../LeafletGeoJSON';
 import {resolveProps} from 'dash-extensions'
-import {withLeaflet} from "react-leaflet";
 
 
 /**

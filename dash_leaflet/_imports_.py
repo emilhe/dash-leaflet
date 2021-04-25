@@ -26,6 +26,7 @@ from .SVGOverlay import SVGOverlay
 from .ScaleControl import ScaleControl
 from .TileLayer import TileLayer
 from .Tooltip import Tooltip
+from .VectorGrid import VectorGrid
 from .VideoOverlay import VideoOverlay
 from .WMSTileLayer import WMSTileLayer
 
@@ -58,6 +59,7 @@ __all__ = [
     "ScaleControl",
     "TileLayer",
     "Tooltip",
+    "VectorGrid",
     "VideoOverlay",
     "WMSTileLayer"
 ]

@@ -45,6 +45,7 @@
     "react-leaflet": "^2.6.3",
     "react-leaflet-fullscreen": "^1.0.1",
     "react-leaflet-markercluster": "^2.0.0-rc3",
+    "react-leaflet-vectorgrid": "^2.2.1",
     "regenerator-runtime": "^0.13.5",
     "supercluster": "^7.1.0"
   },
