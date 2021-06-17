@@ -18,7 +18,6 @@ export default class WMSTileLayer extends Component {
         delete nProps.extraProps;
         // Add kwargs if there are any.
         let nPropsAll = Object.assign(nProps, this.props.extraProps);
-        console.log(nPropsAll)
         // Render layer.
         return <LeafletWMSTileLayer {...nPropsAll}/>
     }
