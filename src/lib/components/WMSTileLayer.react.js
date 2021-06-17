@@ -15,8 +15,11 @@ export default class WMSTileLayer extends Component {
         delete nProps.children;
         delete nProps.setProps;
         delete nProps.loading_state;
+        delete nProps.extraProps;
+        // Add kwargs if there are any.
+        let nPropsAll = Object.assign(nProps, this.props.extraProps);
         // Render layer.
-        return <LeafletWMSTileLayer {...nProps}/>
+        return <LeafletWMSTileLayer {...nPropsAll}/>
     }
 }
 
@@ -210,6 +213,13 @@ WMSTileLayer.propTypes = {
      * The attribution string for the component (dynamic)
      */
     attribution: PropTypes.string,
+
+    // Props added as part of this wrapper
+
+    /**
+     * Additional props to pass to the WMSTileLayer object
+     */
+    extraProps: PropTypes.object,
 
     // Dash related properties
 

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.14] - 2020-17-06
+
+### Added
+
+- Added `extraProps` prop to `WMSTileLayer` component as per [request](https://github.com/thedirtyfew/dash-leaflet/issues/90).
+
 ## [0.1.13] - 2020-13-01
 
 ### Added
