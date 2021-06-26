@@ -202,7 +202,10 @@ class LeafletGeoJSON extends Path {
         if(geojson) {
             this.leafletElement.addData(geojson);
             if(this.props.zoomToBounds && geojson.features.length > 0){
-                this.props.leaflet.map.fitBounds(this.leafletElement.getBounds())
+                const bounds = this.leafletElement.getBounds()
+                if(bounds._southWest){
+                    this.props.leaflet.map.fitBounds(this.leafletElement.getBounds())
+                }
             }
         }
     }
