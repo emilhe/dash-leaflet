@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.15] - 2020-17-06
+
+### Changed
+
+- Fixed bug in `GeoJSON` component arising when all features are filtered out and `zoomToBounds=True`.
+
+### Removed
+
+- Dropped bundled js functions (previously located in `express.js`).
+
 ## [0.1.14] - 2020-17-06
 
 ### Added
