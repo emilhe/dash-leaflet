@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [0.1.15] - 2020-17-06
 
+### Added
+
+- New `FeatureGroup` component.
+
 ### Changed
 
 - Fixed bug in `GeoJSON` component arising when all features are filtered out and `zoomToBounds=True`.

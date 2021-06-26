@@ -5,6 +5,7 @@ import Colorbar from './components/Colorbar.react';
 import GeoTIFFOverlay from './components/GeoTIFFOverlay.react';
 import ImageOverlay from './components/ImageOverlay.react';
 import LayerGroup from './components/LayerGroup.react';
+import FeatureGroup from './components/FeatureGroup.react';
 import GeoJSON from './components/GeoJSON.react';
 import Map from './components/Map.react';
 import LocateControl from './components/LocateControl.react';
@@ -62,5 +63,6 @@ export {
     BaseLayer,
     EasyButton,
     MeasureControl,
-    FullscreenControl
+    FullscreenControl,
+    FeatureGroup
 };

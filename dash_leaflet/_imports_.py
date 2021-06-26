@@ -4,6 +4,7 @@ from .CircleMarker import CircleMarker
 from .Colorbar import Colorbar
 from .DivMarker import DivMarker
 from .EasyButton import EasyButton
+from .FeatureGroup import FeatureGroup
 from .FullscreenControl import FullscreenControl
 from .GeoJSON import GeoJSON
 from .GeoTIFFOverlay import GeoTIFFOverlay
@@ -36,6 +37,7 @@ __all__ = [
     "Colorbar",
     "DivMarker",
     "EasyButton",
+    "FeatureGroup",
     "FullscreenControl",
     "GeoJSON",
     "GeoTIFFOverlay",
