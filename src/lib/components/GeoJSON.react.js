@@ -150,7 +150,7 @@ GeoJSON.propTypes = {
     /**
      * Function that determines how a cluster is drawn.
      */
-    clusterToLayer: PropTypes.string,
+    clusterToLayer: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 
     /**
      * If true, markers that are not resolved at max zoom level will be spiderfied on click.
