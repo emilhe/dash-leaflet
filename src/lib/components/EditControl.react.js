@@ -36,10 +36,11 @@ export default class EditControl extends Component {
                 const geometry_type = polygon ? "Polygon" : "LineString";
                 type = polygon ? "polygon" : "polyline";
                 const latlng = polygon ? layer._latlngs[0] : layer._latlngs;
-                const coords = latlng.map(latlng => [latlng.lng, latlng.lat]);
+                let coords = latlng.map(latlng => [latlng.lng, latlng.lat]);
                 // Repeat last coordinate for Polygon.
                 if(polygon) {
                     coords.push(coords[0]);
+                    coords = [coords]
                 }
                 // Special case for rectangle.
                 if("_shape" in layer.editing){
