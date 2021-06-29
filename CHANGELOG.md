@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.16] - UNRELEASED
+
+### Added
+
+- Added `EditControl` component.
+
 ## [0.1.15] - 2020-17-06
 
 ### Added

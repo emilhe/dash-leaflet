@@ -11,21 +11,37 @@ require('../../../node_modules/leaflet-draw/dist/leaflet.draw.css');
 export default class EditControl extends Component {
 
     render() {
+        // Convert property to something that can be passed on to Dash.
+        const propMappings = {
+            _bounds: (x) => {return [x._southWest, x._northEast];}
+        }
         // Convert layer to something that can be passed on to Dash.
-        const propsToSelect = ["_bounds", "_latlngs", "_radius", "_latlng", "_mRadius"];
+        const propsToSelect = ["_bounds", "_latlngs", "_radius", "_latlng", "_mRadius", "_leaflet_id"];
         const bindLayer = (feature, layer) => {
             for (let i = 0; i < propsToSelect.length; i++) {
                 let propToSelect = propsToSelect[i];
                 if (layer.hasOwnProperty(propToSelect)) {
-                    feature[propToSelect] = JSON.stringify(layer[propToSelect]);
+                    let prop = layer[propToSelect];
+                    if(propToSelect in propMappings){
+                        prop = propMappings[propToSelect](prop)
+                    }
+                    feature[propToSelect] = prop; // JSON.stringify(layer[propToSelect]);
                 }
             }
             return feature;
         }
+        // Convert event into a feature map that can be passed to Dash.
+        const eventToFeatureMap = (e) => {
+            const feature_map = {};
+            for (let key in e.layers._layers) {
+                if (e.layers._layers.hasOwnProperty(key)) {
+                    feature_map[key] = bindLayer({type: e.type}, e.layers._layers[key]);
+                }
+            }
+            return feature_map
+        }
         // Events that are exposed directly.
-        const rawEvents = ['onEdited', 'onDeleted', 'onMounted',
-              'onDrawVertex',
-            'onEditMove', 'onEditResize', 'onEditVertex'];
+        const rawEvents = ['onMounted', 'onDrawVertex', 'onEditMove', 'onEditResize', 'onEditVertex'];
         let nProps = resolveProps(this.props, rawEvents, this);
         // Bind feature create event.
         nProps.onCreated = (e) => {
@@ -35,13 +51,11 @@ export default class EditControl extends Component {
         }
         // Bind feature edit event.
         nProps.onEdited = (e) => {
-            const feature_map = {};
-            for(let key in e.layers._layers) {
-                if (e.layers._layers.hasOwnProperty(key)) {
-                    feature_map[key] = bindLayer({type: e.type}, e.layers._layers[key]);
-                }
-            }
-            this.props.setProps({edit_features: feature_map});
+            this.props.setProps({edit_features: eventToFeatureMap(e)});
+        }
+        // Bind feature delete event.
+        nProps.onDeleted = (e) => {
+            this.props.setProps({delete_features: eventToFeatureMap(e)});
         }
         // Bind action events.
         const actionEvents = ['onDrawStart', 'onDrawStop', 'onDeleteStart', 'onDeleteStop', 'onEditStart', 'onEditStop']
@@ -103,56 +117,12 @@ EditControl.propTypes = {
      */
     delete_features: PropTypes.object,
 
-
-    /**
-     * Hook to leaflet-draw's draw:edited event.
-     */
-    onEdited: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-
-    /**
-     * Hook to leaflet-draw's draw:created event.
-     */
-    onCreated: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-
-    /**
-     * Hook to leaflet-draw's draw:deleted event.
-     */
-    onDeleted: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    // Raw events.
 
     /**
      * Hook to leaflet-draw's draw:mounted event.
      */
     onMounted: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-
-    /**
-     * Hook to leaflet-draw's draw:editstart event.
-     */
-    onEditStart: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-
-    /**
-     * Hook to leaflet-draw's draw:editstop event.
-     */
-    onEditStop: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-
-    /**
-     * Hook to leaflet-draw's draw:deletestart event.
-     */
-    onDeleteStart: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-
-    /**
-     * Hook to leaflet-draw's draw:deletestop event.
-     */
-    onDeleteStop: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-
-    /**
-     * Hook to leaflet-draw's draw:drawstart event.
-     */
-    onDrawStart: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-
-    /**
-     * Hook to leaflet-draw's draw:drawstop event.
-     */
-    onDrawStop: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 
     /**
      * Hook to leaflet-draw's draw:drawvertex event.
@@ -174,7 +144,7 @@ EditControl.propTypes = {
      */
     onEditVertex: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 
-    // Dash stuff
+    // Dash stuff.
 
     /**
      * The children of this component (dynamic).
