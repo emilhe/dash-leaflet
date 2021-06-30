@@ -31,7 +31,7 @@ DivMarker.propTypes = {
         iconSize: PropTypes.arrayOf(PropTypes.number),
         iconAnchor: PropTypes.arrayOf(PropTypes.number),
         popupAnchor: PropTypes.arrayOf(PropTypes.number),
-        className: PropTypes.arrayOf(PropTypes.number),
+        className: PropTypes.string,
         html: PropTypes.string
     }),
 
