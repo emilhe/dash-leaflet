@@ -9,6 +9,7 @@ from .FeatureGroup import FeatureGroup
 from .FullscreenControl import FullscreenControl
 from .GeoJSON import GeoJSON
 from .GeoTIFFOverlay import GeoTIFFOverlay
+from .GestureHandling import GestureHandling
 from .ImageOverlay import ImageOverlay
 from .LayerGroup import LayerGroup
 from .LayersControl import LayersControl
@@ -43,6 +44,7 @@ __all__ = [
     "FullscreenControl",
     "GeoJSON",
     "GeoTIFFOverlay",
+    "GestureHandling",
     "ImageOverlay",
     "LayerGroup",
     "LayersControl",

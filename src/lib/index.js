@@ -31,8 +31,8 @@ import EasyButton from "./components/EasyButton.react";
 import MeasureControl from "./components/MeasureControl.react";
 import FullscreenControl from "./components/FullscreenControl.react";
 import EditControl from "./components/EditControl.react";
+import GestureHandling from "./components/GestureHandling.react";
 import _ from './extensions';
-
 
 export {
     Circle,
@@ -67,4 +67,5 @@ export {
     FullscreenControl,
     FeatureGroup,
     EditControl,
+    GestureHandling
 };
