@@ -2,12 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.1.16] - UNRELEASED
+## [0.1.16] - 2021-07-07
 
 ### Added
 
 - Added `EditControl` component.
+- Added `GestureHandling` component.
 - Fixing [issue](https://github.com/thedirtyfew/dash-leaflet/issues/95)
+- Fixing [issue](https://github.com/thedirtyfew/dash-leaflet/issues/96)
 
 ## [0.1.15] - 2020-17-06
 
