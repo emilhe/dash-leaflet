@@ -1,6 +1,6 @@
 {
   "name": "dash_leaflet",
-  "version": "0.1.15",
+  "version": "0.1.16rc3",
   "description": "Leaflet component for Dash",
   "main": "build/index.js",
   "scripts": {
@@ -33,6 +33,7 @@
     "jszip": "^3.5.0",
     "leaflet": "^1.6.0",
     "leaflet-easybutton": "^2.4.0",
+    "leaflet-gesture-handling": "^1.2.1",
     "leaflet-measure": "^3.1.0",
     "leaflet-polylinedecorator": "^1.6.0",
     "leaflet.locatecontrol": "^0.71.1",
