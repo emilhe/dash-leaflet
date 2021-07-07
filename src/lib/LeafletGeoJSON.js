@@ -180,8 +180,14 @@ class LeafletGeoJSON extends Path {
         const bounds = map.getBounds();
         const bbox = [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()];
         const zoom = map.getZoom();
+        // Get clusters. Silence error that happens if you pan during flyTo.
+        let clusters = null;
+        try {
+            clusters = index.getClusters(bbox, zoom);
+        } catch (err) {
+            return
+        }
         // Update the data.
-        let clusters = index.getClusters(bbox, zoom);
         if (this.props.spiderfyOnMaxZoom && toSpiderfy) {
             // If zoom level has changes, drop the spiderfy state.
             if (toSpiderfy.zoom && toSpiderfy.zoom !== zoom) {
