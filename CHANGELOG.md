@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.16] - UNRELEASED
+
+### Added
+
+- Added `EditControl` component.
+- Fixing [issue](https://github.com/thedirtyfew/dash-leaflet/issues/95)
+
 ## [0.1.15] - 2020-17-06
 
 ### Added

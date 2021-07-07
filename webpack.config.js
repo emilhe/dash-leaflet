@@ -67,7 +67,7 @@ module.exports = (env, argv) => {
                     },
                 },
                 {
-                    test: /\.css$/,
+                    test: /\.css$/i,
                     use: [
                         {
                             loader: 'style-loader'
@@ -84,6 +84,17 @@ module.exports = (env, argv) => {
                             loader: 'url-loader',
                             options: {
                                 limit: true, // Unlimited
+                            },
+                        },
+                    ],
+                },
+                {
+                    test: /\.svg$/,
+                    use: [
+                        {
+                            loader: 'svg-url-loader',
+                            options: {
+                                limit: 10000,
                             },
                         },
                     ],
