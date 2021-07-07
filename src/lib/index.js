@@ -30,6 +30,7 @@ import BaseLayer from "./components/BaseLayer.react";
 import EasyButton from "./components/EasyButton.react";
 import MeasureControl from "./components/MeasureControl.react";
 import FullscreenControl from "./components/FullscreenControl.react";
+import GestureHandling from "./components/GestureHandling.react";
 import _ from './extensions';
 
 
@@ -64,5 +65,6 @@ export {
     EasyButton,
     MeasureControl,
     FullscreenControl,
-    FeatureGroup
+    FeatureGroup,
+    GestureHandling
 };
