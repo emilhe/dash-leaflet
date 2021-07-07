@@ -21,6 +21,7 @@ class GestureHandling extends Component {
   }
 
   componentWillUnmount(){
+    const { map } = this.props.leaflet;
     map.gestureHandling.disable();
   }
 
