@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.18] - UNRELEASED
+
+### Added
+
+- Added `drawToolbar` and `editToolbar` props to `EditControl` component.
+
+### Changed
+
+- Polygons collected into the `geojson` prop of the `EditControl` component are now closed.
+
 ## [0.1.16] - 2021-07-07
 
 ### Added
