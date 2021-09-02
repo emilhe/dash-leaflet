@@ -10,6 +10,11 @@ require('../../../node_modules/leaflet-draw/dist/leaflet.draw.css');
  */
 export default class EditControl extends Component {
 
+    constructor(props) {
+        super(props);
+        this.myRef = React.createRef();  // Create reference to be used for edit control object
+    }
+
     render() {
         // Convert property to something that can be passed on to Dash.
         const propMappings = {
@@ -38,7 +43,8 @@ export default class EditControl extends Component {
                 const latlng = polygon ? layer._latlngs[0] : layer._latlngs;
                 let coords = latlng.map(latlng => [latlng.lng, latlng.lat]);
                 if(polygon) {
-                    coords = [coords]
+                    coords.push(coords[0]);  // close the polygon
+                    coords = [coords];
                 }
                 // Special case for rectangle.
                 if("_shape" in layer.editing){
@@ -118,7 +124,7 @@ export default class EditControl extends Component {
             }, 1);
         }
         // Bind action events.
-        const actionEvents = ['onDrawStart', 'onDrawStop', 'onDeleteStart', 'onDeleteStop', 'onEditStart', 'onEditStop']
+        const actionEvents = ['onDrawStart', 'onDrawStop', 'onDeleteStart', 'onDeleteStop', 'onEditStart', 'onEditStop'];
         for(const actionEvent of actionEvents) {
             nProps[actionEvent] = (e) => {
                 this.props.setProps({
@@ -130,7 +136,34 @@ export default class EditControl extends Component {
             }
         }
         // Render the control.
-        return <LeafletEditControl {...nProps}/>
+        const el = <LeafletEditControl {...nProps} ref={this.myRef}/>;
+        return el
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const manipulateToolbar = (toolbar, mode, action) => {
+            toolbar._modes[mode].handler.enable();  // enable mode
+            if(action){
+                const actionButtons = toolbar._actionButtons;
+//                console.log(actionButtons);
+                const matches = actionButtons.filter((ab) => ab.button.text.toLowerCase() === action);
+//                console.log(actionButtons.map((ab) => ab.button.text.toLowerCase()));
+                if(matches.length === 1){
+                    const match = matches[0]
+                    match.button.click()  // emulate button click
+                }
+            }
+        }
+        if(prevProps.drawToolbar !== this.props.drawToolbar){
+            const toolbars = this.myRef.current.leafletElement._toolbars;
+            const {mode, action} = this.props.drawToolbar;
+            manipulateToolbar(toolbars.draw, mode, action);
+        }
+        if(prevProps.editToolbar !== this.props.editToolbar){
+            const toolbars = this.myRef.current.leafletElement._toolbars;
+            const {mode, action} = this.props.editToolbar;
+            manipulateToolbar(toolbars.edit, mode, action);
+        }
     }
 
 }
@@ -163,6 +196,24 @@ EditControl.propTypes = {
      * Fires on every action.
      */
     action: PropTypes.object,
+
+    /**
+     * Change this prop to manipulate the drawing toolbar, i.e. to change modes and/or invoke actions.
+    */
+    drawToolbar: PropTypes.shape({
+        mode: PropTypes.oneOf(["marker", "polygon", "polyline", "rectangle", "circle", "circlemarker"]),
+        action: PropTypes.oneOf(["cancel", "finish", "delete last point"]),  // Optionally, invoke an action
+        n_clicks: PropTypes.number,
+    }),
+
+    /**
+     * Change this prop to manipulate the edit toolbar, i.e. to change modes and/or invoke actions.
+     */
+    editToolbar: PropTypes.shape({
+        mode: PropTypes.oneOf(["edit", "remove"]),
+        action: PropTypes.oneOf(["save", "cancel", "clear all"]),  // Optionally, invoke an action
+        n_clicks: PropTypes.number,
+    }),
 
     /**
      * Geojson representing the current features.
