@@ -132,7 +132,7 @@ GeoJSON.propTypes = {
      * Object intended for passing variables to functional properties, i.e. clusterToLayer, hoverStyle and
      * (options) pointToLayer, style, filter, and onEachFeature functions.
      */
-    hideout: PropTypes.object,
+    hideout: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 
     /**
      * The leaflet pane of the component
