@@ -13,7 +13,7 @@ include dash_leaflet/async-geoTiffOverlay.js.map
 include dash_leaflet/async-measureControl.js
 include dash_leaflet/async-measureControl.js.map
 include dash_leaflet/metadata.json
-include dash_leaflet/package.json
+include dash_leaflet/package-info.json
 include README.md
 include LICENSE
 include package.json

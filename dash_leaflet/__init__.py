@@ -5,6 +5,7 @@ import sys as _sys
 import json
 
 import dash as _dash
+# from . import assets  # noqa
 
 # noinspection PyUnresolvedReferences
 from ._imports_ import *
@@ -17,7 +18,7 @@ if not hasattr(_dash, 'development'):
     _sys.exit(1)
 
 _basepath = _os.path.dirname(__file__)
-_filepath = _os.path.abspath(_os.path.join(_basepath, 'package.json'))
+_filepath = _os.path.abspath(_os.path.join(_basepath, 'package-info.json'))
 with open(_filepath) as f:
     package = json.load(f)
 
