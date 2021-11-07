@@ -1,16 +1,17 @@
-import React, {Component} from 'react';
+import React, {Suspense} from 'react';
 import PropTypes from 'prop-types';
-import LeafletMeasure from '../LeafletMeasure';
 
-/**
- * Measure is based on https://github.com/ljagis/leaflet-measure
- */
-export default class MeasureControl extends Component {
+// eslint-disable-next-line no-inline-comments
+const LazyMeasureControl = React.lazy(() => import(/* webpackChunkName: "measureControl" */ '../fragments/MeasureControl.react'));
 
-    render() {
-        return <LeafletMeasure {...this.props}/>
-    }
-
+const MeasureControl = (props) => {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <LazyMeasureControl {...props} />
+      </Suspense>
+    </div>
+  );
 }
 
 MeasureControl.defaultProps = {
@@ -84,3 +85,7 @@ MeasureControl.propTypes = {
 
 
 };
+
+export default MeasureControl;
+export const defaultProps = MeasureControl.defaultProps;
+export const propTypes = MeasureControl.propTypes;
