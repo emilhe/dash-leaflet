@@ -37,7 +37,7 @@ _js_dist = [
         'namespace': package_name
     }
 ]
-for chunk in ["markerClusterGroup", "editControl"]:
+for chunk in ["markerClusterGroup", "editControl", "geoTiffOverlay", "locateControl", "measureControl"]:
     _js_dist += [
         {
             'relative_package_path': f'async-{chunk}.js',
