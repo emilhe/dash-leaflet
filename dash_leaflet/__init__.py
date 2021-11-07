@@ -37,6 +37,18 @@ _js_dist = [
         'namespace': package_name
     }
 ]
+for chunk in ["markerClusterGroup", "editControl"]:
+    _js_dist += [
+        {
+            'relative_package_path': f'async-{chunk}.js',
+            'namespace': package_name
+        },
+        {
+            'relative_package_path': f'async-{chunk}.js.map',
+            'namespace': package_name,
+            'dynamic': True
+        }
+    ]
 
 _css_dist = []
 

@@ -21,7 +21,6 @@ setup(
     name=package_name,
     version=package["version"],
     author=package['author'],
-    author_email="emil.h.eriksen@gmail.com",
     packages=packages,
     include_package_data=True,
     license=package['license'],
