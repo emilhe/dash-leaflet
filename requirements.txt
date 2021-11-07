@@ -1,6 +1,6 @@
 # dash is required to call `build:py`
 dash==2.0.0
-dash_extensions==0.0.63
+dash_extensions==0.0.64
 palettable
 pyyaml
 colorcet

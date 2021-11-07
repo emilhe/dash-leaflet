@@ -73,13 +73,10 @@ module.exports = (env, argv) => {
                     },
                 },
                 {
-                    test: /\.css$/,
+                    test: /\.css$/i,
                     use: [
                         {
                             loader: 'style-loader',
-                            options: {
-                                insertAt: 'top'
-                            }
                         },
                         {
                             loader: 'css-loader',
@@ -87,12 +84,13 @@ module.exports = (env, argv) => {
                     ],
                 },
                 {
-                    test: /\.(png|jpe?g|gif)$/,
+                    test: /\.(png|jpe?g|gif)$/i,
                     use: [
                         {
                             loader: 'url-loader',
                             options: {
-                                limit: true, // Unlimited
+                                limit: 10000,
+                                esModule: false,
                             },
                         },
                     ],

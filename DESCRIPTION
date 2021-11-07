@@ -1,0 +1,13 @@
+Package: dashLeaflet
+Title: Leaflet component for Dash
+Version: 0.1.19rc6
+Description: Leaflet component for Dash
+Depends: R (>= 3.0.2)
+Imports: 
+Suggests: 
+License: MIT + file LICENSE
+URL: 
+BugReports: 
+Encoding: UTF-8
+LazyData: true
+KeepSource: true

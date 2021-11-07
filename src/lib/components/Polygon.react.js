@@ -20,7 +20,8 @@ Polygon.propTypes = {
      */
     positions: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
-        PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)))
+        PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number))),
+        PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)))),
     ]).isRequired,
 
     // Static parameters

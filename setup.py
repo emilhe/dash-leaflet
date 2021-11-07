@@ -10,7 +10,7 @@ HERE = pathlib.Path(__file__).parent
 # The text of the README file
 README = (HERE / "README.md").read_text()
 
-with open(os.path.join('dash_leaflet', 'package.json')) as f:
+with open(os.path.join(HERE, 'package.json')) as f:
     package = json.load(f)
 
 package_name = package["name"].replace(" ", "_").replace("-", "_")
