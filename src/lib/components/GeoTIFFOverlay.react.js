@@ -1,30 +1,17 @@
-import React, {Component} from 'react';
+import React, {Suspense} from 'react';
 import PropTypes from 'prop-types';
 
-import LeafletGeoTIFFOverlay from '../LeafletGeoTIFFOverlay';
+// eslint-disable-next-line no-inline-comments
+const LazyGeoTIFFOverlay = React.lazy(() => import(/* webpackChunkName: "geoTiffOverlay" */ '../fragments/GeoTIFFOverlay.react'));
 
-/**
- * GeoTIFFOverlay is just wrapper of LeafletGeoTIFFOverlay.
- */
-export default class GeoTIFFOverlay extends Component {
-    render() {
-        const nProps = Object.assign({}, this.props);
-        // Bind events.
-        nProps.onclick = (e) => {
-            const idx = e.target.getIndexForLatLng(e.latlng.lat, e.latlng.lng);
-            const val = e.target.getValueAtLatLng(e.latlng.lat, e.latlng.lng);
-            nProps.setProps({ click_lat_lng_val: [e.latlng.lat, e.latlng.lng, val] });
-            nProps.setProps({ click_lat_lng_idx: [e.latlng.lat, e.latlng.lng, idx] });
-        };
-        nProps.ondblclick = (e) => {
-            const idx = e.target.getIndexForLatLng(e.latlng.lat, e.latlng.lng);
-            const val = e.target.getValueAtLatLng(e.latlng.lat, e.latlng.lng);
-            nProps.setProps({ dbl_click_lat_lng_val: [e.latlng.lat, e.latlng.lng, val] });
-            nProps.setProps({ dbl_click_lat_lng_idx: [e.latlng.lat, e.latlng.lng, idx] });
-        };
-        // Render the leaflet component.
-        return <LeafletGeoTIFFOverlay {...nProps} />
-    }
+const GeoTIFFOverlay = (props) => {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <LazyGeoTIFFOverlay {...props} />
+      </Suspense>
+    </div>
+  );
 }
 
 GeoTIFFOverlay.propTypes = {
@@ -249,3 +236,7 @@ GeoTIFFOverlay.propTypes = {
      */
     dbl_click_lat_lng_idx: PropTypes.arrayOf(PropTypes.number)
 };
+
+export default GeoTIFFOverlay;
+export const propTypes = GeoTIFFOverlay.propTypes;
+

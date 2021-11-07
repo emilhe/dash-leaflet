@@ -1,32 +1,17 @@
-import React, {Component} from 'react';
+import React, {Suspense} from 'react';
 import PropTypes from 'prop-types';
-import { withLeaflet } from "react-leaflet";
-import Locate from "leaflet.locatecontrol";
 
-require('leaflet.locatecontrol/dist/L.Control.Locate.min.css');
+// eslint-disable-next-line no-inline-comments
+const LazyLocateControl = React.lazy(() => import(/* webpackChunkName: "locateControl" */ '../fragments/LocateControl.react'));
 
-/**
- * LocateControl is a wrapper of LocateControl in react-leaflet. The component requires linking font-awesome, i.e.
- * app = dash.Dash(external_stylesheets=['https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'])
- */
-class LocateControl extends Component {
-
-  componentDidMount() {
-    // Add component to map.
-    const { options, startDirectly } = this.props;
-    const { map } = this.props.leaflet;
-    const lc = new Locate(options);
-    lc.addTo(map);
-    // Start if needed.
-    if (startDirectly) {
-      lc.start();
-    }
-  }
-
-  render() {
-    return null;
-  }
-
+const LocateControl = (props) => {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <LazyLocateControl {...props} />
+      </Suspense>
+    </div>
+  );
 }
 
 LocateControl.propTypes = {
@@ -59,4 +44,5 @@ LocateControl.propTypes = {
 
 };
 
-export default withLeaflet(LocateControl);
+export default LocateControl;
+export const propTypes = LocateControl.propTypes;

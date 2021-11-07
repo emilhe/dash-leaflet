@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.19] - 2021-11-07
+
+### Changed
+
+- The following components are now loaded async: `EditControl`, `GeoTIFFOverlay`, `LocateControl`, `MeasureControl`, `MarkerClusterGroup`. As a result, the main bundle size has been reduced to about half (< 500 kB).
+- Update to Dash 2.0.
+- Prop validation of `GeoJSON` component `hideout` prop relaxed.
+- Prop validation of `Polygon` component `positions` prop relaxed.
+
 ## [0.1.18] - 2021-02-09
 
 ### Added

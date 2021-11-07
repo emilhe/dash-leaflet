@@ -1,4 +1,4 @@
-require('./snippets.css')
+import './snippets.css'
 
 // region Leaflet extensions
 

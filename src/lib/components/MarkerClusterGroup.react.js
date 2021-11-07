@@ -1,19 +1,17 @@
-import React, {Component, Node} from 'react';
-import PropTypes from 'prop-types';
+import React, { Suspense } from 'react';
+import PropTypes from "prop-types";
 
-import LeafletMarkerClusterGroup from "../LeafletMarkerClusterGroup";
-require('react-leaflet-markercluster/dist/styles.min.css');
+// eslint-disable-next-line no-inline-comments
+const LazyMarkerClusterGroup = React.lazy(() => import(/* webpackChunkName: "markerClusterGroup" */ '../fragments/MarkerClusterGroup.react'));
 
-/**
- * MarkerClusterGroup is a wrapper of MarkerClusterGroup in react-leaflet.
- * It takes similar properties to its react-leaflet counterpart.
- */
-export default class MarkerClusterGroup extends Component {
-
-    render() {
-        return <LeafletMarkerClusterGroup {...this.props}/>
-    }
-
+const MarkerClusterGroup = (props) => {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <LazyMarkerClusterGroup {...props} />
+      </Suspense>
+    </div>
+  );
 }
 
 MarkerClusterGroup.propTypes = {
@@ -45,3 +43,5 @@ MarkerClusterGroup.propTypes = {
 
 };
 
+export default MarkerClusterGroup;
+export const propTypes = MarkerClusterGroup.propTypes;
