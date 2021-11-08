@@ -34,8 +34,7 @@ _js_dist = [
     {
         'relative_package_path': 'dash_leaflet.min.js',
         'dev_package_path': 'dash_leaflet.dev.js',
-        
-        'namespace': package_name
+        'namespace': package_name,
     }
 ]
 
@@ -46,6 +45,7 @@ _chunk_map = {
     "GeoTiffOverlay": ["geoTiffOverlay"],
     "LocateControl": ["locateControl"],
     "MeasureControl": ["measureControl"],
+    "Minichart": ["minichart"],
 }
 _chunk_js_dist_map = {}
 for _component in _chunk_map:

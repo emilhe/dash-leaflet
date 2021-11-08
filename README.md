@@ -1,4 +1,4 @@
-Dash Leaflet is a light wrapper around React-Leaflet. The syntax is similar to other Dash components, with naming conventions following the React-Leaflet API. 
+Dash Leaflet is a light wrapper around React-Leaflet. The syntax is similar to other Dash components, with naming conventions following the React-Leaflet API.
 
 ## Getting started
 
@@ -19,16 +19,16 @@ app = dash.Dash()
 app.layout = dl.Map(dl.TileLayer(), style={'width': '1000px', 'height': '500px'})
 
 if __name__ == '__main__':
-    app.run_server()    
+    app.run_server()
 ````
 
 If you visit http://127.0.0.1:8050/ in your browser, you should see a Leaflet map.
 
 ## Documentation
 
-The documentation has been moved to [Heroku](https://dash-leaflet.herokuapp.com/) to enable an interactive example gallery. 
+The documentation has been moved to [Heroku](https://dash-leaflet.herokuapp.com/) to enable an interactive example gallery.
 
-NB: The 0.1.0 release contains a number breaking changes, most prominently merging of the `SuperCluster` and `GeoJSON` components into a new `GeoJSON` component powered by [functional properties](https://dash-leaflet.herokuapp.com/#func_props).  
+NB: The 0.1.0 release contains a number breaking changes, most prominently merging of the `SuperCluster` and `GeoJSON` components into a new `GeoJSON` component powered by [functional properties](https://dash-leaflet.herokuapp.com/#func_props).
 
 ## Build instructions
 
@@ -49,8 +49,8 @@ pip install -r requirements.txt
 Finally, install packages via npm (ignore errors) and run the build script,
 
 ````
-npm i --ignore-scripts 
-npm run build:all
+npm i --ignore-scripts
+npm run build
 ````
 
 ## Donation

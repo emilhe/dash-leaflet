@@ -12,6 +12,7 @@ import LocateControl from './components/LocateControl.react';
 import Pane from './components/Pane.react';
 import DivMarker from './components/DivMarker.react';
 import PolylineDecorator from './components/PolylineDecorator.react';
+import Minichart from './components/Minichart.react';
 import Marker from './components/Marker.react';
 import Polyline from './components/Polyline.react';
 import Polygon from './components/Polygon.react';
@@ -56,6 +57,7 @@ export {
     GeoJSON,
     ScaleControl,
     PolylineDecorator,
+    Minichart,
     Pane,
     DivMarker,
     MarkerClusterGroup,

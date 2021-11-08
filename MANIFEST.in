@@ -12,6 +12,8 @@ include dash_leaflet/async-geoTiffOverlay.js
 include dash_leaflet/async-geoTiffOverlay.js.map
 include dash_leaflet/async-measureControl.js
 include dash_leaflet/async-measureControl.js.map
+include dash_leaflet/async-minichart.js
+include dash_leaflet/async-minichart.js.map
 include dash_leaflet/metadata.json
 include dash_leaflet/package-info.json
 include README.md
