@@ -46,6 +46,7 @@
     "leaflet-polylinedecorator": "^1.6.0",
     "leaflet.locatecontrol": "^0.71.1",
     "leaflet.markercluster": "^1.5.3",
+    "leaflet.minichart": "^0.2.5",
     "lzma": "^2.3.2",
     "node-polyfill-webpack-plugin": "^1.1.4",
     "pbf": "^3.2.1",
