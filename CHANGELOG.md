@@ -2,13 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.1.21] - 2021-11-08
+## [0.1.21] - 2021-08-11
 
 ### Added
 
 - Added [`Minichart component`](https://github.com/thedirtyfew/dash-leaflet/pull/116).
 
-## [0.1.20] - 2021-11-07
+## [0.1.20] - 2021-07-11
 
 ### Changed
 
