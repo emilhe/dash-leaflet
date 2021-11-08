@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.23] - 2021-08-11
+
+### Change
+
+- Changed loading of js chunks so that a chunk is only loaded when actually needed.
+
 ## [0.1.22] - 2021-08-11
 
 ### Added
