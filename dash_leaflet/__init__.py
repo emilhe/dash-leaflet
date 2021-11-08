@@ -33,8 +33,12 @@ _css_dist = []
 _js_dist = [
     {
         'relative_package_path': 'dash_leaflet.min.js',
-        'dev_package_path': 'dash_leaflet.dev.js',
+        'namespace': package_name
+    },
+    {
+        'relative_package_path': 'dash_leaflet.min.js.map',
         'namespace': package_name,
+        'dynamic': True
     }
 ]
 
