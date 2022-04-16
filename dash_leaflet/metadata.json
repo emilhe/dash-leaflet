@@ -1,0 +1,5055 @@
+{
+  "src/lib/components/BaseLayer.react.js": {
+    "description": "BaseLayer is a wrapper of LayersControl.BaseLayer in react-leaflet.\nIt takes similar properties to its react-leaflet counterpart.",
+    "displayName": "BaseLayer",
+    "methods": [],
+    "props": {
+      "checked": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Checked."
+      },
+      "name": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Name."
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "Attribution"
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      }
+    }
+  },
+  "src/lib/components/Circle.react.js": {
+    "description": "Circle is a wrapper of Circle in react-leaflet.\nIt takes similar properties to its react-leaflet counterpart.",
+    "displayName": "Circle",
+    "methods": [],
+    "props": {
+      "center": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": true,
+        "description": "The center of the circle (lat, lon)"
+      },
+      "radius": {
+        "type": {
+          "name": "number"
+        },
+        "required": true,
+        "description": "Radius of the circle, in meters."
+      },
+      "stroke": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether to draw stroke along the path. Set it to false to disable borders \non polygons or circles."
+      },
+      "color": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Stroke color"
+      },
+      "weight": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Stroke width in pixels"
+      },
+      "opacity": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Stroke opacity"
+      },
+      "lineCap": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that defines shape to be used at the end of the stroke."
+      },
+      "lineJoin": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that defines shape to be used at the corners of the stroke."
+      },
+      "dashArray": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that defines the stroke dash pattern. Doesn't work on Canvas-powered \nlayers in some old browsers."
+      },
+      "dashOffset": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that defines the distance into the dash pattern to start the dash. \nDoesn't work on Canvas-powered layers in some old browsers."
+      },
+      "fill": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether to fill the path with color. Set it to false to disable filling on \npolygons or circles."
+      },
+      "fillColor": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Fill color. Defaults to the value of the color option"
+      },
+      "fillOpacity": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Fill opacity"
+      },
+      "fillRule": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that defines how the inside of a shape is determined."
+      },
+      "bubblingMouseEvents": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "When true, a mouse event on this path will trigger the same \nevent on the map (unless L.DomEvent.stopPropagation is used)."
+      },
+      "renderer": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Use this specific instance of Renderer for this path. Takes \nprecedence over the map's default renderer."
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Custom class name set on an element. Only for SVG renderer."
+      },
+      "interactive": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If false, the layer will not emit mouse events and will act\nas a part of the underlying map."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component"
+      },
+      "pane": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The leaflet pane of the component"
+      },
+      "attribution": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The attribution string for the component"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      },
+      "n_clicks": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Dash callback property. Number of times the object has been clicked",
+        "defaultValue": {
+          "value": "0",
+          "computed": false
+        }
+      }
+    }
+  },
+  "src/lib/components/CircleMarker.react.js": {
+    "description": "CircleMarker is a wrapper of CircleMarker in react-leaflet.\nIt takes similar properties to its react-leaflet counterpart.",
+    "displayName": "CircleMarker",
+    "methods": [],
+    "props": {
+      "center": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": true,
+        "description": "The center of the circle marker (lat, lon)"
+      },
+      "radius": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Radius of the circle marker, in pixels"
+      },
+      "stroke": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether to draw stroke along the path. Set it to false to disable borders \non polygons or circles."
+      },
+      "color": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Stroke color"
+      },
+      "weight": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Stroke width in pixels"
+      },
+      "opacity": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Stroke opacity"
+      },
+      "lineCap": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that defines shape to be used at the end of the stroke."
+      },
+      "lineJoin": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that defines shape to be used at the corners of the stroke."
+      },
+      "dashArray": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that defines the stroke dash pattern. Doesn't work on Canvas-powered \nlayers in some old browsers."
+      },
+      "dashOffset": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that defines the distance into the dash pattern to start the dash. \nDoesn't work on Canvas-powered layers in some old browsers."
+      },
+      "fill": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether to fill the path with color. Set it to false to disable filling on \npolygons or circles."
+      },
+      "fillColor": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Fill color. Defaults to the value of the color option"
+      },
+      "fillOpacity": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Fill opacity"
+      },
+      "fillRule": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that defines how the inside of a shape is determined."
+      },
+      "bubblingMouseEvents": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "When true, a mouse event on this path will trigger the same \nevent on the map (unless L.DomEvent.stopPropagation is used)."
+      },
+      "renderer": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Use this specific instance of Renderer for this path. Takes \nprecedence over the map's default renderer."
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Custom class name set on an element. Only for SVG renderer."
+      },
+      "interactive": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If true, the image overlay will emit mouse events when clicked or hovered."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component"
+      },
+      "pane": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The leaflet pane of the component"
+      },
+      "attribution": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The attribution string for the component"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      },
+      "n_clicks": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Dash callback property. Number of times the object has been clicked",
+        "defaultValue": {
+          "value": "0",
+          "computed": false
+        }
+      }
+    }
+  },
+  "src/lib/components/Colorbar.react.js": {
+    "description": "Colorbar is just a wrapper of LeafletColorbar.",
+    "displayName": "Colorbar",
+    "methods": [],
+    "props": {
+      "position": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "'topleft'",
+              "computed": false
+            },
+            {
+              "value": "'topright'",
+              "computed": false
+            },
+            {
+              "value": "'bottomleft'",
+              "computed": false
+            },
+            {
+              "value": "'bottomright'",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": "Position of the colorbar."
+      },
+      "colorscale": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "arrayOf",
+              "value": {
+                "name": "string"
+              }
+            }
+          ]
+        },
+        "required": false,
+        "description": "Chroma-js colorscale. Either a colorscale name, e.g. \"Viridis\", or a list of colors,\ne.g. [\"black\", \"#fdd49e\", \"rgba(255,0,0,0.35)\"].\nThe predefined colorscales are listed here:\nhttps://github.com/gka/chroma.js/blob/master/src/colors/colorbrewer.js"
+      },
+      "width": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Width of the colorbar. If width > height then the colorbar will be in horizontal mode."
+      },
+      "height": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Height of the colorbar. If height > width then the colorbar will be in vertical mode."
+      },
+      "min": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Domain minimum of the colorbar. Translates to the first color of the colorscale."
+      },
+      "max": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Domain maximum of the colorbar. Translates to the last color of the colorscale."
+      },
+      "classes": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "number"
+            },
+            {
+              "name": "arrayOf",
+              "value": {
+                "name": "number"
+              }
+            }
+          ]
+        },
+        "required": false,
+        "description": "The number or positions of discrete classes in the colorbar. If not set the \ncolorbar will be continuous, which is the default."
+      },
+      "unit": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Optional text to append to the colorbar ticks."
+      },
+      "nTicks": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Number of ticks on the colorbar."
+      },
+      "tickDecimals": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "If set, fixes the tick decimal points to the given number."
+      },
+      "tickValues": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "If set, these values are used for ticks (rather than the ones genrated based on nTicks)."
+      },
+      "tickText": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "string"
+          }
+        },
+        "required": false,
+        "description": "If set, this text will be used instead of the data values."
+      },
+      "tooltip": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If true, the value will be shown as tooltip on hover."
+      },
+      "opacity": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Opacity of the colorbar. Use it to match the perceived colors from an overlay \nwith opacity."
+      },
+      "style": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "HTML style object to add to the colorbar entity, e.g. to set font color."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component"
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The class of the component"
+      }
+    }
+  },
+  "src/lib/components/DivMarker.react.js": {
+    "description": "Marker is a wrapper of Marker in react-leaflet.\nIt takes similar properties to its react-leaflet counterpart.",
+    "displayName": "DivMarker",
+    "methods": [],
+    "props": {
+      "position": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": true,
+        "description": "A geographical point (lat, lon)"
+      },
+      "iconOptions": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "iconSize": {
+              "name": "arrayOf",
+              "value": {
+                "name": "number"
+              },
+              "required": false
+            },
+            "iconAnchor": {
+              "name": "arrayOf",
+              "value": {
+                "name": "number"
+              },
+              "required": false
+            },
+            "popupAnchor": {
+              "name": "arrayOf",
+              "value": {
+                "name": "number"
+              },
+              "required": false
+            },
+            "className": {
+              "name": "string",
+              "required": false
+            },
+            "html": {
+              "name": "string",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "Options passed to DivIcon constructor."
+      },
+      "draggable": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether the marker is draggable with mouse/touch or not."
+      },
+      "opacity": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The opacity of the marker."
+      },
+      "zIndexOffset": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "By default, marker images zIndex is set automatically based\non its latitude. Use this option if you want to put the\nmarker on top of all others (or below), specifying a high\nvalue like 1000 (or high negative value, respectively)."
+      },
+      "keyboard": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether the marker can be tabbed to with a keyboard and clicked by\npressing enter."
+      },
+      "title": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Text for the browser tooltip that appear on marker hover (no tooltip\nby default)."
+      },
+      "alt": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Text for the alt attribute of the icon image (useful for accessibility)."
+      },
+      "riseOnHover": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If true, the marker will get on top of others when you hover the mouse\nover it."
+      },
+      "riseOffset": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The z-index offset used for the riseOnHover feature."
+      },
+      "bubblingMouseEvents": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "When true, a mouse event on this marker will trigger the same event\non the map (unless L.DomEvent.stopPropagation is used)."
+      },
+      "autoPan": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether to pan the map when dragging this marker near its edge or not."
+      },
+      "autoPanPadding": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Distance (in pixels to the left/right and to the top/bottom) of the map\nedge to start panning the map."
+      },
+      "autoPanSpeed": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Number of pixels the map should pan by."
+      },
+      "interactive": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If false, the layer will not emit mouse events and will act as a part of\nthe underlying map."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component"
+      },
+      "pane": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The leaflet pane of the component"
+      },
+      "attribution": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The attribution string for the component"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      },
+      "n_clicks": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Dash callback property. Number of times the object has been clicked",
+        "defaultValue": {
+          "value": "0",
+          "computed": false
+        }
+      }
+    }
+  },
+  "src/lib/components/EasyButton.react.js": {
+    "description": "EasyButton is based on https://github.com/CliffCloud/Leaflet.EasyButton",
+    "displayName": "EasyButton",
+    "methods": [],
+    "props": {
+      "icon": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": "The icon to show, e.g. 'fa-globe' from \"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css\""
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component (dynamic)."
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A custom class name to assign to the image. Empty by default."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks."
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      },
+      "n_clicks": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Dash callback property. Number of times the object has been clicked",
+        "defaultValue": {
+          "value": "0",
+          "computed": false
+        }
+      }
+    }
+  },
+  "src/lib/components/EditControl.react.js": {
+    "description": "",
+    "displayName": "EditControl",
+    "methods": [],
+    "props": {
+      "position": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "\"topleft\"",
+              "computed": false
+            },
+            {
+              "value": "\"topright\"",
+              "computed": false
+            },
+            {
+              "value": "\"bottomleft\"",
+              "computed": false
+            },
+            {
+              "value": "\"bottomright\"",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": "The position of this component."
+      },
+      "draw": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Enable/disable draw controls. See example of usage here https://github.com/Leaflet/Leaflet.draw#user-content-example-leafletdraw-config"
+      },
+      "edit": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Enable/disable edit controls. See example of usage here https://github.com/Leaflet/Leaflet.draw#user-content-example-leafletdraw-config"
+      },
+      "action": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Fires on every action.",
+        "defaultValue": {
+          "value": "{n_actions: 0}",
+          "computed": false
+        }
+      },
+      "drawToolbar": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "mode": {
+              "name": "enum",
+              "value": [
+                {
+                  "value": "\"marker\"",
+                  "computed": false
+                },
+                {
+                  "value": "\"polygon\"",
+                  "computed": false
+                },
+                {
+                  "value": "\"polyline\"",
+                  "computed": false
+                },
+                {
+                  "value": "\"rectangle\"",
+                  "computed": false
+                },
+                {
+                  "value": "\"circle\"",
+                  "computed": false
+                },
+                {
+                  "value": "\"circlemarker\"",
+                  "computed": false
+                }
+              ],
+              "required": false
+            },
+            "action": {
+              "name": "enum",
+              "value": [
+                {
+                  "value": "\"cancel\"",
+                  "computed": false
+                },
+                {
+                  "value": "\"finish\"",
+                  "computed": false
+                },
+                {
+                  "value": "\"delete last point\"",
+                  "computed": false
+                }
+              ],
+              "required": false
+            },
+            "n_clicks": {
+              "name": "number",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "Change this prop to manipulate the drawing toolbar, i.e. to change modes and/or invoke actions."
+      },
+      "editToolbar": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "mode": {
+              "name": "enum",
+              "value": [
+                {
+                  "value": "\"edit\"",
+                  "computed": false
+                },
+                {
+                  "value": "\"remove\"",
+                  "computed": false
+                }
+              ],
+              "required": false
+            },
+            "action": {
+              "name": "enum",
+              "value": [
+                {
+                  "value": "\"save\"",
+                  "computed": false
+                },
+                {
+                  "value": "\"cancel\"",
+                  "computed": false
+                },
+                {
+                  "value": "\"clear all\"",
+                  "computed": false
+                }
+              ],
+              "required": false
+            },
+            "n_clicks": {
+              "name": "number",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "Change this prop to manipulate the edit toolbar, i.e. to change modes and/or invoke actions."
+      },
+      "geojson": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Geojson representing the current features.",
+        "defaultValue": {
+          "value": "{type: \"FeatureCollection\", features: []}",
+          "computed": false
+        }
+      },
+      "onMounted": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "object"
+            }
+          ]
+        },
+        "required": false,
+        "description": "Hook to leaflet-draw's draw:mounted event."
+      },
+      "onDrawVertex": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "object"
+            }
+          ]
+        },
+        "required": false,
+        "description": "Hook to leaflet-draw's draw:drawvertex event."
+      },
+      "onEditMove": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "object"
+            }
+          ]
+        },
+        "required": false,
+        "description": "Hook to leaflet-draw's draw:editmove event."
+      },
+      "onEditResize": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "object"
+            }
+          ]
+        },
+        "required": false,
+        "description": "Hook to leaflet-draw's draw:editresize event."
+      },
+      "onEditVertex": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "object"
+            }
+          ]
+        },
+        "required": false,
+        "description": "Hook to leaflet-draw's draw:editvertex event."
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component (dynamic)."
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A custom class name to assign to the image. Empty by default."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks."
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      }
+    }
+  },
+  "src/lib/components/FeatureGroup.react.js": {
+    "description": "FeatureGroup is a wrapper of FeatureGroup in react-leaflet.\nIt takes similar properties to its react-leaflet counterpart.",
+    "displayName": "FeatureGroup",
+    "methods": [],
+    "props": {
+      "attribution": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Attribution"
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "Children"
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A custom class name. Empty by default."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      }
+    }
+  },
+  "src/lib/components/FullscreenControl.react.js": {
+    "description": "Thin wrapper of https://github.com/krvital/react-leaflet-fullscreen. Requires linking font-awesome, i.e. app =\ndash.Dash(external_stylesheets=['https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'])",
+    "displayName": "FullscreenControl",
+    "methods": [],
+    "props": {
+      "position": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "'topleft'",
+              "computed": false
+            },
+            {
+              "value": "'topright'",
+              "computed": false
+            },
+            {
+              "value": "'bottomleft'",
+              "computed": false
+            },
+            {
+              "value": "'bottomright'",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": "Position."
+      },
+      "title": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Title of the button, default Full Screen."
+      },
+      "titleCancel": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Title of the button when fullscreen is on, default Exit Full Screen."
+      },
+      "forceSeparateButton": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Force separate button to detach from zoom buttons, default false."
+      },
+      "forcePseudoFullscreen": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Force use of pseudo full screen even if full screen API is available, default false."
+      },
+      "fullscreenElement": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Dom element to render in full screen, false by default, fallback to map._container."
+      }
+    }
+  },
+  "src/lib/components/GeoJSON.react.js": {
+    "description": "LayerGroup is a wrapper of LayerGroup in react-leaflet.\nIt takes similar properties to its react-leaflet counterpart.",
+    "displayName": "GeoJSON",
+    "methods": [],
+    "props": {
+      "options": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Options for the GeoJSON object (see https://leafletjs.com/reference-1.6.0.html#geojson-option for details)."
+      },
+      "data": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "object"
+            },
+            {
+              "name": "string"
+            }
+          ]
+        },
+        "required": false,
+        "description": "Data (consider using url for better performance)."
+      },
+      "url": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Url to data (use instead of data for better performance)."
+      },
+      "format": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "\"geojson\"",
+              "computed": false
+            },
+            {
+              "value": "\"geobuf\"",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": "Data format.",
+        "defaultValue": {
+          "value": "\"geojson\"",
+          "computed": false
+        }
+      },
+      "hoverStyle": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "object"
+            }
+          ]
+        },
+        "required": false,
+        "description": "Style function applied on hover."
+      },
+      "zoomToBoundsOnClick": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If true, zoom to feature bounds on click.",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "zoomToBounds": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If true, zoom bounds when data are set.",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "hideout": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "object"
+            }
+          ]
+        },
+        "required": false,
+        "description": "Object intended for passing variables to functional properties, i.e. clusterToLayer, hoverStyle and\n(options) pointToLayer, style, filter, and onEachFeature functions."
+      },
+      "pane": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The leaflet pane of the component"
+      },
+      "cluster": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If true, marker clustering will be performed.",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "clusterToLayer": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "object"
+            }
+          ]
+        },
+        "required": false,
+        "description": "Function that determines how a cluster is drawn."
+      },
+      "spiderfyOnMaxZoom": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If true, markers that are not resolved at max zoom level will be spiderfied on click.",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "superClusterOptions": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Options for the SuperCluster object (see https://github.com/mapbox/supercluster for details)."
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "Children"
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Special Dash property."
+      },
+      "n_clicks": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Dash callback property. Number of times the object has been clicked.",
+        "defaultValue": {
+          "value": "0",
+          "computed": false
+        }
+      },
+      "click_feature": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Last feature clicked."
+      },
+      "hover_feature": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Last feature hovered."
+      }
+    }
+  },
+  "src/lib/components/GeoTIFFOverlay.react.js": {
+    "description": "",
+    "displayName": "GeoTIFFOverlay",
+    "methods": [],
+    "props": {
+      "url": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The URL of the GeoTIFF file. Only EPSG:4326 / WGS84 coordinates are supported at\nthis time, ie. the file will be mapped without reprojection."
+      },
+      "band": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The band inside the GeoTIFF file. Defaults to 0."
+      },
+      "image": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The image inside the GeoTIFF file. Defaults to 0."
+      },
+      "colorscale": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "arrayOf",
+              "value": {
+                "name": "string"
+              }
+            }
+          ]
+        },
+        "required": false,
+        "description": "Chroma-js colorscale. Either a colorscale name, e.g. \"Viridis\", or a list of colors,\ne.g. [\"black\", \"#fdd49e\", \"rgba(255,0,0,0.35)\"]\nThe predefined colorscales are listed here:\nhttps://github.com/gka/chroma.js/blob/master/src/colors/colorbrewer.js"
+      },
+      "domainMin": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Domain minimum of the colorscale. Translates to the first color of the colorscale."
+      },
+      "domainMax": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Domain maximum of the colorscale. Translates to the last color of the colorscale."
+      },
+      "clampHigh": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Clamp values higher than domainMax to domainMax. Defaults to false, which precludes\nthose values from being drawn."
+      },
+      "clampLow": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Clamp values lower than domainMin to domainMin. Defaults to false, which precludes\nthose values from being drawn."
+      },
+      "classes": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "number"
+            },
+            {
+              "name": "arrayOf",
+              "value": {
+                "name": "number"
+              }
+            }
+          ]
+        },
+        "required": false,
+        "description": "The number or positions of discrete classes in the colorbar. If not set the\ncolorbar will be continuous, which is the default."
+      },
+      "clip": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "arrayOf",
+            "value": {
+              "name": "arrayOf",
+              "value": {
+                "name": "number"
+              }
+            }
+          }
+        },
+        "required": false,
+        "description": "List of clipping polygons. Each polygon is a list of [lat, lon] coordinates that surrounds the area to be\nshown on the map."
+      },
+      "style": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "HTML style object to add to the overlay entity, e.g. to set interpolation mode\nwith {'image-rendering': 'pixelated'}"
+      },
+      "tileSize": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Width and height of tiles in the grid. Use a number if width and\nheight are equal, or L.point(width, height) otherwise."
+      },
+      "opacity": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Opacity of the tiles. Can be used in the createTile() function."
+      },
+      "updateWhenIdle": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Load new tiles only when panning ends. true by default on mobile\nbrowsers, in order to avoid too many requests and keep smooth\nnavigation. false otherwise in order to display new tiles during\npanning, since it is easy to pan outside the keepBuffer option\nin desktop browsers."
+      },
+      "updateWhenZooming": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "By default, a smooth zoom animation (during a touch zoom or a\nflyTo()) will update grid layers every integer zoom level.\nSetting this option to false will update the grid layer only\nwhen the smooth animation ends."
+      },
+      "updateInterval": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Tiles will not update more than once every updateInterval\nmilliseconds when panning."
+      },
+      "zIndex": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The explicit zIndex of the tile layer."
+      },
+      "bounds": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "If set, tiles will only be loaded inside the set LatLngBounds."
+      },
+      "minZoom": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The minimum zoom level down to which this layer will be\ndisplayed (inclusive)."
+      },
+      "maxZoom": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The maximum zoom level up to which this layer will be\ndisplayed (inclusive)."
+      },
+      "minNativeZoom": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Minimum zoom number the tile source has available. If it\nis specified, the tiles on all zoom levels lower than\nminNativeZoom will be loaded from minNativeZoom level\nand auto-scaled."
+      },
+      "maxNativeZoom": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Maximum zoom number the tile source has available. If it\nis specified, the tiles on all zoom levels higher than\nmaxNativeZoom will be loaded from maxNativeZoom level\nand auto-scaled."
+      },
+      "noWrap": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether the layer is wrapped around the antimeridian. If\ntrue, the GridLayer will only be displayed once at low zoom\nlevels. Has no effect when the map CRS doesn't wrap around.\nCan be used in combination with bounds to prevent requesting\ntiles outside the CRS limits."
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A custom class name to assign to the tile layer. Empty by default."
+      },
+      "keepBuffer": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "When panning the map, keep this many rows and columns of tiles\nbefore unloading them."
+      },
+      "interactive": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If true, the image overlay will emit mouse events when clicked or hovered."
+      },
+      "bubblingMouseEvents": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "When true, a mouse event on this path will trigger the same\nevent on the map (unless L.DomEvent.stopPropagation is used)."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component"
+      },
+      "pane": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The leaflet pane of the component"
+      },
+      "attribution": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The attribution string for the component"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      },
+      "click_lat_lng_val": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "Dash callback property. Receives [lat, lng, val] upon click. Requires interactive=True."
+      },
+      "click_lat_lng_idx": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "Dash callback property. Receives [lat, lng, idx] upon click. Requires interactive=True."
+      },
+      "dbl_click_lat_lng_val": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "Dash callback property. Receives [lat, lng, val] upon double click. Requires interactive=True."
+      },
+      "dbl_click_lat_lng_idx": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "Dash callback property. Receives [lat, lng, idx] upon double click. Requires interactive=True."
+      }
+    }
+  },
+  "src/lib/components/GestureHandling.react.js": {
+    "description": "GestureHandling is a light wrapper of https://github.com/elmarquis/Leaflet.GestureHandling",
+    "displayName": "GestureHandling",
+    "methods": [],
+    "props": {
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component (dynamic)."
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A custom class name to assign to the image. Empty by default."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks."
+      },
+      "options": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Gesture handling options (a dict). See list of options here,\nhttps://github.com/elmarquis/Leaflet.GestureHandling#other-options"
+      }
+    }
+  },
+  "src/lib/components/ImageOverlay.react.js": {
+    "description": "ImageOverlay is a wrapper of ImageOverlay in react-leaflet.\nIt takes similar properties to its react-leaflet counterpart.",
+    "displayName": "ImageOverlay",
+    "methods": [],
+    "props": {
+      "url": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": "The URL of the image"
+      },
+      "bounds": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "arrayOf",
+            "value": {
+              "name": "number"
+            }
+          }
+        },
+        "required": true,
+        "description": "The geographical bounds the image is tied to."
+      },
+      "opacity": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The opacity of the image overlay."
+      },
+      "zIndex": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The explicit zIndex of the overlay layer."
+      },
+      "alt": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Text for the alt attribute of the image (useful for accessibility)."
+      },
+      "interactive": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If true, the image overlay will emit mouse events when clicked or hovered."
+      },
+      "bubblingMouseEvents": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "When true, a mouse event on this path will trigger the same \nevent on the map (unless L.DomEvent.stopPropagation is used)."
+      },
+      "crossOrigin": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether the crossOrigin attribute will be added to the image. If \na String is provided, the image will have its crossOrigin attribute \nset to the String provided. This is needed if you want to access image \npixel data. Refer to CORS Settings for valid String values."
+      },
+      "errorOverlayUrl": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "URL to the overlay image to show in place of the overlay that failed to load."
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A custom class name to assign to the image. Empty by default."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component"
+      },
+      "pane": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The leaflet pane of the component"
+      },
+      "attribution": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The attribution string for the component (dynamic)"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      },
+      "click_lat_lng": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "Dash callback property. Receives [lat, lng] upon click. Requires interactive=True."
+      },
+      "dbl_click_lat_lng": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "Dash callback property. Receives [lat, lng] upon double click. Requires interactive=True."
+      }
+    }
+  },
+  "src/lib/components/LayerGroup.react.js": {
+    "description": "LayerGroup is a wrapper of LayerGroup in react-leaflet.\nIt takes similar properties to its react-leaflet counterpart.",
+    "displayName": "LayerGroup",
+    "methods": [],
+    "props": {
+      "attribution": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Attribution"
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "Attribution"
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A custom class name. Empty by default."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      }
+    }
+  },
+  "src/lib/components/LayersControl.react.js": {
+    "description": "",
+    "displayName": "LayersControl",
+    "methods": [
+      {
+        "name": "_getInitialValues",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      }
+    ],
+    "props": {
+      "collapsed": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Collapsed."
+      },
+      "position": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "'topleft'",
+              "computed": false
+            },
+            {
+              "value": "'topright'",
+              "computed": false
+            },
+            {
+              "value": "'bottomleft'",
+              "computed": false
+            },
+            {
+              "value": "'bottomright'",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": "Position."
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "Attribution"
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A custom class name. Empty by default."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      },
+      "baseLayer": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Name of the currently selected base layer."
+      },
+      "overlays": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "string"
+          }
+        },
+        "required": false,
+        "description": "Names of the currently selected overlays."
+      }
+    }
+  },
+  "src/lib/components/LocateControl.react.js": {
+    "description": "",
+    "displayName": "LocateControl",
+    "methods": [],
+    "props": {
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component (dynamic)."
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A custom class name to assign to the image. Empty by default."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks."
+      },
+      "startDirectly": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If true, the location control is activated on map load."
+      },
+      "options": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Location control options (a dict). See list of options in the code,\nhttps://github.com/domoritz/leaflet-locatecontrol/blob/gh-pages/src/L.Control.Locate.js#L146"
+      }
+    }
+  },
+  "src/lib/components/Map.react.js": {
+    "description": "Map is a wrapper of Map in react-leaflet.\nIt takes similar properties to its react-leaflet counterpart.",
+    "displayName": "Map",
+    "methods": [],
+    "props": {
+      "animate": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If true, panning will always be animated if possible. If false, it will not\nanimate panning, either resetting the map view if panning more than a screen\naway, or just setting a new offset for the map pane (except for panBy which\nalways does the latter)."
+      },
+      "duration": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Duration of animated panning, in seconds."
+      },
+      "easeLinearity": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Easing of the inertia"
+      },
+      "noMoveStart": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If true, panning won't fire movestart event on start (used internally for panning\ninertia)."
+      },
+      "bounds": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "arrayOf",
+            "value": {
+              "name": "number"
+            }
+          }
+        },
+        "required": false,
+        "description": "Sets a map view that contains the given geographical bounds with the maximum zoom\nlevel possible."
+      },
+      "boundsOptions": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Object with the following entries:\n\npaddingTopLeft: Sets the amount of padding in the top left corner of a map container\n                that shouldn't be accounted for when setting the view to fit bounds.\n                Useful if you have some control overlays on the map like a sidebar\n                and you don't want them to obscure objects you're zooming to.\npaddingBottomRight: The same for the bottom right corner of the map.\npadding: Equivalent of setting both top left and bottom right padding to the same value.\nmaxZoom: The maximum possible zoom to use."
+      },
+      "boxZoom": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether the map can be zoomed to a rectangular area specified by dragging\nthe mouse while pressing the shift key."
+      },
+      "center": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "Sets the geographic center of the map",
+        "defaultValue": {
+          "value": "[56, 10]",
+          "computed": false
+        }
+      },
+      "doubleClickZoom": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "bool"
+            },
+            {
+              "name": "string"
+            }
+          ]
+        },
+        "required": false,
+        "description": "Whether the map can be zoomed in by double clicking on it and zoomed out by\ndouble clicking while holding shift. If passed 'center', double-click zoom\nwill zoom to the center of the view regardless of where the mouse was.\nDefaults to true."
+      },
+      "dragging": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether the map be draggable with mouse/touch or not."
+      },
+      "keyboard": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Makes the map focusable and allows users to navigate the map with keyboard\narrows and +/- keys."
+      },
+      "maxBounds": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "arrayOf",
+            "value": {
+              "name": "number"
+            }
+          }
+        },
+        "required": false,
+        "description": "When this option is set, the map restricts the view to the given geographical bounds,\nbouncing the user back if the user tries to pan outside the view. To set the\nrestriction dynamically, use setMaxBounds method."
+      },
+      "scrollWheelZoom": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "bool"
+            },
+            {
+              "name": "string"
+            }
+          ]
+        },
+        "required": false,
+        "description": "Whether the map can be zoomed by using the mouse wheel. If passed 'center',\nit will zoom to the center of the view regardless of where the mouse was."
+      },
+      "useFlyTo": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Boolean to control whether to use flyTo functions for bounds and center.\nIf false map.fitBounds and map.setView will be used. If true map.flyToBounds\nand map.flyTo will be used. Defaults to false."
+      },
+      "tap": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Enables mobile hacks for supporting instant taps (fixing 200ms click delay on\niOS/Android) and touch holds (fired as contextmenu events)."
+      },
+      "touchZoom": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Whether the map can be zoomed by touch-dragging with two fingers. If passed\n'center', it will zoom to the center of the view regardless of where the touch\nevents (fingers) were. Enabled for touch-capable web browsers except for old\nAndroids."
+      },
+      "viewport": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Sets the viewport, which is an object containing 'center' and 'zoom'."
+      },
+      "zoom": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Sets the map zoom level",
+        "defaultValue": {
+          "value": "6",
+          "computed": false
+        }
+      },
+      "preferCanvas": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether Paths should be rendered on a Canvas renderer. By default,\nall Paths are rendered in a SVG renderer."
+      },
+      "attributionControl": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether a attribution control is added to the map by default."
+      },
+      "zoomControl": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether a zoom control is added to the map by default."
+      },
+      "closePopupOnClick": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Set it to false if you don't want popups to close when user clicks the map."
+      },
+      "zoomSnap": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Forces the map's zoom level to always be a multiple of this, particularly\nright after a fitBounds() or a pinch-zoom. By default, the zoom level\nsnaps to the nearest integer; lower values (e.g. 0.5 or 0.1) allow for\ngreater granularity. A value of 0 means the zoom level will not be snapped\nafter fitBounds or a pinch-zoom."
+      },
+      "zoomDelta": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Controls how much the map's zoom level will change after a zoomIn(),\nzoomOut(), pressing + or - on the keyboard, or using the zoom controls.\nValues smaller than 1 (e.g. 0.5) allow for greater granularity."
+      },
+      "trackResize": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether the map automatically handles browser window resize to update itself."
+      },
+      "crs": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "\"EPSG3395\"",
+              "computed": false
+            },
+            {
+              "value": "\"EPSG3857\"",
+              "computed": false
+            },
+            {
+              "value": "\"EPSG4326\"",
+              "computed": false
+            },
+            {
+              "value": "\"Earth\"",
+              "computed": false
+            },
+            {
+              "value": "\"Simple\"",
+              "computed": false
+            },
+            {
+              "value": "\"Base\"",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": "The Coordinate Reference System to use. Don't change this if you're not sure\nwhat it means. Set the crs property to one of these strings to use the corresponding Leaflet CRS object",
+        "defaultValue": {
+          "value": "\"EPSG3857\"",
+          "computed": false
+        }
+      },
+      "minZoom": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Minimum zoom level of the map. If not specified and at least one GridLayer or\nTileLayer is in the map, the lowest of their minZoom options will be used instead."
+      },
+      "maxZoom": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Maximum zoom level of the map. If not specified and at least one GridLayer or\nTileLayer is in the map, the highest of their maxZoom options will be used instead."
+      },
+      "renderer": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "The default method for drawing vector layers on the map. L.SVG or L.Canvas by default\ndepending on browser support."
+      },
+      "zoomAnimation": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether the map zoom animation is enabled. By default it's enabled in all browsers\nthat support CSS3 Transitions except Android."
+      },
+      "zoomAnimationThreshold": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Won't animate zoom if the zoom difference exceeds this value."
+      },
+      "fadeAnimation": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether the tile fade animation is enabled. By default it's enabled in all browsers\nthat support CSS3 Transitions except Android."
+      },
+      "markerZoomAnimation": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether markers animate their zoom with the zoom animation, if disabled they will\ndisappear for the length of the animation. By default it's enabled in all browsers\nthat support CSS3 Transitions except Android."
+      },
+      "transform3DLimit": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Defines the maximum size of a CSS translation transform. The default value should\nnot be changed unless a web browser positions layers in the wrong place after doing\na large panBy."
+      },
+      "inertia": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If enabled, panning of the map will have an inertia effect where the map builds\nmomentum while dragging and continues moving in the same direction for some time.\nFeels especially nice on touch devices. Enabled by default unless running on old\nAndroid devices."
+      },
+      "inertiaDeceleration": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The rate with which the inertial movement slows down, in pixels/second."
+      },
+      "inertiaMaxSpeed": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Max speed of the inertial movement, in pixels/second."
+      },
+      "worldCopyJump": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "With this option enabled, the map tracks when you pan to another \"copy\" of\nthe world and seamlessly jumps to the original one so that all overlays like\nmarkers and vector layers are still visible."
+      },
+      "maxBoundsViscosity": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "If maxBounds is set, this option will control how solid the bounds are when\ndragging the map around. The default value of 0.0 allows the user to drag\noutside the bounds at normal speed, higher values will slow down map dragging\noutside bounds, and 1.0 makes the bounds fully solid, preventing the user from\ndragging outside the bounds."
+      },
+      "keyboardPanDelta": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Amount of pixels to pan when pressing an arrow key."
+      },
+      "wheelDebounceTime": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Limits the rate at which a wheel can fire (in milliseconds). By default user\ncan't zoom via wheel more often than once per 40 ms."
+      },
+      "wheelPxPerZoomLevel": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "How many scroll pixels (as reported by L.DomEvent.getWheelDelta) mean a change\nof one full zoom level. Smaller values will make wheel-zooming faster (and vice\nversa)."
+      },
+      "tapTolerance": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The max number of pixels a user can shift his finger during touch for it to\nbe considered a valid tap."
+      },
+      "bounceAtZoomLimits": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Set it to false if you don't want the map to zoom beyond min/max zoom and then\nbounce back when pinch-zooming."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks (dynamic)"
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component (dynamic)"
+      },
+      "style": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "The CSS style of the component (dynamic)",
+        "defaultValue": {
+          "value": "{'width': \"100%\", 'height': \"100%\", \"position\": \"relative\"}",
+          "computed": false
+        }
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The class name of the component (dynamic)"
+      },
+      "attribution": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The attribution string for the component (dynamic)"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      },
+      "click_lat_lng": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "Dash callback property. Receives [lat, lng] upon click."
+      },
+      "dbl_click_lat_lng": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "Dash callback property. Receives [lat, lng] upon double click."
+      },
+      "location_lat_lon_acc": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "Dash callback property. Receives [lat, lng, accuracy] when user location is found."
+      }
+    }
+  },
+  "src/lib/components/Marker.react.js": {
+    "description": "Marker is a wrapper of Marker in react-leaflet.\nIt takes similar properties to its react-leaflet counterpart.",
+    "displayName": "Marker",
+    "methods": [],
+    "props": {
+      "position": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": true,
+        "description": "A geographical point (lat, lon)"
+      },
+      "icon": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Options passed to Icon constructor.",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "draggable": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether the marker is draggable with mouse/touch or not."
+      },
+      "opacity": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The opacity of the marker."
+      },
+      "zIndexOffset": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "By default, marker images zIndex is set automatically based\non its latitude. Use this option if you want to put the\nmarker on top of all others (or below), specifying a high\nvalue like 1000 (or high negative value, respectively)."
+      },
+      "keyboard": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether the marker can be tabbed to with a keyboard and clicked by\npressing enter."
+      },
+      "title": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Text for the browser tooltip that appear on marker hover (no tooltip\nby default)."
+      },
+      "alt": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Text for the alt attribute of the icon image (useful for accessibility)."
+      },
+      "riseOnHover": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If true, the marker will get on top of others when you hover the mouse\nover it."
+      },
+      "riseOffset": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The z-index offset used for the riseOnHover feature."
+      },
+      "bubblingMouseEvents": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "When true, a mouse event on this marker will trigger the same event\non the map (unless L.DomEvent.stopPropagation is used)."
+      },
+      "autoPan": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether to pan the map when dragging this marker near its edge or not."
+      },
+      "autoPanPadding": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Distance (in pixels to the left/right and to the top/bottom) of the map\nedge to start panning the map."
+      },
+      "autoPanSpeed": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Number of pixels the map should pan by."
+      },
+      "interactive": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If false, the layer will not emit mouse events and will act as a part of\nthe underlying map."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component"
+      },
+      "pane": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The leaflet pane of the component"
+      },
+      "attribution": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The attribution string for the component"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      },
+      "n_clicks": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Dash callback property. Number of times the marker has been clicked",
+        "defaultValue": {
+          "value": "0",
+          "computed": false
+        }
+      }
+    }
+  },
+  "src/lib/components/MarkerClusterGroup.react.js": {
+    "description": "",
+    "displayName": "MarkerClusterGroup",
+    "methods": [],
+    "props": {
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component (dynamic)"
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A custom class name to assign to the image. Empty by default."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks."
+      },
+      "options": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Marker cluster group options (a dict). See list of options here\nhttps://github.com/Leaflet/Leaflet.markercluster#all-options"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      }
+    }
+  },
+  "src/lib/components/MeasureControl.react.js": {
+    "description": "",
+    "displayName": "MeasureControl",
+    "methods": [],
+    "props": {
+      "position": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "\"topleft\"",
+              "computed": false
+            },
+            {
+              "value": "\"topright\"",
+              "computed": false
+            },
+            {
+              "value": "\"bottomleft\"",
+              "computed": false
+            },
+            {
+              "value": "\"bottomright\"",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": "The position of this component."
+      },
+      "primaryLengthUnit": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "\"feet\"",
+              "computed": false
+            },
+            {
+              "value": "\"meters\"",
+              "computed": false
+            },
+            {
+              "value": "\"miles\"",
+              "computed": false
+            },
+            {
+              "value": "\"kilometers\"",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": "The units used to display length results. secondaryLengthUnit is optional."
+      },
+      "secondaryLengthUnit": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "\"feet\"",
+              "computed": false
+            },
+            {
+              "value": "\"meters\"",
+              "computed": false
+            },
+            {
+              "value": "\"miles\"",
+              "computed": false
+            },
+            {
+              "value": "\"kilometers\"",
+              "computed": false
+            },
+            {
+              "value": "undefined",
+              "computed": true
+            }
+          ]
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "primaryAreaUnit": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "\"acres\"",
+              "computed": false
+            },
+            {
+              "value": "\"hectares\"",
+              "computed": false
+            },
+            {
+              "value": "\"sqfeet\"",
+              "computed": false
+            },
+            {
+              "value": "\"sqmeters\"",
+              "computed": false
+            },
+            {
+              "value": "\"sqmiles\"",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": "The units used to display area results. secondaryAreaUnit is optional."
+      },
+      "secondaryAreaUnit": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "\"acres\"",
+              "computed": false
+            },
+            {
+              "value": "\"hectares\"",
+              "computed": false
+            },
+            {
+              "value": "\"sqfeet\"",
+              "computed": false
+            },
+            {
+              "value": "\"sqmeters\"",
+              "computed": false
+            },
+            {
+              "value": "\"sqmiles\"",
+              "computed": false
+            },
+            {
+              "value": "undefined",
+              "computed": true
+            }
+          ]
+        },
+        "required": false,
+        "description": ""
+      },
+      "activeColor": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The color to use for map features rendered while actively perfoming a measurement."
+      },
+      "completedColor": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The color to use for features generated from a completed measurement."
+      },
+      "popupOptions": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "The options applied to the popup of the resulting measure feature."
+      },
+      "captureZIndex": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The Z-index of the marker used to capture measure clicks."
+      },
+      "decPoint": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The decimal point and thousands separator used when displaying measurements."
+      },
+      "thousandsSep": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": ""
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component (dynamic)."
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A custom class name to assign to the image. Empty by default."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks."
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      }
+    }
+  },
+  "src/lib/components/Minichart.react.js": {
+    "description": "",
+    "displayName": "Minichart",
+    "methods": [],
+    "props": {
+      "lat": {
+        "type": {
+          "name": "number"
+        },
+        "required": true,
+        "description": "Latitude of the minichart"
+      },
+      "lon": {
+        "type": {
+          "name": "number"
+        },
+        "required": true,
+        "description": "Latitude of the minichart"
+      },
+      "type": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Type of chart to create.\nPossible values are \"bar\" for barcharts, \"pie\" for pie charts, \"polar-radius\" and \"polar-area\"\nfor polar area charts where values are represented either by the radius or the area of the slices."
+      },
+      "data": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "Data values the chart has to represent."
+      },
+      "maxValues": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "number"
+            },
+            {
+              "name": "arrayOf",
+              "value": {
+                "name": "number"
+              }
+            },
+            {
+              "name": "enum",
+              "value": [
+                {
+                  "value": "\"auto\"",
+                  "computed": false
+                }
+              ]
+            }
+          ]
+        },
+        "required": false,
+        "description": "Maximal absolute value the data could take.\nIt can be a single numeric value or an array of values with same length as data.\nIn the first case, all values will be represented with the same scale while in the second case,\neach value will have its own scale. This is useful when one wants to represent multiple variables\nthat are not comparable. If it equals to \"auto\" (the default) then the maximum absolute value in data is used."
+      },
+      "colors": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "string"
+          }
+        },
+        "required": false,
+        "description": "Array of colors. If its length is less than the length of data, colors are recycled."
+      },
+      "width": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Width of the chart when `type` equals 'bar' or maximal diameter of the chart for all other types."
+      },
+      "height": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Maximal height of barcharts."
+      },
+      "labels": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "arrayOf",
+              "value": {
+                "name": "string"
+              }
+            },
+            {
+              "name": "enum",
+              "value": [
+                {
+                  "value": "\"none\"",
+                  "computed": false
+                },
+                {
+                  "value": "\"auto\"",
+                  "computed": false
+                }
+              ]
+            }
+          ]
+        },
+        "required": false,
+        "description": "Labels to display on the chart. If it equals to \"auto\" then data values are displayed in a compact way."
+      },
+      "labelMinSize": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Labels are automatically hidden if the label height is less than this number."
+      },
+      "labelMaxSize": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Maximal height of labels in pixels."
+      },
+      "labelPadding": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Padding to apply to labels."
+      },
+      "labelStyle": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "CSS style to apply to labels"
+      },
+      "labelColor": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Color to apply to labels. If \"auto\", text will be black or white depending on the background color."
+      },
+      "transitionTime": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Duration in millisecondq of transitions."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      }
+    }
+  },
+  "src/lib/components/Overlay.react.js": {
+    "description": "Overlay is a wrapper of LayersControl.Overlay in react-leaflet.\nIt takes similar properties to its react-leaflet counterpart.",
+    "displayName": "Overlay",
+    "methods": [],
+    "props": {
+      "checked": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Checked."
+      },
+      "name": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Name."
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "Attribution"
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      }
+    }
+  },
+  "src/lib/components/Pane.react.js": {
+    "description": "Pane is a wrapper of Pane in react-leaflet.\nIt takes similar properties to its react-leaflet counterpart.",
+    "displayName": "Pane",
+    "methods": [],
+    "props": {
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component"
+      },
+      "name": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The pane name"
+      },
+      "pane": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The leaflet pane of the component"
+      },
+      "style": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "The CSS style of the component (dynamic)"
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A custom class name to assign to the pane. Empty by default."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      }
+    }
+  },
+  "src/lib/components/Polygon.react.js": {
+    "description": "Polygon is a wrapper of Polygon in react-leaflet.\nIt takes similar properties to its react-leaflet counterpart.",
+    "displayName": "Polygon",
+    "methods": [],
+    "props": {
+      "positions": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "arrayOf",
+              "value": {
+                "name": "arrayOf",
+                "value": {
+                  "name": "number"
+                }
+              }
+            },
+            {
+              "name": "arrayOf",
+              "value": {
+                "name": "arrayOf",
+                "value": {
+                  "name": "arrayOf",
+                  "value": {
+                    "name": "number"
+                  }
+                }
+              }
+            },
+            {
+              "name": "arrayOf",
+              "value": {
+                "name": "arrayOf",
+                "value": {
+                  "name": "arrayOf",
+                  "value": {
+                    "name": "arrayOf",
+                    "value": {
+                      "name": "number"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "required": true,
+        "description": "An array of geographical points (lat, lon)"
+      },
+      "smoothFactor": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "How much to simplify the polyline on each zoom level. More means better \nperformance and smoother look, and less means more accurate representation."
+      },
+      "noClip": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Disable polyline clipping."
+      },
+      "stroke": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether to draw stroke along the path. Set it to false to disable borders \non polygons or circles."
+      },
+      "color": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Stroke color"
+      },
+      "weight": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Stroke width in pixels"
+      },
+      "opacity": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Stroke opacity"
+      },
+      "lineCap": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that defines shape to be used at the end of the stroke."
+      },
+      "lineJoin": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that defines shape to be used at the corners of the stroke."
+      },
+      "dashArray": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that defines the stroke dash pattern. Doesn't work on Canvas-powered \nlayers in some old browsers."
+      },
+      "dashOffset": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that defines the distance into the dash pattern to start the dash. \nDoesn't work on Canvas-powered layers in some old browsers."
+      },
+      "fill": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether to fill the path with color. Set it to false to disable filling on \npolygons or circles."
+      },
+      "fillColor": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Fill color. Defaults to the value of the color option"
+      },
+      "fillOpacity": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Fill opacity"
+      },
+      "fillRule": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that defines how the inside of a shape is determined."
+      },
+      "bubblingMouseEvents": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "When true, a mouse event on this path will trigger the same \nevent on the map (unless L.DomEvent.stopPropagation is used)."
+      },
+      "renderer": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Use this specific instance of Renderer for this path. Takes \nprecedence over the map's default renderer."
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Custom class name set on an element. Only for SVG renderer."
+      },
+      "interactive": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If false, the layer will not emit mouse events and will act\nas a part of the underlying map."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component"
+      },
+      "pane": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The leaflet pane of the component"
+      },
+      "attribution": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The attribution string for the component"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      },
+      "click_lat_lng": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "Dash callback property. Receives [lat, lng] upon click."
+      },
+      "dbl_click_lat_lng": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "Dash callback property. Receives [lat, lng] upon double click."
+      }
+    }
+  },
+  "src/lib/components/Polyline.react.js": {
+    "description": "Polyline is a wrapper of Polyline in react-leaflet.\nIt takes similar properties to its react-leaflet counterpart.",
+    "displayName": "Polyline",
+    "methods": [],
+    "props": {
+      "positions": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "arrayOf",
+            "value": {
+              "name": "number"
+            }
+          }
+        },
+        "required": true,
+        "description": "An array of geographical points (lat, lon)"
+      },
+      "smoothFactor": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "How much to simplify the polyline on each zoom level. More means better \nperformance and smoother look, and less means more accurate representation."
+      },
+      "noClip": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Disable polyline clipping."
+      },
+      "stroke": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether to draw stroke along the path. Set it to false to disable borders \non polygons or circles."
+      },
+      "color": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Stroke color"
+      },
+      "weight": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Stroke width in pixels"
+      },
+      "opacity": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Stroke opacity"
+      },
+      "lineCap": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that defines shape to be used at the end of the stroke."
+      },
+      "lineJoin": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that defines shape to be used at the corners of the stroke."
+      },
+      "dashArray": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that defines the stroke dash pattern. Doesn't work on Canvas-powered \nlayers in some old browsers."
+      },
+      "dashOffset": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that defines the distance into the dash pattern to start the dash. \nDoesn't work on Canvas-powered layers in some old browsers."
+      },
+      "fill": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether to fill the path with color. Set it to false to disable filling on \npolygons or circles."
+      },
+      "fillColor": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Fill color. Defaults to the value of the color option"
+      },
+      "fillOpacity": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Fill opacity"
+      },
+      "fillRule": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that defines how the inside of a shape is determined."
+      },
+      "bubblingMouseEvents": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "When true, a mouse event on this path will trigger the same \nevent on the map (unless L.DomEvent.stopPropagation is used)."
+      },
+      "renderer": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Use this specific instance of Renderer for this path. Takes \nprecedence over the map's default renderer."
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Custom class name set on an element. Only for SVG renderer."
+      },
+      "interactive": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If false, the layer will not emit mouse events and will act\nas a part of the underlying map."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component"
+      },
+      "pane": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The leaflet pane of the component"
+      },
+      "attribution": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The attribution string for the component"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      },
+      "click_lat_lng": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "Dash callback property. Receives [lat, lng] upon click."
+      },
+      "dbl_click_lat_lng": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "Dash callback property. Receives [lat, lng] upon double click."
+      }
+    }
+  },
+  "src/lib/components/PolylineDecorator.react.js": {
+    "description": "Polyline is a wrapper of Polyline in react-leaflet.\nIt takes similar properties to its react-leaflet counterpart.",
+    "displayName": "PolylineDecorator",
+    "methods": [],
+    "props": {
+      "positions": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "arrayOf",
+              "value": {
+                "name": "arrayOf",
+                "value": {
+                  "name": "number"
+                }
+              }
+            },
+            {
+              "name": "arrayOf",
+              "value": {
+                "name": "arrayOf",
+                "value": {
+                  "name": "arrayOf",
+                  "value": {
+                    "name": "number"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "required": false,
+        "description": "An array of geographical points (lat, lon)"
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component. If positions are not specified, an attempt is made to read them from the\nchildren property. In this case, the children must be a single PolyLine or a single Polygon."
+      },
+      "patterns": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "offset": {
+                "name": "string",
+                "required": false
+              },
+              "endOffset": {
+                "name": "string",
+                "required": false
+              },
+              "repeat": {
+                "name": "string",
+                "required": false
+              },
+              "dash": {
+                "name": "shape",
+                "value": {
+                  "pixelSize": {
+                    "name": "number",
+                    "required": false
+                  },
+                  "pathOptions": {
+                    "name": "object",
+                    "required": false
+                  }
+                },
+                "required": false
+              },
+              "arrowHead": {
+                "name": "shape",
+                "value": {
+                  "polygon": {
+                    "name": "bool",
+                    "required": false
+                  },
+                  "pixelSize": {
+                    "name": "number",
+                    "required": false
+                  },
+                  "headAngle": {
+                    "name": "number",
+                    "required": false
+                  },
+                  "pathOptions": {
+                    "name": "object",
+                    "required": false
+                  }
+                },
+                "required": false
+              },
+              "marker": {
+                "name": "shape",
+                "value": {
+                  "markerOptions": {
+                    "name": "object",
+                    "required": false
+                  },
+                  "rotate": {
+                    "name": "bool",
+                    "required": false
+                  }
+                },
+                "required": false
+              }
+            }
+          }
+        },
+        "required": false,
+        "description": "List of patterns to be added."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      }
+    }
+  },
+  "src/lib/components/Popup.react.js": {
+    "description": "Popup is a wrapper of Popup in react-leaflet.\nIt takes similar properties to its react-leaflet counterpart.",
+    "displayName": "Popup",
+    "methods": [],
+    "props": {
+      "position": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "A geographical point (lat, lon)"
+      },
+      "maxWidth": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Max width of the popup, in pixels."
+      },
+      "minWidth": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Min width of the popup, in pixels."
+      },
+      "maxHeight": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "If set, creates a scrollable container of the given height\ninside a popup if its content exceeds it."
+      },
+      "autoPan": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Set it to false if you don't want the map to do panning \nanimation to fit the opened popup."
+      },
+      "autoPanPaddingTopLeft": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "The margin between the popup and the top left corner of the map \nview after autopanning was performed."
+      },
+      "autoPanPaddingBottomRight": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "The margin between the popup and the bottom right corner of the\nmap view after autopanning was performed."
+      },
+      "autoPanPadding": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Equivalent of setting both top left and bottom right autopan padding \nto the same value."
+      },
+      "keepInView": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Set it to true if you want to prevent users from panning the popup \noff of the screen while it is open."
+      },
+      "closeButton": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Controls the presence of a close button in the popup."
+      },
+      "autoClose": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Set it to false if you want to override the default behavior of the popup \nclosing when another popup is opened."
+      },
+      "closeOnEscapeKey": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Set it to false if you want to override the default behavior of the ESC \nkey for closing of the popup."
+      },
+      "closeOnClick": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Set it if you want to override the default behavior of the popup closing \nwhen user clicks on the map. Defaults to the map's closePopupOnClick option."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component"
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The class of the component (dynamic)"
+      },
+      "pane": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The leaflet pane of the component"
+      },
+      "attribution": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The attribution string for the component (dynamic)"
+      }
+    }
+  },
+  "src/lib/components/Rectangle.react.js": {
+    "description": "Rectangle is a wrapper of Rectangle in react-leaflet.\nIt takes similar properties to its react-leaflet counterpart.",
+    "displayName": "Rectangle",
+    "methods": [],
+    "props": {
+      "bounds": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "arrayOf",
+            "value": {
+              "name": "number"
+            }
+          }
+        },
+        "required": true,
+        "description": "An array of two geographical points (lat, lon)"
+      },
+      "smoothFactor": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "How much to simplify the polyline on each zoom level. More means better \nperformance and smoother look, and less means more accurate representation."
+      },
+      "noClip": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Disable polyline clipping."
+      },
+      "stroke": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether to draw stroke along the path. Set it to false to disable borders \non Rectangles or circles."
+      },
+      "color": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Stroke color"
+      },
+      "weight": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Stroke width in pixels"
+      },
+      "opacity": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Stroke opacity"
+      },
+      "lineCap": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that defines shape to be used at the end of the stroke."
+      },
+      "lineJoin": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that defines shape to be used at the corners of the stroke."
+      },
+      "dashArray": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that defines the stroke dash pattern. Doesn't work on Canvas-powered \nlayers in some old browsers."
+      },
+      "dashOffset": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that defines the distance into the dash pattern to start the dash. \nDoesn't work on Canvas-powered layers in some old browsers."
+      },
+      "fill": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether to fill the path with color. Set it to false to disable filling on \nRectangles or circles."
+      },
+      "fillColor": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Fill color. Defaults to the value of the color option"
+      },
+      "fillOpacity": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Fill opacity"
+      },
+      "fillRule": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that defines how the inside of a shape is determined."
+      },
+      "bubblingMouseEvents": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "When true, a mouse event on this path will trigger the same \nevent on the map (unless L.DomEvent.stopPropagation is used)."
+      },
+      "renderer": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Use this specific instance of Renderer for this path. Takes \nprecedence over the map's default renderer."
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Custom class name set on an element. Only for SVG renderer."
+      },
+      "interactive": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If false, the layer will not emit mouse events and will act\nas a part of the underlying map."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component"
+      },
+      "pane": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The leaflet pane of the component"
+      },
+      "attribution": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The attribution string for the component"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      },
+      "click_lat_lng": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "Dash callback property. Receives [lat, lng] upon click."
+      },
+      "dbl_click_lat_lng": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "Dash callback property. Receives [lat, lng] upon double click."
+      }
+    }
+  },
+  "src/lib/components/SVGOverlay.react.js": {
+    "description": "NOTE: This component is not fully tested. Consider it beta.",
+    "displayName": "SVGOverlay",
+    "methods": [],
+    "props": {
+      "svg": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": "The SVG as text"
+      },
+      "bounds": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "arrayOf",
+            "value": {
+              "name": "number"
+            }
+          }
+        },
+        "required": true,
+        "description": "The geographical bounds the image is tied to."
+      },
+      "opacity": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The opacity of the image overlay."
+      },
+      "zIndex": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The explicit zIndex of the overlay layer."
+      },
+      "alt": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Text for the alt attribute of the image (useful for accessibility)."
+      },
+      "interactive": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If true, the image overlay will emit mouse events when clicked or hovered."
+      },
+      "bubblingMouseEvents": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "When true, a mouse event on this path will trigger the same \nevent on the map (unless L.DomEvent.stopPropagation is used)."
+      },
+      "crossOrigin": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether the crossOrigin attribute will be added to the image. If \na String is provided, the image will have its crossOrigin attribute \nset to the String provided. This is needed if you want to access image \npixel data. Refer to CORS Settings for valid String values."
+      },
+      "errorOverlayUrl": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "URL to the overlay image to show in place of the overlay that failed to load."
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A custom class name to assign to the image. Empty by default."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component"
+      },
+      "pane": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The leaflet pane of the component"
+      },
+      "attribution": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The attribution string for the component (dynamic)"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      }
+    }
+  },
+  "src/lib/components/ScaleControl.react.js": {
+    "description": "ScaleControl is a wrapper of ScaleControl in react-leaflet.\nIt takes similar properties to its react-leaflet counterpart.",
+    "displayName": "ScaleControl",
+    "methods": [],
+    "props": {
+      "position": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "'topleft'",
+              "computed": false
+            },
+            {
+              "value": "'topright'",
+              "computed": false
+            },
+            {
+              "value": "'bottomleft'",
+              "computed": false
+            },
+            {
+              "value": "'bottomright'",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": "Position."
+      },
+      "imperial": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Imperial scale or not."
+      },
+      "metric": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Metric scale or not."
+      },
+      "updateWhenIdle": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Update when idle or not."
+      },
+      "maxWidth": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Control maxWidth."
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component (dynamic)."
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A custom class name to assign to the image. Empty by default."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks."
+      }
+    }
+  },
+  "src/lib/components/TileLayer.react.js": {
+    "description": "TileLayer is a wrapper of TileLayer in react-leaflet.\nIt takes similar properties to its react-leaflet counterpart.",
+    "displayName": "TileLayer",
+    "methods": [],
+    "props": {
+      "url": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A URL template for the tile layer, ie. a string of the following form:\n'http://{s}.somedomain.com/blabla/{z}/{x}/{y}{r}.png'\nwhere {s} means one of the available subdomains (used sequentially to \nhelp with browser parallel requests per domain limitation; subdomain \nvalues are specified in options; a, b or c by default, can be omitted), \n{z} zoom level, {x} and {y} tile coordinates. {r} can be used to\nadd \"@2x\" to the URL to load retina tiles.",
+        "defaultValue": {
+          "value": "\"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png\"",
+          "computed": false
+        }
+      },
+      "opacity": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Opacity of the tiles. Can be used in the createTile() function."
+      },
+      "zIndex": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The explicit zIndex of the tile layer."
+      },
+      "minZoom": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The minimum zoom level down to which this layer will be displayed (inclusive)."
+      },
+      "maxZoom": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The maximum zoom level up to which this layer will be displayed (inclusive)."
+      },
+      "subdomains": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Subdomains of the tile service. Can be passed in the form of one string \n(where each letter is a subdomain name) or an array of strings."
+      },
+      "errorTileUrl": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "URL to the tile image to show in place of the tile that failed to load."
+      },
+      "zoomOffset": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The zoom number used in tile URLs will be offset with this value."
+      },
+      "tms": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If true, inverses Y axis numbering for tiles (turn this on for TMS services)."
+      },
+      "zoomReverse": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If set to true, the zoom number used in tile URLs will be reversed \n(maxZoom - zoom instead of zoom)"
+      },
+      "detectRetina": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If true and user is on a retina display, it will request four tiles of half \nthe specified size and a bigger zoom level in place of one to utilize the \nhigh resolution."
+      },
+      "crossOrigin": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether the crossOrigin attribute will be added to the tiles. If \na String is provided, all tiles will have its crossOrigin attribute \nset to the String provided. This is needed if you want to access tile \npixel data. Refer to CORS Settings for valid String values."
+      },
+      "tileSize": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Width and height of tiles in the grid. Use a number if width and \nheight are equal, or L.point(width, height) otherwise."
+      },
+      "updateWhenIdle": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Load new tiles only when panning ends. true by default on mobile \nbrowsers, in order to avoid too many requests and keep smooth \nnavigation. false otherwise in order to display new tiles during \npanning, since it is easy to pan outside the keepBuffer option \nin desktop browsers."
+      },
+      "updateWhenZooming": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "By default, a smooth zoom animation (during a touch zoom or a \nflyTo()) will update grid layers every integer zoom level. \nSetting this option to false will update the grid layer only \nwhen the smooth animation ends."
+      },
+      "updateInterval": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Tiles will not update more than once every updateInterval \nmilliseconds when panning."
+      },
+      "bounds": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "If set, tiles will only be loaded inside the set LatLngBounds."
+      },
+      "minNativeZoom": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Minimum zoom number the tile source has available. If it \nis specified, the tiles on all zoom levels lower than \nminNativeZoom will be loaded from minNativeZoom level \nand auto-scaled."
+      },
+      "maxNativeZoom": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Maximum zoom number the tile source has available. If it\nis specified, the tiles on all zoom levels higher than \nmaxNativeZoom will be loaded from maxNativeZoom level \nand auto-scaled."
+      },
+      "noWrap": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether the layer is wrapped around the antimeridian. If \ntrue, the GridLayer will only be displayed once at low zoom \nlevels. Has no effect when the map CRS doesn't wrap around. \nCan be used in combination with bounds to prevent requesting \ntiles outside the CRS limits."
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A custom class name to assign to the tile layer. Empty by default."
+      },
+      "keepBuffer": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "When panning the map, keep this many rows and columns of tiles \nbefore unloading them."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component"
+      },
+      "pane": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The leaflet pane of the component"
+      },
+      "attribution": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The attribution string for the component"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      }
+    }
+  },
+  "src/lib/components/Tooltip.react.js": {
+    "description": "Tooltip is a wrapper of Tooltip in react-leaflet.\nIt takes similar properties to its react-leaflet counterpart.",
+    "displayName": "Tooltip",
+    "methods": [],
+    "props": {
+      "offset": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Optional offset of the tooltip position."
+      },
+      "direction": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Direction where to open the tooltip. Possible values are: right, \nleft, top, bottom, center, auto. auto will dynamically switch between \nright and left according to the tooltip position on the map."
+      },
+      "permanent": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether to open the tooltip permanently or only on mouseover."
+      },
+      "sticky": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If true, the tooltip will follow the mouse instead of being fixed at \nthe feature center."
+      },
+      "interactive": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If true, the tooltip will listen to the feature events."
+      },
+      "opacity": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Tooltip container opacity"
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component"
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The class of the component (dynamic)"
+      },
+      "pane": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The leaflet pane of the component"
+      },
+      "attribution": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The attribution string for the component (dynamic)"
+      }
+    }
+  },
+  "src/lib/components/VideoOverlay.react.js": {
+    "description": "VideoOverlay is a wrapper of VideoOverlay in react-leaflet.\nIt takes similar properties to its react-leaflet counterpart.",
+    "displayName": "VideoOverlay",
+    "methods": [],
+    "props": {
+      "url": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "PropTypes.string",
+              "computed": true
+            },
+            {
+              "value": "PropTypes.arrayOf(PropTypes.string)",
+              "computed": true
+            }
+          ]
+        },
+        "required": true,
+        "description": "The URL of the video"
+      },
+      "bounds": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "arrayOf",
+            "value": {
+              "name": "number"
+            }
+          }
+        },
+        "required": true,
+        "description": "The geographical bounds the video is tied to."
+      },
+      "opacity": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The opacity of the image overlay."
+      },
+      "play": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Sets the play status of the video",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "zIndex": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The explicit zIndex of the overlay layer."
+      },
+      "loop": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether the video will loop back to the beginning when played."
+      },
+      "keepAspectRatio": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether the video will save aspect ratio after the projection. Relevant \nfor supported browsers. Browser compatibility- \nhttps://developer.mozilla.org/en-US/docs/Web/CSS/object-fit"
+      },
+      "alt": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Text for the alt attribute of the image (useful for accessibility)."
+      },
+      "interactive": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If true, the image overlay will emit mouse events when clicked or hovered."
+      },
+      "bubblingMouseEvents": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "When true, a mouse event on this path will trigger the same \nevent on the map (unless L.DomEvent.stopPropagation is used)."
+      },
+      "crossOrigin": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether the crossOrigin attribute will be added to the image. If \na String is provided, the image will have its crossOrigin attribute \nset to the String provided. This is needed if you want to access image \npixel data. Refer to CORS Settings for valid String values."
+      },
+      "errorOverlayUrl": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "URL to the overlay image to show in place of the overlay that failed to load."
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A custom class name to assign to the image. Empty by default."
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component"
+      },
+      "pane": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The leaflet pane of the component"
+      },
+      "attribution": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The attribution string for the component (dynamic)"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      },
+      "click_lat_lng": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "Dash callback property. Receives [lat, lng] upon click. Requires interactive=True."
+      },
+      "dbl_click_lat_lng": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "Dash callback property. Receives [lat, lng] upon double click. Requires interactive=True."
+      }
+    }
+  },
+  "src/lib/components/WMSTileLayer.react.js": {
+    "description": "WMSTileLayer is a wrapper of WMSTileLayer in react-leaflet.\nIt takes similar properties to its react-leaflet counterpart.",
+    "displayName": "WMSTileLayer",
+    "methods": [],
+    "props": {
+      "url": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": "Base URL of the WMS service"
+      },
+      "layers": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": "Comma-separated list of WMS layers to show."
+      },
+      "styles": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Comma-separated list of WMS styles."
+      },
+      "format": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "WMS image format (use 'image/png' for layers with transparency)."
+      },
+      "transparent": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If true, the WMS service will return images with transparency."
+      },
+      "version": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Version of the WMS service to use"
+      },
+      "crs": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Coordinate Reference System to use for the WMS requests, defaults \nto map CRS. Don't change this if you're not sure what it means."
+      },
+      "uppercase": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If true, WMS request parameter keys will be uppercase."
+      },
+      "minZoom": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The minimum zoom level down to which this layer will be displayed (inclusive)."
+      },
+      "maxZoom": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The maximum zoom level up to which this layer will be displayed (inclusive)."
+      },
+      "subdomains": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Subdomains of the tile service. Can be passed in the form of one string \n(where each letter is a subdomain name) or an array of strings."
+      },
+      "errorTileUrl": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "URL to the tile image to show in place of the tile that failed to load."
+      },
+      "zoomOffset": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The zoom number used in tile URLs will be offset with this value."
+      },
+      "tms": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If true, inverses Y axis numbering for tiles (turn this on for TMS services)."
+      },
+      "zoomReverse": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If set to true, the zoom number used in tile URLs will be reversed \n(maxZoom - zoom instead of zoom)"
+      },
+      "detectRetina": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "If true and user is on a retina display, it will request four tiles of half \nthe specified size and a bigger zoom level in place of one to utilize the \nhigh resolution."
+      },
+      "crossOrigin": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether the crossOrigin attribute will be added to the tiles. If \na String is provided, all tiles will have its crossOrigin attribute \nset to the String provided. This is needed if you want to access tile \npixel data. Refer to CORS Settings for valid String values."
+      },
+      "tileSize": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Width and height of tiles in the grid. Use a number if width and \nheight are equal, or L.point(width, height) otherwise."
+      },
+      "opacity": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Opacity of the tiles. Can be used in the createTile() function."
+      },
+      "updateWhenIdle": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Load new tiles only when panning ends. true by default on mobile \nbrowsers, in order to avoid too many requests and keep smooth \nnavigation. false otherwise in order to display new tiles during \npanning, since it is easy to pan outside the keepBuffer option \nin desktop browsers."
+      },
+      "updateWhenZooming": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "By default, a smooth zoom animation (during a touch zoom or a \nflyTo()) will update grid layers every integer zoom level. \nSetting this option to false will update the grid layer only \nwhen the smooth animation ends."
+      },
+      "updateInterval": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Tiles will not update more than once every updateInterval \nmilliseconds when panning."
+      },
+      "zIndex": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The explicit zIndex of the tile layer."
+      },
+      "bounds": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "If set, tiles will only be loaded inside the set LatLngBounds."
+      },
+      "minNativeZoom": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Minimum zoom number the tile source has available. If it \nis specified, the tiles on all zoom levels lower than \nminNativeZoom will be loaded from minNativeZoom level \nand auto-scaled."
+      },
+      "maxNativeZoom": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Maximum zoom number the tile source has available. If it\nis specified, the tiles on all zoom levels higher than \nmaxNativeZoom will be loaded from maxNativeZoom level \nand auto-scaled."
+      },
+      "noWrap": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether the layer is wrapped around the antimeridian. If \ntrue, the GridLayer will only be displayed once at low zoom \nlevels. Has no effect when the map CRS doesn't wrap around. \nCan be used in combination with bounds to prevent requesting \ntiles outside the CRS limits."
+      },
+      "pane": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The leaflet pane of the component"
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A custom class name to assign to the tile layer. Empty by default."
+      },
+      "keepBuffer": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "When panning the map, keep this many rows and columns of tiles \nbefore unloading them."
+      },
+      "attribution": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The attribution string for the component (dynamic)"
+      },
+      "extraProps": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Additional props to pass to the WMSTileLayer object"
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "The children of this component"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      }
+    }
+  }
+}
