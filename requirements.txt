@@ -1,7 +1,10 @@
 # dash is required to call `build:py`
 dash==2.0.0
-dash_extensions==0.0.64
+dash_extensions==0.0.71
 palettable
 pyyaml
 colorcet
 geobuf
+# Needed to execute 'dash-generate-components'
+# See: https://github.com/plotly/dash/issues/1992
+Werkzeug==2.0.0
