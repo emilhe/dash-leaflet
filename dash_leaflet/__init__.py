@@ -33,8 +33,8 @@ async_resources = ["markerClusterGroup", "editControl", "geoTiffOverlay", "locat
 
 _js_dist = [
         {
-            'relative_package_path': 'leaflet@1.7.1.js',
-            'external_url': 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.js',
+            'relative_package_path': 'leaflet@1.8.0.js',
+            'external_url': 'https://unpkg.com/leaflet@1.8.0/dist/leaflet.js',
             'namespace': package_name
         },
         {
@@ -95,8 +95,8 @@ _js_dist.extend(
 
 _css_dist = [
         {
-            'relative_package_path': 'leaflet@1.7.1.css',
-            'external_url': 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.css',
+            'relative_package_path': 'leaflet@1.8.0.css',
+            'external_url': 'https://unpkg.com/leaflet@1.8.0/dist/leaflet.css',
             'namespace': package_name
         },
 ]

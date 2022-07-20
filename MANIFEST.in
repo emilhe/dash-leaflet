@@ -2,6 +2,7 @@ include dash_leaflet/*.json
 include dash_leaflet/*.css
 include dash_leaflet/*.map
 include dash_leaflet/*.js
+include dash_leaflet/images/*.png
 include package.json
 include README.md
 include LICENSE
