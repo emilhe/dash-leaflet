@@ -2,11 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.1.24] - 2022-07-20
+## [0.1.24] - UNRELEASED
+
+### TODO
+
+- New loading mechanism has broken css/asset bundling (!), see e.g. marker cluster
 
 ### Change
 
-- Leaflet and react-leaflet are now [bundled with dash-leaflet](https://github.com/thedirtyfew/dash-leaflet/pull/146). This structure allows development of plugins as external packages. 
+- Leaflet and react-leaflet are now [bundled with dash-leaflet](https://github.com/thedirtyfew/dash-leaflet/pull/146). This structure enables **development of plugins as external packages**. 
+- Various (security-related) dependency updates.
 
 ## [0.1.23] - 2021-08-11
 
