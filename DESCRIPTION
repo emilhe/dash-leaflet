@@ -1,6 +1,6 @@
 Package: dashLeaflet
 Title: Leaflet component for Dash
-Version: 0.1.24rc9
+Version: 0.1.24rc11
 Description: Leaflet component for Dash
 Depends: R (>= 3.0.2)
 Imports: 
