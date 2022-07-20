@@ -18,6 +18,7 @@ from .Map import Map
 from .Marker import Marker
 from .MarkerClusterGroup import MarkerClusterGroup
 from .MeasureControl import MeasureControl
+from .Minichart import Minichart
 from .Overlay import Overlay
 from .Pane import Pane
 from .Polygon import Polygon
@@ -53,6 +54,7 @@ __all__ = [
     "Marker",
     "MarkerClusterGroup",
     "MeasureControl",
+    "Minichart",
     "Overlay",
     "Pane",
     "Polygon",
