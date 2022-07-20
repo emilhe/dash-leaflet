@@ -31,7 +31,18 @@ _this_module = _sys.modules[__name__]
 async_resources = ["markerClusterGroup", "editControl", "geoTiffOverlay", "locateControl", "measureControl",
                    "minichart", "null"]
 
-_js_dist = []
+_js_dist = [
+        {
+            'relative_package_path': 'leaflet@1.7.1.js',
+            'external_url': 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.js',
+            'namespace': package_name
+        },
+        {
+            'relative_package_path': 'react-leaflet@2.8.0.js',
+            'external_url': 'https://unpkg.com/react-leaflet@2.8.0/dist/react-leaflet.js',
+            'namespace': package_name
+        },
+]
 
 _js_dist.extend(
     [
@@ -82,7 +93,13 @@ _js_dist.extend(
     ]
 )
 
-_css_dist = []
+_css_dist = [
+        {
+            'relative_package_path': 'leaflet@1.7.1.css',
+            'external_url': 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.css',
+            'namespace': package_name
+        },
+]
 
 
 for _component in __all__:
