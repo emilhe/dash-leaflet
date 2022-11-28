@@ -33,7 +33,7 @@
     "chroma-js": "^2.1.2",
     "d3": "^5.9.2",
     "dash-extensions": "0.0.1",
-    "electron": "^19.0.8",
+    "electron": "^19.0.11",
     "geobuf": "^3.0.1",
     "geotiff": "^1.0.8",
     "immutability-helper": "^3.1.1",
