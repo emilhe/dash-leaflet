@@ -26,9 +26,9 @@ If you visit http://127.0.0.1:8050/ in your browser, you should see a Leaflet ma
 
 ## Documentation
 
-The documentation has been moved to [Heroku](https://dash-leaflet.herokuapp.com/) to enable an interactive example gallery.
+The documentation has been moved to [Render](https://dash-leaflet-docs.onrender.com/) to enable an interactive example gallery.
 
-NB: The 0.1.0 release contains a number breaking changes, most prominently merging of the `SuperCluster` and `GeoJSON` components into a new `GeoJSON` component powered by [functional properties](https://dash-leaflet.herokuapp.com/#func_props).
+NB: The 0.1.0 release contains a number breaking changes, most prominently merging of the `SuperCluster` and `GeoJSON` components into a new `GeoJSON` component powered by [functional properties](https://dash-leaflet-docs.onrender.com/#func_props).
 
 ## Build instructions
 
