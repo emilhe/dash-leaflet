@@ -15,6 +15,18 @@ export default class Map extends Component {
     constructor(props) {
         super(props);
         this.myRef = React.createRef();  // Create reference to be used for map object
+
+        this.resizeObserver = new ResizeObserver((entries) => {
+            // We can refer directly to the leafletElement since every Map component
+            // gets its own ResizeObserver
+            this.myRef.current.leafletElement.invalidateSize();
+        });
+    }
+
+    componentDidMount() {
+        // Observe the map's container DOM element once the component
+        // is mounted to the page
+        this.resizeObserver.observe(this.myRef.current.container);
     }
 
     render() {
@@ -405,5 +417,3 @@ Map.propTypes = {
     location_lat_lon_acc: PropTypes.arrayOf(PropTypes.number)
 
 };
-
-
