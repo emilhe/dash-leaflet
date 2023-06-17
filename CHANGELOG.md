@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.26] - UNRELEASED
+
+### Change
+
+- Added ImageOverlay `loaded` property, which is set to `true` when the image has finished loading
+
 ## [0.1.25] - 2022-07-20
 
 ### Change

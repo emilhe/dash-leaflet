@@ -10,7 +10,11 @@ import {registerDefaultEvents} from "../utils";
  */
 export default class ImageOverlay extends Component {
     render() {
-        return <LeafletImageOverlay {...registerDefaultEvents(this)} />
+        const nProps = registerDefaultEvents(this);
+        nProps.onload = () => {
+            nProps.setProps({loaded: true});
+        };
+        return <LeafletImageOverlay {...nProps} />
     }
 }
 
@@ -94,7 +98,9 @@ ImageOverlay.propTypes = {
     attribution: PropTypes.string,
 
     // Events
+
     setProps: PropTypes.func,
+
     /**
      * Dash callback property. Receives [lat, lng] upon click. Requires interactive=True.
      */
@@ -103,6 +109,11 @@ ImageOverlay.propTypes = {
     /**
      * Dash callback property. Receives [lat, lng] upon double click. Requires interactive=True.
      */
-    dbl_click_lat_lng: PropTypes.arrayOf(PropTypes.number)
+    dbl_click_lat_lng: PropTypes.arrayOf(PropTypes.number),
+
+    /**
+     * Dash callback property. Is set to "true" when the image finishes loading.
+     */
+    loaded: PropTypes.bool,
 };
 
