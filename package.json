@@ -4,7 +4,7 @@
     "type": "git",
     "url": "git://github.com/thedirtyfew/dash-leaflet.git"
   },
-  "version": "0.1.25",
+  "version": "0.1.26",
   "description": "Leaflet component for Dash",
   "main": "build/index.js",
   "scripts": {
@@ -38,7 +38,7 @@
     "geotiff": "^1.0.8",
     "immutability-helper": "^3.1.1",
     "jszip": "^3.7.1",
-    "leaflet": "^1.6.0",
+    "leaflet": "^1.8.0",
     "leaflet-draw": "^1.0.4",
     "leaflet-easybutton": "^2.4.0",
     "leaflet-gesture-handling": "^1.2.2",
@@ -53,7 +53,7 @@
     "proj4": "^2.7.5",
     "prop-types": "15.7.2",
     "ramda": "^0.25.0",
-    "react-leaflet": "^2.8.0",
+    "react-leaflet": "2.6.3",
     "react-leaflet-draw": "0.19.8",
     "react-leaflet-fullscreen": "^1.0.1",
     "react-leaflet-markercluster": "^2.0.0-rc3",
