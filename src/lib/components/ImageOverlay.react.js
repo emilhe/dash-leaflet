@@ -11,8 +11,10 @@ import {registerDefaultEvents} from "../utils";
 export default class ImageOverlay extends Component {
     render() {
         const nProps = registerDefaultEvents(this);
-        nProps.onload = () => {
-            nProps.setProps({loaded: true});
+        nProps.onload = (e) => {
+            nProps.setProps({
+                loaded: {timeStamp: e.timeStamp, url: e.target._url}
+            });
         };
         return <LeafletImageOverlay {...nProps} />
     }
@@ -112,8 +114,8 @@ ImageOverlay.propTypes = {
     dbl_click_lat_lng: PropTypes.arrayOf(PropTypes.number),
 
     /**
-     * Dash callback property. Is set to "true" when the image finishes loading.
+     * Dash callback property. Is populated when the image finishes loading.
      */
-    loaded: PropTypes.bool,
+    loaded: PropTypes.object,
 };
 
