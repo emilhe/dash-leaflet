@@ -2,22 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.27] - 2023-06-27
+
+### Added
+
+- Added leaflet source maps
+
+### Changed
+
+- Modified ImageOverlay `loaded` property to include more information
+
 ## [0.1.26] - 2023-06-19
 
-### Change
+### Changed
 
 - Added ImageOverlay `loaded` property, which is set to `true` when the image has finished loading
 
 ## [0.1.25] - 2022-07-20
 
-### Change
+### Changed
 
 - Leaflet and react-leaflet are now [bundled with dash-leaflet](https://github.com/thedirtyfew/dash-leaflet/pull/146). This structure enables **development of plugins as external packages**. 
 - Various dependency updates.
 
 ## [0.1.23] - 2021-08-11
 
-### Change
+### Changed
 
 - Changed loading of js chunks so that a chunk is only loaded when actually needed.
 

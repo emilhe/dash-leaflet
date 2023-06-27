@@ -4,7 +4,7 @@
     "type": "git",
     "url": "git://github.com/thedirtyfew/dash-leaflet.git"
   },
-  "version": "0.1.26",
+  "version": "0.1.27",
   "description": "Leaflet component for Dash",
   "main": "build/index.js",
   "scripts": {
