@@ -18,7 +18,7 @@ import dash
 import dash_leaflet as dl
 
 app = dash.Dash()
-app.layout = dl.Map(dl.TileLayer(), style={'width': '1000px', 'height': '500px'})
+app.layout = dl.MapContainer(dl.TileLayer(), style={'width': '1000px', 'height': '500px'})
 
 if __name__ == '__main__':
     app.run_server()
@@ -30,7 +30,7 @@ If you visit http://127.0.0.1:8050/ in your browser, you should see a Leaflet ma
 
 The documentation has been moved to [Render](https://dash-leaflet-docs.onrender.com/) to enable an interactive example gallery.
 
-NB: The 0.1.0 release contains a number breaking changes, most prominently merging of the `SuperCluster` and `GeoJSON` components into a new `GeoJSON` component powered by [functional properties](https://dash-leaflet-docs.onrender.com/#func_props).
+NB: The 1.0.0 release contains a wide range of breaking changes, most prominently the renaming of the map component from `Map` to `MapContainer`.
 
 ## Build instructions
 

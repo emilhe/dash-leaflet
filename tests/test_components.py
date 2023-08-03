@@ -34,6 +34,7 @@ def test_click_event(dash_duo, component):
     log = dash_duo.find_element("#log")
     assert log.text == "null"
     dash_duo.find_element(selector).click()
+    time.sleep(0.1)
     assert log.text != "null"
 
 
@@ -46,7 +47,7 @@ def test_load_event(dash_duo, component):
     dash_duo.start_server(app)
     log = dash_duo.find_element("#log")
     assert log.text == "null"
-    time.sleep(0.5)
+    time.sleep(1)
     assert log.text != "null"
 
 
