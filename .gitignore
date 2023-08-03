@@ -336,3 +336,4 @@ node_modules
 
 # PyCharm
 .idea/*
+.git.backup/*
