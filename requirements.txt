@@ -6,3 +6,4 @@ geobuf
 dash_svg
 wheel
 build
+pytest-cov
