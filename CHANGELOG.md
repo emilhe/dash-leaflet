@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.0] - UNRELEASED
+
+### Changed
+
+- Library completely rewritten based on React Leaflet v4
+
 ## [0.1.28] - 2023-06-27
 
 ### Added

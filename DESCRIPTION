@@ -1,13 +1,13 @@
 Package: dashLeaflet
-Title: Leaflet component for Dash
-Version: 0.1.28
-Description: Leaflet component for Dash
+Title: Dash Leaflet is a light wrapper around React-Leaflet. The syntax is similar to other Dash components, with naming conventions following the React-Leaflet API.
+Version: 1.0.0
+Description: Dash Leaflet is a light wrapper around React-Leaflet. The syntax is similar to other Dash components, with naming conventions following the React-Leaflet API.
 Depends: R (>= 3.0.2)
 Imports: 
 Suggests: 
 License: MIT + file LICENSE
-URL: 
-BugReports: 
+URL: https://github.com/thedirtyfew/dash-leaflet
+BugReports: https://github.com/thedirtyfew/dash-leaflet/issues
 Encoding: UTF-8
 LazyData: true
 KeepSource: true

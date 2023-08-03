@@ -1,3 +1,5 @@
+# Dash Leaflet
+
 Dash Leaflet is a light wrapper around React-Leaflet. The syntax is similar to other Dash components, with naming conventions following the React-Leaflet API.
 
 ## Getting started
