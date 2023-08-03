@@ -31,11 +31,9 @@ def test_click_event(dash_duo, component):
     app = import_app(component_path(component))
     selector = import_selector(component)
     dash_duo.start_server(app)
-    log = dash_duo.find_element("#log")
-    assert log.text == "null"
+    assert dash_duo.find_element("#log").text == "null"
     dash_duo.find_element(selector).click()
-    time.sleep(0.1)
-    assert log.text != "null"
+    dash_duo.wait_for_contains_text("#log", "type" if component != "popup" else "1", timeout=1)
 
 
 @pytest.mark.parametrize("component", ["tile_layer", "wms_tile_layer"])
@@ -45,10 +43,8 @@ def test_load_event(dash_duo, component):
     """
     app = import_app(component_path(component))
     dash_duo.start_server(app)
-    log = dash_duo.find_element("#log")
-    assert log.text == "null"
-    time.sleep(1)
-    assert log.text != "null"
+    assert dash_duo.find_element("#log").text == "null"
+    dash_duo.wait_for_contains_text("#log", "type", timeout=5)
 
 
 @pytest.mark.parametrize("component", ["zoom_control", "attribution_control", "scale_control"])
@@ -67,5 +63,4 @@ def test_tooltip(dash_duo):
     app = import_app(component_path("tooltip"))
     dash_duo.start_server(app)
     ActionChains(dash_duo.driver).move_to_element(dash_duo.find_element(".leaflet-marker-icon")).perform()
-    tooltip = dash_duo.find_element(".leaflet-tooltip")
-    assert tooltip.text == "Hello world!"
+    dash_duo.wait_for_contains_text(".leaflet-tooltip", "Hello world!", timeout=1)
