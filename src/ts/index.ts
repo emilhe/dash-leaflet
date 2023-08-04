@@ -21,7 +21,7 @@ import ScaleControl from './components/ScaleControl';
 import LayersControl from './components/LayersControl';
 import Overlay from './components/Overlay';
 import BaseLayer from './components/BaseLayer';
-import Minichart from './components/Minichart';
+// import Minichart from './components/Minichart';
 import LocateControl from './components/LocateControl';
 
 export {
@@ -48,6 +48,6 @@ export {
     LayersControl,
     Overlay,
     BaseLayer,
-    Minichart,
+    // Minichart,
     LocateControl
 }
