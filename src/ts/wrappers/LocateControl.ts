@@ -1,6 +1,7 @@
 import {createControlComponent} from '@react-leaflet/core'
 import * as L from "leaflet";
 
+require("leaflet.locatecontrol");
 require('leaflet.locatecontrol/dist/L.Control.Locate.min.css');
 
 /**
