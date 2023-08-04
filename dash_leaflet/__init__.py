@@ -46,6 +46,41 @@ _js_dist.extend(
     ]
 )
 
+# region Async modifications
+
+async_resources = ["LocateControl"]
+
+_js_dist.extend(
+    [
+        {
+            "relative_package_path": "async-{}.js".format(async_resource),
+            "external_url": ("https://unpkg.com/{0}@{2}" "/{1}/async-{3}.js").format(
+                package_name, __name__, __version__, async_resource
+            ),
+            "namespace": package_name,
+            "async": True,
+        }
+        for async_resource in async_resources
+    ]
+)
+
+# TODO: Figure out if unpkg link works
+_js_dist.extend(
+    [
+        {
+            "relative_package_path": "async-{}.js.map".format(async_resource),
+            "external_url": ("https://unpkg.com/{0}@{2}" "/{1}/async-{3}.js.map").format(
+                package_name, __name__, __version__, async_resource
+            ),
+            "namespace": package_name,
+            "dynamic": True,
+        }
+        for async_resource in async_resources
+    ]
+)
+
+# endregion
+
 _css_dist = []
 
 

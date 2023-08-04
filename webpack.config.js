@@ -11,26 +11,15 @@ module.exports = function (env, argv) {
     const entry = [path.join(__dirname, 'src/ts/index.ts')];
     const output = {
         path: path.join(__dirname, dashLibraryName),
+        chunkFilename: '[name].js',
         filename: `${dashLibraryName}.js`,
         library: dashLibraryName,
-        libraryTarget: 'umd',
+        libraryTarget: 'umd'
     }
-
     const externals = {
-        react: {
-            commonjs: 'react',
-            commonjs2: 'react',
-            amd: 'react',
-            umd: 'react',
-            root: 'React',
-        },
-        'react-dom': {
-            commonjs: 'react-dom',
-            commonjs2: 'react-dom',
-            amd: 'react-dom',
-            umd: 'react-dom',
-            root: 'ReactDOM',
-        },
+        react: 'React',
+        'react-dom': 'ReactDOM',
+        'plotly.js': 'Plotly',
     };
 
     return {
@@ -94,12 +83,12 @@ module.exports = function (env, argv) {
                             return `${cacheGroupKey}-${chunks[0].name}`;
                         }
                     },
-                    // shared: {
-                    //     chunks: 'all',
-                    //     minSize: 0,
-                    //     minChunks: 2,
-                    //     name: 'dash_core_components-shared'
-                    // }
+                    shared: {
+                        chunks: 'all',
+                        minSize: 0,
+                        minChunks: 2,
+                        name: 'dash_leaflet-shared'
+                    }
                 }
             }
         },

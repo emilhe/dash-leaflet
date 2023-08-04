@@ -1,7 +1,7 @@
 from dash_leaflet import LocateControl, TileLayer
 from tests.stubs import app_stub
 
-component = LocateControl()
+component = LocateControl(locateOptions=dict(enableHighAccuracy=True))
 app = app_stub(components=[component, TileLayer()])
 
 if __name__ == "__main__":
