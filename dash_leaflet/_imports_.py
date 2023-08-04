@@ -6,8 +6,10 @@ from .FeatureGroup import FeatureGroup
 from .ImageOverlay import ImageOverlay
 from .LayerGroup import LayerGroup
 from .LayersControl import LayersControl
+from .LocateControl import LocateControl
 from .MapContainer import MapContainer
 from .Marker import Marker
+from .Minichart import Minichart
 from .Overlay import Overlay
 from .Pane import Pane
 from .Polygon import Polygon
@@ -31,8 +33,10 @@ __all__ = [
     "ImageOverlay",
     "LayerGroup",
     "LayersControl",
+    "LocateControl",
     "MapContainer",
     "Marker",
+    "Minichart",
     "Overlay",
     "Pane",
     "Polygon",

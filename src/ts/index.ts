@@ -21,6 +21,8 @@ import ScaleControl from './components/ScaleControl';
 import LayersControl from './components/LayersControl';
 import Overlay from './components/Overlay';
 import BaseLayer from './components/BaseLayer';
+import Minichart from './components/Minichart';
+import LocateControl from './components/LocateControl';
 
 export {
     MapContainer,
@@ -45,5 +47,7 @@ export {
     ScaleControl,
     LayersControl,
     Overlay,
-    BaseLayer
+    BaseLayer,
+    Minichart,
+    LocateControl
 }
