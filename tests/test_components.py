@@ -1,6 +1,5 @@
 import importlib
 import pytest
-import time
 from dash.testing.application_runners import import_app
 from selenium.webdriver.common.action_chains import ActionChains
 

@@ -11,6 +11,24 @@ STILL MISSING FROM REACT LEAFLET
 
 * GeoJSON
 
+OTHER COMPONENTS
+
+* DivMarker?
+* EasyButton
+* FullScreenControl
+* GestureHandling 
+
+* EditControl [async]
+* LocateControl [async]
+* MeasureControl [async]
+* Minichart [async]
+
+NOT CARRIED FORWARD (at least not for now)
+
+* ColorBar (MAYBE?)
+* GeoTIFFOverlay [async]
+* MarkerClusterGroup [async]
+
 TEST TODO:
 
 * After making map, REMOVE controls by default, ADD them in tests and check that they are there

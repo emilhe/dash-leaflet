@@ -9,6 +9,7 @@
  * Recommended to use `type` instead of `interface` so you can define the
  * order of props with types concatenation.
  */
+import {ReactNode} from "react";
 
 export type Modify<T, R> = Omit<T, keyof R> & R;
 
@@ -29,6 +30,13 @@ export type DashComponent = {
      * Dash loading state information.
      */
     loading_state?: object;
+}
+
+export type ParentComponent = {
+    /**
+     * Component children.
+     */
+    children?: ReactNode
 }
 
 //#endregion

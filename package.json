@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@types/leaflet": "^1.9.3",
+    "@types/leaflet.locatecontrol": "^0.74.1",
     "@types/react": "^17.0.39",
     "css-loader": "^6.7.1",
     "npm-run-all": "^4.1.5",
@@ -41,6 +42,8 @@
   "license": "MIT",
   "dependencies": {
     "@plotly/webpack-dash-dynamic-import": "^1.2.0",
+    "leaflet.locatecontrol": "^0.79.0",
+    "leaflet.minichart": "^0.2.5",
     "node-polyfill-webpack-plugin": "^2.0.1",
     "react-esri-leaflet": "^2.0.1",
     "react-leaflet": "^4.2.1",
