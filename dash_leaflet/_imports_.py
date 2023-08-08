@@ -4,6 +4,7 @@ from .Circle import Circle
 from .CircleMarker import CircleMarker
 from .EasyButton import EasyButton
 from .FeatureGroup import FeatureGroup
+from .FullScreenControl import FullScreenControl
 from .ImageOverlay import ImageOverlay
 from .LayerGroup import LayerGroup
 from .LayersControl import LayersControl
@@ -33,6 +34,7 @@ __all__ = [
     "CircleMarker",
     "EasyButton",
     "FeatureGroup",
+    "FullScreenControl",
     "ImageOverlay",
     "LayerGroup",
     "LayersControl",

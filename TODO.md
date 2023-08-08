@@ -14,11 +14,8 @@ STILL MISSING FROM REACT LEAFLET
 OTHER COMPONENTS
 
 * DivMarker?
-* EasyButton
-* FullScreenControl
 * GestureHandling 
 * ColorBar (MAYBE?)
-* PolylineDecorator
 
 * EditControl [async]
 * LocateControl [async]

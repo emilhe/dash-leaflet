@@ -1,4 +1,4 @@
-import {DashComponent, EventComponent, Modify, ParentComponent} from "./props";
+import {DashComponent, Modify} from "./props";
 import * as LP from "./leaflet-props"
 import * as RLP from "./react-leaflet-props"
 import L from "leaflet";
@@ -222,12 +222,7 @@ export type EasyButtonProps = {
      */
     title?: string,
 
-    // /**
-    //  * Number of times that the button has been clicked.
-    //  */
-    // n_clicks?: number,
-
-} & ControlProps & EventComponent & DashComponent;
+} & RLP.EventedBehavior & ControlProps & DashComponent;
 
 export type PolylineDecoratorProps = {
     /**
@@ -265,5 +260,36 @@ export type PolylineDecoratorProps = {
             rotate: boolean
         }
     }[]
-} & EventComponent & DashComponent;
+} & RLP.EventedBehavior & DashComponent;
 
+export type FullScreenControlProps = {
+    /**
+     * Content of the button, can be HTML, default 'null'.
+     */
+    content?: string;
+
+    /**
+     * Title of the button, default 'Full Screen'.
+     */
+    title?: string;
+
+    /**
+     * Title of the button when fullscreen is on, default 'Exit Full Screen'.
+     */
+    titleCancel?: string;
+
+    /**
+     * Force separate button to detach from zoom buttons, default 'false'.
+     */
+    forceSeparateButton?: boolean;
+
+    /**
+     * Force use of pseudo full screen even if full screen API is available, default 'false'.
+     */
+    forcePseudoFullscreen?: boolean;
+
+    /**
+     * Dom element to render in full screen, false by default, fallback to 'map._container'.
+     */
+    fullscreenElement?: false | HTMLElement;
+} & RLP.EventedBehavior & ControlProps & DashComponent

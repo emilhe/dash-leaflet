@@ -1,6 +1,4 @@
 import importlib
-import time
-
 import pytest
 from dash.testing.application_runners import import_app
 from selenium.webdriver.common.action_chains import ActionChains
@@ -37,7 +35,6 @@ def test_click_event(dash_duo, component):
     assert dash_duo.find_element("#log").text == "null"
     dash_duo.find_element(selector).click()
     dash_duo.wait_for_contains_text("#log", "1", timeout=1)
-    # dash_duo.wait_for_contains_text("#log", "type", timeout=1)
 
 
 @pytest.mark.parametrize("component", ["tile_layer", "wms_tile_layer"])
