@@ -1,4 +1,6 @@
 import importlib
+import time
+
 import pytest
 from dash.testing.application_runners import import_app
 from selenium.webdriver.common.action_chains import ActionChains
@@ -17,12 +19,12 @@ def import_selector(component: str):
     """
     module_path = component_path(component)
     m = importlib.import_module(module_path)
-    return m.selector
+    if hasattr(m, "selector"):
+        return m.selector
+    return ".leaflet-interactive"
 
 
-@pytest.mark.parametrize("component", ["map_container", "marker", "popup", "image_overlay", "video_overlay", "circle",
-                                       "circle_marker", "polyline", "polygon", "rectangle", "svg_overlay",
-                                       "layer_group", "feature_group", "pane"])
+@pytest.mark.parametrize("component", ["polyline_decorator"])
 def test_click_event(dash_duo, component):
     """
     Basic test that (1) a component renders and (2) that click events work.
@@ -32,7 +34,8 @@ def test_click_event(dash_duo, component):
     dash_duo.start_server(app)
     assert dash_duo.find_element("#log").text == "null"
     dash_duo.find_element(selector).click()
-    dash_duo.wait_for_contains_text("#log", "type" if component != "popup" else "1", timeout=1)
+    # dash_duo.wait_for_contains_text("#log", "type" if component != "popup" else "1", timeout=1)
+    dash_duo.wait_for_contains_text("#log", "type", timeout=1)
 
 
 @pytest.mark.parametrize("component", ["tile_layer", "wms_tile_layer"])

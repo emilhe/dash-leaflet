@@ -1,5 +1,5 @@
 import React from 'react';
-import {dashifyProps} from '../utils';
+import {assignEventHandlers} from '../utils';
 import { LayerGroup as ReactLeafletLayerGroup } from 'react-leaflet';
 import {LayerGroupProps as Props} from '../dash-props';
 
@@ -8,7 +8,7 @@ import {LayerGroupProps as Props} from '../dash-props';
  */
 const LayerGroup = (props: Props) => {
     return (
-        <ReactLeafletLayerGroup {...dashifyProps(props)}></ReactLeafletLayerGroup>
+        <ReactLeafletLayerGroup {...assignEventHandlers(props)}></ReactLeafletLayerGroup>
     )
 }
 

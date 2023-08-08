@@ -1,5 +1,5 @@
 import React from 'react';
-import {dashifyProps} from '../utils';
+import {assignEventHandlers} from '../utils';
 import { Polygon as ReactLeafletPolygon } from 'react-leaflet';
 import {PolygonProps as Props} from '../dash-props';
 
@@ -8,7 +8,7 @@ import {PolygonProps as Props} from '../dash-props';
  */
 const Polygon = (props: Props) => {
     return (
-        <ReactLeafletPolygon {...dashifyProps(props)}></ReactLeafletPolygon>
+        <ReactLeafletPolygon {...assignEventHandlers(props)}></ReactLeafletPolygon>
     )
 }
 

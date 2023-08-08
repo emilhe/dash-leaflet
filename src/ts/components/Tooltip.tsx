@@ -1,5 +1,5 @@
 import React from 'react';
-import {dashifyProps} from '../utils';
+import {assignEventHandlers} from '../utils';
 import { Tooltip as ReactLeafletTooltip } from 'react-leaflet';
 import {TooltipProps as Props} from '../dash-props';
 
@@ -8,7 +8,7 @@ import {TooltipProps as Props} from '../dash-props';
  */
 const Tooltip = (props: Props) => {
     return (
-        <ReactLeafletTooltip {...dashifyProps(props)}></ReactLeafletTooltip>
+        <ReactLeafletTooltip {...assignEventHandlers(props)}></ReactLeafletTooltip>
     )
 }
 

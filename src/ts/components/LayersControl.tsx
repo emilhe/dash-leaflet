@@ -1,5 +1,5 @@
 import React from 'react';
-import {dashifyProps} from '../utils';
+import {assignEventHandlers} from '../utils';
 import { LayersControl as ReactLeafletLayersControl } from 'react-leaflet';
 import {LayersControlProps as Props} from '../dash-props';
 
@@ -13,7 +13,7 @@ const LayersControl = (props: Props) => {
     dash_leaflet["Overlay"] = ReactLeafletLayersControl.Overlay;
     window["dash_leaflet"] = dash_leaflet;
     return (
-        <ReactLeafletLayersControl {...dashifyProps(props)}></ReactLeafletLayersControl>
+        <ReactLeafletLayersControl {...assignEventHandlers(props)}></ReactLeafletLayersControl>
     )
 }
 

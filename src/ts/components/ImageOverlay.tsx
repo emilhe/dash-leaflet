@@ -1,5 +1,5 @@
 import React from 'react';
-import {dashifyProps} from '../utils';
+import {assignEventHandlers} from '../utils';
 import { ImageOverlay as ReactLeafletImageOverlay } from 'react-leaflet';
 import {ImageOverlayProps as Props} from '../dash-props';
 
@@ -8,7 +8,7 @@ import {ImageOverlayProps as Props} from '../dash-props';
  */
 const ImageOverlay = (props: Props) => {
     return (
-        <ReactLeafletImageOverlay {...dashifyProps(props)}></ReactLeafletImageOverlay>
+        <ReactLeafletImageOverlay {...assignEventHandlers(props)}></ReactLeafletImageOverlay>
     )
 }
 

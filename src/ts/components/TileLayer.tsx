@@ -1,5 +1,5 @@
 import React from 'react';
-import {dashifyProps} from '../utils';
+import {assignEventHandlers} from '../utils';
 import { TileLayer as ReactLeafletTileLayer } from 'react-leaflet';
 import {TileLayerProps as Props} from '../dash-props';
 
@@ -9,11 +9,10 @@ import {TileLayerProps as Props} from '../dash-props';
 const TileLayer = ({ 
     // Set default to OSM
     url = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    eventHandlers,
     ...props
 }: Props) => {
     return (
-        <ReactLeafletTileLayer {...dashifyProps(props, {url:url})}></ReactLeafletTileLayer>
+        <ReactLeafletTileLayer {...assignEventHandlers(props, {url:url})}></ReactLeafletTileLayer>
     )
 }
 

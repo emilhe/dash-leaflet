@@ -1,5 +1,5 @@
 import React from 'react';
-import {dashifyProps} from '../utils';
+import {assignEventHandlers} from '../utils';
 import { Rectangle as ReactLeafletRectangle } from 'react-leaflet';
 import {RectangleProps as Props} from '../dash-props';
 
@@ -8,7 +8,7 @@ import {RectangleProps as Props} from '../dash-props';
  */
 const Rectangle = (props: Props) => {
     return (
-        <ReactLeafletRectangle {...dashifyProps(props)}></ReactLeafletRectangle>
+        <ReactLeafletRectangle {...assignEventHandlers(props)}></ReactLeafletRectangle>
     )
 }
 

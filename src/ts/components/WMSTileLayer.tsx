@@ -1,6 +1,6 @@
 import L from 'leaflet';
 import React from 'react';
-import {dashifyProps} from '../utils';
+import {assignEventHandlers, unDashify} from '../utils';
 import { WMSTileLayer as ReactLeafletWMSTileLayer } from 'react-leaflet';
 import {WMSTileLayerProps as Props} from '../dash-props';
 
@@ -9,10 +9,9 @@ import {WMSTileLayerProps as Props} from '../dash-props';
  */
 const WMSTileLayer = ({crs, eventHandlers, ...props}: Props) => {
     const crsObj = L.CRS[crs];  // map from string repr of CRS to actual object
-    const nProps = dashifyProps(props, {crs: crsObj})
-    const stripped = (({ id, setProps, loading_state, ...o }) => o)(nProps)  // remove extra props to avoid them being added to the WMS URL
+    const nProps = assignEventHandlers(props, {crs: crsObj})
     return (
-        <ReactLeafletWMSTileLayer {...stripped}></ReactLeafletWMSTileLayer>
+        <ReactLeafletWMSTileLayer {...unDashify(nProps)}></ReactLeafletWMSTileLayer>
     )
 }
 

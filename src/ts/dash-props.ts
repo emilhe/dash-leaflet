@@ -1,7 +1,9 @@
-import {DashComponent, Modify} from "./props";
+import {DashComponent, EventComponent, Modify, ParentComponent} from "./props";
 import * as LP from "./leaflet-props"
 import * as RLP from "./react-leaflet-props"
 import L from "leaflet";
+import {ControlProps} from "./leaflet-props";
+import {ReactNode} from "react";
 
 //#region Default components
 
@@ -52,11 +54,6 @@ export type MapContainerProps =  Modify<Modify<LP.MapProps, RLP.MapContainerProp
 //#endregion
 
 export type LocateControlProps = {
-    /**
-     * Position of the control.
-     */
-    position?: L.ControlPosition;
-
     // /**
     //  * The layer that the user's location should be drawn on.
     //  */
@@ -212,5 +209,61 @@ export type LocateControlProps = {
      */
     locateOptions?: L.LocateOptions;
 
-} & DashComponent;
+} & ControlProps & DashComponent;
+
+export type EasyButtonProps = {
+    /**
+     * The icon to show, e.g. 'fa-globe' from "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+     */
+    icon: string,
+
+    /**
+     * Title on the button.
+     */
+    title?: string,
+
+    // /**
+    //  * Number of times that the button has been clicked.
+    //  */
+    // n_clicks?: number,
+
+} & ControlProps & EventComponent & DashComponent;
+
+export type PolylineDecoratorProps = {
+    /**
+     * An array of geographical points (lat, lon)
+     */
+    positions?: number[][] | number[][][],
+
+    /**
+     * The children of this component. If positions are not specified, an attempt is made to read them from the
+     * children property. In this case, the children must be a single PolyLine or a single Polygon.
+     */
+    children?: ReactNode
+
+    /**
+     * List of patterns to be added.
+     */
+    patterns: {
+        // Options of the pattern itself.
+        offset: string,
+        endOffset: string,
+        repeat: string,
+        // What to draw; either dashes, arrow heads or (arbitrary) makers.
+        dash: {
+            pixelSize: number,
+            pathOptions: object
+        },
+        arrowHead: {
+            polygon: boolean,
+            pixelSize: number,
+            headAngle: number,
+            pathOptions: object
+        },
+        marker: {
+            markerOptions: object,
+            rotate: boolean
+        }
+    }[]
+} & EventComponent & DashComponent;
 

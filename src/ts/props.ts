@@ -39,6 +39,18 @@ export type ParentComponent = {
     children?: ReactNode
 }
 
+export type EventComponent = {
+    /**
+     * Object with keys specifying the event type and the value the corresponding event handlers. [MUTABLE]
+     */
+    eventHandlers?: object;
+
+    /**
+     * Object with is populated with event data. [MUTABLE]
+     */
+    event?: number;
+}
+
 //#endregion
 
 // //#region Styling

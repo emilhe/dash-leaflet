@@ -1,5 +1,5 @@
 import React from 'react';
-import {dashifyProps} from '../utils';
+import {assignEventHandlers} from '../utils';
 import { Polyline as ReactLeafletPolyline } from 'react-leaflet';
 import {PolylineProps as Props} from '../dash-props';
 
@@ -8,7 +8,7 @@ import {PolylineProps as Props} from '../dash-props';
  */
 const Polyline = (props: Props) => {
     return (
-        <ReactLeafletPolyline {...dashifyProps(props)}></ReactLeafletPolyline>
+        <ReactLeafletPolyline {...assignEventHandlers(props)}></ReactLeafletPolyline>
     )
 }
 

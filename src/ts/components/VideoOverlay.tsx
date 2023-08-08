@@ -1,5 +1,5 @@
 import React from 'react';
-import {dashifyProps} from '../utils';
+import {assignEventHandlers} from '../utils';
 import { VideoOverlay as ReactLeafletVideoOverlay } from 'react-leaflet';
 import {VideoOverlayProps as Props} from '../dash-props';
 
@@ -11,7 +11,7 @@ const VideoOverlay = ({
     ...props
 }: Props) => {
     return (
-        <ReactLeafletVideoOverlay {...dashifyProps(props, {muted: muted})}></ReactLeafletVideoOverlay>
+        <ReactLeafletVideoOverlay {...assignEventHandlers(props, {muted: muted})}></ReactLeafletVideoOverlay>
     )
 }
 

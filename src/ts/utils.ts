@@ -1,6 +1,7 @@
 // import {decode} from "geobuf";
 import { toByteArray } from 'base64-js';
 import * as L from 'leaflet'
+import {DashComponent} from "./props";
 
 //#region Props
 
@@ -82,7 +83,7 @@ function resolveEventHandlers(props, target={}) {
     return resolveAllProps(nProps.eventHandlers, nProps);
 }
 
-function dashifyProps(props, target={}) {
+function assignEventHandlers(props, target={}) {
     const nProps = Object.assign(target, props);
     nProps.eventHandlers = (nProps.eventHandlers == undefined)? defaultEvents(nProps) : resolveAllProps(nProps.eventHandlers, nProps);
     return nProps
@@ -171,10 +172,88 @@ function resolveRenderer(props){
     }
 }
 
+//# region Small utils
+
+function unDashify(props: any){
+    return (({ id, setProps, loading_state, ...o }) => o)(props)  // remove extra props to avoid them being added to the WMS URL
+}
+
+// TODO: I am not sure why this is suddenly necessary? FIX IT
+function setProps(props: any, newProps:any ){
+    for (const [key, value] of Object.entries(newProps)) {
+        console.log(`${key}: ${value}`);
+        props[key] = value
+        props.setProps({key: props[key]})
+    }
+}
+
+// TESTING
+
+export function eventTest(props: any, target={}){
+    const nProps = Object.assign({
+        n_clicks: 0,
+        n_dblclicks: 0,
+        n_loads: 0,
+        ...target
+    }, props);
+    console.log(nProps)
+    if(nProps.eventHandlers == undefined) {
+        nProps.eventHandlers = {
+            click: (e) => {
+                nProps.n_clicks = nProps.n_clicks + 1;
+                nProps.setProps({n_clicks: nProps.n_clicks});
+            },
+            dblclick: (e) => {
+                nProps.n_dblclicks = nProps.n_dblclicks + 1;
+                nProps.setProps({n_dblclicks: nProps.n_dblclicks});
+            },
+            load: (e) => {
+                nProps.n_loads = nProps.n_loads + 1;
+                nProps.setProps({n_loads: nProps.n_loads});
+            },
+        }
+    }
+    else{
+        nProps.eventHandlers = resolveAllProps(nProps.eventHandlers, nProps);
+    }
+    return (({ id, setProps, loading_state, n_clicks, n_dblcliks, n_loads, ...o }) => o)(nProps)
+    // return unDashify(nProps);
+}
+
+// function defaultEvents(props) {
+//     return {
+//         click: (e) => (props.setProps({
+//             event: {
+//                 type: e.type,
+//                 latlng: e.latlng,
+//                 timestamp: Date.now()
+//             }
+//         })),
+//         dblclick: (e) => (props.setProps({
+//             event: {
+//                 type: e.type,
+//                 latlng: e.latlng,
+//                 timestamp: Date.now()
+//             }
+//         })),
+//         // TODO: Revisit event mapping...
+//         load: (e) => (props.setProps({
+//             event: {
+//                 type: e.type,
+//                 timestamp: Date.now()
+//             }
+//         })),
+//     }
+// }
+
+//#endregion
+
 export {
     assembleGeojson,
     resolveProps,
     resolveAllProps,
     resolveEventHandlers,
-    dashifyProps
+    assignEventHandlers,
+    unDashify,
+    setProps
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import {dashifyProps} from '../utils';
+import {assignEventHandlers} from '../utils';
 import { ScaleControl as ReactLeafletScaleControl } from 'react-leaflet';
 import {ScaleControlProps as Props} from '../dash-props';
 
@@ -8,7 +8,7 @@ import {ScaleControlProps as Props} from '../dash-props';
  */
 const ScaleControl = (props: Props) => {
     return (
-        <ReactLeafletScaleControl {...dashifyProps(props)}></ReactLeafletScaleControl>
+        <ReactLeafletScaleControl {...assignEventHandlers(props)}></ReactLeafletScaleControl>
     )
 }
 

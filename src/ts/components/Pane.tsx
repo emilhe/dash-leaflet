@@ -1,5 +1,5 @@
 import React from 'react';
-import {dashifyProps} from '../utils';
+import {assignEventHandlers} from '../utils';
 import { Pane as ReactLeafletPane } from 'react-leaflet';
 import {PaneProps as Props} from '../dash-props';
 
@@ -8,7 +8,7 @@ import {PaneProps as Props} from '../dash-props';
  */
 const Pane = (props: Props) => {
     return (
-        <ReactLeafletPane {...dashifyProps(props)}></ReactLeafletPane>
+        <ReactLeafletPane {...assignEventHandlers(props)}></ReactLeafletPane>
     )
 }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {dashifyProps} from '../utils';
+import {assignEventHandlers} from '../utils';
 import { SVGOverlay as ReactLeafletSVGOverlay } from 'react-leaflet';
 import {SVGOverlayProps as Props} from '../dash-props';
 
@@ -8,7 +8,7 @@ import {SVGOverlayProps as Props} from '../dash-props';
  */
 const SVGOverlay = (props: Props) => {
     return (
-        <ReactLeafletSVGOverlay {...dashifyProps(props)}></ReactLeafletSVGOverlay>
+        <ReactLeafletSVGOverlay {...assignEventHandlers(props)}></ReactLeafletSVGOverlay>
     )
 }
 

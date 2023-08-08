@@ -2,6 +2,7 @@ from .AttributionControl import AttributionControl
 from .BaseLayer import BaseLayer
 from .Circle import Circle
 from .CircleMarker import CircleMarker
+from .EasyButton import EasyButton
 from .FeatureGroup import FeatureGroup
 from .ImageOverlay import ImageOverlay
 from .LayerGroup import LayerGroup
@@ -14,6 +15,7 @@ from .Overlay import Overlay
 from .Pane import Pane
 from .Polygon import Polygon
 from .Polyline import Polyline
+from .PolylineDecorator import PolylineDecorator
 from .Popup import Popup
 from .Rectangle import Rectangle
 from .SVGOverlay import SVGOverlay
@@ -29,6 +31,7 @@ __all__ = [
     "BaseLayer",
     "Circle",
     "CircleMarker",
+    "EasyButton",
     "FeatureGroup",
     "ImageOverlay",
     "LayerGroup",
@@ -41,6 +44,7 @@ __all__ = [
     "Pane",
     "Polygon",
     "Polyline",
+    "PolylineDecorator",
     "Popup",
     "Rectangle",
     "SVGOverlay",

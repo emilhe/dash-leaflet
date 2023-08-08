@@ -17,6 +17,8 @@ OTHER COMPONENTS
 * EasyButton
 * FullScreenControl
 * GestureHandling 
+* ColorBar (MAYBE?)
+* PolylineDecorator
 
 * EditControl [async]
 * LocateControl [async]
@@ -25,7 +27,6 @@ OTHER COMPONENTS
 
 NOT CARRIED FORWARD (at least not for now)
 
-* ColorBar (MAYBE?)
 * GeoTIFFOverlay [async]
 * MarkerClusterGroup [async]
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {dashifyProps} from '../utils';
+import {assignEventHandlers} from '../utils';
 import { CircleMarker as ReactLeafletCircleMarker } from 'react-leaflet';
 import {CircleMarkerProps as Props} from '../dash-props';
 
@@ -8,7 +8,7 @@ import {CircleMarkerProps as Props} from '../dash-props';
  */
 const CircleMarker = (props: Props) => {
     return (
-        <ReactLeafletCircleMarker {...dashifyProps(props)}></ReactLeafletCircleMarker>
+        <ReactLeafletCircleMarker {...assignEventHandlers(props)}></ReactLeafletCircleMarker>
     )
 }
 

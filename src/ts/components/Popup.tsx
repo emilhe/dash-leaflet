@@ -1,5 +1,5 @@
 import React from 'react';
-import {dashifyProps} from '../utils';
+import {assignEventHandlers} from '../utils';
 import { Popup as ReactLeafletPopup } from 'react-leaflet';
 import {PopupProps as Props} from '../dash-props';
 
@@ -8,7 +8,7 @@ import {PopupProps as Props} from '../dash-props';
  */
 const Popup = (props: Props) => {
     return (
-        <ReactLeafletPopup {...dashifyProps(props)}></ReactLeafletPopup>
+        <ReactLeafletPopup {...assignEventHandlers(props)}></ReactLeafletPopup>
     )
 }
 
