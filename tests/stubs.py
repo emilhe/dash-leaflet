@@ -14,7 +14,7 @@ def app_stub(components: Optional[list[Component]] = None, app_kwargs=None, **kw
     )
     return app
 
-def event_app_stub(components: Optional[list[Component]] = None, target_id: Optional[str] = None, target_prop="event", **kwargs):
+def event_app_stub(components: Optional[list[Component]] = None, target_id: Optional[str] = None, target_prop="n_clicks", **kwargs):
     """
     A basic Dash app with a map container (and optionally additional components) along with a single callback that fires on click events. 
     """

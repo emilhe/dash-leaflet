@@ -1,13 +1,13 @@
 import React from 'react';
 import {EasyButton as ReactLeafletEasybutton} from "../react-leaflet/EasyButton";
 import {EasyButtonProps as Props} from "../dash-props";
-import {eventTest} from "../utils";
+import {assignEventHandlers} from "../utils";
 
 /**
  * A useful control to geolocate the user with many options. Official Leaflet and MapBox plugin.
  */
 const EasyButton = (props: Props) => {
-    const nProps = eventTest(props)
+    const nProps = assignEventHandlers(props)
     const mProps = {
         states: [{
             stateName: 'default',

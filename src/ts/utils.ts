@@ -2,6 +2,7 @@
 import { toByteArray } from 'base64-js';
 import * as L from 'leaflet'
 import {DashComponent} from "./props";
+import {LeafletKeyboardEvent, LeafletMouseEvent} from "leaflet";
 
 //#region Props
 
@@ -9,7 +10,7 @@ export type Modify<T, R> = Omit<T, keyof R> & R;
 
 //#endregion
 
-//#region Copied from dash-extensions-js
+//#region Prop resolution (should be moved back to dash-extensions-js)
 
 function isPlainObject(o) {
     return (o === null || Array.isArray(o) || typeof o == 'function' || o.constructor === Date) ?
@@ -75,6 +76,11 @@ function resolveAllProps(props, context) {
     return resolveProps(props, Object.keys(props), context)
 }
 
+//#endregion
+
+
+//#region Event handler resolution
+
 function resolveEventHandlers(props, target={}) {
     const nProps = Object.assign(target, props);
     if (nProps.eventHandlers == undefined) {
@@ -83,40 +89,41 @@ function resolveEventHandlers(props, target={}) {
     return resolveAllProps(nProps.eventHandlers, nProps);
 }
 
-function assignEventHandlers(props, target={}) {
+function assignEventHandlers(props, target={}, skipUnDashify=false) {
     const nProps = Object.assign(target, props);
     nProps.eventHandlers = (nProps.eventHandlers == undefined)? defaultEvents(nProps) : resolveAllProps(nProps.eventHandlers, nProps);
-    return nProps
+    return skipUnDashify? nProps : unDashify(nProps);
 }
-
-
-//#endregion
 
 function defaultEvents(props) {
     return {
-        click: (e) => (props.setProps({
-            event: {
-                type: e.type,
-                latlng: e.latlng,
+        click: (e: LeafletMouseEvent) => {
+            props.setProps({
+                n_clicks: props.n_clicks == undefined ? 1 : props.n_clicks + 1,
+                click: pick(e, 'latlng', 'layerPoint', 'containerPoint')
+            })
+        },
+        dblclick: (e: LeafletMouseEvent) => {
+            props.setProps({
+                n_dblclicks: props.n_dblclicks == undefined ? 1 : props.n_dblclicks + 1,
+                dblclick: pick(e, 'latlng', 'layerPoint', 'containerPoint')
+            })
+        },
+        keydown: (e: KeyboardEvent) => {
+            props.setProps({
+                n_keydowns: props.n_keydowns == undefined ? 1 : props.n_keydowns + 1,
+                dblclick: pick(e, 'key', 'ctrlKey', 'metaKey', 'shiftKey', 'repeat')
+            })
+        },
+        load: (e) => (props.setProps({
+            load: {
                 timestamp: Date.now()
             }
         })),
-        dblclick: (e) => (props.setProps({ 
-            event: { 
-                type: e.type, 
-                latlng: e.latlng,
-                timestamp: Date.now() 
-            } 
-        })),
-        // TODO: Revisit event mapping...
-        load: (e) => (props.setProps({ 
-            event: { 
-                type: e.type, 
-                timestamp: Date.now() 
-            } 
-        })),
     }
 }
+
+//#endregion
 
 async function assembleGeojson(props) {
     const { data, url, format } = props;
@@ -159,11 +166,16 @@ async function assembleGeojson(props) {
     return geojson
 }
 
-function resolveRenderer(props){
-    if(props.renderer === undefined){
+//# region Small utils
+
+function unDashify(props: any){
+    return omit(props, 'setProps', 'loading_state');
+}
+function resolveRenderer(value: { renderer: string, options: object }): L.Renderer{
+    if(value === undefined){
         return undefined
     }
-    const {renderer, options} = props;
+    const {renderer, options} = value;
     if(renderer === 'svg'){
         return L.svg({...options})
     }
@@ -172,79 +184,43 @@ function resolveRenderer(props){
     }
 }
 
-//# region Small utils
-
-function unDashify(props: any){
-    return (({ id, setProps, loading_state, ...o }) => o)(props)  // remove extra props to avoid them being added to the WMS URL
+function resolveCRS(value: string): L.CRS{
+    if(value === undefined){
+        return undefined
+    }
+    return L.CRS[value]
 }
 
-// TODO: I am not sure why this is suddenly necessary? FIX IT
-function setProps(props: any, newProps:any ){
-    for (const [key, value] of Object.entries(newProps)) {
-        console.log(`${key}: ${value}`);
-        props[key] = value
-        props.setProps({key: props[key]})
-    }
-}
 
-// TESTING
+//#endregion
 
-export function eventTest(props: any, target={}){
-    const nProps = Object.assign({
-        n_clicks: 0,
-        n_dblclicks: 0,
-        n_loads: 0,
-        ...target
-    }, props);
-    console.log(nProps)
-    if(nProps.eventHandlers == undefined) {
-        nProps.eventHandlers = {
-            click: (e) => {
-                nProps.n_clicks = nProps.n_clicks + 1;
-                nProps.setProps({n_clicks: nProps.n_clicks});
-            },
-            dblclick: (e) => {
-                nProps.n_dblclicks = nProps.n_dblclicks + 1;
-                nProps.setProps({n_dblclicks: nProps.n_dblclicks});
-            },
-            load: (e) => {
-                nProps.n_loads = nProps.n_loads + 1;
-                nProps.setProps({n_loads: nProps.n_loads});
-            },
-        }
-    }
-    else{
-        nProps.eventHandlers = resolveAllProps(nProps.eventHandlers, nProps);
-    }
-    return (({ id, setProps, loading_state, n_clicks, n_dblcliks, n_loads, ...o }) => o)(nProps)
-    // return unDashify(nProps);
-}
+//#region https://stackoverflow.com/a/56592365/2428887
 
-// function defaultEvents(props) {
-//     return {
-//         click: (e) => (props.setProps({
-//             event: {
-//                 type: e.type,
-//                 latlng: e.latlng,
-//                 timestamp: Date.now()
-//             }
-//         })),
-//         dblclick: (e) => (props.setProps({
-//             event: {
-//                 type: e.type,
-//                 latlng: e.latlng,
-//                 timestamp: Date.now()
-//             }
-//         })),
-//         // TODO: Revisit event mapping...
-//         load: (e) => (props.setProps({
-//             event: {
-//                 type: e.type,
-//                 timestamp: Date.now()
-//             }
-//         })),
-//     }
-// }
+const pick = <T extends {}, K extends keyof T>(obj: T, ...keys: K[]) => (
+  Object.fromEntries(
+    keys
+    .filter(key => key in obj)
+    .map(key => [key, obj[key]])
+  ) as Pick<T, K>
+);
+
+const inclusivePick = <T extends {}, K extends (string | number | symbol)>(
+  obj: T, ...keys: K[]
+) => (
+  Object.fromEntries(
+    keys
+    .map(key => [key, obj[key as unknown as keyof T]])
+  ) as {[key in K]: key extends keyof T ? T[key] : undefined}
+)
+
+const omit = <T extends {}, K extends keyof T>(
+  obj: T, ...keys: K[]
+) =>(
+  Object.fromEntries(
+    Object.entries(obj)
+    .filter(([key]) => !keys.includes(key as K))
+  ) as Omit<T, K>
+)
 
 //#endregion
 
@@ -255,5 +231,7 @@ export {
     resolveEventHandlers,
     assignEventHandlers,
     unDashify,
-    setProps
+    resolveRenderer,
+    resolveCRS,
+    omit, pick, inclusivePick
 };

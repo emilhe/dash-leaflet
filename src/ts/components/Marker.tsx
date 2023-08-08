@@ -1,5 +1,5 @@
 import React from 'react';
-import {assignEventHandlers, eventTest} from '../utils';
+import {assignEventHandlers} from '../utils';
 import { Marker as ReactLeafletMarker } from 'react-leaflet';
 import {MarkerProps as Props} from '../dash-props';
 
@@ -18,12 +18,8 @@ L.Icon.Default.mergeOptions({
 const Marker = ({ icon = null, ...props}: Props) => {
     const iconObj = icon === null ? new L.Icon.Default() : L.icon(icon); // map from icon options to icon object
     return (
-        <ReactLeafletMarker {...eventTest(props, {icon: iconObj})}></ReactLeafletMarker>
+        <ReactLeafletMarker icon={iconObj} {...assignEventHandlers(props)}></ReactLeafletMarker>
     )
 }
-
-Marker.defaultProps = {
-    icon: null
-};
 
 export default Marker;

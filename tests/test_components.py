@@ -24,7 +24,9 @@ def import_selector(component: str):
     return ".leaflet-interactive"
 
 
-@pytest.mark.parametrize("component", ["polyline_decorator"])
+@pytest.mark.parametrize("component", ["map_container", "marker", "popup", "image_overlay", "video_overlay", "circle",
+                                       "circle_marker", "polyline", "polygon", "rectangle", "svg_overlay",
+                                       "layer_group", "feature_group", "pane", "polyline_decorator"])
 def test_click_event(dash_duo, component):
     """
     Basic test that (1) a component renders and (2) that click events work.
@@ -34,8 +36,8 @@ def test_click_event(dash_duo, component):
     dash_duo.start_server(app)
     assert dash_duo.find_element("#log").text == "null"
     dash_duo.find_element(selector).click()
-    # dash_duo.wait_for_contains_text("#log", "type" if component != "popup" else "1", timeout=1)
-    dash_duo.wait_for_contains_text("#log", "type", timeout=1)
+    dash_duo.wait_for_contains_text("#log", "1", timeout=1)
+    # dash_duo.wait_for_contains_text("#log", "type", timeout=1)
 
 
 @pytest.mark.parametrize("component", ["tile_layer", "wms_tile_layer"])
@@ -46,7 +48,7 @@ def test_load_event(dash_duo, component):
     app = import_app(component_path(component))
     dash_duo.start_server(app)
     assert dash_duo.find_element("#log").text == "null"
-    dash_duo.wait_for_contains_text("#log", "type", timeout=5)
+    dash_duo.wait_for_contains_text("#log", "timestamp", timeout=5)
 
 
 @pytest.mark.parametrize("component", ["zoom_control", "attribution_control", "scale_control"])

@@ -7,7 +7,7 @@ component = WMSTileLayer(
     layers='SRTM30-Colored-Hillshade',
     id=target_id
 )
-app, _ = event_app_stub(components=[component])
+app, _ = event_app_stub(components=[component], target_prop="load")
 
 if __name__ == "__main__":
     app.run_server(port=9997)

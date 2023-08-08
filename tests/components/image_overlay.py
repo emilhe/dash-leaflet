@@ -1,7 +1,6 @@
 from dash_leaflet import ImageOverlay, TileLayer
 from tests.stubs import event_app_stub
 
-selector = ".leaflet-image-layer"
 bounds = [[40.712216, -74.22655], [40.773941, -74.12544]]
 component = ImageOverlay(
     url="https://maps.lib.utexas.edu/maps/historical/newark_nj_1922.jpg", 

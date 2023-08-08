@@ -1,7 +1,6 @@
 from dash_leaflet import VideoOverlay, TileLayer
 from tests.stubs import event_app_stub
 
-selector = ".leaflet-image-layer"
 bounds = [[ 32, -130], [ 13, -100]]
 component = VideoOverlay(
     url="https://www.mapbox.com/bites/00188/patricia_nasa.mp4", 

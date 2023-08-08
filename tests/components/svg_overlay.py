@@ -2,7 +2,6 @@ from dash_leaflet import SVGOverlay, TileLayer
 from tests.stubs import event_app_stub
 from dash_svg import Rect
 
-selector = ".leaflet-interactive"
 bounds = [[56, 10], [55, 9]]
 component = SVGOverlay(
     children=[

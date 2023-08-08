@@ -11,7 +11,7 @@ const VideoOverlay = ({
     ...props
 }: Props) => {
     return (
-        <ReactLeafletVideoOverlay {...assignEventHandlers(props, {muted: muted})}></ReactLeafletVideoOverlay>
+        <ReactLeafletVideoOverlay muted={muted} {...assignEventHandlers(props)}></ReactLeafletVideoOverlay>
     )
 }
 
