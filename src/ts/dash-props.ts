@@ -1,7 +1,7 @@
 import {DashComponent, Modify} from "./props";
 import * as LP from "./leaflet-props"
 import * as RLP from "./react-leaflet-props"
-import L from "leaflet";
+import L, {Control} from "leaflet";
 import {ControlProps} from "./leaflet-props";
 import {ReactNode} from "react";
 
@@ -324,5 +324,89 @@ export type DivMarkerProps = {
         popupAnchor: number,
         className: string,
         html: string
-    }
-} & Modify<LP.MarkerProps, Omit<RLP.MarkerProps, "icon">> & DashComponent
+    };
+} & Modify<LP.MarkerProps, Omit<RLP.MarkerProps, "icon">> & DashComponent;
+
+export type ColorbarOptions = {
+    /**
+     * Chroma-js colorscale. Either a colorscale name, e.g. "Viridis", or a list of colors,
+     * e.g. ["black", "#fdd49e", "rgba(255,0,0,0.35)"].
+     * The predefined colorscales are listed here:
+     * https://github.com/gka/chroma.js/blob/master/src/colors/colorbrewer.js
+     */
+    colorscale?: string | string[];
+
+    /**
+     * Width in pixels.
+     */
+    width?: number;
+
+    /**
+     * Height in pixels.
+     */
+    height?: number;
+
+    /**
+     * Domain minimum of the colorbar. Translates to the first color of the colorscale.
+     */
+    min?: number;
+
+    /**
+     * Domain maximum of the colorbar. Translates to the last color of the colorscale.
+     */
+    max?: number;
+
+    /**
+     * The number or positions of discrete classes in the colorbar. If not set the
+     * colorbar will be continuous, which is the default.
+     */
+    classes?: number | number[];
+
+    /**
+     * Optional text to append to the colorbar ticks.
+     */
+    unit?: string;
+
+    /**
+     * Number of ticks on the colorbar.
+     */
+    nTicks?: number;
+
+    /**
+     * If set, fixes the tick decimal points to the given number.
+     */
+    tickDecimals?: number;
+
+    /**
+     * If set, these values are used for ticks (rather than the ones genrated based on nTicks).
+     */
+    tickValues?: number[],
+
+   /**
+     * If set, this text will be used instead of the data values.
+     */
+    tickText?: number[],
+
+    /**
+     * If true, the value will be shown as tooltip on hover.
+     */
+    tooltip?: boolean,
+
+    /**
+     * Opacity of the colorbar. Use it to match the perceived colors from an overlay
+     * with opacity.
+     */
+    opacity?: number;
+
+    /**
+     * HTML style object to add to the colorbar entity, e.g. to set font color.
+     */
+    style?: object;
+
+    /**
+     * Any CSS classes to appy.
+     */
+    className?: string;
+
+} & ControlProps;
+export type ColorbarProps = ColorbarOptions & DashComponent;

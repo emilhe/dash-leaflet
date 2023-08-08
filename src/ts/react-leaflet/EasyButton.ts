@@ -3,8 +3,8 @@ import "leaflet-easybutton";
 import * as L from "leaflet";
 
 require('leaflet-easybutton/src/easy-button.css')
-function createInstance(props: L.EasyButtonOptions) {
+function createLeafletElement(props: L.EasyButtonOptions) {
     return new L.Control.EasyButton(props);
 }
 
-export const EasyButton = createControlComponent(createInstance);
+export const EasyButton = createControlComponent(createLeafletElement);

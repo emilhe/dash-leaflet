@@ -2,6 +2,7 @@ from .AttributionControl import AttributionControl
 from .BaseLayer import BaseLayer
 from .Circle import Circle
 from .CircleMarker import CircleMarker
+from .Colorbar import Colorbar
 from .DivMarker import DivMarker
 from .EasyButton import EasyButton
 from .FeatureGroup import FeatureGroup
@@ -34,6 +35,7 @@ __all__ = [
     "BaseLayer",
     "Circle",
     "CircleMarker",
+    "Colorbar",
     "DivMarker",
     "EasyButton",
     "FeatureGroup",

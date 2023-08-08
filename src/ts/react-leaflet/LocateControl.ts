@@ -4,8 +4,8 @@ import * as L from "leaflet";
 
 require('leaflet.locatecontrol/dist/L.Control.Locate.min.css');
 
-function createInstance(props: L.Control.LocateOptions) {
+function createLeafletElement(props: L.Control.LocateOptions) {
     return new L.Control.Locate(props);
 }
 
-export const LocateControl = createControlComponent(createInstance);
+export const LocateControl = createControlComponent(createLeafletElement);

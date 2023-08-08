@@ -28,6 +28,7 @@ import PolylineDecorator from './components/PolylineDecorator';
 import FullScreenControl from './components/FullScreenControl';
 import GestureHandling from './components/GestureHandling';
 import DivMarker from './components/DivMarker';
+import Colorbar from './components/Colorbar';
 
 export {
     MapContainer,
@@ -59,5 +60,6 @@ export {
     PolylineDecorator,
     FullScreenControl,
     GestureHandling,
-    DivMarker
+    DivMarker,
+    Colorbar
 }
