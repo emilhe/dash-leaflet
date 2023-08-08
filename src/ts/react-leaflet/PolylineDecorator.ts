@@ -1,4 +1,4 @@
-import {createElementObject, createLayerComponent, extendContext} from "@react-leaflet/core";
+import {createElementObject, createPathComponent, extendContext} from "@react-leaflet/core";
 import "leaflet-polylinedecorator";
 import * as L from "leaflet";
 
@@ -56,4 +56,4 @@ function _parsePositions(props) {
   }
   return paths;
 }
-export const PolylineDecorator = createLayerComponent(createLeafletElement, updateLeafletElement)
+export const PolylineDecorator = createPathComponent(createLeafletElement, updateLeafletElement)

@@ -293,3 +293,23 @@ export type FullScreenControlProps = {
      */
     fullscreenElement?: false | HTMLElement;
 } & RLP.EventedBehavior & ControlProps & DashComponent
+
+// TODO: https://github.com/elmarquis/Leaflet.GestureHandling/issues/47#issuecomment-775158618
+export type GestureHandlingProps = {
+    // /**
+    //  * The plugin will auto-detect a users language from the browser setting and show the appropriate translation.
+    //  * 52 languages are supported without you needing to do anything. However if you wish to override this, you can
+    //  * set your own text by supplying gestureHandlingOptions and a text option as shown below. You must specify text
+    //  * for touch, scroll and scrollMac.
+    //  */
+    // text?: {
+    //     touch: string,
+    //     scroll: string,
+    //     scrollMac: string
+    // }
+    //
+    // /**
+    //  * Time in ms before the message should disappear. default: 1000 (1 sec).
+    //  */
+    // duration?: number,
+} & DashComponent;

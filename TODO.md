@@ -4,9 +4,6 @@
 
 * Compare current components to dash-leaflet
 
-* WHAT ABOUT EVENTS? N_CLICKS? OR?
-- Maybe SKIP default events for popup/tooltip? They are NOT there in dash-leaflet v1
-
 STILL MISSING FROM REACT LEAFLET
 
 * GeoJSON
@@ -14,13 +11,12 @@ STILL MISSING FROM REACT LEAFLET
 OTHER COMPONENTS
 
 * DivMarker?
-* GestureHandling 
 * ColorBar (MAYBE?)
 
 * EditControl [async]
-* LocateControl [async]
+* LocateControl [async] (partially added)
 * MeasureControl [async]
-* Minichart [async]
+* Minichart [async] (partially added, but broken)
 
 NOT CARRIED FORWARD (at least not for now)
 
