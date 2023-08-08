@@ -10,8 +10,6 @@ STILL MISSING FROM REACT LEAFLET
 
 OTHER COMPONENTS
 
-* ColorBar (MAYBE?)
-
 * EditControl [async]
 * LocateControl [async] (partially added)
 * MeasureControl [async]
