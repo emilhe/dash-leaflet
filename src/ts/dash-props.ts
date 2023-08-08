@@ -313,3 +313,16 @@ export type GestureHandlingProps = {
     //  */
     // duration?: number,
 } & DashComponent;
+
+export type DivMarkerProps = {
+    /**
+     * Options passed to DivIcon constructor.
+     */
+    iconOptions: {
+        iconSize: number,
+        iconAnchor: number
+        popupAnchor: number,
+        className: string,
+        html: string
+    }
+} & Modify<LP.MarkerProps, Omit<RLP.MarkerProps, "icon">> & DashComponent

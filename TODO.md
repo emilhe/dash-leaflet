@@ -10,7 +10,6 @@ STILL MISSING FROM REACT LEAFLET
 
 OTHER COMPONENTS
 
-* DivMarker?
 * ColorBar (MAYBE?)
 
 * EditControl [async]

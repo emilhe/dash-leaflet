@@ -27,6 +27,7 @@ import EasyButton from './components/EasyButton';
 import PolylineDecorator from './components/PolylineDecorator';
 import FullScreenControl from './components/FullScreenControl';
 import GestureHandling from './components/GestureHandling';
+import DivMarker from './components/DivMarker';
 
 export {
     MapContainer,
@@ -57,5 +58,6 @@ export {
     EasyButton,
     PolylineDecorator,
     FullScreenControl,
-    GestureHandling
+    GestureHandling,
+    DivMarker
 }
