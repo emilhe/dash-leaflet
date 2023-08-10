@@ -48,7 +48,7 @@ def test_load_event(dash_duo, component):
     dash_duo.wait_for_contains_text("#log", "timestamp", timeout=5)
 
 
-@pytest.mark.parametrize("component", ["zoom_control", "attribution_control", "scale_control", "gesture_handling", "colorbar"])
+@pytest.mark.parametrize("component", ["zoom_control", "attribution_control", "scale_control", "gesture_handling", "colorbar", "measure_control"])
 def test_render(dash_duo, component):
     """
     Basic test that a component renders without errors.

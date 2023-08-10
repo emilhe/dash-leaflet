@@ -51,10 +51,10 @@
     "leaflet": "^1.9.3",
     "leaflet-easybutton": "^2.4.0",
     "leaflet-gesture-handling": "^1.2.2",
+    "leaflet-measure": "^3.1.0",
     "leaflet-polylinedecorator": "^1.6.0",
     "leaflet.fullscreen": "^2.4.0",
     "leaflet.locatecontrol": "^0.79.0",
-    "leaflet.minichart": "^0.2.5",
     "react-leaflet": "^4.2.1"
   }
 }

@@ -11,14 +11,12 @@ STILL MISSING FROM REACT LEAFLET
 OTHER COMPONENTS
 
 * EditControl [async]
-* LocateControl [async] (partially added)
-* MeasureControl [async]
-* Minichart [async] (partially added, but broken)
 
 NOT CARRIED FORWARD (at least not for now)
 
 * GeoTIFFOverlay [async]        
 * MarkerClusterGroup [async]
+* Minichart [async] (partially added, but broken)
 
 TEST TODO:
 

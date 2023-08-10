@@ -14,7 +14,7 @@ from .LayersControl import LayersControl
 from .LocateControl import LocateControl
 from .MapContainer import MapContainer
 from .Marker import Marker
-from .Minichart import Minichart
+from .MeasureControl import MeasureControl
 from .Overlay import Overlay
 from .Pane import Pane
 from .Polygon import Polygon
@@ -47,7 +47,7 @@ __all__ = [
     "LocateControl",
     "MapContainer",
     "Marker",
-    "Minichart",
+    "MeasureControl",
     "Overlay",
     "Pane",
     "Polygon",

@@ -410,3 +410,62 @@ export type ColorbarOptions = {
 
 } & ControlProps;
 export type ColorbarProps = ColorbarOptions & DashComponent;
+
+export type MeasureControlOptions = {
+    /**
+     * The primary units used to display length results.
+     */
+    primaryLengthUnit?: "feet" | "meters" | "miles" | "kilometers";
+
+    /**
+     * The secondary units used to display length results.
+     */
+    secondaryLengthUnit?: "feet" | "meters" | "miles" | "kilometers";
+
+    /**
+     * The primary units used to display area results.
+     */
+    primaryAreaUnit?: "acres" | "hectares"| "sqfeet"| "sqmeters"| "sqmiles";
+
+    /**
+     * The secondary units used to display area results.
+     */
+    secondaryAreaUnit?: "acres" | "hectares"| "sqfeet"| "sqmeters"| "sqmiles";
+
+    /**
+     * The color to use for map features rendered while actively performing a measurement.
+     */
+    activeColor?: string,
+
+    /**
+     * The color to use for features generated from a completed measurement.
+     */
+    completedColor?: string,
+
+    /**
+     * The options applied to the popup of the resulting measure feature.
+     */
+    popupOptions?: L.PopupOptions,
+
+    // /**
+    //  * Custom units to make available to the measurement calculator. Packaged units are feet, meters, miles, and kilometers for length and acres, hectares, sqfeet, sqmeters, and sqmiles for areas. Additional unit definitions can be added to the packaged units using this option.
+    //  */
+    // unit: string,
+
+    /**
+     * The Z-index of the marker used to capture measure clicks.
+     */
+    captureZIndex?: number,
+
+    /**
+     * The decimal point separator used when displaying measurements.
+     */
+    decPoint?: string,
+
+    /**
+     * The thousands separator used when displaying measurements.
+     */
+    thousandsSep?: string,
+} & ControlProps;
+export type MeasureControlProps = MeasureControlOptions & RLP.EventedBehavior & DashComponent ;
+

@@ -28,6 +28,7 @@ import FullScreenControl from './components/FullScreenControl';
 import GestureHandling from './components/GestureHandling';
 import DivMarker from './components/DivMarker';
 import Colorbar from './components/Colorbar';
+import MeasureControl from './components/MeasureControl';
 
 export {
     MapContainer,
@@ -59,5 +60,6 @@ export {
     FullScreenControl,
     GestureHandling,
     DivMarker,
-    Colorbar
+    Colorbar,
+    MeasureControl
 }
