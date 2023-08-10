@@ -29,6 +29,7 @@ import GestureHandling from './components/GestureHandling';
 import DivMarker from './components/DivMarker';
 import Colorbar from './components/Colorbar';
 import MeasureControl from './components/MeasureControl';
+import EditControl from './components/EditControl';
 
 export {
     MapContainer,
@@ -61,5 +62,6 @@ export {
     GestureHandling,
     DivMarker,
     Colorbar,
-    MeasureControl
+    MeasureControl,
+    EditControl
 }

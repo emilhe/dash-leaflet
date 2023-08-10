@@ -48,7 +48,7 @@ _js_dist.extend(
 
 # region Async modifications
 
-async_resources = ["LocateControl", "MeasureControl"]
+async_resources = ["LocateControl", "MeasureControl", "EditControl"]
 
 _js_dist.extend(
     [

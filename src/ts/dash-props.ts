@@ -469,3 +469,49 @@ export type MeasureControlOptions = {
 } & ControlProps;
 export type MeasureControlProps = MeasureControlOptions & RLP.EventedBehavior & DashComponent ;
 
+export type EditControlOptions = {
+    /**
+     * Enable/disable draw controls. See example of usage here https://github.com/Leaflet/Leaflet.draw#user-content-example-leafletdraw-config
+     */
+    draw?: object; // TODO: MAYBE ADD MORE INFO?
+
+    /**
+     * Enable/disable edit controls. See example of usage here https://github.com/Leaflet/Leaflet.draw#user-content-example-leafletdraw-config
+     */
+    edit?: object; // TODO: MAYBE ADD MORE INFO?
+
+    // Custom properties.  TODO: WHAT TO DO ABOUT THESE?
+
+    /**
+     * Fires on every action.
+     */
+    action?: object; // TODO: MAYBE ADD MORE INFO?
+
+    /**
+     * Change this prop to manipulate the drawing toolbar, i.e. to change modes and/or invoke actions.
+    */
+    drawToolbar?: {
+        mode: "marker" | "polygon" | "polyline" | "rectangle" | "circle" | "circlemarker",
+        action: "cancel" | "finish" | "delete last point",  // Optionally, invoke an action
+        n_clicks: number,
+    };
+
+    /**
+     * Change this prop to manipulate the edit toolbar, i.e. to change modes and/or invoke actions.
+     */
+    editToolbar?: {
+        mode: "edit" | "remove",
+        action: "save" | "cancel" | "clear all",  // Optionally, invoke an action
+        n_clicks: number,
+    };
+
+    /**
+     * Geojson representing the current features.
+     */
+    geojson?: object,
+
+    // TODO: Think about event mapping. Just use the handler map stuff? ADD TEST TO CHECK THAT IT WORKS!
+
+} & ControlProps;
+export type EditControlProps = EditControlOptions & RLP.EventedBehavior & DashComponent ;
+

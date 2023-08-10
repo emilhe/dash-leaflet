@@ -5,6 +5,7 @@ from .CircleMarker import CircleMarker
 from .Colorbar import Colorbar
 from .DivMarker import DivMarker
 from .EasyButton import EasyButton
+from .EditControl import EditControl
 from .FeatureGroup import FeatureGroup
 from .FullScreenControl import FullScreenControl
 from .GestureHandling import GestureHandling
@@ -38,6 +39,7 @@ __all__ = [
     "Colorbar",
     "DivMarker",
     "EasyButton",
+    "EditControl",
     "FeatureGroup",
     "FullScreenControl",
     "GestureHandling",
