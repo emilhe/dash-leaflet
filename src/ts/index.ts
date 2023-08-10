@@ -21,7 +21,6 @@ import ScaleControl from './components/ScaleControl';
 import LayersControl from './components/LayersControl';
 import Overlay from './components/Overlay';
 import BaseLayer from './components/BaseLayer';
-// import Minichart from './components/Minichart';
 import LocateControl from './components/LocateControl';
 import EasyButton from './components/EasyButton';
 import PolylineDecorator from './components/PolylineDecorator';
@@ -54,7 +53,6 @@ export {
     LayersControl,
     Overlay,
     BaseLayer,
-    // Minichart,
     LocateControl,
     EasyButton,
     PolylineDecorator,

@@ -54,6 +54,7 @@
     "leaflet-polylinedecorator": "^1.6.0",
     "leaflet.fullscreen": "^2.4.0",
     "leaflet.locatecontrol": "^0.79.0",
+    "leaflet.minichart": "^0.2.5",
     "react-leaflet": "^4.2.1"
   }
 }
