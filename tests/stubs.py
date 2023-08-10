@@ -8,7 +8,7 @@ def app_stub(components: Optional[list[Component]] = None, app_kwargs=None, **kw
     app = Dash(__name__, **(app_kwargs if app_kwargs is not None else {}))
     app.layout = html.Div(
         [
-            MapContainer(components if components is not None else [], id="map", **kwargs, style=dict(width="1000px", height="500px")),
+            MapContainer(components if components is not None else [], id="map", **kwargs, style=dict(width="500px", height="500px")),
             html.Div(id="log")
         ]
     )

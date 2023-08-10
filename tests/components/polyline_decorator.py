@@ -1,4 +1,4 @@
-from dash_leaflet import TileLayer, PolylineDecorator, Polyline
+from dash_leaflet import TileLayer, PolylineDecorator
 from tests.stubs import event_app_stub
 
 patterns = [dict(offset='5%', repeat='10%', marker={})]
