@@ -1,7 +1,5 @@
 const path = require('path');
-const webpack = require('webpack');
 const packagejson = require('./package.json');
-const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 const WebpackDashDynamicImport = require('@plotly/webpack-dash-dynamic-import');
 
 const dashLibraryName = packagejson.name.replace(/-/g, '_');
@@ -14,12 +12,24 @@ module.exports = function (env, argv) {
         chunkFilename: '[name].js',
         filename: `${dashLibraryName}.js`,
         library: dashLibraryName,
-        libraryTarget: 'umd'
+        libraryTarget: 'umd',
     }
+
     const externals = {
-        react: 'React',
-        'react-dom': 'ReactDOM',
-        'plotly.js': 'Plotly',
+        react: {
+            commonjs: 'react',
+            commonjs2: 'react',
+            amd: 'react',
+            umd: 'react',
+            root: 'React',
+        },
+        'react-dom': {
+            commonjs: 'react-dom',
+            commonjs2: 'react-dom',
+            amd: 'react-dom',
+            umd: 'react-dom',
+            root: 'ReactDOM',
+        },
     };
 
     return {
@@ -93,12 +103,7 @@ module.exports = function (env, argv) {
             }
         },
         plugins: [
-            new WebpackDashDynamicImport(),
-            new webpack.SourceMapDevToolPlugin({
-                filename: '[file].map',
-                exclude: ['async-plotlyjs']
-            }),
-            new NodePolyfillPlugin()
+            new WebpackDashDynamicImport()
         ]
     }
 }

@@ -17,7 +17,7 @@ OTHER COMPONENTS
 
 NOT CARRIED FORWARD (at least not for now)
 
-* GeoTIFFOverlay [async]
+* GeoTIFFOverlay [async]        
 * MarkerClusterGroup [async]
 
 TEST TODO:

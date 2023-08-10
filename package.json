@@ -13,7 +13,7 @@
   "homepage": "https://github.com/thedirtyfew/dash-leaflet",
   "scripts": {
     "build:js::dev": "webpack --mode development",
-    "build:js": "webpack",
+    "build:js": "webpack --mode production",
     "build:backends": "dash-generate-components ./src/ts/components dash_leaflet -p package-info.json --r-prefix '' --jl-prefix '' --ignore \\.test\\.",
     "build": "npm run build:js && npm run build:backends",
     "watch": "npm run build:js::dev -- --watch"
@@ -21,6 +21,7 @@
   "devDependencies": {
     "@plotly/webpack-dash-dynamic-import": "^1.3.0",
     "@types/chroma-js": "^2.4.0",
+    "@types/js-base64": "^3.3.1",
     "@types/leaflet": "^1.9.3",
     "@types/leaflet-polylinedecorator": "^1.6.1",
     "@types/leaflet.fullscreen": "^1.6.1",
@@ -34,7 +35,7 @@
     "react-dom": "18.2.0",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.3.1",
-    "typescript": "^4.9.5",
+    "typescript": "^4.7.4",
     "webpack": "^5.73.0",
     "webpack-cli": "^4.10.0"
   },
@@ -45,6 +46,7 @@
   "author": "Emil Haldrup Eriksen <emil.h.eriksen@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "base64-js": "^1.5.1",
     "chroma-js": "^2.4.2",
     "leaflet": "^1.9.3",
     "leaflet-easybutton": "^2.4.0",
@@ -52,7 +54,6 @@
     "leaflet-polylinedecorator": "^1.6.0",
     "leaflet.fullscreen": "^2.4.0",
     "leaflet.locatecontrol": "^0.79.0",
-    "node-polyfill-webpack-plugin": "^2.0.1",
     "react-leaflet": "^4.2.1"
   }
 }
