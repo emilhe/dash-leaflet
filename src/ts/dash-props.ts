@@ -485,7 +485,11 @@ export type EditControlOptions = {
     /**
      * Fires on every action.
      */
-    action?: object; // TODO: MAYBE ADD MORE INFO?
+    action?: {
+        layer_type: string,
+        type: string,
+        n_actions: number
+    };
 
     /**
      * Change this prop to manipulate the drawing toolbar, i.e. to change modes and/or invoke actions.
@@ -508,7 +512,9 @@ export type EditControlOptions = {
     /**
      * Geojson representing the current features.
      */
-    geojson?: object,
+    geojson?: {
+        features: object[]
+    },
 
     // TODO: Think about event mapping. Just use the handler map stuff? ADD TEST TO CHECK THAT IT WORKS!
 

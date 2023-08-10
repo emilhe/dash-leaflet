@@ -8,13 +8,136 @@ const LazyEditControl = React.lazy(() => import(/* webpackChunkName: "EditContro
  * EditControl is based on https://github.com/alex3165/react-leaflet-draw/
  */
 const EditControl = ({position='topright', draw={}, edit={}, ...props}: Props) => {
+    const nProps = Object.assign({}, props)
+    if (nProps.geojson == undefined) {
+        nProps.geojson = {features: []}
+    }
+    // Bind feature create event.
+    nProps["onCreated"] = (e) => {
+        const feature = _makeFeature({}, e.layer);
+        nProps.setProps({geojson: _makeGeojson(nProps.geojson.features.concat([feature]))});
+    }
+    // Bind feature edit event.
+    nProps["onEdited"] = (e) => {
+        nProps.setProps({geojson: _makeGeojson(_updateFeatures(e, nProps.geojson.features))});
+    }
+    // Bind feature delete event.
+    nProps["onDeleted"] = (e) => {
+        nProps.setProps({geojson: _makeGeojson(_updateFeatures(e, nProps.geojson.features))});
+    }
+    // Bind mount event. The 1 ms timeout is necessary for the features to be loaded.
+    nProps["onMounted"] = (e) => {
+        setTimeout(function () {
+            const features = []
+            let layers = e.options.edit.featureGroup._layers;
+            Object.keys(layers).forEach((key) => {
+                features.push(_makeFeature({type: 'mount'}, layers[key]));
+            })
+            nProps.setProps({geojson: _makeGeojson(features)});
+        }, 1);
+    }
+    // Bind action events.
+    const actionEvents = ['onDrawStart', 'onDrawStop', 'onDeleteStart', 'onDeleteStop', 'onEditStart', 'onEditStop'];
+    for (const actionEvent of actionEvents) {
+        nProps[actionEvent] = (e) => {
+            nProps.setProps({
+                action: {
+                    layer_type: e.layerType, type: e.type,
+                    n_actions: nProps.action == undefined ? 1 : nProps.action.n_actions + 1
+                }
+            });
+        }
+    }
     return (
-      <div>
-        <Suspense fallback={<div>Loading...</div>}>
-          <LazyEditControl position={position} draw={draw} edit={edit} {...props} />
-        </Suspense>
-      </div>
+        <div>
+            <Suspense fallback={<div>Loading...</div>}>
+                <LazyEditControl position={position} draw={draw} edit={edit} {...nProps}  />
+            </Suspense>
+        </div>
     );
-  }
+}
+
+function _makeFeature(properties, layer) {
+    // Figure out the geometry and type.
+    let geometry;
+    let type;
+    if ("_latlng" in layer) {
+        geometry = {type: "Point", coordinates: [layer._latlng.lng, layer._latlng.lat]};
+        type = "marker";
+        if ("_radius" in layer) {
+            type = "circlemarker";
+        }
+        if ("_mRadius" in layer) {
+            type = "circle";
+        }
+    }
+    if ("_latlngs" in layer) {
+        const polygon = (layer._latlngs.length === 1);
+        const geometry_type = polygon ? "Polygon" : "LineString";
+        type = polygon ? "polygon" : "polyline";
+        const latlng = polygon ? layer._latlngs[0] : layer._latlngs;
+        let coords = latlng.map(latlng => [latlng.lng, latlng.lat]);
+        if (polygon) {
+            coords.push(coords[0]);  // close the polygon
+            coords = [coords];
+        }
+        // Special case for rectangle.
+        if ("_shape" in layer.editing) {
+            type = "rectangle";
+        }
+        geometry = {type: geometry_type, coordinates: coords};
+    }
+    properties.type = type;
+    // Collect relevant properties.
+    const propMappings = {
+        _bounds: (x) => {
+            return [x._southWest, x._northEast];
+        }
+    }
+    const propsToCollect = ["_bounds", "_radius", "_mRadius", "_leaflet_id"];
+    propsToCollect.forEach(prop => {
+        if (layer.hasOwnProperty(prop)) {
+            let value = layer[prop];
+            if (prop in propMappings) {
+                value = propMappings[prop](value);
+            }
+            properties[prop] = value;
+        }
+    });
+    // Convert to geojson feature.
+    return {type: "Feature", properties: properties, geometry: geometry}
+}
+
+function _makeGeojson (features){
+    return {type: "FeatureCollection", features: features}
+}
+
+function _updateFeatures(e, features){
+    // Create a map of the features which have changed.
+    const featureMap = {};
+    Object.keys(e.layers._layers).forEach((key) => {
+        featureMap[key] = _makeFeature({}, e.layers._layers[key]);
+    })
+    // Construct a new list and fill in the updated features.
+    const updatedFeatures = []
+    for (const feature of features) {
+        let leafletId = feature.properties._leaflet_id;
+        // Collect all features not modified.
+        if (!(leafletId in featureMap)) {
+            updatedFeatures.push(feature);
+            continue;
+        }
+        // If deleted, do nothing.
+        if (e.type === "draw:deleted") {
+            continue;
+        }
+        // If edited, append feature.
+        if (e.type === "draw:edited") {
+            updatedFeatures.push(featureMap[leafletId]);
+        }
+        // TODO: Handle other events?
+    }
+    return updatedFeatures
+}
 
 export default EditControl;
