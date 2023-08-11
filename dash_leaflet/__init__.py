@@ -10,6 +10,9 @@ import dash as _dash
 from ._imports_ import *
 from ._imports_ import __all__
 
+# backwards compatibility with dash-leaflet 0.x.x
+from .MapContainer import MapContainer as Map
+
 if not hasattr(_dash, '__plotly_dash') and not hasattr(_dash, 'development'):
     print('Dash was not successfully imported. '
           'Make sure you don\'t have a file '
