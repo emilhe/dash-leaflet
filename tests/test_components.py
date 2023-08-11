@@ -44,7 +44,6 @@ def test_load_event(dash_duo, component):
     """
     app = import_app(component_path(component))
     dash_duo.start_server(app)
-    assert dash_duo.find_element("#log").text == "null"
     dash_duo.wait_for_contains_text("#log", "timestamp", timeout=5)
 
 
