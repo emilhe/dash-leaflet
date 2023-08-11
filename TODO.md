@@ -1,8 +1,9 @@
 * Note that "interactive" flag doesn't work on "Popup"
 * WHAT ABOUT RENDERER ARG?
 * ADD PATH BEHAVIOR? OR NOT? OR MAGIC?
-
+* ADD CLEAR EVENT HANDLERS FLAG?
 * Compare current components to dash-leaflet
+* CHECK STATE ISSUE WITH EDIT CONTROL
 
 STILL MISSING FROM REACT LEAFLET
 

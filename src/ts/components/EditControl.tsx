@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import {EditControlProps as Props} from '../dash-props';
+import {unDashify} from "../utils";
 
 // eslint-disable-next-line no-inline-comments
 const LazyEditControl = React.lazy(() => import(/* webpackChunkName: "EditControl" */ '../fragments/EditControl'));
@@ -7,54 +8,63 @@ const LazyEditControl = React.lazy(() => import(/* webpackChunkName: "EditContro
 /**
  * EditControl is based on https://github.com/alex3165/react-leaflet-draw/
  */
-const EditControl = ({position='topright', draw={}, edit={}, ...props}: Props) => {
-    const nProps = Object.assign({}, props)
-    if (nProps.geojson == undefined) {
-        nProps.geojson = {features: []}
+const EditControl = ({position='topright', draw={}, edit={}, geojson={features: []}, eventHandlers, ...props}: Props) => {
+    const nProps = Object.assign(props, {geojson: geojson});
+    _registerDefaultEvents(nProps)
+    return (
+        <div>
+            <Suspense fallback={<div>Loading...</div>}>
+                <LazyEditControl position={position} draw={draw} edit={edit} {...unDashify(nProps)}  />
+            </Suspense>
+        </div>
+    );
+}
+
+// TODO: Is this really necessary?
+function _setProps(props, newProps) {
+    for (const [key, value] of Object.entries(newProps)) {
+        props[key] = value;
+        props.setProps({...{[key]: value}});
     }
+}
+
+function _registerDefaultEvents(props) {
     // Bind feature create event.
-    nProps["onCreated"] = (e) => {
+    props["onCreated"] = (e) => {
         const feature = _makeFeature({}, e.layer);
-        nProps.setProps({geojson: _makeGeojson(nProps.geojson.features.concat([feature]))});
+        _setProps(props, {geojson: _makeGeojson(props.geojson.features.concat([feature]))});
     }
     // Bind feature edit event.
-    nProps["onEdited"] = (e) => {
-        nProps.setProps({geojson: _makeGeojson(_updateFeatures(e, nProps.geojson.features))});
+    props["onEdited"] = (e) => {
+        _setProps(props, {geojson: _makeGeojson(_updateFeatures(e, props.geojson.features))});
     }
     // Bind feature delete event.
-    nProps["onDeleted"] = (e) => {
-        nProps.setProps({geojson: _makeGeojson(_updateFeatures(e, nProps.geojson.features))});
+    props["onDeleted"] = (e) => {
+        _setProps(props, {geojson: _makeGeojson(_updateFeatures(e, props.geojson.features))});
     }
     // Bind mount event. The 1 ms timeout is necessary for the features to be loaded.
-    nProps["onMounted"] = (e) => {
+    props["onMounted"] = (e) => {
         setTimeout(function () {
             const features = []
             let layers = e.options.edit.featureGroup._layers;
             Object.keys(layers).forEach((key) => {
                 features.push(_makeFeature({type: 'mount'}, layers[key]));
             })
-            nProps.setProps({geojson: _makeGeojson(features)});
+            _setProps(props, {geojson: _makeGeojson(features)});
         }, 1);
     }
     // Bind action events.
     const actionEvents = ['onDrawStart', 'onDrawStop', 'onDeleteStart', 'onDeleteStop', 'onEditStart', 'onEditStop'];
     for (const actionEvent of actionEvents) {
-        nProps[actionEvent] = (e) => {
-            nProps.setProps({
+        props[actionEvent] = (e) => {
+            _setProps(props, {
                 action: {
                     layer_type: e.layerType, type: e.type,
-                    n_actions: nProps.action == undefined ? 1 : nProps.action.n_actions + 1
+                    n_actions: props.action == undefined ? 1 : props.action.n_actions + 1
                 }
             });
         }
     }
-    return (
-        <div>
-            <Suspense fallback={<div>Loading...</div>}>
-                <LazyEditControl position={position} draw={draw} edit={edit} {...nProps}  />
-            </Suspense>
-        </div>
-    );
 }
 
 function _makeFeature(properties, layer) {

@@ -119,8 +119,8 @@ function defaultEvents(props) {
             load: {
                 timestamp: Date.now()
             }
-        })),
-    }
+        }))
+    };
 }
 
 //#endregion
