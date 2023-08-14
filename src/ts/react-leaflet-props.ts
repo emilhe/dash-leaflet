@@ -7,7 +7,7 @@
 import {CSSProperties, ReactNode} from "react";
 import L, {ControlPosition, FitBoundsOptions, LatLngBoundsExpression} from 'leaflet';
 import {PathProps} from "./leaflet-props";
-import {EventComponent, InteractionEvents, LoadEvent, ParentComponent} from "./props";
+import {DashFunction, EventComponent, InteractionEvents, LoadEvent, ParentComponent} from "./props";
 
 //#region Behavior
 
@@ -214,9 +214,9 @@ export type SVGOverlayProps = {
     attributes: Record<string, string>;
 } & MediaOverlayBehaviour & PathComponent & ParentComponentBehavior;
 
-export type LayerGroupProps = LayerComponent & ParentComponentBehavior;
+export type LayerGroupProps = InteractiveLayerComponent & ParentComponentBehavior;
 
-export type FeatureGroupProps = LayerComponent & ParentComponentBehavior;
+export type FeatureGroupProps = InteractiveLayerComponent & ParentComponentBehavior;
 
 export type PaneProps = {
     /**

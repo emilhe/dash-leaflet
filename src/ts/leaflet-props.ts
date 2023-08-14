@@ -4,6 +4,7 @@
  */
 
 import L from 'leaflet';
+import {DashFunction} from "./props";
 
 export interface LayerProps {
     /**
@@ -584,6 +585,48 @@ export interface SVGOverlayProps extends ImageOverlayProps {}
 export interface LayerGroupProps extends InteractiveLayerProps {}
 
 export interface FeatureGroupProps extends InteractiveLayerProps {}
+
+export interface GeoJSONProps extends FeatureGroupProps {
+    /**
+     * Function defining how GeoJSON points spawn Leaflet layers. It is internally called when data is added, passing the GeoJSON point feature and its LatLng. The default is to spawn a default Marker:
+     * function(geoJsonPoint, latlng) {
+     *     return L.marker(latlng);
+     * }
+     */
+    pointToLayer?: DashFunction;
+
+    /**
+     * A Function defining the Path options for styling GeoJSON lines and polygons, called internally when data is added. The default value is to not override any defaults:
+     * function (geoJsonFeature) {
+     *     return {}
+     * }
+     */
+    style?: DashFunction;
+
+    /**
+     * A Function that will be called once for each created Feature, after it has been created and styled. Useful for attaching events and popups to features. The default is to do nothing with the newly created layers:
+     * function (feature, layer) {}
+     */
+    onEachFeature?: DashFunction;
+
+    /**
+     * A Function that will be used to decide whether to include a feature or not. The default is to include all features:
+     * function (geoJsonFeature) {
+     *     return true;
+     * }
+     */
+    filter?: DashFunction;
+
+    /**
+     * A Function that will be used for converting GeoJSON coordinates to LatLngs. The default is the coordsToLatLng static method.
+     */
+    coordsToLatLng?: DashFunction;
+
+    /**
+     * Whether default Markers for "Point" type Features inherit from group options.
+     */
+    markersInheritOptions?: boolean;
+}
 
 export interface ZoomControlProps extends ControlProps {}
 

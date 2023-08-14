@@ -1,9 +1,6 @@
 * Note that "interactive" flag doesn't work on "Popup"
 * WHAT ABOUT RENDERER ARG?
-
 * Compare current components to dash-leaflet
-
-ADD CUSTOM EVENT SUPPORT FOR EDIT CONTROL?
 
 STILL MISSING FROM REACT LEAFLET
 

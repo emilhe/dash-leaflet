@@ -8,6 +8,7 @@ from .EasyButton import EasyButton
 from .EditControl import EditControl
 from .FeatureGroup import FeatureGroup
 from .FullScreenControl import FullScreenControl
+from .GeoJSON import GeoJSON
 from .GestureHandling import GestureHandling
 from .ImageOverlay import ImageOverlay
 from .LayerGroup import LayerGroup
@@ -42,6 +43,7 @@ __all__ = [
     "EditControl",
     "FeatureGroup",
     "FullScreenControl",
+    "GeoJSON",
     "GestureHandling",
     "ImageOverlay",
     "LayerGroup",

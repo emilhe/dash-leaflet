@@ -39,6 +39,8 @@ export type ParentComponent = {
     children?: ReactNode
 }
 
+export type DashFunction = string | object;
+
 export type EventComponent = {
     /**
      * Object with keys specifying the event type and the value the corresponding event handlers. [MUTABLE]
@@ -51,7 +53,7 @@ export type EventComponent = {
     disableDefaultEventHandlers?: boolean;
 
     /**
-     * A wildcard data attribute. Used to bring back event data to Dash callbacks.
+     * A wildcard data attribute. Used to pass (dynamic) data from/to Dash callbacks.
      */
     'data-*'?: object,
 }

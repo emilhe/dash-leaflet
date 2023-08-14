@@ -4,7 +4,7 @@
  * the underlying component but that do not work with Dash (yet) are included, but commented out.
  */
 
-import {DashComponent, Modify} from "./props";
+import {DashComponent, DashFunction, Modify} from "./props";
 import * as LP from "./leaflet-props"
 import * as RLP from "./react-leaflet-props"
 import L from "leaflet";
@@ -43,6 +43,59 @@ export type WMSTileLayerProps = Modify<Modify<LP.WMSTileLayerProps, RLP.WMSTileL
 } & DashComponent>;
 export type LayerGroupProps = Modify<Modify<LP.LayerGroupProps, RLP.LayerGroupProps>, DashComponent>;
 export type FeatureGroupProps = Modify<Modify<LP.FeatureGroupProps, RLP.FeatureGroupProps>, DashComponent>;
+type SuperClusterProps = {
+    /**
+     * If true, marker clustering will be performed.
+     */
+    cluster: boolean;
+
+    /**
+     * Function that determines how a cluster is drawn.
+     */
+    clusterToLayer: DashFunction;
+
+    /**
+     * If true, markers that are not resolved at max zoom level will be spiderfied on click.
+     */
+    spiderfyOnMaxZoom: boolean;
+
+    /**
+     * Options for the SuperCluster object (see https://github.com/mapbox/supercluster for details).
+     */
+    superClusterOptions: object;
+}
+export type GeoJSONProps = Modify<Modify<LP.GeoJSONProps, RLP.FeatureGroupProps>, {
+
+    /**
+     * Data (consider using url for better performance). One of data/url must be set.
+     */
+    data?: string | object;
+
+    /**
+     * Url to data (use instead of data for better performance). One of data/url must be set.
+     */
+    url?: string;
+
+    // Convenience props
+
+    /**
+     * If true, zoom to feature bounds on click.
+     */
+    zoomToBoundsOnClick?: boolean;
+
+    /**
+     * If true, zoom bounds when data are set.
+     */
+    zoomToBounds?: boolean;
+
+    // TODO: Does the data attrs work?
+    // /**
+    //  * Object intended for passing variables to functional properties, i.e. clusterToLayer, hoverStyle and
+    //  * (options) pointToLayer, style, filter, and onEachFeature functions.
+    //  */
+    // hideout: string | object,
+
+} & SuperClusterProps & DashComponent>;
 export type PaneProps = Modify<RLP.PaneProps, DashComponent>;
 export type ZoomControlProps = Modify<Modify<LP.ZoomControlProps, RLP.ZoomControlProps>, DashComponent>;
 export type AttributionControlProps = Modify<Modify<LP.AttributionControlProps, RLP.AttributionControlProps>, DashComponent>;
