@@ -1,3 +1,8 @@
+/**
+ * This module holds property definitions related to "pure" leaflet. The original definitions cannot be used, as they
+ * lack comments, which are required for Dash component generation.
+ */
+
 import L from 'leaflet';
 
 export interface LayerProps {
@@ -473,7 +478,7 @@ export interface VideoOverlayProps extends ImageOverlayProps {
 
 export interface PathProps extends InteractiveLayerProps {
     /**
-     * Whether to draw stroke along the path. Set it to false to disable borders on polygons or circles.
+     * Whether to draw stroke along the path. Set false to disable borders on polygons or circles.
      */
     stroke?: boolean;
 
@@ -532,17 +537,12 @@ export interface PathProps extends InteractiveLayerProps {
      */
     fillRule?: L.FillRule;
 
-    /**
-     * When true, a mouse event on this path will trigger the same event on the map (unless L.DomEvent.stopPropagation is used).
-     */
-    bubblingMouseEvents?: boolean;
-
     // /**
     //  * Use this specific instance of Renderer for this path. Takes precedence over the map's default renderer.
     //  */
 
     // renderer?: L.Renderer;
-    
+
     /**
      * Custom class name set on an element. Only for SVG renderer.
      */

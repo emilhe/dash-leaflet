@@ -7,7 +7,7 @@ import {MapContainerProps as Props} from '../dash-props';
 import '../../../node_modules/leaflet/dist/leaflet.css';
 
 function EventSubscriber(props) {
-    const map = useMapEvents(props.eventHandlers)
+    const map = useMapEvents(resolveEventHandlers(props))
     return null
 }
 
@@ -17,12 +17,11 @@ function EventSubscriber(props) {
 const MapContainer = ({crs, ...props}: Props) => {
     // Map from string repr of CRS to actual object.
     const nProps = Object.assign({crs: L.CRS[crs]}, props);
-    const eventHandlers = resolveEventHandlers(nProps); 
     // Add a custom event subscriber that exposes events to Dash.
     return (
         <LeafletMapContainer {...nProps}>
             {nProps.children}
-            <EventSubscriber eventHandlers={eventHandlers}></EventSubscriber>
+            <EventSubscriber {...nProps}></EventSubscriber>
         </LeafletMapContainer>
     )
 }

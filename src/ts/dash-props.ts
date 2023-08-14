@@ -1,8 +1,14 @@
+/**
+ * This module holds property definitions for the Dash components. They are derived from a combination of the "pure"
+ * leaflet props and the react-leaflet props, in some cases with additional modification(s). Properties that exist on
+ * the underlying component but that do not work with Dash (yet) are included, but commented out.
+ */
+
 import {DashComponent, Modify} from "./props";
 import * as LP from "./leaflet-props"
 import * as RLP from "./react-leaflet-props"
-import L, {Control} from "leaflet";
-import {ControlProps} from "./leaflet-props";
+import L from "leaflet";
+import {ControlProps, PathProps} from "./leaflet-props";
 import {ReactNode} from "react";
 
 //#region Default components
@@ -118,36 +124,36 @@ export type LocateControlProps = {
     //  * The class to be used to create the compass.
     //  */
     // compassClass?: class;
-    //
-    // /**
-    //  * Accuracy circle style properties.
-    //  */
-    // circleStyle?: L.PathOptions;
-    //
-    // /**
-    //  * Inner marker style properties. Only works if your marker class supports setStyle.
-    //  */
-    // markerStyle?: L.PathOptions;
-    //
-    // /**
-    //  * Triangle compass heading marker style properties. Only works if your marker class supports setStyle.
-    //  */
-    // compassStyle?: L.PathOptions;
-    //
-    // /**
-    //  * Changes to the accuracy circle while following. Only need to provide changes.
-    //  */
-    // followCircleStyle?: L.PathOptions;
-    //
-    // /**
-    //  * Changes to the inner marker while following. Only need to provide changes.
-    //  */
-    // followMarkerStyle?: L.PathOptions;
-    //
-    // /**
-    //  * Changes to the compass marker while following. Only need to provide changes.
-    //  */
-    // followCompassStyle?: L.PathOptions;
+
+    /**
+     * Accuracy circle style properties.
+     */
+    circleStyle?: PathProps;
+
+    /**
+     * Inner marker style properties. Only works if your marker class supports setStyle.
+     */
+    markerStyle?: PathProps;
+
+    /**
+     * Triangle compass heading marker style properties. Only works if your marker class supports setStyle.
+     */
+    compassStyle?: PathProps;
+
+    /**
+     * Changes to the accuracy circle while following. Only need to provide changes.
+     */
+    followCircleStyle?: PathProps;
+
+    /**
+     * Changes to the inner marker while following. Only need to provide changes.
+     */
+    followMarkerStyle?: PathProps;
+
+    /**
+     * Changes to the compass marker while following. Only need to provide changes.
+     */
+    followCompassStyle?: PathProps;
 
     /**
      * The CSS class for the icon.

@@ -39,6 +39,46 @@ export type ParentComponent = {
     children?: ReactNode
 }
 
+export type EventComponent = {
+    // TODO: Keep or drop?
+    /**
+     * Object with keys specifying the event type and the value the corresponding event handlers. [MUTABLE]
+     */
+    eventHandlers?: object;
+
+    /**
+     * If set to true, default events handlers are not registered.
+     */
+    disableDefaultEventHandlers?: boolean;
+
+    /**
+     * An integer that represents the number of times that this element has been clicked on.
+     */
+    'n_clicks'?: number,
+
+    /**
+     * An integer that represents the number of times that this element has been double-clicked on.
+     */
+    'n_dblclicks'?: number,
+
+    /**
+     * An integer that represents the number of times that the keyboard has been pressed.
+     */
+    'n_keydowns'?: number,
+
+    /**
+     * An integer that represents the number of times that the load event has fired.
+     */
+    'n_loads'?: number,
+
+    /**
+     * A wildcard data attribute. Used to bring back event data to Dash callbacks.
+     */
+    'data-*'?: object,
+}
+
+
+
 //#endregion
 
 // //#region Styling

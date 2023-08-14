@@ -8,7 +8,7 @@ import {GestureHandlingProps as Props} from '../dash-props';
  */
 const GestureHandling = (props: Props) => {
     return (
-        <ReactLeafletGestureHandling {...omit(unDashify(props), 'children')}></ReactLeafletGestureHandling>
+        <ReactLeafletGestureHandling {...unDashify(props, ['children'])}></ReactLeafletGestureHandling>
     )
 }
 

@@ -1,5 +1,12 @@
+/**
+ * This module holds property definitions related to react-leaflet. The original definitions cannot be used, as they
+ * lack comments, which are required for Dash component generation.
+ */
+
 import {CSSProperties, ReactNode} from "react";
-import L, {ControlPosition, FitBoundsOptions, LatLngBoundsExpression, Layer} from 'leaflet';
+import L, {ControlPosition, FitBoundsOptions, LatLngBoundsExpression} from 'leaflet';
+import {PathProps} from "./leaflet-props";
+import {EventComponent} from "./props";
 
 //#region Behavior
 
@@ -10,12 +17,15 @@ export type ParentComponentBehavior = {
     children?: ReactNode
 }
 
-export type EventedBehavior = {
-    /**
-     * Object with keys specifying the event type and the value the corresponding event handlers. [MUTABLE]
-     */
-    eventHandlers?: object;
-}
+// TODO: Do we want this?
+export type EventedBehavior = EventComponent;
+
+// export type EventedBehavior = {
+//     /**
+//      * Object with keys specifying the event type and the value the corresponding event handlers. [MUTABLE]
+//      */
+//     eventHandlers?: object;
+// }
 
 export type AtttributionBehavior = {
     /**
@@ -33,9 +43,9 @@ export type PaneBehavior = {
 
 export type PathBehaviour = {
     /**
-     * Path options. [MUTABLE]
+     * Path options. Use this prop, if you want to modify path options through callbacks. [MUTABLE]
      */
-    pathOptions?: object;
+    pathOptions?: PathProps;
 }
 
 export type MediaOverlayBehaviour = {
@@ -170,7 +180,7 @@ export type CircleProps = {
      * Radius of the circle, in meters.
      */
     radius: number;
-} & LayerBehavior & ParentComponentBehavior;  // TODO: Add path also? Or not?
+} & LayerBehavior & ParentComponentBehavior & PathBehaviour;
 
 export type CircleMarkerProps = {
     /**
@@ -182,28 +192,28 @@ export type CircleMarkerProps = {
      * Radius of the circle, in pixels.
      */
     radius: number;
-} & LayerBehavior & ParentComponentBehavior;  // TODO: Add path also? Or not?
+} & LayerBehavior & ParentComponentBehavior & PathBehaviour;
 
 export type PolylineProps = {
     /**
      * Array of geographical points. You can create a Polyline object with multiple separate lines (MultiPolyline) by passing an array of arrays of geographic points.
      */
     positions: L.LatLngExpression[] | L.LatLngExpression[][];
-} & LayerBehavior & ParentComponentBehavior;  // TODO: Add path also? Or not?
+} & LayerBehavior & ParentComponentBehavior & PathBehaviour;
 
 export type PolygonProps = {
     /**
      * Array of geographical points. Note that points you pass when creating a polygon shouldn't have an additional last point equal to the first one — it's better to filter out such points. You can also pass an array of arrays of latlngs, with the first array representing the outer shape and the other arrays representing holes in the outer shape. Additionally, you can pass a multi-dimensional array to represent a MultiPolygon shape.
      */
     positions: L.LatLngExpression[] | L.LatLngExpression[][] | L.LatLngExpression[][][];
-} & LayerBehavior & ParentComponentBehavior;  // TODO: Add path also? Or not?
+} & LayerBehavior & ParentComponentBehavior & PathBehaviour;
 
 export type RectangleProps = {
     /**
      * Geographical bounds.
      */
     bounds: L.LatLngBoundsExpression;
-} & LayerBehavior & ParentComponentBehavior;  // TODO: Add path also? Or not?
+} & LayerBehavior & ParentComponentBehavior & PathBehaviour;
 
 export type SVGOverlayProps = {
     /**

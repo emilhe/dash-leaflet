@@ -1,18 +1,13 @@
 * Note that "interactive" flag doesn't work on "Popup"
 * WHAT ABOUT RENDERER ARG?
-* ADD PATH BEHAVIOR? OR NOT? OR MAGIC?
-* ADD CLEAR EVENT HANDLERS FLAG?
+
 * Compare current components to dash-leaflet
-* CHECK STATE ISSUE WITH EDIT CONTROL
-* ADD CUSTOM EVENT SUPPORT FOR EDIT CONTROL?
+
+ADD CUSTOM EVENT SUPPORT FOR EDIT CONTROL?
 
 STILL MISSING FROM REACT LEAFLET
 
 * GeoJSON
-
-OTHER COMPONENTS
-
-* EditControl [async]
 
 NOT CARRIED FORWARD (at least not for now)
 
@@ -31,5 +26,4 @@ TODO:
 * Add a legend control (see https://ipyleaflet.readthedocs.io/en/latest/api_reference/search_control.html#example for inspiration)
 * Add a geosearch control (see e.g. https://github.com/smeijer/leaflet-geosearch)
 * Add unit tests
-* Rewrite in TypeScript
 * Add TimeDimension control and objects (see https://github.com/socib/Leaflet.TimeDimension)
