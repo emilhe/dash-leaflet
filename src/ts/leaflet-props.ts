@@ -404,7 +404,7 @@ export interface MarkerProps extends InteractiveLayerProps {
     /**
      * Distance (in pixels to the left/right and to the top/bottom) of the map edge to start panning the map.
      */
-    autoautoPanPadding?: number[];
+    autoPanPadding?: number[];
 
     /**
      * Number of pixels the map should pan by.

@@ -1,7 +1,7 @@
 // import {decode} from "geobuf";
 import { toByteArray } from 'base64-js';
 import * as L from 'leaflet'
-import {LeafletMouseEvent, PathOptions} from "leaflet";
+import {LeafletMouseEvent} from "leaflet";
 import {useMap} from "react-leaflet";
 
 //#region Props
@@ -81,14 +81,6 @@ function resolveAllProps(props, context) {
 
 //#region Event handler resolution
 
-// function resolveEventHandlers(props, target={}) {
-//     const nProps = Object.assign(target, props);
-//     if (nProps.eventHandlers == undefined) {
-//         return defaultEvents(nProps)
-//     }
-//     return resolveAllProps(nProps.eventHandlers, nProps);
-// }
-
 function assignEventHandlers(props, target={}, skipUnDashify=false) {
     const nProps = Object.assign(target, props);
     nProps.eventHandlers = resolveEventHandlers(nProps)
@@ -96,9 +88,13 @@ function assignEventHandlers(props, target={}, skipUnDashify=false) {
 }
 
 function resolveEventHandlers(props) {
-    const map = useMap();
     const customEventHandlers = (props.eventHandlers == undefined) ? {} : resolveAllProps(props.eventHandlers, props);
     const defaultEventHandlers = props.disableDefaultEventHandlers ? {} : getDefaultEventHandlers(props);
+    return mergeEventHandlers(defaultEventHandlers, customEventHandlers, props)
+}
+
+function mergeEventHandlers(defaultEventHandlers, customEventHandlers, context){
+    const map = useMap();
     const keys = Object.keys(customEventHandlers).concat(Object.keys(defaultEventHandlers));
     const eventHandlers = {}
     keys.forEach(function (key, index) {
@@ -107,10 +103,10 @@ function resolveEventHandlers(props) {
                 defaultEventHandlers[key](e);
             }
             if(key in customEventHandlers){
-                customEventHandlers[key](e, map, props);
+                customEventHandlers[key](e, map, context);
             }
         }
-    });
+    })  ;
     return eventHandlers
 }
 
@@ -136,34 +132,6 @@ function getDefaultEventHandlers(props) {
         }
     }
 }
-
-// function defaultEvents(props) {
-//     return {
-//         click: (e: LeafletMouseEvent) => {
-//             props.setProps({
-//                 n_clicks: props.n_clicks == undefined ? 1 : props.n_clicks + 1,
-//                 click: pick(e, 'latlng', 'layerPoint', 'containerPoint')
-//             })
-//         },
-//         dblclick: (e: LeafletMouseEvent) => {
-//             props.setProps({
-//                 n_dblclicks: props.n_dblclicks == undefined ? 1 : props.n_dblclicks + 1,
-//                 dblclick: pick(e, 'latlng', 'layerPoint', 'containerPoint')
-//             })
-//         },
-//         keydown: (e: KeyboardEvent) => {
-//             props.setProps({
-//                 n_keydowns: props.n_keydowns == undefined ? 1 : props.n_keydowns + 1,
-//                 dblclick: pick(e, 'key', 'ctrlKey', 'metaKey', 'shiftKey', 'repeat')
-//             })
-//         },
-//         load: (e) => (props.setProps({
-//             load: {
-//                 timestamp: Date.now()
-//             }
-//         }))
-//     };
-// }
 
 //#endregion
 
@@ -275,5 +243,6 @@ export {
     unDashify,
     resolveRenderer,
     resolveCRS,
-    omit, pick, inclusivePick
+    omit, pick, inclusivePick,
+    mergeEventHandlers
 };

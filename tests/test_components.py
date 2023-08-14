@@ -44,7 +44,7 @@ def test_load_event(dash_duo, component):
     """
     app = import_app(component_path(component))
     dash_duo.start_server(app)
-    dash_duo.wait_for_contains_text("#log", "timestamp", timeout=5)
+    dash_duo.wait_for_contains_text("#log", "1", timeout=5)
 
 
 @pytest.mark.parametrize("component", ["zoom_control", "attribution_control", "scale_control", "gesture_handling", "colorbar", "measure_control", "edit_control"])

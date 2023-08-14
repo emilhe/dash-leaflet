@@ -1,31 +1,19 @@
 /**
  * This module holds property definitions related to react-leaflet. The original definitions cannot be used, as they
- * lack comments, which are required for Dash component generation.
+ * lack comments, which are required for Dash component generation. In some cases (mainly for event logic),
+ * modifications are imported from external props definitions.
  */
 
 import {CSSProperties, ReactNode} from "react";
 import L, {ControlPosition, FitBoundsOptions, LatLngBoundsExpression} from 'leaflet';
 import {PathProps} from "./leaflet-props";
-import {EventComponent} from "./props";
+import {EventComponent, InteractionEvents, LoadEvent, ParentComponent} from "./props";
 
 //#region Behavior
 
-export type ParentComponentBehavior = {
-    /**
-     * Component children. [MUTABLE]
-     */
-    children?: ReactNode
-}
+export type ParentComponentBehavior = ParentComponent;
 
-// TODO: Do we want this?
 export type EventedBehavior = EventComponent;
-
-// export type EventedBehavior = {
-//     /**
-//      * Object with keys specifying the event type and the value the corresponding event handlers. [MUTABLE]
-//      */
-//     eventHandlers?: object;
-// }
 
 export type AtttributionBehavior = {
     /**
@@ -63,7 +51,7 @@ export type MediaOverlayBehaviour = {
      * The overlay zIndex. [MUTABLLE]
      */
     zIndex?: number;
-}
+} & LoadEvent
 
 export type GridLayerBehavior = {
     /**
@@ -75,7 +63,7 @@ export type GridLayerBehavior = {
      * The layer zIndex. [MUTABLLE]
      */
     zIndex?: number;
-}
+} & LoadEvent
 
 export type ControlBehavior = {
     /**
@@ -86,7 +74,11 @@ export type ControlBehavior = {
 
 // Composite behavior.
 
-export type LayerBehavior = EventedBehavior & AtttributionBehavior & PaneBehavior
+export type LayerComponent = EventedBehavior & AtttributionBehavior & PaneBehavior;
+
+export type InteractiveLayerComponent = LayerComponent & InteractionEvents;
+
+export type PathComponent = InteractiveLayerComponent & PathBehaviour;
 
 //#endregion
 
@@ -117,21 +109,21 @@ export type MarkerProps = {
      * By default, marker images zIndex is set automatically based on its latitude. Use this option if you want to put the marker on top of all others (or below), specifying a high value like 1000 (or high negative value, respectively). [MUTABLE]
      */
     zIndexOffset?: number;
-} & LayerBehavior & ParentComponentBehavior; 
+} & InteractiveLayerComponent & ParentComponentBehavior;
 
 export type PopupProps = {
     /**
      * A geographical point in (lat, lon) format. [MUTABLE]
      */
     position?: L.LatLngExpression;
-} & LayerBehavior & ParentComponentBehavior;
+} & InteractiveLayerComponent & ParentComponentBehavior;
 
 export type TooltipProps = {
     /**
      * A geographical point in (lat, lon) format. [MUTABLE]
      */
     position?: L.LatLngExpression;
-} & LayerBehavior & ParentComponentBehavior;
+} & InteractiveLayerComponent & ParentComponentBehavior;
 
 export type TileLayerProps = {
     /**
@@ -157,7 +149,7 @@ export type ImageOverlayProps = {
      * The image URL. [MUTABLE]
      */
     url: string;
-} & LayerBehavior & MediaOverlayBehaviour & ParentComponentBehavior;
+} & InteractiveLayerComponent & MediaOverlayBehaviour & ParentComponentBehavior;
 
 export type VideoOverlayProps = {
     /**
@@ -168,7 +160,7 @@ export type VideoOverlayProps = {
      * Set to true/false to start/stop video playback. [MUTABLE]
      */
     play?: boolean;
-} & LayerBehavior & MediaOverlayBehaviour & ParentComponentBehavior;
+} & InteractiveLayerComponent & MediaOverlayBehaviour & ParentComponentBehavior;
 
 export type CircleProps = {
     /**
@@ -180,7 +172,7 @@ export type CircleProps = {
      * Radius of the circle, in meters.
      */
     radius: number;
-} & LayerBehavior & ParentComponentBehavior & PathBehaviour;
+} & ParentComponentBehavior & PathComponent;
 
 export type CircleMarkerProps = {
     /**
@@ -192,39 +184,39 @@ export type CircleMarkerProps = {
      * Radius of the circle, in pixels.
      */
     radius: number;
-} & LayerBehavior & ParentComponentBehavior & PathBehaviour;
+} &  ParentComponentBehavior & PathComponent;
 
 export type PolylineProps = {
     /**
      * Array of geographical points. You can create a Polyline object with multiple separate lines (MultiPolyline) by passing an array of arrays of geographic points.
      */
     positions: L.LatLngExpression[] | L.LatLngExpression[][];
-} & LayerBehavior & ParentComponentBehavior & PathBehaviour;
+} &  ParentComponentBehavior & PathComponent;
 
 export type PolygonProps = {
     /**
      * Array of geographical points. Note that points you pass when creating a polygon shouldn't have an additional last point equal to the first one — it's better to filter out such points. You can also pass an array of arrays of latlngs, with the first array representing the outer shape and the other arrays representing holes in the outer shape. Additionally, you can pass a multi-dimensional array to represent a MultiPolygon shape.
      */
     positions: L.LatLngExpression[] | L.LatLngExpression[][] | L.LatLngExpression[][][];
-} & LayerBehavior & ParentComponentBehavior & PathBehaviour;
+} & ParentComponentBehavior & PathComponent;
 
 export type RectangleProps = {
     /**
      * Geographical bounds.
      */
     bounds: L.LatLngBoundsExpression;
-} & LayerBehavior & ParentComponentBehavior & PathBehaviour;
+} & ParentComponentBehavior & PathComponent;
 
 export type SVGOverlayProps = {
     /**
      * The attributes must be valid SVGSVGElement properties.
      */
     attributes: Record<string, string>;
-} & LayerBehavior & MediaOverlayBehaviour & ParentComponentBehavior;
+} & MediaOverlayBehaviour & PathComponent & ParentComponentBehavior;
 
-export type LayerGroupProps = LayerBehavior & ParentComponentBehavior;
+export type LayerGroupProps = LayerComponent & ParentComponentBehavior;
 
-export type FeatureGroupProps = LayerBehavior & ParentComponentBehavior;
+export type FeatureGroupProps = LayerComponent & ParentComponentBehavior;
 
 export type PaneProps = {
     /**
@@ -310,6 +302,6 @@ export type MapContainerProps = {
     //  * Event that fires when the map loads.
     //  */
     // whenReady?: () => void;
-} & EventedBehavior;
+} & EventedBehavior & LoadEvent & InteractionEvents;
 
 //#endregion

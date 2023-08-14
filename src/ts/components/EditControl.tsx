@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import {EditControlProps as Props} from '../dash-props';
-import {unDashify} from "../utils";
+import {mergeEventHandlers, omit, resolveAllProps, unDashify} from "../utils";
 
 // eslint-disable-next-line no-inline-comments
 const LazyEditControl = React.lazy(() => import(/* webpackChunkName: "EditControl" */ '../fragments/EditControl'));
@@ -8,9 +8,12 @@ const LazyEditControl = React.lazy(() => import(/* webpackChunkName: "EditContro
 /**
  * EditControl is based on https://github.com/alex3165/react-leaflet-draw/
  */
-const EditControl = ({position='topright', draw={}, edit={}, geojson={features: []}, eventHandlers, ...props}: Props) => {
+const EditControl = ({position='topright', draw={}, edit={}, geojson={features: []}, ...props}: Props) => {
     const nProps = Object.assign(props, {geojson: geojson});
-    _registerDefaultEvents(nProps)
+    const customEventHandlers = (props.eventHandlers == undefined) ? {} : resolveAllProps(props.eventHandlers, props);
+    const defaultEventHandlers = props.disableDefaultEventHandlers ? {} : _getDefaultEventHandlers(props);
+    nProps.eventHandlers = mergeEventHandlers(defaultEventHandlers, customEventHandlers, props)
+    _registerEvents(nProps)
     return (
         <div>
             <Suspense fallback={<div>Loading...</div>}>
@@ -28,22 +31,33 @@ function _setProps(props, newProps) {
     }
 }
 
-function _registerDefaultEvents(props) {
+function _registerEvents(props){
+    Object.keys(props.eventHandlers).forEach(function (key, index) {
+        const event = "on".concat(key.substring(0, 1).toUpperCase()).concat(key.substring(1))
+        props[event] = (e) => {
+            return props.eventHandlers[key](e);
+        }
+    });
+    return omit(props, 'eventHandlers')
+}
+
+function _getDefaultEventHandlers(props) {
+    const eventHandlers = {}
     // Bind feature create event.
-    props["onCreated"] = (e) => {
+    eventHandlers["created"] = (e) => {
         const feature = _makeFeature({}, e.layer);
         _setProps(props, {geojson: _makeGeojson(props.geojson.features.concat([feature]))});
     }
     // Bind feature edit event.
-    props["onEdited"] = (e) => {
+    eventHandlers["edited"] = (e) => {
         _setProps(props, {geojson: _makeGeojson(_updateFeatures(e, props.geojson.features))});
     }
     // Bind feature delete event.
-    props["onDeleted"] = (e) => {
+    eventHandlers["deleted"] = (e) => {
         _setProps(props, {geojson: _makeGeojson(_updateFeatures(e, props.geojson.features))});
     }
     // Bind mount event. The 1 ms timeout is necessary for the features to be loaded.
-    props["onMounted"] = (e) => {
+    eventHandlers["mounted"] = (e) => {
         setTimeout(function () {
             const features = []
             let layers = e.options.edit.featureGroup._layers;
@@ -54,9 +68,9 @@ function _registerDefaultEvents(props) {
         }, 1);
     }
     // Bind action events.
-    const actionEvents = ['onDrawStart', 'onDrawStop', 'onDeleteStart', 'onDeleteStop', 'onEditStart', 'onEditStop'];
+    const actionEvents = ['drawStart', 'drawStop', 'deleteStart', 'deleteStop', 'editStart', 'editStop'];
     for (const actionEvent of actionEvents) {
-        props[actionEvent] = (e) => {
+        eventHandlers[actionEvent] = (e) => {
             _setProps(props, {
                 action: {
                     layer_type: e.layerType, type: e.type,
@@ -65,6 +79,7 @@ function _registerDefaultEvents(props) {
             });
         }
     }
+    return eventHandlers
 }
 
 function _makeFeature(properties, layer) {
