@@ -27,6 +27,7 @@
     "@types/leaflet.fullscreen": "^1.6.1",
     "@types/leaflet.locatecontrol": "^0.74.1",
     "@types/react": "^18.2.0",
+    "@types/supercluster": "^7.1.0",
     "css-loader": "^6.7.1",
     "npm-run-all": "^4.1.5",
     "ramda": "^0.28.0",
@@ -48,6 +49,7 @@
   "dependencies": {
     "base64-js": "^1.5.1",
     "chroma-js": "^2.4.2",
+    "immutability-helper": "^3.1.1",
     "leaflet": "^1.9.3",
     "leaflet-easybutton": "^2.4.0",
     "leaflet-gesture-handling": "^1.2.2",
@@ -56,6 +58,7 @@
     "leaflet.fullscreen": "^2.4.0",
     "leaflet.locatecontrol": "^0.79.0",
     "react-leaflet": "^4.2.1",
-    "react-leaflet-draw": "^0.20.4"
+    "react-leaflet-draw": "^0.20.4",
+    "supercluster": "^8.0.1"
   }
 }

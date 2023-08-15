@@ -81,6 +81,10 @@ function resolveAllProps(props, context) {
 
 //#region Event handler resolution
 
+function getContext(props){
+    return {map: useMap(), ...props}
+}
+
 function assignEventHandlers(props, target={}, skipUnDashify=false) {
     const nProps = Object.assign(target, props);
     nProps.eventHandlers = resolveEventHandlers(nProps)
@@ -88,13 +92,12 @@ function assignEventHandlers(props, target={}, skipUnDashify=false) {
 }
 
 function resolveEventHandlers(props) {
-    const customEventHandlers = (props.eventHandlers == undefined) ? {} : resolveAllProps(props.eventHandlers, props);
+    const customEventHandlers = (props.eventHandlers == undefined) ? {} : resolveAllProps(props.eventHandlers, getContext(props));
     const defaultEventHandlers = props.disableDefaultEventHandlers ? {} : getDefaultEventHandlers(props);
-    return mergeEventHandlers(defaultEventHandlers, customEventHandlers, props)
+    return mergeEventHandlers(defaultEventHandlers, customEventHandlers)
 }
 
-function mergeEventHandlers(defaultEventHandlers, customEventHandlers, context){
-    const map = useMap();
+function mergeEventHandlers(defaultEventHandlers, customEventHandlers){
     const keys = Object.keys(customEventHandlers).concat(Object.keys(defaultEventHandlers));
     const eventHandlers = {}
     keys.forEach(function (key, index) {
@@ -103,10 +106,10 @@ function mergeEventHandlers(defaultEventHandlers, customEventHandlers, context){
                 defaultEventHandlers[key](e);
             }
             if(key in customEventHandlers){
-                customEventHandlers[key](e, map, context);
+                customEventHandlers[key](e);
             }
         }
-    })  ;
+    });
     return eventHandlers
 }
 
@@ -134,47 +137,6 @@ function getDefaultEventHandlers(props) {
 }
 
 //#endregion
-
-async function assembleGeojson(props) {
-    const { data, url, format } = props;
-    // Handle case when there is not data.
-    if (!data && !url) {
-        return { features: [] };
-    }
-    // Download data if needed.
-    let geojson = data;
-    if (!data && url) {
-        const response = await fetch(url);
-        if (format === "geojson") {
-            geojson = await response.json();
-        }
-        if (format == "geobuf") {
-            geojson = await response.arrayBuffer();
-        }
-    }
-    // Unless the data are geojson, do base64 decoding.
-    else {
-        if (format != "geojson") {
-            geojson = toByteArray(geojson)
-        }
-    }
-    // // Do any data transformations needed to arrive at geojson data. TODO: Might work only in node?
-    // if (format == "geobuf") {
-    //     var Pbf = require('pbf');
-    //     geojson = decode(new Pbf(geojson));
-    // }
-    // Add cluster properties if they are missing.
-    geojson.features = geojson.features.map(feature => {
-        if (!feature.properties) {
-            feature["properties"] = {}
-        }
-        if (!feature.properties.cluster) {
-            feature["properties"]["cluster"] = false
-        }
-        return feature
-    });
-    return geojson
-}
 
 //# region Small utils
 
@@ -235,7 +197,6 @@ const omit = <T extends {}, K extends keyof T>(
 //#endregion
 
 export {
-    assembleGeojson,
     resolveProps,
     resolveAllProps,
     resolveEventHandlers,
@@ -244,5 +205,6 @@ export {
     resolveRenderer,
     resolveCRS,
     omit, pick, inclusivePick,
-    mergeEventHandlers
+    mergeEventHandlers,
+    getContext
 };

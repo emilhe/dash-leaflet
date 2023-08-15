@@ -47,22 +47,22 @@ type SuperClusterProps = {
     /**
      * If true, marker clustering will be performed.
      */
-    cluster: boolean;
+    cluster?: boolean;
 
     /**
      * Function that determines how a cluster is drawn.
      */
-    clusterToLayer: DashFunction;
+    clusterToLayer?: DashFunction;
 
     /**
      * If true, markers that are not resolved at max zoom level will be spiderfied on click.
      */
-    spiderfyOnMaxZoom: boolean;
+    spiderfyOnMaxZoom?: boolean;
 
     /**
      * Options for the SuperCluster object (see https://github.com/mapbox/supercluster for details).
      */
-    superClusterOptions: object;
+    superClusterOptions?: object;
 }
 export type GeoJSONProps = Modify<Modify<LP.GeoJSONProps, RLP.FeatureGroupProps>, {
 
@@ -88,12 +88,12 @@ export type GeoJSONProps = Modify<Modify<LP.GeoJSONProps, RLP.FeatureGroupProps>
      */
     zoomToBounds?: boolean;
 
-    // TODO: Does the data attrs work?
-    // /**
-    //  * Object intended for passing variables to functional properties, i.e. clusterToLayer, hoverStyle and
-    //  * (options) pointToLayer, style, filter, and onEachFeature functions.
-    //  */
-    // hideout: string | object,
+    // TODO: Maybe just use data attrs?
+    /**
+     * Object intended for passing variables to functional properties, i.e. clusterToLayer, hoverStyle and
+     * (options) pointToLayer, style, filter, and onEachFeature functions.
+     */
+    hideout?: string | object,
 
 } & SuperClusterProps & DashComponent>;
 export type PaneProps = Modify<RLP.PaneProps, DashComponent>;

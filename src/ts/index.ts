@@ -30,6 +30,7 @@ import DivMarker from './components/DivMarker';
 import Colorbar from './components/Colorbar';
 import MeasureControl from './components/MeasureControl';
 import EditControl from './components/EditControl';
+import GeoJSON from './components/GeoJSON';
 
 export {
     MapContainer,
@@ -63,5 +64,6 @@ export {
     DivMarker,
     Colorbar,
     MeasureControl,
-    EditControl
+    EditControl,
+    GeoJSON
 }

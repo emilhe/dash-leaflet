@@ -1,6 +1,4 @@
-import geobuf
 import dash_leaflet as dl
-import base64
 
 
 def categorical_colorbar(*args, categories, colorscale, **kwargs):
@@ -18,7 +16,3 @@ def dicts_to_geojson(dicts, lat="lat", lon="lon"):
             feature["properties"] = {prop: d[prop] for prop in props}
         geojson["features"].append(feature)
     return geojson
-
-
-def geojson_to_geobuf(geojson):
-    return base64.b64encode(geobuf.encode(geojson)).decode()

@@ -12,7 +12,7 @@ const EditControl = ({position='topright', draw={}, edit={}, geojson={features: 
     const nProps = Object.assign(props, {geojson: geojson});
     const customEventHandlers = (props.eventHandlers == undefined) ? {} : resolveAllProps(props.eventHandlers, props);
     const defaultEventHandlers = props.disableDefaultEventHandlers ? {} : _getDefaultEventHandlers(props);
-    nProps.eventHandlers = mergeEventHandlers(defaultEventHandlers, customEventHandlers, props)
+    nProps.eventHandlers = mergeEventHandlers(defaultEventHandlers, customEventHandlers)
     _registerEvents(nProps)
     return (
         <div>
