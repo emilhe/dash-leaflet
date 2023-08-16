@@ -7,7 +7,7 @@ Dash Leaflet is a light wrapper around React-Leaflet. The syntax is similar to o
 The easiest way to get started is to install the latest version of Dash and Dash Leaflet via pip.
 
 ```
-pip install dash==2.0.0 
+pip install dash==2.12.0 
 pip install dash-leaflet
 ```
 
@@ -30,7 +30,7 @@ If you visit http://127.0.0.1:8050/ in your browser, you should see a Leaflet ma
 
 The documentation has been moved to [Render](https://dash-leaflet-docs.onrender.com/) to enable an interactive example gallery.
 
-NB: The 1.0.0 release contains a wide range of breaking changes, most prominently the renaming of the map component from `Map` to `MapContainer`.
+NB: The 1.0.0 release contains a wide range of breaking changes, please refer to the migration guidelines
 
 ## Build instructions
 

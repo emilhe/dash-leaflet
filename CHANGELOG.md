@@ -8,6 +8,12 @@ All notable changes to this project will be documented in this file.
 
 - Library completely rewritten based on React Leaflet v4
 
+### Removed
+
+- Dropped `Minichart` component. The underlying library is not maintained, and the current version in incompatible with newer versions of Leaflet
+- Dropped `MarkerClusterGroup` component due to performance issues. Please use the `GeoJSON` instead
+- Dropped `GeoTIFFOverlay` component. This (highly custom) component has long been deprecated, and I decided now was the time to drop it completely
+
 ## [0.1.28] - 2023-06-27
 
 ### Added

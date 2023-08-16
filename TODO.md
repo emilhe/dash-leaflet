@@ -2,12 +2,6 @@
 * WHAT ABOUT RENDERER ARG?
 * Compare current components to dash-leaflet
 
-NOT CARRIED FORWARD (at least not for now)
-
-* GeoTIFFOverlay [async]        
-* MarkerClusterGroup [async]
-* Minichart [async] (partially added, but broken)
-
 OLD TODO:
 
 TODO:

@@ -1,2 +1,5 @@
 recursive-include dash_leaflet/** *.js *.css *.json *.html
+include package.json
+include README.md
+include LICENSE
 prune tests

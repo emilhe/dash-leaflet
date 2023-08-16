@@ -156,8 +156,8 @@ function resolveRenderer(value: { renderer: string, options: object }): L.Render
     }
 }
 
-function resolveCRS(value: string): L.CRS{
-    if(value === undefined){
+function resolveCRS(value: string): L.CRS {
+    if (value === undefined) {
         return undefined
     }
     return L.CRS[value]

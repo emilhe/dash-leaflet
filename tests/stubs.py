@@ -5,6 +5,9 @@ from dash_leaflet import MapContainer
 from dash.development.base_component import Component
 
 def app_stub(components: Optional[list[Component]] = None, app_kwargs=None, **kwargs):
+    if "bounds" not in kwargs:
+        kwargs["center"] = kwargs["center"] if ("center" in kwargs) else [56,10]
+        kwargs["zoom"] = kwargs["zoom"] if ("zoom" in kwargs) else 6
     app = Dash(__name__, **(app_kwargs if app_kwargs is not None else {}))
     app.layout = html.Div(
         [

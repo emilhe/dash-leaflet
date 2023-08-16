@@ -1,6 +1,6 @@
 {
   "name": "dash-leaflet",
-  "version": "1.0.0",
+  "version": "1.0.0a2",
   "description": "Dash Leaflet is a light wrapper around React-Leaflet. The syntax is similar to other Dash components, with naming conventions following the React-Leaflet API.",
   "main": "index.ts",
   "repository": {
