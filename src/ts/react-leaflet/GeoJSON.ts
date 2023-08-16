@@ -22,13 +22,16 @@ function useUpdateGeoJSON(element, props) {
     const toSpiderfyRef = useRef<object>();
     const propsRef = useRef()
     // Setup events.
-    const onMoveEnd = (e) => _redrawClusters(instance, props, map, indexRef.current, toSpiderfyRef);
-    const onClick = (e) => _handleClick(e, instance, props, map, indexRef.current, toSpiderfyRef);
+    const onMoveEnd = (e) => {
+        if(!(propsRef.current as any).cluster){return;}
+        _redrawClusters(instance, propsRef.current, map, indexRef.current, toSpiderfyRef)
+    };
+    const onClick = (e) => _handleClick(e, instance, propsRef.current, map, indexRef.current, toSpiderfyRef);
     const onMouseOver =  (e) => {
         const feature = _getFeature(e);
         // Hover styling.
-        if (props.hoverStyle) {
-            e.layer.setStyle(props.hoverStyle(feature));
+        if ((propsRef.current as any).hoverStyle) {
+            e.layer.setStyle((propsRef.current as any).hoverStyle(feature));
             if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
                 e.layer.bringToFront();
             }
@@ -38,7 +41,7 @@ function useUpdateGeoJSON(element, props) {
     }
     const onMouseOut = (e) => {
         // Hover styling.
-        if (props.hoverStyle) {
+        if ((propsRef.current as any).hoverStyle) {
             instance.resetStyle(e.layer);
         }
     }
@@ -59,9 +62,10 @@ function useUpdateGeoJSON(element, props) {
                     // Bind update on click.
                     instance.on('click', onClick);
                     // Bind update on map move (this is where the "magic" happens).
+                    map.on('moveend', onMoveEnd);
+                    // Bind update on map move (this is where the "magic" happens).
                     if(props.cluster){
                         indexRef.current = _buildIndex(geojson, map, props.superClusterOptions)
-                        map.on('moveend', onMoveEnd);
                     }
                     // Draw stuff.
                     _redraw(instance, props, map, geojson, indexRef.current, toSpiderfyRef);
@@ -69,23 +73,10 @@ function useUpdateGeoJSON(element, props) {
             }
             // Update.
             else if(propsRef.current !== props) {
-                console.log("UPDATE")
-                console.log(propsRef.current)
-                console.log(props)
                 const prevProps = propsRef.current as any;
+                let reparseNeeded = false;
                 let redrawNeeded = false;
                 let reindexNeeded = false;
-                // Util functions.
-                const _reindex = () => {
-                    if (props.cluster) {
-                        indexRef.current = _buildIndex(geojsonRef.current, map, props.superClusterOptions)
-                        if (!prevProps.cluster) {
-                            map.on('moveend', onMoveEnd);
-                        }
-                    } else if (prevProps.cluster) {
-                        map.off('moveend', onMoveEnd);
-                    }
-                }
                 // Update element options.
                 let optionsChanged = prevProps.hideout !== props.hideout
                 _options.forEach(o => {
@@ -101,11 +92,12 @@ function useUpdateGeoJSON(element, props) {
                     }
                 });
                 if (optionsChanged) {
-                    instance.options = {...instance.options, ..._parseOptions(props)}
+                    reparseNeeded = true
                     redrawNeeded = true;
                 }
                 // Change rendering.
                 if (prevProps.cluster !== props.cluster) {
+                    reparseNeeded = true
                     reindexNeeded = true;
                     redrawNeeded = true;
                 }
@@ -115,16 +107,22 @@ function useUpdateGeoJSON(element, props) {
                     reindexNeeded = false;  // reindex will happen async
                     _fetchGeoJSON(props).then(geojson => {
                         geojsonRef.current = geojson
-                        _reindex();
+                        if(props.cluster){
+                            indexRef.current = _buildIndex(geojsonRef.current, map, props.superClusterOptions)
+                        }
+                        instance.options = {...instance.options, ..._parseOptions(props)}
                         _redraw(instance, props, map, geojson, indexRef.current, toSpiderfyRef);
                     });
                 }
                 // If needed, dispatch actions.
+                if(reindexNeeded){
+                    indexRef.current = _buildIndex(geojsonRef.current, map, props.superClusterOptions)
+                }
+                if(reparseNeeded){
+                    instance.options = {...instance.options, ..._parseOptions(props)}
+                }
                 if(redrawNeeded){
                    _redraw(instance, props, map, geojsonRef.current, indexRef.current, toSpiderfyRef);
-                }
-                if(reindexNeeded){
-                    _reindex()
                 }
             }
             // Update ref.
@@ -294,6 +292,7 @@ function _redrawGeoJSON(instance, props, map, geojson) {
 }
 
 function _redraw(instance, props, map, geojson, index, toSpiderfyRef) {
+    console.log(props)
     // If not cluster, just draw the GeoJSON as usual.
     if (!props.cluster) {
         return _redrawGeoJSON(instance, props, map, geojson)
@@ -414,7 +413,6 @@ function _defaultSpiderfy(map, index, clusters, toSpiderfy) {
         }
         return leaves.concat(legs);
     }
-
     // Check if there are any cluster(s) to spiderfy.
     const matches = clusters.filter(item => toSpiderfy.includes(item.properties.cluster_id));
     if(matches.length < 1){
@@ -470,7 +468,7 @@ function _handleClick(e, instance, props, map, index, toSpiderfyRef) {
             map.flyTo(latlng, expansionZoom);
         }
     } else {
-        this._redrawClusters(instance, props, map, index, toSpiderfyRef)
+        _redrawClusters(instance, props, map, index, toSpiderfyRef)
     }
 }
 
@@ -502,10 +500,6 @@ function _getDefaultEventHandlers(props) {
             props.setProps(p)
         }
     }
-
-//#endregion
-
-
 
 }
 
