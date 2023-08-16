@@ -28,7 +28,7 @@ function useUpdateGeoJSON(element, props) {
     };
     const onClick = (e) => _handleClick(e, instance, propsRef.current, map, indexRef.current, toSpiderfyRef);
     const onMouseOver =  (e) => {
-        const feature = _getFeature(e);
+        const feature = e.layer.feature;
         // Hover styling.
         if ((propsRef.current as any).hoverStyle) {
             e.layer.setStyle((propsRef.current as any).hoverStyle(feature));
@@ -50,7 +50,6 @@ function useUpdateGeoJSON(element, props) {
         function updateGeojson() {
             // Initialize.
             if(propsRef.current === undefined) {
-                console.log("INIT")
                 _fetchGeoJSON(props).then(geojson => {
                     // Cache the data for later reuse.
                     geojsonRef.current = geojson
@@ -292,7 +291,6 @@ function _redrawGeoJSON(instance, props, map, geojson) {
 }
 
 function _redraw(instance, props, map, geojson, index, toSpiderfyRef) {
-    console.log(props)
     // If not cluster, just draw the GeoJSON as usual.
     if (!props.cluster) {
         return _redrawGeoJSON(instance, props, map, geojson)
@@ -470,37 +468,6 @@ function _handleClick(e, instance, props, map, index, toSpiderfyRef) {
     } else {
         _redrawClusters(instance, props, map, index, toSpiderfyRef)
     }
-}
-
-function _getFeature(e) {
-    const feature = e.layer.feature;
-    if (e.layer.getBounds) {
-        let bounds = e.layer.getBounds();
-        feature.bounds = [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]];
-    }
-    return feature;
-}
-
-// TODO: WHAT ABOUT EVENTS?
-function _getDefaultEventHandlers(props) {
-    return {
-        click: (e) => {
-            const p = {n_clicks: props.n_clicks == undefined ? 1 : props.n_clicks + 1}
-            p["data-click"] = _getFeature(e)
-            props.setProps(p)
-        },
-        dblclick: (e) => {
-            const p = {n_dblclicks: props.n_dblclicks == undefined ? 1 : props.n_dblclicks + 1}
-            p["data-dblclick"] = _getFeature(e)
-            props.setProps(p)
-        },
-        keydown: (e) => {
-            const p = {n_keydowns: props.n_keydowns == undefined ? 1 : props.n_keydowns + 1}
-            p["data-keydown"] = pick(e, 'key', 'ctrlKey', 'metaKey', 'shiftKey', 'repeat')
-            props.setProps(p)
-        }
-    }
-
 }
 
 //#endregion

@@ -3,7 +3,7 @@ import { LocateControlProps as Props } from '../dash-props';
 import { LocateControl as ReactLeafletLocateControl } from '../react-leaflet/LocateControl';
 
 /**
- * LocateControl is a react-leaflet wrapper of https://github.com/domoritz/leaflet-locatecontrol.
+ * Lazy loader.
  */
 const LocateControl = (props: Props) => {
     return (

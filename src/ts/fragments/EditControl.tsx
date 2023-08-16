@@ -4,7 +4,7 @@ import { EditControl as ReactLeafletEditControl, EditControlProps } from 'react-
 require('../../../node_modules/leaflet-draw/dist/leaflet.draw.css');
 
 /**
- * EditControl is based on https://github.com/alex3165/react-leaflet-draw/
+ * Lazy loader.
  */
 const EditControl = (props: EditControlProps) => {
     return (
