@@ -24,7 +24,7 @@ def import_selector(component: str):
 
 @pytest.mark.parametrize("component", ["map_container", "marker", "popup", "image_overlay", "video_overlay", "circle",
                                        "circle_marker", "polyline", "polygon", "rectangle", "svg_overlay",
-                                       "layer_group", "feature_group", "pane", "polyline_decorator", "div_marker"])
+                                       "layer_group", "feature_group", "pane", "polyline_decorator", "div_marker", "geojson"])
 def test_click_event(dash_duo, component):
     """
     Basic test that (1) a component renders and (2) that click events work.
