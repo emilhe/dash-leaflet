@@ -1,63 +1,178 @@
-import {createElementHook, createElementObject, createPathComponent, withPane, extendContext, useEventHandlers, usePathOptions, useLayerLifecycle, createPathHook, createContainerComponent, useLeafletContext, } from "@react-leaflet/core";
+import {createElementHook, createElementObject, withPane, extendContext, useEventHandlers, useLayerLifecycle, createContainerComponent, useLeafletContext, } from "@react-leaflet/core";
 import "leaflet-polylinedecorator";
 import * as L from "leaflet";
-import {toByteArray} from "base64-js";
 import {useMap} from "react-leaflet";
 import Supercluster from "supercluster";
 import update from "immutability-helper";
 import {pick} from "../utils";
-import {GeoJSONProps} from "../dash-props";
 import {useEffect, useRef} from "react";
 
-// // TODO: Maybe make a separate style file?
 require('../marker-cluster.css');
-function createLeafletElement(props, ctx) {
-    const geoJSON = new L.GeoJSON(null, {..._parseOptions(props)});
-    return createElementObject(
-        geoJSON,
-        extendContext(ctx, {overlayContainer: geoJSON}),
-    )
-}
-function updateLeafletElement(layer, props, prevProps) {
-    // console.log("UPDATE")
-    // console.log(layer)
 
-    // Copied from react-leaflet.
-    if (props.style !== prevProps.style) {
-      if (props.style == null) {
-        layer.resetStyle()
-      } else {
-        layer.setStyle(props.style)
-      }
+const _options = ["pointToLayer", "style", "onEachFeature", "filter",
+        "coordsToLatLng", "hoverStyle", "clusterToLayer"]
+
+//#region Component definition
+function useUpdateGeoJSON(element, props) {
+    const map = useMap();
+    const {instance} = element;
+    // Setup references.
+    const indexRef = useRef<Supercluster>();
+    const geojsonRef = useRef();
+    const toSpiderfyRef = useRef<object>();
+    const propsRef = useRef()
+    // Setup events.
+    const onMoveEnd = (e) => _redrawClusters(instance, props, map, indexRef.current, toSpiderfyRef);
+    const onClick = (e) => _handleClick(e, instance, props, map, indexRef.current, toSpiderfyRef);
+    const onMouseOver =  (e) => {
+        const feature = _getFeature(e);
+        // Hover styling.
+        if (props.hoverStyle) {
+            e.layer.setStyle(props.hoverStyle(feature));
+            if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                e.layer.bringToFront();
+            }
+        }
+        // TODO: Set hover feature?
+        // props.setProps({hover_feature: feature});
+    }
+    const onMouseOut = (e) => {
+        // Hover styling.
+        if (props.hoverStyle) {
+            instance.resetStyle(e.layer);
+        }
     }
 
-    // // When the content of hideout changes, trigger redraw.
-    // if (prevProps.hideout !== props.hideout) {
-    //     // Update element options. TODO: Maybe handle separately, this is not so efficient...
-    //     instance.options = {...instance.options, ..._parseOptions(props)}
-    //     // Update the layers.
-    //     if (!props.cluster) {
-    //         _draw(this.state.geojson)  // TODO: STATE?
-    //     } else {
-    //         _render_clusters()
-    //     }
-    // }
-    // // Change data (dynamic).
-    // if (props.url !== prevProps.url ||
-    //     props.data !== prevProps.data ||
-    //     props.format !== prevProps.format ||
-    //     props.cluster !== prevProps.cluster) {
-    //     // Update element options. TODO: Maybe handle separately, this is not so efficient...
-    //     instance.options = {...instance.options, ..._parseOptions(props)}
-    //     // Update the layers.
-    //     _setData(props);
-    // }
+    useEffect(
+        function updateGeojson() {
+            // Initialize.
+            if(propsRef.current === undefined) {
+                console.log("INIT")
+                _fetchGeoJSON(props).then(geojson => {
+                    // Cache the data for later reuse.
+                    geojsonRef.current = geojson
+                    // Bind hover stuff.
+                    if (props.hoverStyle) {
+                        instance.on('mouseover', onMouseOver);
+                        instance.on('mouseout', onMouseOut);
+                    }
+                    // Bind update on click.
+                    instance.on('click', onClick);
+                    // Bind update on map move (this is where the "magic" happens).
+                    if(props.cluster){
+                        indexRef.current = _buildIndex(geojson, map, props.superClusterOptions)
+                        map.on('moveend', onMoveEnd);
+                    }
+                    // Draw stuff.
+                    _redraw(instance, props, map, geojson, indexRef.current, toSpiderfyRef);
+                });
+            }
+            // Update.
+            else if(propsRef.current !== props) {
+                console.log("UPDATE")
+                console.log(propsRef.current)
+                console.log(props)
+                const prevProps = propsRef.current as any;
+                let redrawNeeded = false;
+                let reindexNeeded = false;
+                // Util functions.
+                const _reindex = () => {
+                    if (props.cluster) {
+                        indexRef.current = _buildIndex(geojsonRef.current, map, props.superClusterOptions)
+                        if (!prevProps.cluster) {
+                            map.on('moveend', onMoveEnd);
+                        }
+                    } else if (prevProps.cluster) {
+                        map.off('moveend', onMoveEnd);
+                    }
+                }
+                // Update element options.
+                let optionsChanged = prevProps.hideout !== props.hideout
+                _options.forEach(o => {
+                    if(prevProps[o] !== props[o]){
+                        if(props[o] instanceof Function && prevProps[o] instanceof Function){
+                            if(prevProps[o].toString() !== props[o].toString()){
+                                optionsChanged = true;
+                            }
+                        }
+                        else{
+                            optionsChanged = true;
+                        }
+                    }
+                });
+                if (optionsChanged) {
+                    instance.options = {...instance.options, ..._parseOptions(props)}
+                    redrawNeeded = true;
+                }
+                // Change rendering.
+                if (prevProps.cluster !== props.cluster) {
+                    reindexNeeded = true;
+                    redrawNeeded = true;
+                }
+                // Fetch new data.
+                if (prevProps.data !== props.data || prevProps.url !== props.url) {
+                    redrawNeeded = false;  // redraw will happen async
+                    reindexNeeded = false;  // reindex will happen async
+                    _fetchGeoJSON(props).then(geojson => {
+                        geojsonRef.current = geojson
+                        _reindex();
+                        _redraw(instance, props, map, geojson, indexRef.current, toSpiderfyRef);
+                    });
+                }
+                // If needed, dispatch actions.
+                if(redrawNeeded){
+                   _redraw(instance, props, map, geojsonRef.current, indexRef.current, toSpiderfyRef);
+                }
+                if(reindexNeeded){
+                    _reindex()
+                }
+            }
+            // Update ref.
+            propsRef.current = props
+            // Do cleanup.
+            return function removeEventHandlers() {
+                if(props.hoverStyle){
+                    instance.off('mouseover', onMouseOver);
+                    instance.off('mouseout', onMouseOut);
+                }
+                instance.off('click', onClick);
+                if (props.cluster) {
+                    map.off('moveend', onMoveEnd);
+                }
+            }
+        },
+        [element, props],
+    )
+
+}
+
+function createGeoJSONComponent(){
+    // Return an initially empty object, data will be loaded async via useUpdateGeoJSON hook.
+    const createGeoJSONElement = (props, ctx) =>
+    {
+        const geoJSON = new L.GeoJSON(null, {..._parseOptions(props)});
+        return createElementObject(
+            geoJSON,
+            extendContext(ctx, {overlayContainer: geoJSON}),
+        )
+    }
+    // Don't use update function here, updates will be performed via useUpdateGeoJSON hook.
+    const useElement = createElementHook(createGeoJSONElement)
+    // Similar to "createPathHook", except that "usePathOptions" is exchanged with "useUpdateGeoJSON".
+    const useGeoJSON = (props) => {
+        const context = useLeafletContext()
+        const elementRef = useElement(withPane(props, context), context)
+        useLayerLifecycle(elementRef.current, context)
+        useEventHandlers(elementRef.current, props.eventHandlers)
+        useUpdateGeoJSON(elementRef.current, props)
+        return elementRef
+    }
+    return createContainerComponent(useGeoJSON)
 }
 
 function _parseOptions(props) {
     const {pointToLayer, clusterToLayer} = props
-    const options = pick(props, 'pointToLayer', 'clusterToLayer', 'style', 'pane',
-        'onEachFeature', 'filter', 'coordsToLatLng', 'markersInheritOptions');
+    const options = pick(props, ..._options);
     // When in cluster mode, modify point rendering to treat clusters in a particular way.
     if (props.cluster) {
         options.pointToLayer = (feature, latlng) => {
@@ -88,7 +203,11 @@ function _parseOptions(props) {
     return options
 }
 
-async function _assembleGeojson(props) {
+//#endregion
+
+//#region Data update
+
+async function _fetchGeoJSON(props) {
     const { data, url } = props;
     // Handle case when there is no data.
     if (!data && !url) {
@@ -113,53 +232,30 @@ async function _assembleGeojson(props) {
     return geojson
 }
 
-function _handle_click(e, instance, props, map, index, toSpiderfyRef) {
-    console.log("CLICK")
-    console.log(e.layer)
-    console.log(instance)
-    // console.log(e.layer.getBounds())
-    // console.log(instance.getBounds())
-    const {zoomToBoundsOnClick, spiderfyOnMaxZoom, cluster} = props;
-    // Check if any actions are enabled. If not, just return.
-    if (!zoomToBoundsOnClick && !(cluster && spiderfyOnMaxZoom)) {
-        return
-    }
-    // If clustering is not enabled, just fly to feature.
-    if (!cluster) {
-        if (e.layer.getBounds) {
-            map.fitBounds(e.layer.getBounds());
+function _buildIndex(geojson, map, superclusterOptions){
+    // Try to guess max zoom.
+    if(!superclusterOptions || !("maxZoom" in superclusterOptions)){
+        const maxZoom = map._layersMaxZoom;
+        if(maxZoom){
+            if(superclusterOptions){
+                superclusterOptions["maxZoom"] =  maxZoom;
+            }
+            else{
+                superclusterOptions = {maxZoom: maxZoom};
+            }
         }
-        return
     }
-    // If we didn't hit a cluster, return early.
-    if (!e.layer.feature.properties) {
-        return
-    }
-    const clusterId = e.layer.feature.properties.cluster_id;
-    if (!clusterId) {
-        return
-    }
-    // It we get to here, a cluster has been clicked.
-    const {latlng} = e;
-    // Set spiderfy.
-    const expansionZoom = index.getClusterExpansionZoom(clusterId)
-    const spiderfy = expansionZoom > index.options.maxZoom;
-    if (spiderfy) {
-        toSpiderfyRef.current = {"clusterId": clusterId};
-    }
-    // Fly to.
-    if (zoomToBoundsOnClick) {
-        if (spiderfy) {
-            map.flyTo(latlng);
-        } else {
-            map.flyTo(latlng, expansionZoom);
-        }
-    } else {
-        this._drawClusters(instance, props, map, index, toSpiderfyRef)
-    }
+    // Create index.
+    const index = new Supercluster(superclusterOptions);
+    index.load(geojson.features);
+    return index
 }
 
-function _drawClusters(instance, props, map, index, toSpiderfyRef) {
+//#endregion
+
+//#region Drawing logic
+
+function _redrawClusters(instance, props, map, index, toSpiderfyRef) {
     const bounds = map.getBounds();
     const bbox = [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()];
     const zoom = map.getZoom();
@@ -186,7 +282,7 @@ function _drawClusters(instance, props, map, index, toSpiderfyRef) {
     instance.addData(clusters);
 }
 
-function _drawGeoJSON(instance, props, map, geojson) {
+function _redrawGeoJSON(instance, props, map, geojson) {
     instance.clearLayers();
     instance.addData(geojson);
     if (props.zoomToBounds && geojson.features.length > 0) {
@@ -196,6 +292,24 @@ function _drawGeoJSON(instance, props, map, geojson) {
         }
     }
 }
+
+function _redraw(instance, props, map, geojson, index, toSpiderfyRef) {
+    // If not cluster, just draw the GeoJSON as usual.
+    if (!props.cluster) {
+        return _redrawGeoJSON(instance, props, map, geojson)
+    }
+    // Move the map if necessary.
+    if (props.zoomToBounds && geojson.features.length > 0) {
+        const dummy = L.geoJSON(geojson);
+        map.fitBounds(dummy.getBounds())
+    }
+    // Draw the cluster.
+    _redrawClusters(instance, props, map, index, toSpiderfyRef)
+}
+
+//#endregion
+
+//#region Default rendering
 
 function _defaultPointToLayer(feature, latlng, options) {
     return new L.Marker(latlng, options && options.markersInheritOptions && options);
@@ -223,25 +337,6 @@ function _defaultClusterToLayer(feature, latlng, options) {
     return L.marker(latlng, {
         icon: icon
     });
-}
-
-function _buildIndex(geojson, map, superclusterOptions){
-    // Try to guess max zoom.
-    if(!superclusterOptions || !("maxZoom" in superclusterOptions)){
-        const maxZoom = map._layersMaxZoom;
-        if(maxZoom){
-            if(superclusterOptions){
-                superclusterOptions["maxZoom"] =  maxZoom;
-            }
-            else{
-                superclusterOptions = {maxZoom: maxZoom};
-            }
-        }
-    }
-    // Create index.
-    const index = new Supercluster(superclusterOptions);
-    index.load(geojson.features);
-    return index
 }
 
 function _defaultSpiderfy(map, index, clusters, toSpiderfy) {
@@ -334,83 +429,86 @@ function _defaultSpiderfy(map, index, clusters, toSpiderfy) {
     return spiderfied
 }
 
-// PLAYGROUND
+//#endregion
 
+//#region Events
 
-// export function createGeoJSONHook<GeoJSON, GEO
-// >(useElement: ElementHook<E, P>) {
-//   return function usePath(props: P): ReturnType<ElementHook<E, P>> {
-//     const context = useLeafletContext()
-//     const elementRef = useElement(withPane(props, context), context)
-//
-//     useEventHandlers(elementRef.current, props.eventHandlers)
-//     useLayerLifecycle(elementRef.current, context)
-//     usePathOptions(elementRef.current, props)
-//
-//     return elementRef
-//   }
-// }
-
-function useStuff(element, props, context) {
-    const map = useMap();
-    const {instance} = element;
-    const indexRef = useRef<Supercluster>();
-    const geojsonRef = useRef();
-    const toSpiderfyRef = useRef();
-    // Default events. TODO: Is merging neededed?
-    const onMoveEnd = (e) => _drawClusters(instance, props, map, indexRef.current, toSpiderfyRef);
-    const onClick = (e) => _handle_click(e, instance, props, map, indexRef.current, toSpiderfyRef);
-
-    useEffect(
-        function updateGeojson() {
-            console.log("INVOKE UPDATE")
-            _assembleGeojson(props).then(geojson => {
-                console.log("DOING UPDATE")
-                // Bind update on click.
-                instance.on('click', onClick);
-                // If not cluster, just draw the GeoJSON as usual.
-                if (!props.cluster) {
-                    return _drawGeoJSON(instance, props, map, geojson)
-                }
-                // Setup cluster index.
-                const index = _buildIndex(geojson, map, props.superClusterOptions)
-                // Bind update on map move (this is where the "magic" happens). TODO
-                map.on('moveend', onMoveEnd);
-                // Move the map if necessary.
-                if (props.zoomToBounds && geojson.features.length > 0) {
-                    const dummy = L.geoJSON(geojson);
-                    map.fitBounds(dummy.getBounds())
-                }
-                // Draw the cluster.
-                _drawClusters(instance, props, map, index, toSpiderfyRef)
-                // TODO: Do we need it?
-                indexRef.current = index
-                geojsonRef.current = geojson
-            });
-            return function removeEventHandlers() {
-                instance.off('click', onClick);
-                // Remove manually added event handlers.
-                if (props.cluster) {
-                    map.off('moveend', onMoveEnd);
-                }
-            }
-        },
-        [], //[element, props],
-    )
-
-}
-
-function createGeoJSONComponent(){
-    const useElement = createElementHook(createLeafletElement, updateLeafletElement)
-    const useGeoJSON = (props) => {
-        const context = useLeafletContext()
-        const elementRef = useElement(withPane(props, context), context)
-        useLayerLifecycle(elementRef.current, context)  // MAYBE OK
-        useStuff(elementRef.current, props, context)
-        useEventHandlers(elementRef.current, props.eventHandlers)  // PROBABLY OK
-        return elementRef
+function _handleClick(e, instance, props, map, index, toSpiderfyRef) {
+    const {zoomToBoundsOnClick, spiderfyOnMaxZoom, cluster} = props;
+    // Check if any actions are enabled. If not, just return.
+    if (!zoomToBoundsOnClick && !(cluster && spiderfyOnMaxZoom)) {
+        return
     }
-    return createContainerComponent(useGeoJSON)
+    // If clustering is not enabled, just fly to feature.
+    if (!cluster) {
+        if (e.layer.getBounds) {
+            map.fitBounds(e.layer.getBounds());
+        }
+        return
+    }
+    // If we didn't hit a cluster, return early.
+    if (!e.layer.feature.properties) {
+        return
+    }
+    const clusterId = e.layer.feature.properties.cluster_id;
+    if (!clusterId) {
+        return
+    }
+    // It we get to here, a cluster has been clicked.
+    const {latlng} = e;
+    // Set spiderfy.
+    const expansionZoom = index.getClusterExpansionZoom(clusterId)
+    const spiderfy = expansionZoom > index.options.maxZoom;
+    if (spiderfy) {
+        toSpiderfyRef.current = {"clusterId": clusterId};
+    }
+    // Fly to.
+    if (zoomToBoundsOnClick) {
+        if (spiderfy) {
+            map.flyTo(latlng);
+        } else {
+            map.flyTo(latlng, expansionZoom);
+        }
+    } else {
+        this._redrawClusters(instance, props, map, index, toSpiderfyRef)
+    }
 }
+
+function _getFeature(e) {
+    const feature = e.layer.feature;
+    if (e.layer.getBounds) {
+        let bounds = e.layer.getBounds();
+        feature.bounds = [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]];
+    }
+    return feature;
+}
+
+// TODO: WHAT ABOUT EVENTS?
+function _getDefaultEventHandlers(props) {
+    return {
+        click: (e) => {
+            const p = {n_clicks: props.n_clicks == undefined ? 1 : props.n_clicks + 1}
+            p["data-click"] = _getFeature(e)
+            props.setProps(p)
+        },
+        dblclick: (e) => {
+            const p = {n_dblclicks: props.n_dblclicks == undefined ? 1 : props.n_dblclicks + 1}
+            p["data-dblclick"] = _getFeature(e)
+            props.setProps(p)
+        },
+        keydown: (e) => {
+            const p = {n_keydowns: props.n_keydowns == undefined ? 1 : props.n_keydowns + 1}
+            p["data-keydown"] = pick(e, 'key', 'ctrlKey', 'metaKey', 'shiftKey', 'repeat')
+            props.setProps(p)
+        }
+    }
+
+//#endregion
+
+
+
+}
+
+//#endregion
 
 export const GeoJSON = createGeoJSONComponent()

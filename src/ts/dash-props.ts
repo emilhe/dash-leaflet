@@ -45,22 +45,22 @@ export type LayerGroupProps = Modify<Modify<LP.LayerGroupProps, RLP.LayerGroupPr
 export type FeatureGroupProps = Modify<Modify<LP.FeatureGroupProps, RLP.FeatureGroupProps>, DashComponent>;
 type SuperClusterProps = {
     /**
-     * If true, marker clustering will be performed.
+     * If true, marker clustering will be performed. [DL]
      */
     cluster?: boolean;
 
     /**
-     * Function that determines how a cluster is drawn.
+     * Function that determines how a cluster is drawn. [DL]
      */
     clusterToLayer?: DashFunction;
 
     /**
-     * If true, markers that are not resolved at max zoom level will be spiderfied on click.
+     * If true, markers that are not resolved at max zoom level will be spiderfied on click. [DL]
      */
     spiderfyOnMaxZoom?: boolean;
 
     /**
-     * Options for the SuperCluster object (see https://github.com/mapbox/supercluster for details).
+     * Options for the SuperCluster object (see https://github.com/mapbox/supercluster for details). [DL]
      */
     superClusterOptions?: object;
 }
@@ -72,26 +72,31 @@ export type GeoJSONProps = Modify<Modify<LP.GeoJSONProps, RLP.FeatureGroupProps>
     data?: string | object;
 
     /**
-     * Url to data (use instead of data for better performance). One of data/url must be set.
+     * Url to data (use instead of data for better performance). One of data/url must be set. [DL]
      */
     url?: string;
 
     // Convenience props
 
     /**
-     * If true, zoom to feature bounds on click.
+     * If true, zoom to feature bounds on click. [DL]
      */
     zoomToBoundsOnClick?: boolean;
 
     /**
-     * If true, zoom bounds when data are set.
+     * If true, zoom bounds when data are set. [DL]
      */
     zoomToBounds?: boolean;
+
+    /**
+     * Style function applied on hover. [DL]
+     */
+    hoverStyle?: DashFunction;
 
     // TODO: Maybe just use data attrs?
     /**
      * Object intended for passing variables to functional properties, i.e. clusterToLayer, hoverStyle and
-     * (options) pointToLayer, style, filter, and onEachFeature functions.
+     * (options) pointToLayer, style, filter, and onEachFeature functions. [DL]
      */
     hideout?: string | object,
 
