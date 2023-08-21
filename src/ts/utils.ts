@@ -48,6 +48,9 @@ function resolveVariable(prop, context) {
     }
     // If it's a function, add context.
     if (isFunction(variable) && context) {
+        if ('setProps' in context){
+            robustifySetProps(context)  // TODO: Should we drop this?
+        }
         return (...args) => variable(...args, context)
     }
     // Otherwise, use the variable as-is.
@@ -81,12 +84,25 @@ function resolveAllProps(props, context) {
 
 //#region Event handler resolution
 
+function robustifySetProps(props) {
+    const original = props.setProps
+    props.setProps = (obj) => {
+        for (const [key, value] of Object.entries(obj)) {
+            props[key] = value;
+        }
+        original(obj)
+    }
+}
+
 function getContext(props){
     return {map: useMap(), ...props}
 }
 
-function assignEventHandlers(props, target={}, skipUnDashify=false) {
+function assignEventHandlers(props, target={}, skipUnDashify=false, robust=false) {
     const nProps = Object.assign(target, props);
+    if(robust){
+        robustifySetProps(nProps)
+    }
     nProps.eventHandlers = resolveEventHandlers(nProps)
     return skipUnDashify? nProps : unDashify(nProps, ['disableDefaultEventHandlers']);
 }
@@ -116,19 +132,22 @@ function mergeEventHandlers(defaultEventHandlers, customEventHandlers){
 function getDefaultEventHandlers(props) {
     return {
         click: (e: LeafletMouseEvent) => {
-            const p = {n_clicks: props.n_clicks == undefined ? 1 : props.n_clicks + 1}
-            p["data-click"] = pick(e, 'latlng', 'layerPoint', 'containerPoint')
-            props.setProps(p)
+            props.setProps({
+                n_clicks: props.n_clicks == undefined ? 1 : props.n_clicks + 1,
+                clickData: pick(e, 'latlng', 'layerPoint', 'containerPoint')
+            })
         },
         dblclick: (e: LeafletMouseEvent) => {
-            const p = {n_dblclicks: props.n_dblclicks == undefined ? 1 : props.n_dblclicks + 1}
-            p["data-dblclick"] = pick(e, 'latlng', 'layerPoint', 'containerPoint')
-            props.setProps(p)
+            props.setProps({
+                n_dblclicks: props.n_dblclicks == undefined ? 1 : props.n_dblclicks + 1,
+                dblclickData: pick(e, 'latlng', 'layerPoint', 'containerPoint')
+            })
         },
         keydown: (e) => {
-            const p = {n_keydowns: props.n_keydowns == undefined ? 1 : props.n_keydowns + 1}
-            p["data-keydown"] = pick(e, 'key', 'ctrlKey', 'metaKey', 'shiftKey', 'repeat')
-            props.setProps(p)
+            props.setProps({
+                n_keydowns: props.n_keydowns == undefined ? 1 : props.n_keydowns + 1,
+                dblclickData: pick(e, 'key', 'ctrlKey', 'metaKey', 'shiftKey', 'repeat')
+            })
         },
         load: (e) => {
             props.setProps({n_loads: props.n_loads == undefined ? 1 : props.n_loads + 1})
@@ -206,5 +225,6 @@ export {
     resolveCRS,
     omit, pick, inclusivePick,
     mergeEventHandlers,
-    getContext
+    getContext,
+    robustifySetProps
 };

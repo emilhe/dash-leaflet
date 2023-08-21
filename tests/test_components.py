@@ -22,7 +22,7 @@ def import_selector(component: str):
     return ".leaflet-interactive"
 
 
-@pytest.mark.parametrize("component", ["map_container", "marker", "popup", "image_overlay", "video_overlay", "circle",
+@pytest.mark.parametrize("component", ["map_container", "easy_button", "marker", "popup", "image_overlay", "video_overlay", "circle",
                                        "circle_marker", "polyline", "polygon", "rectangle", "svg_overlay",
                                        "layer_group", "feature_group", "pane", "polyline_decorator", "div_marker", "geojson"])
 def test_click_event(dash_duo, component):
@@ -35,6 +35,8 @@ def test_click_event(dash_duo, component):
     assert dash_duo.find_element("#log").text == "null"
     dash_duo.find_element(selector).click()
     dash_duo.wait_for_contains_text("#log", "1", timeout=1)
+    dash_duo.find_element(selector).click()
+    dash_duo.wait_for_contains_text("#log", "2", timeout=1)
 
 
 @pytest.mark.parametrize("component", ["tile_layer", "wms_tile_layer"])

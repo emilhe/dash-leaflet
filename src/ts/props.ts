@@ -52,10 +52,11 @@ export type EventComponent = {
      */
     disableDefaultEventHandlers?: boolean;
 
-    /**
-     * A wildcard data attribute. Used to pass (dynamic) data from/to Dash callbacks.
-     */
-    'data-*'?: object,
+    // TODO: Add this one, when Dash starts to support it
+    // /**
+    //  * A wildcard data attribute. Used to pass (dynamic) data from/to Dash callbacks.
+    //  */
+    // '*Data'?: object,
 }
 
 export type LoadEvent = {

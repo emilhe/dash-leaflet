@@ -1,7 +1,6 @@
 import React from 'react';
 import {MapContainer as LeafletMapContainer, useMapEvents} from 'react-leaflet';
-import * as L from 'leaflet'
-import {resolveCRS, resolveEventHandlers} from '../utils';
+import {assignEventHandlers, resolveCRS, resolveEventHandlers, robustifySetProps} from '../utils';
 import {MapContainerProps as Props} from '../dash-props';
 // Force loading of basic leaflet CSS.
 import '../../../node_modules/leaflet/dist/leaflet.css';

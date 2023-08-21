@@ -50,7 +50,7 @@ type SuperClusterProps = {
     cluster?: boolean;
 
     /**
-     * Function that determines how a cluster is drawn. [DL]
+     * Function that determines how a cluster is drawn. [MUTABLE, DL]
      */
     clusterToLayer?: DashFunction;
 
@@ -64,15 +64,60 @@ type SuperClusterProps = {
      */
     superClusterOptions?: object;
 }
-export type GeoJSONProps = Modify<Modify<LP.GeoJSONProps, RLP.FeatureGroupProps>, {
+interface GeoJSONOptions extends LP.FeatureGroupProps {
+    /**
+     * Function defining how GeoJSON points spawn Leaflet layers. It is internally called when data is added, passing the GeoJSON point feature and its LatLng. The default is to spawn a default Marker:
+     * function(geoJsonPoint, latlng) {
+     *     return L.marker(latlng);
+     * }
+     * [MUTABLE, DL]
+     */
+    pointToLayer?: DashFunction;
 
     /**
-     * Data (consider using url for better performance). One of data/url must be set.
+     * A Function defining the Path options for styling GeoJSON lines and polygons, called internally when data is added. The default value is to not override any defaults:
+     * function (geoJsonFeature) {
+     *     return {}
+     * }
+     * [MUTABLE, DL]
+     */
+    style?: DashFunction;
+
+    /**
+     * A Function that will be called once for each created Feature, after it has been created and styled. Useful for attaching events and popups to features. The default is to do nothing with the newly created layers:
+     * function (feature, layer) {}
+     * [MUTABLE, DL]
+     */
+    onEachFeature?: DashFunction;
+
+    /**
+     * A Function that will be used to decide whether to include a feature or not. The default is to include all features:
+     * function (geoJsonFeature) {
+     *     return true;
+     * }
+     * [MUTABLE, DL]
+     */
+    filter?: DashFunction;
+
+    /**
+     * A Function that will be used for converting GeoJSON coordinates to LatLngs. The default is the coordsToLatLng static method. [MUTABLE, DL]
+     */
+    coordsToLatLng?: DashFunction;
+
+    /**
+     * Whether default Markers for "Point" type Features inherit from group options.
+     */
+    markersInheritOptions?: boolean;
+}
+export type GeoJSONProps = Modify<Modify<GeoJSONOptions, RLP.FeatureGroupProps>, {
+
+    /**
+     * Data (consider using url for better performance). One of data/url must be set. [MUTABLE, DL]
      */
     data?: string | object;
 
     /**
-     * Url to data (use instead of data for better performance). One of data/url must be set. [DL]
+     * Url to data (use instead of data for better performance). One of data/url must be set. [MUTABLE, DL]
      */
     url?: string;
 
@@ -89,16 +134,22 @@ export type GeoJSONProps = Modify<Modify<LP.GeoJSONProps, RLP.FeatureGroupProps>
     zoomToBounds?: boolean;
 
     /**
-     * Style function applied on hover. [DL]
+     * Style function applied on hover. [MUTABLE, DL]
      */
     hoverStyle?: DashFunction;
 
-    // TODO: Maybe just use data attrs?
     /**
      * Object intended for passing variables to functional properties, i.e. clusterToLayer, hoverStyle and
-     * (options) pointToLayer, style, filter, and onEachFeature functions. [DL]
+     * (options) pointToLayer, style, filter, and onEachFeature functions. [MUTABLE, DL]
      */
-    hideout?: string | object,
+    hideout?: string | object;
+
+    // Legacy approach to inject options.
+
+    /**
+     * Options for the GeoJSON object (see https://leafletjs.com/reference-1.6.0.html#geojson-option for details). [DEPRECATED]
+     */
+    options?: object;
 
 } & SuperClusterProps & DashComponent>;
 export type PaneProps = Modify<RLP.PaneProps, DashComponent>;

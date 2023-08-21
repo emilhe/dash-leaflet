@@ -7,7 +7,7 @@ import {assignEventHandlers} from "../utils";
  * A useful control to geolocate the user with many options. Official Leaflet and MapBox plugin.
  */
 const EasyButton = (props: Props) => {
-    const nProps = assignEventHandlers(props)
+    const nProps = assignEventHandlers(props, {}, false, true)
     const mProps = {
         states: [{
             stateName: 'default',

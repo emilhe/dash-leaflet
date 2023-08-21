@@ -4,10 +4,10 @@
  * modifications are imported from external props definitions.
  */
 
-import {CSSProperties, ReactNode} from "react";
+import {ReactNode} from "react";
 import L, {ControlPosition, FitBoundsOptions, LatLngBoundsExpression} from 'leaflet';
 import {PathProps} from "./leaflet-props";
-import {DashFunction, EventComponent, InteractionEvents, LoadEvent, ParentComponent} from "./props";
+import {EventComponent, InteractionEvents, LoadEvent, ParentComponent} from "./props";
 
 //#region Behavior
 
@@ -232,7 +232,7 @@ export type PaneProps = {
     /**
      * Component style, e.g. { zIndex: 500 } to specify the pane zIndex.
      */
-    style?: CSSProperties;  // TODO: WILL THIS GENERATE SHIT LOADS OF DOCS?
+    style?: object; //CSSProperties;  Generates A LOT of docs
 } & PaneBehavior & ParentComponentBehavior;
 
 export type ZoomControlProps = ControlBehavior & EventedBehavior;
@@ -250,12 +250,12 @@ export type LayersControlProps = {
 
 export type BaseLayerProps = {
     /**
-     * Name if the layer, used for the label in the LayersControl.
+     * Name of the layer, used for the label in the LayersControl.
      */
     name: boolean;
 
     /**
-     * If true, the layer is show, otherwise it's hidden. [MUTABLE]
+     * If true, the layer is shown, otherwise it's hidden. [MUTABLE]
      */
     checked?: boolean;
 } & ParentComponentBehavior;
@@ -296,7 +296,7 @@ export type MapContainerProps = {
     /**
      * Inline map style.
      */
-    style?: CSSProperties;
+    style?: object; //CSSProperties;  Generates A LOT of docs
 
     // /**
     //  * Event that fires when the map loads.
