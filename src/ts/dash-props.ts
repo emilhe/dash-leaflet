@@ -55,7 +55,7 @@ type SuperClusterProps = {
     clusterToLayer?: DashFunction;
 
     /**
-     * If true, markers that are not resolved at max zoom level will be spiderfied on click. [DL]
+     * If true, markers that are not resolved at max zoom level will be spiderfied on click. [MUTABLE, DL]
      */
     spiderfyOnMaxZoom?: boolean;
 
@@ -124,12 +124,12 @@ export type GeoJSONProps = Modify<Modify<GeoJSONOptions, RLP.FeatureGroupProps>,
     // Convenience props
 
     /**
-     * If true, zoom to feature bounds on click. [DL]
+     * If true, zoom to feature bounds on click. [MUTABLE, DL]
      */
     zoomToBoundsOnClick?: boolean;
 
     /**
-     * If true, zoom bounds when data are set. [DL]
+     * If true, zoom bounds when data are set. [MUTABLE, DL]
      */
     zoomToBounds?: boolean;
 
