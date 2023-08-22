@@ -1,6 +1,6 @@
 import React from 'react';
 import {MapContainer as LeafletMapContainer, useMapEvents} from 'react-leaflet';
-import {assignEventHandlers, resolveCRS, resolveEventHandlers, robustifySetProps} from '../utils';
+import {assignEventHandlers, resolveCRS, resolveEventHandlers, resolveRenderer, robustifySetProps} from '../utils';
 import {MapContainerProps as Props} from '../dash-props';
 // Force loading of basic leaflet CSS.
 import '../../../node_modules/leaflet/dist/leaflet.css';
@@ -13,8 +13,8 @@ function EventSubscriber(props) {
 /**
  * Component description
  */
-const MapContainer = ({crs="EPSG3857", ...props}: Props) => {
-    const target = {crs: resolveCRS(crs)}  // map from string repr of CRS to actual object
+const MapContainer = ({crs="EPSG3857", renderer=undefined, ...props}: Props) => {
+    const target = {crs: resolveCRS(crs), renderer: resolveRenderer(renderer)}  // map from string repr of CRS to actual object
     const nProps = Object.assign(target, props);
     // Add a custom event subscriber that exposes events to Dash.
     return (

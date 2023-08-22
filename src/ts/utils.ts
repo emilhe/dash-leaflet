@@ -162,16 +162,16 @@ function getDefaultEventHandlers(props) {
 function unDashify(props: any, extra: string[] = []){
     return omit(props, 'setProps', 'loading_state', ...extra);
 }
-function resolveRenderer(value: { renderer: string, options: object }): L.Renderer{
+function resolveRenderer(value: { method: string, options: object }): L.Renderer{
     if(value === undefined){
         return undefined
     }
-    const {renderer, options} = value;
-    if(renderer === 'svg'){
-        return L.svg({...options})
+    const {method, options} = value;
+    if(method === 'svg'){
+        return options? L.svg({...options}) : L.svg()
     }
-    if(renderer === 'canvas'){
-        return L.canvas({...options})
+    if(method === 'canvas'){
+        return options? L.canvas({...options})  : L.canvas()
     }
 }
 
@@ -216,6 +216,7 @@ const omit = <T extends {}, K extends keyof T>(
 //#endregion
 
 export {
+    resolveProp,
     resolveProps,
     resolveAllProps,
     resolveEventHandlers,

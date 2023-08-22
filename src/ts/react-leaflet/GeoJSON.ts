@@ -4,13 +4,12 @@ import * as L from "leaflet";
 import {useMap} from "react-leaflet";
 import Supercluster from "supercluster";
 import update from "immutability-helper";
-import {getContext, pick, resolveProps} from "../utils";
+import {getContext, pick, resolveProp, resolveProps} from "../utils";
 import {useEffect, useRef} from "react";
 
 require('../marker-cluster.css');
 
-const _funcOptions = ["pointToLayer", "style", "onEachFeature", "filter",
-        "coordsToLatLng", "hoverStyle", "clusterToLayer", "markersInheritOptions"]
+const _funcOptions = ["pointToLayer", "style", "onEachFeature", "filter", "coordsToLatLng"]
 const _options = _funcOptions.concat(["markersInheritOptions"])
 
 //#region Component definition
@@ -35,9 +34,10 @@ function useUpdateGeoJSON(element, props) {
     const _onClick = (e) => _handleClick(e, instance, propsRef.current, map, indexRef.current, toSpiderfyRef);
     const _onMouseOver = (e) => {
         const feature = e.layer.feature;
-        let hoverStyle = (propsRef.current as any).hoverStyle
+        let hoverStyle = propsRef.current.hoverStyle
         // Hover styling.
         if (hoverStyle) {
+            hoverStyle = resolveProp(hoverStyle, {map: map, ...props})
             hoverStyle = typeof hoverStyle === "function" ? hoverStyle(feature) : hoverStyle
             e.layer.setStyle(hoverStyle);
             if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
@@ -51,13 +51,12 @@ function useUpdateGeoJSON(element, props) {
         if (propsRef.current.hoverStyle) {
             instance.resetStyle(e.layer);
         }
+        props.setProps({hoverData: undefined});
     }
     const _bindEvents = () => {
         // Bind hover stuff.
-        if (props.hoverStyle) {
-            instance.on('mouseover', _onMouseOver);
-            instance.on('mouseout', _onMouseOut);
-        }
+        instance.on('mouseover', _onMouseOver);
+        instance.on('mouseout', _onMouseOut);
         // Bind update on click.
         instance.on('click', _onClick);
         // Bind update on map move (this is where the "magic" happens).
@@ -182,8 +181,24 @@ function createGeoJSONComponent(){
 
 function _parseOptions(props, map, indexRef) {
     // TODO: Can it be avoided to do resolveProps here?
-    const options = resolveProps(pick(props, ..._options), _funcOptions,  {map: map, ...props});
-    const {pointToLayer, clusterToLayer} = options
+    const context = {map: map, ...props};
+    const clusterToLayer = props.clusterToLayer? resolveProp(props.clusterToLayer, context) : undefined;
+    const options = resolveProps(pick(props, ..._options), _funcOptions,  context);
+    const {pointToLayer} = options;
+    // Bind default onEachFeature.
+    if (!options.onEachFeature) {
+        options.onEachFeature = (feature, layer) => {
+            if (!feature.properties) {
+                return
+            }
+            if (feature.properties.popup) {
+                layer.bindPopup(feature.properties.popup)
+            }
+            if (feature.properties.tooltip) {
+                layer.bindTooltip(feature.properties.tooltip)
+            }
+        }
+    }
     // When in cluster mode, modify point rendering to treat clusters in a particular way.
     if (props.cluster) {
         options.pointToLayer = (feature, latlng) => {
@@ -444,7 +459,6 @@ function _defaultSpiderfy(map, index, clusters, toSpiderfy) {
 //#region Events
 
 function _handleClick(e, instance, props, map, index, toSpiderfyRef) {
-    console.log("HANDLE CLICK")
     const {zoomToBoundsOnClick, spiderfyOnMaxZoom, cluster} = props;
     // Check if any actions are enabled. If not, just return.
     if (!zoomToBoundsOnClick && !(cluster && spiderfyOnMaxZoom)) {
