@@ -63,14 +63,10 @@ function useUpdateGeoJSON(element, props) {
         map.on('moveend', _onMoveEnd);
     }
     const _unbindEvents = () => {
-        if (props.hoverStyle) {
-            instance.off('mouseover', _onMouseOver);
-            instance.off('mouseout', _onMouseOut);
-        }
+        instance.off('mouseover', _onMouseOver);
+        instance.off('mouseout', _onMouseOut);
         instance.off('click', _onClick);
-        if (props.cluster) {
-            map.off('moveend', _onMoveEnd);
-        }
+        map.off('moveend', _onMoveEnd);
     }
 
     //#endregion
@@ -127,6 +123,13 @@ function useUpdateGeoJSON(element, props) {
                 }
                 if (optionsChanged) {
                     reparseNeeded = true
+                    redrawNeeded = true;
+                }
+                // Update cluster state
+                const clusterStateChanged = prevProps.cluster !== props.cluster;
+                if (clusterStateChanged) {
+                    reindexNeeded = props.cluster
+                    reparseNeeded = true;
                     redrawNeeded = true;
                 }
                 // Update cluster options

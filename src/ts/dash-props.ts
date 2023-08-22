@@ -45,7 +45,7 @@ export type LayerGroupProps = Modify<Modify<LP.LayerGroupProps, RLP.LayerGroupPr
 export type FeatureGroupProps = Modify<Modify<LP.FeatureGroupProps, RLP.FeatureGroupProps>, DashComponent>;
 type SuperClusterProps = {
     /**
-     * If true, marker clustering will be performed. [DL]
+     * If true, marker clustering will be performed. [MUTABLE, DL]
      */
     cluster?: boolean;
 
