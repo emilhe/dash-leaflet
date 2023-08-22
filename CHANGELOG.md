@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [1.0.0] - UNRELEASED
 
+### Added
+
+- Added `Attribution` component
+
 ### Changed
 
 - Library completely rewritten based on React Leaflet v4

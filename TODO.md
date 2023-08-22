@@ -1,6 +1,6 @@
-* Compare current components to dash-leaflet
-
-* TODO: GeoJSON options; are they MUTABLE or NOT? Test!
+* Clean-up the events a BIT more
+* DOUBLE CHECK EDIT_CONTROL EVENT BINDINGS
+* FIX LAYERS CONTROL?
 
 OLD TODO:
 
