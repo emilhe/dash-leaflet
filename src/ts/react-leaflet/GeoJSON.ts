@@ -4,7 +4,7 @@ import * as L from "leaflet";
 import {useMap} from "react-leaflet";
 import Supercluster from "supercluster";
 import update from "immutability-helper";
-import {getContext, pick, resolveProp, resolveProps} from "../utils";
+import {pick, resolveProp, resolveProps} from "../utils";
 import {useEffect, useRef} from "react";
 
 require('../marker-cluster.css');
@@ -108,7 +108,7 @@ function useUpdateGeoJSON(element, props) {
     // This hook is responsible for updates.
     useEffect(
         function updateGeojson() {
-            if(busyRef.current){
+            if (busyRef.current) {
                 return;
             }
             if (propsRef.current !== props) {
@@ -118,7 +118,7 @@ function useUpdateGeoJSON(element, props) {
                 let reindexNeeded = false;
                 // Update element options.
                 let optionsChanged = prevProps.hideout !== props.hideout
-                if(!optionsChanged) {
+                if (!optionsChanged) {
                     _options.forEach(o => {
                         if (prevProps[o] !== props[o]) {
                             optionsChanged = true;
@@ -129,6 +129,12 @@ function useUpdateGeoJSON(element, props) {
                     reparseNeeded = true
                     redrawNeeded = true;
                 }
+                // Update cluster options
+                const clusterOptionsChanged = prevProps.superClusterOptions !== props.superClusterOptions;
+                if (clusterOptionsChanged) {
+                    reindexNeeded = true
+                    redrawNeeded = true;
+                }
                 // Fetch new data.
                 if (prevProps.data !== props.data || prevProps.url !== props.url) {
                     redrawNeeded = false;  // redraw will happen async
@@ -136,14 +142,14 @@ function useUpdateGeoJSON(element, props) {
                     _setData()
                 }
                 // If needed, dispatch actions.
-                if(reindexNeeded){
+                if (reindexNeeded) {
                     indexRef.current = _buildIndex(geojsonRef.current, map, props.superClusterOptions)
                 }
-                if(reparseNeeded){
+                if (reparseNeeded) {
                     instance.options = {...instance.options, ..._parseOptions(props, map, indexRef)}
                 }
-                if(redrawNeeded){
-                   _redraw(instance, props, map, geojsonRef.current, indexRef.current, toSpiderfyRef);
+                if (redrawNeeded) {
+                    _redraw(instance, props, map, geojsonRef.current, indexRef.current, toSpiderfyRef);
                 }
             }
             // Update ref.
@@ -151,8 +157,6 @@ function useUpdateGeoJSON(element, props) {
         },
         [element, props, instance],
     )
-
-
 }
 
 function createGeoJSONComponent(){

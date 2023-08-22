@@ -60,7 +60,7 @@ type SuperClusterProps = {
     spiderfyOnMaxZoom?: boolean;
 
     /**
-     * Options for the SuperCluster object (see https://github.com/mapbox/supercluster for details). [DL]
+     * Options for the SuperCluster object (see https://github.com/mapbox/supercluster for details). [MUTABLE, DL]
      */
     superClusterOptions?: object;
 }
@@ -105,7 +105,7 @@ interface GeoJSONOptions extends LP.FeatureGroupProps {
     coordsToLatLng?: DashFunction;
 
     /**
-     * Whether default Markers for "Point" type Features inherit from group options.
+     * Whether default Markers for "Point" type Features inherit from group options. [MUTABLE, DL]
      */
     markersInheritOptions?: boolean;
 }
