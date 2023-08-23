@@ -156,7 +156,17 @@ export type PaneProps = Modify<RLP.PaneProps, DashComponent>;
 export type ZoomControlProps = Modify<Modify<LP.ZoomControlProps, RLP.ZoomControlProps>, DashComponent>;
 export type AttributionControlProps = Modify<Modify<LP.AttributionControlProps, RLP.AttributionControlProps>, DashComponent>;
 export type ScaleControlProps = Modify<Modify<LP.ScaleControlProps, RLP.ScaleControlProps>, DashComponent>;
-export type LayersControlProps = Modify<Modify<LP.LayersControlProps, RLP.LayersControlProps>, DashComponent>;
+export type LayersControlProps = Modify<Modify<LP.LayersControlProps, RLP.LayersControlProps>, {
+    /**
+     * Name of the currently selected base layer. [DL]
+     */
+    baseLayer?: string,
+
+    /**
+     * Names of the currently selected overlays. [DL]
+     */
+    overlays?: string[]
+} & DashComponent>;
 export type BaseLayerProps = Modify<RLP.BaseLayerProps, DashComponent>;
 export type OverlayProps = Modify<RLP.OverlayProps, DashComponent>;
 export type MapContainerProps =  Modify<Modify<LP.MapProps, RLP.MapContainerProps>, {

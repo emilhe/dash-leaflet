@@ -638,10 +638,10 @@ export interface LayersControlProps extends ControlProps {
      */
     sortLayers?: boolean;
 
-    /**
-     * A compare function that will be used for sorting the layers, when sortLayers is true. The function receives both the L.Layer instances and their names, as in sortFunction(layerA, layerB, nameA, nameB). By default, it sorts layers alphabetically by their name.
-     */
-    sortFunction?: boolean;
+    // /**
+    //  * A compare function that will be used for sorting the layers, when sortLayers is true. The function receives both the L.Layer instances and their names, as in sortFunction(layerA, layerB, nameA, nameB). By default, it sorts layers alphabetically by their name.
+    //  */
+    // sortFunction?: Function;
 }
 
 //#region Map options

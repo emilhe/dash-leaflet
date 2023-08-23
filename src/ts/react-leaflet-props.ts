@@ -246,7 +246,7 @@ export type LayersControlProps = {
      * If true, the control will be collapsed into an icon and expanded on mouse hover, touch, or keyboard activation. [MUTABLE]
      */
     collapsed?: boolean;
-} & ControlBehavior & EventedBehavior & ParentComponentBehavior;
+} & ControlBehavior & ParentComponentBehavior;
 
 export type BaseLayerProps = {
     /**
