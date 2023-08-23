@@ -1,19 +1,21 @@
 import React, { Suspense } from 'react';
 import {EditControlProps as Props} from '../dash-props';
-import {mergeEventHandlers, omit, resolveAllProps, unDashify} from "../utils";
+import {mergeEventHandlers, resolveAllProps, robustifySetProps, unDashify} from "../utils";
 
 // eslint-disable-next-line no-inline-comments
-const LazyEditControl = React.lazy(() => import(/* webpackChunkName: "EditControl" */ '../fragments/EditControl'));
+const LazyEditControl = React.lazy(() => import(/* webpackChunkName: "EditControl.ts" */ '../fragments/EditControl'));
 
 /**
- * EditControl is based on https://github.com/alex3165/react-leaflet-draw/
+ * EditControl.ts is based on https://github.com/alex3165/react-leaflet-draw/
  */
 const EditControl = ({position='topright', draw={}, edit={}, geojson={features: []}, ...props}: Props) => {
     const nProps = Object.assign(props, {geojson: geojson});
+    robustifySetProps(nProps)
     const customEventHandlers = (props.eventHandlers == undefined) ? {} : resolveAllProps(props.eventHandlers, props);
     const defaultEventHandlers = props.disableDefaultEventHandlers ? {} : _getDefaultEventHandlers(props);
     nProps.eventHandlers = mergeEventHandlers(defaultEventHandlers, customEventHandlers)
-    _registerEvents(nProps)
+    console.log(nProps)
+    // _registerEvents(nProps)
     return (
         <div>
             <Suspense fallback={<div>Loading...</div>}>
@@ -23,55 +25,37 @@ const EditControl = ({position='topright', draw={}, edit={}, geojson={features: 
     );
 }
 
-// TODO: Is this really necessary?
-function _setProps(props, newProps) {
-    for (const [key, value] of Object.entries(newProps)) {
-        props[key] = value;
-        props.setProps({...{[key]: value}});
-    }
-}
-
-function _registerEvents(props){
-    Object.keys(props.eventHandlers).forEach(function (key, index) {
-        const event = "on".concat(key.substring(0, 1).toUpperCase()).concat(key.substring(1))
-        props[event] = (e) => {
-            return props.eventHandlers[key](e);
-        }
-    });
-    return omit(props, 'eventHandlers')
-}
-
 function _getDefaultEventHandlers(props) {
     const eventHandlers = {}
     // Bind feature create event.
-    eventHandlers["created"] = (e) => {
+    eventHandlers["draw:created"] = (e) => {
         const feature = _makeFeature({}, e.layer);
-        _setProps(props, {geojson: _makeGeojson(props.geojson.features.concat([feature]))});
+        props.setProps({geojson: _makeGeojson(props.geojson.features.concat([feature]))});
     }
     // Bind feature edit event.
-    eventHandlers["edited"] = (e) => {
-        _setProps(props, {geojson: _makeGeojson(_updateFeatures(e, props.geojson.features))});
+    eventHandlers["draw:edited"] = (e) => {
+        props.setProps({geojson: _makeGeojson(_updateFeatures(e, props.geojson.features))});
     }
     // Bind feature delete event.
-    eventHandlers["deleted"] = (e) => {
-        _setProps(props, {geojson: _makeGeojson(_updateFeatures(e, props.geojson.features))});
+    eventHandlers["draw:deleted"] = (e) => {
+        props.setProps({geojson: _makeGeojson(_updateFeatures(e, props.geojson.features))});
     }
     // Bind mount event. The 1 ms timeout is necessary for the features to be loaded.
-    eventHandlers["mounted"] = (e) => {
+    eventHandlers["draw:mounted"] = (e) => {
         setTimeout(function () {
             const features = []
-            let layers = e.options.edit.featureGroup._layers;
+            let layers = e.instance.options.edit.featureGroup._layers;
             Object.keys(layers).forEach((key) => {
                 features.push(_makeFeature({type: 'mount'}, layers[key]));
             })
-            _setProps(props, {geojson: _makeGeojson(features)});
+            props.setProps({geojson: _makeGeojson(features)});
         }, 1);
     }
     // Bind action events.
-    const actionEvents = ['drawStart', 'drawStop', 'deleteStart', 'deleteStop', 'editStart', 'editStop'];
+    const actionEvents = ['draw:drawStart', 'draw:drawStop', 'draw:deleteStart', 'draw:deleteStop', 'draw:editStart', 'draw:editStop'];
     for (const actionEvent of actionEvents) {
         eventHandlers[actionEvent] = (e) => {
-            _setProps(props, {
+            props.setProps({
                 action: {
                     layer_type: e.layerType, type: e.type,
                     n_actions: props.action == undefined ? 1 : props.action.n_actions + 1

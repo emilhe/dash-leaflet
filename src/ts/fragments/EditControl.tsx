@@ -1,5 +1,6 @@
 import React from 'react';
-import { EditControl as ReactLeafletEditControl, EditControlProps } from 'react-leaflet-draw';
+import { EditControl as ReactLeafletEditControl } from '../react-leaflet/EditControl';
+import { EditControlProps } from 'react-leaflet-draw';
 
 require('../../../node_modules/leaflet-draw/dist/leaflet.draw.css');
 

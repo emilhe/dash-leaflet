@@ -23,6 +23,7 @@
     "@types/chroma-js": "^2.4.0",
     "@types/js-base64": "^3.3.1",
     "@types/leaflet": "^1.9.3",
+    "@types/leaflet-draw": "^1.0.7",
     "@types/leaflet-polylinedecorator": "^1.6.1",
     "@types/leaflet.fullscreen": "^1.6.1",
     "@types/leaflet.locatecontrol": "^0.74.1",

@@ -1,0 +1,106 @@
+import {
+    createControlHook,
+    createElementHook,
+    createLeafComponent,
+    useLeafletContext,
+    createElementObject
+} from "@react-leaflet/core";
+import "leaflet-draw"
+import * as L from "leaflet";
+import {useEffect, useRef} from "react";
+
+
+
+function createEditControl(){
+    const manipulateToolbar = (toolbar, mode, action) => {
+        if(toolbar._activeMode != mode){
+            toolbar._modes[mode].handler.enable();  // enable mode
+        }
+        if (action) {
+            const actionButtons = toolbar._actionButtons;
+            const matches = actionButtons.filter((ab) => ab.button.text.toLowerCase() === action);
+            if (matches.length === 1) {
+                const match = matches[0]
+                match.button.click()  // emulate button click
+            }
+        }
+    }
+    function createDrawElement(props, ctx) {
+        const {layerContainer} = ctx;
+        const {draw, edit, position} = props;
+        const options = {
+            edit: {
+                ...edit,
+                featureGroup: layerContainer,
+            },
+        };
+        if (draw) {
+            options["draw"] = {...draw};
+        }
+        if (position) {
+            options["position"] = position;
+        }
+        return createElementObject(new L.Control.Draw(options), ctx)
+    }
+    function updateDrawElement(instance, props, prevProps) {
+        if (prevProps.drawToolbar !== props.drawToolbar) {
+            const toolbars = instance._toolbars;
+            const {mode, action} = props.drawToolbar;
+            manipulateToolbar(toolbars.draw, mode, action);
+        }
+        if (prevProps.editToolbar !== props.editToolbar) {
+            const toolbars = instance._toolbars;
+            const {mode, action} = props.editToolbar;
+            manipulateToolbar(toolbars.edit, mode, action);
+        }
+    }
+    const useDraw = (props) => {
+        const context = useLeafletContext()
+        const {map, layerContainer} = context;
+        const elementRef = useElement(props, context)
+
+        //#region Events
+
+        const {eventHandlers} = props;
+        const eventHandlersRef = useRef<L.LeafletEventHandlerFnMap | null | undefined>()
+
+        const onDrawCreate = (e) => {
+            const container = layerContainer || map;
+            container.addLayer(e.layer);
+        };
+
+        useEffect(
+            function fireMount() {
+                eventHandlers && eventHandlers['draw:mounted'] && eventHandlers['draw:mounted'](elementRef.current);
+            },
+            [],
+        )
+
+        useEffect(
+            function addEventHandlers() {
+                map.on(L.Draw.Event.CREATED, onDrawCreate);
+                if (eventHandlers != null) {
+                    map.on(eventHandlers)
+                }
+                eventHandlersRef.current = eventHandlers
+                return function removeEventHandlers() {
+                    map.off(L.Draw.Event.CREATED, onDrawCreate);
+                    if (eventHandlersRef.current != null) {
+                        map.off(eventHandlersRef.current)
+                    }
+                    eventHandlersRef.current = null
+                }
+            },
+            [eventHandlers],
+        )
+
+        //#endregion
+
+        return elementRef
+    }
+
+    const useElement = createElementHook(createDrawElement, updateDrawElement)
+    const useControl = createControlHook(useDraw)
+    return createLeafComponent(useControl)
+}
+export const EditControl = createEditControl()

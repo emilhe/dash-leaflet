@@ -1,8 +1,8 @@
+* TODO: For some reason the "Polygon -> Finish" action does not work in the `EditControl`
 * Clean-up the events a BIT more
-* DOUBLE CHECK EDIT_CONTROL EVENT BINDINGS
 * FIX LAYERS CONTROL?
 
-OLD TODO:
+https://github.com/thedirtyfew/dash-leaflet/blob/master/src/lib/components/LayersControl.react.js
 
 TODO:
 
