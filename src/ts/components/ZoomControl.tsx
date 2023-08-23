@@ -1,5 +1,5 @@
 import React from 'react';
-import {assignEventHandlers} from '../utils';
+import {unDashify} from '../utils';
 import { ZoomControl as ReactLeafletZoomControl } from 'react-leaflet';
 import {ZoomControlProps as Props} from '../dash-props';
 
@@ -8,7 +8,7 @@ import {ZoomControlProps as Props} from '../dash-props';
  */
 const ZoomControl = (props: Props) => {
     return (
-        <ReactLeafletZoomControl {...assignEventHandlers(props)}></ReactLeafletZoomControl>
+        <ReactLeafletZoomControl {...unDashify(props)}></ReactLeafletZoomControl>
     )
 }
 

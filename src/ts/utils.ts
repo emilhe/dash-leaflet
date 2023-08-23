@@ -143,12 +143,12 @@ function getDefaultEventHandlers(props) {
                 dblclickData: pick(e, 'latlng', 'layerPoint', 'containerPoint')
             })
         },
-        keydown: (e) => {
-            props.setProps({
-                n_keydowns: props.n_keydowns == undefined ? 1 : props.n_keydowns + 1,
-                dblclickData: pick(e, 'key', 'ctrlKey', 'metaKey', 'shiftKey', 'repeat')
-            })
-        },
+        // keydown: (e) => {
+        //     props.setProps({
+        //         n_keydowns: props.n_keydowns == undefined ? 1 : props.n_keydowns + 1,
+        //         dblclickData: pick(e, 'key', 'ctrlKey', 'metaKey', 'shiftKey', 'repeat')
+        //     })
+        // },
         load: (e) => {
             props.setProps({n_loads: props.n_loads == undefined ? 1 : props.n_loads + 1})
         }

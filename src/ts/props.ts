@@ -59,14 +59,14 @@ export type EventComponent = {
     // '*Data'?: object,
 }
 
-export type LoadEvent = {
+export type LoadEvents = {
     /**
      * An integer that represents the number of times that the load event has fired.
      */
     'n_loads'?: number,
 }
 
-export type InteractionEvents = {
+export type ClickEvents = {
     /**
      * An integer that represents the number of times that this element has been clicked on.
      */
@@ -76,12 +76,15 @@ export type InteractionEvents = {
      * An integer that represents the number of times that this element has been double-clicked on.
      */
     'n_dblclicks'?: number,
+};
 
+export type KeyboardEvents = {
     /**
      * An integer that represents the number of times that the keyboard has been pressed.
      */
-    'n_keydowns'?: number,
+    'n_keydowns'?: number;
 };
+
 
 //#endregion
 

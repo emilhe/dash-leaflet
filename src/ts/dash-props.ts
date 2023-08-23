@@ -182,7 +182,7 @@ export type MapContainerProps =  Modify<Modify<LP.MapProps, RLP.MapContainerProp
         method: 'svg' | 'canvas',
         options: object
     };
-} & DashComponent>;
+}  & DashComponent>;
 
 //#endregion
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {assignEventHandlers} from '../utils';
+import {unDashify} from '../utils';
 import { AttributionControl as ReactLeafletAttributionControl } from 'react-leaflet';
 import {AttributionControlProps as Props} from '../dash-props';
 
@@ -8,7 +8,7 @@ import {AttributionControlProps as Props} from '../dash-props';
  */
 const AttributionControl = (props: Props) => {
     return (
-        <ReactLeafletAttributionControl {...assignEventHandlers(props)}></ReactLeafletAttributionControl>
+        <ReactLeafletAttributionControl {...unDashify(props)}></ReactLeafletAttributionControl>
     )
 }
 

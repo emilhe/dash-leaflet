@@ -7,7 +7,7 @@
 import {ReactNode} from "react";
 import L, {ControlPosition, FitBoundsOptions, LatLngBoundsExpression} from 'leaflet';
 import {PathProps} from "./leaflet-props";
-import {EventComponent, InteractionEvents, LoadEvent, ParentComponent} from "./props";
+import {ClickEvents, EventComponent, KeyboardEvents, LoadEvents, ParentComponent} from "./props";
 
 //#region Behavior
 
@@ -38,32 +38,32 @@ export type PathBehaviour = {
 
 export type MediaOverlayBehaviour = {
     /**
-     * The geographical bounds that the overlay is tied to. [MUTABLLE]
+     * The geographical bounds that the overlay is tied to. [MUTABLE]
      */
     bounds: L.LatLngBoundsExpression;
 
     /**
-     * The overlay opacity. [MUTABLLE]
+     * The overlay opacity. [MUTABLE]
      */
     opacity?: number;
 
     /**
-     * The overlay zIndex. [MUTABLLE]
+     * The overlay zIndex. [MUTABLE]
      */
     zIndex?: number;
-} & LoadEvent
+} & LoadEvents
 
 export type GridLayerBehavior = {
     /**
-     * The layer opacity. [MUTABLLE]
+     * The layer opacity. [MUTABLE]
      */
     opacity?: number;
 
     /**
-     * The layer zIndex. [MUTABLLE]
+     * The layer zIndex. [MUTABLE]
      */
     zIndex?: number;
-} & LoadEvent
+} & LoadEvents
 
 export type ControlBehavior = {
     /**
@@ -76,7 +76,7 @@ export type ControlBehavior = {
 
 export type LayerComponent = EventedBehavior & AtttributionBehavior & PaneBehavior;
 
-export type InteractiveLayerComponent = LayerComponent & InteractionEvents;
+export type InteractiveLayerComponent = LayerComponent & ClickEvents;
 
 export type PathComponent = InteractiveLayerComponent & PathBehaviour;
 
@@ -235,11 +235,11 @@ export type PaneProps = {
     style?: object; //CSSProperties;  Generates A LOT of docs
 } & PaneBehavior & ParentComponentBehavior;
 
-export type ZoomControlProps = ControlBehavior & EventedBehavior;
+export type ZoomControlProps = ControlBehavior;
 
-export type AttributionControlProps = ControlBehavior & EventedBehavior;
+export type AttributionControlProps = ControlBehavior;
 
-export type ScaleControlProps = ControlBehavior & EventedBehavior;
+export type ScaleControlProps = ControlBehavior;
 
 export type LayersControlProps = {
     /**
@@ -302,6 +302,6 @@ export type MapContainerProps = {
     //  * Event that fires when the map loads.
     //  */
     // whenReady?: () => void;
-} & EventedBehavior & LoadEvent & InteractionEvents;
+} & LoadEvents & ClickEvents & KeyboardEvents & EventedBehavior;
 
 //#endregion
