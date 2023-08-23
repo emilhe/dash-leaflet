@@ -1,7 +1,8 @@
 import React, { Suspense } from 'react';
 import {MeasureControlOptions} from '../react-leaflet/MeasureControl';
 import {DashComponent, Modify, unDashify} from "../dash-extensions-js";
-import {EventComponent} from "../events";
+
+import {EventComponent} from "../props";
 
 // eslint-disable-next-line no-inline-comments
 const LazyMeasureControl = React.lazy(() => import(/* webpackChunkName: "MeasureControl" */ '../fragments/MeasureControl'));

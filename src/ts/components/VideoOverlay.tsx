@@ -1,8 +1,8 @@
 import React from 'react';
 import { VideoOverlay as ReactLeafletVideoOverlay } from 'react-leaflet';
-import {VideoOverlayProps} from '../dash-props';
 import {DashComponent, Modify} from "../dash-extensions-js";
-import {assignEventHandlers, ClickEvents, EventComponent, LoadEvents} from "../events";
+import {assignEventHandlers} from "../utils";
+import {ClickEvents, EventComponent, LoadEvents, VideoOverlayProps} from "../props";
 
 type Props = Modify<VideoOverlayProps, EventComponent & ClickEvents & LoadEvents & DashComponent>
 

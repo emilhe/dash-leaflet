@@ -1,9 +1,9 @@
 import React from 'react';
 import L from 'leaflet';
 import { Marker as ReactLeafletMarker } from 'react-leaflet';
-import {MarkerProps} from '../dash-props';
 import {DashComponent, Modify} from "../dash-extensions-js";
-import {assignEventHandlers, ClickEvents, EventComponent} from '../events';
+import {assignEventHandlers} from '../utils';
+import {ClickEvents, EventComponent, MarkerProps} from "../props";
 
 // This forces webpack to use url-loader, and returns the proper base64 encoded URLs to Leaflet
 delete (L.Icon.Default.prototype as any)._getIconUrl;

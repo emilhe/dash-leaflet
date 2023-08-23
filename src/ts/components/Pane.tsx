@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pane as ReactLeafletPane } from 'react-leaflet';
-import {PaneProps} from '../dash-props';
 import {DashComponent, Modify, unDashify} from "../dash-extensions-js";
+import {PaneProps} from "../props";
 
 type Props = Modify<PaneProps, DashComponent>;
 

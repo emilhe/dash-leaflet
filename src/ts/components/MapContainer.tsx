@@ -1,11 +1,10 @@
 import React from 'react';
 import {MapContainer as LeafletMapContainer, useMapEvents} from 'react-leaflet';
-import {resolveCRS, resolveRenderer} from '../utils';
-import {ClickEvents, KeyboardEvents, LoadEvents, resolveEventHandlers} from '../events';
+import {resolveCRS, resolveEventHandlers, resolveRenderer} from '../utils';
 import {DashComponent, Modify} from "../dash-extensions-js";
-import {MapContainerProps} from "../dash-props"
 // Force loading of basic leaflet CSS.
 import '../../../node_modules/leaflet/dist/leaflet.css';
+import {ClickEvents, KeyboardEvents, LoadEvents, MapContainerProps} from "../props";
 
 function EventSubscriber(props) {
     useMapEvents(resolveEventHandlers(props, ["click", "dblclick", "keydown", "load"]))

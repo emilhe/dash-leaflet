@@ -1,8 +1,8 @@
 import React from 'react';
 import { DivMarker as ReactLeafletDivMarker } from '../react-leaflet/DivMarker';
-import {MarkerProps} from '../dash-props';
-import {assignEventHandlers, ClickEvents, EventComponent} from '../events';
+import {assignEventHandlers} from '../utils';
 import {DashComponent, Modify} from "../dash-extensions-js";
+import {ClickEvents, EventComponent, MarkerProps} from "../props";
 
 type Props = Modify<Omit<MarkerProps, "icon">, {
     /**

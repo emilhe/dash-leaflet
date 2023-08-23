@@ -1,8 +1,8 @@
 import React from 'react';
 import { Tooltip as ReactLeafletTooltip } from 'react-leaflet';
-import {TooltipProps} from '../dash-props';
 import {DashComponent, Modify} from "../dash-extensions-js";
-import {assignEventHandlers, ClickEvents, EventComponent} from "../events";
+import {assignEventHandlers} from "../utils";
+import {ClickEvents, EventComponent, TooltipProps} from "../props";
 
 type Props = Modify<TooltipProps, EventComponent & ClickEvents & DashComponent>;
 

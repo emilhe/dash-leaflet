@@ -1,8 +1,8 @@
 import React from 'react';
 import { Rectangle as ReactLeafletRectangle } from 'react-leaflet';
-import {RectangleProps} from '../dash-props';
 import {DashComponent, Modify} from "../dash-extensions-js";
-import {assignEventHandlers, ClickEvents, EventComponent} from "../events";
+import {assignEventHandlers} from "../utils";
+import {ClickEvents, EventComponent, RectangleProps} from "../props";
 
 type Props = Modify<RectangleProps, EventComponent & ClickEvents & DashComponent>;
 

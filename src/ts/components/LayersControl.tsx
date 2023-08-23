@@ -1,7 +1,8 @@
 import React, {useEffect} from 'react';
 import {DashComponent, Modify, unDashify} from '../dash-extensions-js';
 import {LayersControl as ReactLeafletLayersControl, useMapEvents} from 'react-leaflet';
-import {LayersControlProps} from '../dash-props';
+
+import {LayersControlProps} from "../props";
 
 export type Props = Modify<LayersControlProps, {
     /**

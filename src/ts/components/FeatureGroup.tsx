@@ -1,8 +1,8 @@
 import React from 'react';
-import {assignEventHandlers, EventComponent} from '../events';
+import {assignEventHandlers} from '../utils';
 import { FeatureGroup as ReactLeafletFeatureGroup } from 'react-leaflet';
-import {FeatureGroupProps} from '../dash-props';
 import {DashComponent, Modify} from "../dash-extensions-js";
+import {EventComponent, FeatureGroupProps} from "../props";
 
 type Props = Modify<FeatureGroupProps, EventComponent & DashComponent>;
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import { TileLayer as ReactLeafletTileLayer } from 'react-leaflet';
-import {TileLayerProps} from '../dash-props';
 import {DashComponent, Modify} from "../dash-extensions-js";
-import {assignEventHandlers, EventComponent, LoadEvents} from "../events";
+import {assignEventHandlers} from "../utils";
+import {EventComponent, LoadEvents, TileLayerProps} from "../props";
 
 type Props = Modify<TileLayerProps, {
     /**

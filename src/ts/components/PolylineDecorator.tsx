@@ -1,7 +1,8 @@
 import React from 'react';
 import { PolylineDecorator as ReactLeafletPolylineDecorator, PolylineDecoratorProps} from '../react-leaflet/PolylineDecorator';
-import {DashComponent, Modify} from "../props";
-import {assignEventHandlers, ClickEvents, EventComponent} from "../events";
+import {DashComponent, Modify} from "../dash-extensions-js";
+import {assignEventHandlers} from "../utils";
+import {ClickEvents, EventComponent} from "../props";
 
 type Props = Modify<PolylineDecoratorProps, DashComponent & EventComponent & ClickEvents>;
 

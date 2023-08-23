@@ -1,8 +1,8 @@
 import React from 'react';
 import { Circle as ReactLeafletCircle } from 'react-leaflet';
-import {CircleProps} from "../dash-props"
-import {assignEventHandlers, ClickEvents, EventComponent} from '../events';
-import {DashComponent, Modify} from "../props";
+import {assignEventHandlers} from '../utils';
+import {DashComponent, Modify} from "../dash-extensions-js";
+import {CircleProps, ClickEvents, EventComponent} from "../props";
 
 type Props = Modify<CircleProps, DashComponent & EventComponent & ClickEvents>;
 

@@ -9,37 +9,40 @@
  * Recommended to use `type` instead of `interface` so you can define the
  * order of props with types concatenation.
  */
-import {ReactNode} from "react";
 
-export type Modify<T, R> = Omit<T, keyof R> & R;
+import {Modify} from "./dash-extensions-js";
+import * as LP from "./leaflet-props";
+import * as RLP from "./react-leaflet-props";
 
-//#region Dash props
+//#region Combination of Leaflet and React Leaflet props
 
-export type DashComponent = {
-    /**
-     * Unique ID to identify this component in Dash callbacks.
-     */
-    id?: string;
+export type CircleProps = Modify<LP.CircleProps, RLP.CircleProps>;
+export type CircleMarkerProps = Modify<LP.CircleMarkerProps, RLP.CircleMarkerProps>;
+export type PolylineProps = Modify<LP.PolylineProps, RLP.PolylineProps>;
+export type PolygonProps = Modify<LP.PolygonProps, RLP.PolygonProps>;
+export type RectangleProps = Modify<LP.RectangleProps, RLP.RectangleProps>;
+export type SVGOverlayProps = Modify<LP.SVGOverlayProps, RLP.SVGOverlayProps>;
+export type ImageOverlayProps = Modify<LP.ImageOverlayProps, RLP.ImageOverlayProps>;
+export type MarkerProps = Modify<LP.MarkerProps, RLP.MarkerProps>
+export type PopupProps = Modify<LP.PopupProps, RLP.PopupProps>;
+export type TileLayerProps = Modify<LP.TileLayerProps, RLP.TileLayerProps>;
+export type TooltipProps = Modify<LP.TooltipProps, RLP.TooltipProps>;
+export type VideoOverlayProps = Modify<LP.VideoOverlayProps, RLP.VideoOverlayProps>;
+export type WMSTileLayerProps = Modify<LP.WMSTileLayerProps, RLP.WMSTileLayerProps>;
+export type LayerGroupProps = Modify<LP.LayerGroupProps, RLP.LayerGroupProps>;
+export type FeatureGroupProps = Modify<LP.FeatureGroupProps, RLP.FeatureGroupProps>;
+export type PaneProps = RLP.PaneProps;
+export type ZoomControlProps = Modify<LP.ZoomControlProps, RLP.ZoomControlProps>;
+export type AttributionControlProps = Modify<LP.AttributionControlProps, RLP.AttributionControlProps>;
+export type ScaleControlProps = Modify<LP.ScaleControlProps, RLP.ScaleControlProps>;
+export type LayersControlProps = Modify<LP.LayersControlProps, RLP.LayersControlProps>;
+export type BaseLayerProps = RLP.BaseLayerProps;
+export type OverlayProps = RLP.OverlayProps;
+export type MapContainerProps = Modify<LP.MapProps, RLP.MapContainerProps>;
 
-    /**
-     * Function handle that enables triggering Dash callbacks on prop update.
-     */
-    setProps: (props: Record<string, any>) => void;
+//#endregion
 
-    /**
-     * Dash loading state information.
-     */
-    loading_state?: object;
-}
-
-export type ParentComponent = {
-    /**
-     * Component children. [MUTABLE]
-     */
-    children?: ReactNode
-}
-
-export type DashFunction = string | object;
+//#region Event props
 
 export type EventComponent = {
     /**
@@ -85,21 +88,4 @@ export type KeyboardEvents = {
     'n_keydowns'?: number;
 };
 
-
 //#endregion
-
-// //#region Styling
-
-// export type Styled = {
-//     /**
-//      * Component style.
-//      */
-//     style?: CSSProperties;
-
-//     /**
-//      * Component CSS class(es).
-//      */
-//     className?: string;
-// }
-
-// //#endregion

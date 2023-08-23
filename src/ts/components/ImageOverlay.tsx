@@ -1,8 +1,8 @@
 import React from 'react';
 import { ImageOverlay as ReactLeafletImageOverlay } from 'react-leaflet';
-import {assignEventHandlers, ClickEvents, EventComponent, LoadEvents} from '../events';
-import {ImageOverlayProps} from '../dash-props';
+import {assignEventHandlers} from '../utils';
 import {DashComponent, Modify} from "../dash-extensions-js";
+import {ClickEvents, EventComponent, ImageOverlayProps, LoadEvents} from "../props";
 
 type Props = Modify<ImageOverlayProps, EventComponent & ClickEvents & LoadEvents & DashComponent>
 

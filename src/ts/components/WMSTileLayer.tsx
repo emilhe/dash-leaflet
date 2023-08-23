@@ -1,9 +1,8 @@
 import React from 'react';
-import {assignEventHandlers} from '../events';
+import {assignEventHandlers, resolveCRS} from '../utils';
 import { WMSTileLayer as ReactLeafletWMSTileLayer } from 'react-leaflet';
-import {WMSTileLayerProps} from '../dash-props';
 import {DashComponent, Modify, omit} from "../dash-extensions-js";
-import {resolveCRS} from "../utils";
+import {WMSTileLayerProps} from "../props";
 
 export type Props = Modify<WMSTileLayerProps, {
     /**

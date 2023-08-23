@@ -1,8 +1,8 @@
 import React from 'react';
 import { Polygon as ReactLeafletPolygon } from 'react-leaflet';
-import {PolygonProps} from "../dash-props"
-import {assignEventHandlers, ClickEvents, EventComponent} from '../events';
-import {DashComponent, Modify} from "../props";
+import {assignEventHandlers} from '../utils';
+import {DashComponent, Modify} from "../dash-extensions-js";
+import {ClickEvents, EventComponent, PolygonProps} from "../props";
 
 type Props = Modify<PolygonProps, DashComponent & EventComponent & ClickEvents>;
 

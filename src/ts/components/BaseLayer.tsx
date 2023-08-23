@@ -1,5 +1,5 @@
 import {DashComponent, Modify} from "../dash-extensions-js";
-import {BaseLayerProps} from "../dash-props"
+import {BaseLayerProps} from "../props";
 
 type Props = Modify<BaseLayerProps, DashComponent>;
 

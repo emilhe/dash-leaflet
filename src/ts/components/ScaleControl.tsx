@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScaleControl as ReactLeafletScaleControl } from 'react-leaflet';
-import {ScaleControlProps} from '../dash-props';
 import {unDashify, DashComponent, Modify} from "../dash-extensions-js";
+import {ScaleControlProps} from "../props";
 
 type Props = Modify<ScaleControlProps, DashComponent>;
 

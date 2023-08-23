@@ -1,8 +1,8 @@
 import React from 'react';
 import { CircleMarker as ReactLeafletCircleMarker } from 'react-leaflet';
-import {CircleMarkerProps} from "../dash-props"
-import {assignEventHandlers, ClickEvents, EventComponent} from '../events';
-import {DashComponent, Modify} from "../props";
+import {assignEventHandlers} from '../utils';
+import {DashComponent, Modify} from "../dash-extensions-js";
+import {CircleMarkerProps, ClickEvents, EventComponent} from "../props";
 
 type Props = Modify<CircleMarkerProps, DashComponent & EventComponent & ClickEvents>;
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import { SVGOverlay as ReactLeafletSVGOverlay } from 'react-leaflet';
-import {SVGOverlayProps} from '../dash-props';
-import {DashComponent, Modify} from "../props";
-import {assignEventHandlers, ClickEvents, EventComponent} from "../events";
+import {DashComponent, Modify} from "../dash-extensions-js";
+import {assignEventHandlers} from "../utils";
+import {ClickEvents, EventComponent, SVGOverlayProps} from "../props";
 
 type Props = Modify<SVGOverlayProps, DashComponent & EventComponent & ClickEvents>;
 

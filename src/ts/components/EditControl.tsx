@@ -1,7 +1,8 @@
 import React, { Suspense } from 'react';
 import {DashComponent, Modify, resolveAllProps, robustifySetProps, unDashify} from "../dash-extensions-js";
-import {EventComponent, mergeEventHandlers} from "../events";
+import {mergeEventHandlers} from "../utils";
 import { EditControlProps } from '../react-leaflet/EditControl';
+import {EventComponent} from "../props";
 
 // eslint-disable-next-line no-inline-comments
 const LazyEditControl = React.lazy(() => import(/* webpackChunkName: "EditControl.ts" */ '../fragments/EditControl'));

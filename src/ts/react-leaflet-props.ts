@@ -5,15 +5,24 @@
  */
 
 import {ReactNode} from "react";
-import L, {ControlPosition, FitBoundsOptions, LatLngBoundsExpression} from 'leaflet';
+import L, {ControlPosition, FitBoundsOptions, LatLngBoundsExpression, LeafletEventHandlerFnMap} from 'leaflet';
 import {PathProps} from "./leaflet-props";
-import {ClickEvents, EventComponent, KeyboardEvents, LoadEvents, ParentComponent} from "./props";
 
 //#region Behavior
 
-export type ParentComponentBehavior = ParentComponent;
+export type ParentComponentBehavior = {
+    /**
+     * Children [MUTABLE].
+     */
+    children?: ReactNode
+};
 
-export type EventedBehavior = EventComponent;
+export type EventedBehavior = {
+    /**
+     * Object with keys specifying the event type and the value the corresponding event handlers. [MUTABLE]
+     */
+    eventHandlers?: LeafletEventHandlerFnMap;
+};
 
 export type AtttributionBehavior = {
     /**
@@ -51,7 +60,7 @@ export type MediaOverlayBehaviour = {
      * The overlay zIndex. [MUTABLE]
      */
     zIndex?: number;
-} & LoadEvents
+}
 
 export type GridLayerBehavior = {
     /**
@@ -63,7 +72,7 @@ export type GridLayerBehavior = {
      * The layer zIndex. [MUTABLE]
      */
     zIndex?: number;
-} & LoadEvents
+}
 
 export type ControlBehavior = {
     /**
@@ -76,7 +85,7 @@ export type ControlBehavior = {
 
 export type LayerComponent = EventedBehavior & AtttributionBehavior & PaneBehavior;
 
-export type InteractiveLayerComponent = LayerComponent & ClickEvents;
+export type InteractiveLayerComponent = LayerComponent;
 
 export type PathComponent = InteractiveLayerComponent & PathBehaviour;
 
@@ -302,7 +311,7 @@ export type MapContainerProps = {
     //  * Event that fires when the map loads.
     //  */
     // whenReady?: () => void;
-} & LoadEvents & ClickEvents & KeyboardEvents & EventedBehavior;
+} & EventedBehavior;
 
 //#endregion
 

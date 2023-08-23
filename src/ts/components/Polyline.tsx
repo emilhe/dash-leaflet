@@ -1,8 +1,8 @@
 import React from 'react';
 import { Polyline as ReactLeafletPolyline } from 'react-leaflet';
-import {PolylineProps} from "../dash-props"
-import {assignEventHandlers, ClickEvents, EventComponent} from '../events';
-import {DashComponent, Modify} from "../props";
+import {assignEventHandlers} from '../utils';
+import {DashComponent, Modify} from "../dash-extensions-js";
+import {ClickEvents, EventComponent, PolylineProps} from "../props";
 
 type Props = Modify<PolylineProps, DashComponent & EventComponent & ClickEvents>;
 /**
