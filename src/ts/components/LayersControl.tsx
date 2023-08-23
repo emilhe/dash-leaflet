@@ -1,7 +1,19 @@
 import React, {useEffect} from 'react';
-import {unDashify} from '../utils';
+import {DashComponent, Modify, unDashify} from '../dash-extensions-js';
 import {LayersControl as ReactLeafletLayersControl, useMapEvents} from 'react-leaflet';
-import {LayersControlProps as Props} from '../dash-props';
+import {LayersControlProps} from '../dash-props';
+
+export type Props = Modify<LayersControlProps, {
+    /**
+     * Name of the currently selected base layer. [DL]
+     */
+    baseLayer?: string,
+
+    /**
+     * Names of the currently selected overlays. [DL]
+     */
+    overlays?: string[]
+} & DashComponent>;
 
 /**
  * The layers control gives users the ability to switch between different base layers and switch overlays on/off.

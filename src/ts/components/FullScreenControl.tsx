@@ -1,14 +1,15 @@
 import React from 'react';
-import {assignEventHandlers} from '../utils';
-import { FullScreenControl as ReactLeafletFullScreenControl } from '../react-leaflet/FullScreenControl';
-import {FullScreenControlProps as Props} from '../dash-props';
+import { FullScreenControl as ReactLeafletFullScreenControl, FullScreenControlProps} from '../react-leaflet/FullScreenControl';
+import {unDashify, DashComponent, Modify} from "../dash-extensions-js";
+
+type Props = Modify<FullScreenControlProps, DashComponent>;
 
 /**
  * A basic FullScreen control with two buttons (FullScreen in and FullScreen out). It is put on the map by default unless you set its FullScreenControl option to false.
  */
 const FullScreenControl = (props: Props) => {
     return (
-        <ReactLeafletFullScreenControl {...assignEventHandlers(props)}></ReactLeafletFullScreenControl>
+        <ReactLeafletFullScreenControl {...unDashify(props)}></ReactLeafletFullScreenControl>
     )
 }
 

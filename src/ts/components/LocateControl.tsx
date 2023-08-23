@@ -1,8 +1,11 @@
 import React, { Suspense } from 'react';
-import {LocateControlProps as Props} from '../dash-props';
+import {DashComponent, Modify} from '../dash-extensions-js'
+import {LocateControlProps} from "../react-leaflet/LocateControl";
 
 // eslint-disable-next-line no-inline-comments
 const LazyLocateControl = React.lazy(() => import(/* webpackChunkName: "LocateControl" */ '../fragments/LocateControl'));
+
+type Props = Modify<LocateControlProps, DashComponent>;
 
 /**
  * A useful control to geolocate the user with many options. Official Leaflet and MapBox plugin.

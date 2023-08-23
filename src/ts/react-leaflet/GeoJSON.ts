@@ -4,7 +4,7 @@ import * as L from "leaflet";
 import {useMap} from "react-leaflet";
 import Supercluster from "supercluster";
 import update from "immutability-helper";
-import {pick, resolveProp, resolveProps} from "../utils";
+import {pick, resolveProp, resolveProps} from "../dash-extensions-js";
 import {useEffect, useRef} from "react";
 
 require('../marker-cluster.css');

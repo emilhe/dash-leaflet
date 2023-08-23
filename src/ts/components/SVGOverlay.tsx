@@ -1,14 +1,17 @@
 import React from 'react';
-import {assignEventHandlers} from '../utils';
 import { SVGOverlay as ReactLeafletSVGOverlay } from 'react-leaflet';
-import {SVGOverlayProps as Props} from '../dash-props';
+import {SVGOverlayProps} from '../dash-props';
+import {DashComponent, Modify} from "../props";
+import {assignEventHandlers, ClickEvents, EventComponent} from "../events";
+
+type Props = Modify<SVGOverlayProps, DashComponent & EventComponent & ClickEvents>;
 
 /**
  * Used to load, display and provide DOM access to an SVG file over specific bounds of the map.
  */
 const SVGOverlay = (props: Props) => {
     return (
-        <ReactLeafletSVGOverlay {...assignEventHandlers(props)}></ReactLeafletSVGOverlay>
+        <ReactLeafletSVGOverlay {...assignEventHandlers(props, ["click", "dblclick"])}></ReactLeafletSVGOverlay>
     )
 }
 

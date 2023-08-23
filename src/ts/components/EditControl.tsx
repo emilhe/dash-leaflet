@@ -1,9 +1,12 @@
 import React, { Suspense } from 'react';
-import {EditControlProps as Props} from '../dash-props';
-import {mergeEventHandlers, resolveAllProps, robustifySetProps, unDashify} from "../utils";
+import {DashComponent, Modify, resolveAllProps, robustifySetProps, unDashify} from "../dash-extensions-js";
+import {EventComponent, mergeEventHandlers} from "../events";
+import { EditControlProps } from '../react-leaflet/EditControl';
 
 // eslint-disable-next-line no-inline-comments
 const LazyEditControl = React.lazy(() => import(/* webpackChunkName: "EditControl.ts" */ '../fragments/EditControl'));
+
+type Props = Modify<EditControlProps, EventComponent & DashComponent>;
 
 /**
  * EditControl.ts is based on https://github.com/alex3165/react-leaflet-draw/
@@ -14,7 +17,6 @@ const EditControl = ({position='topright', draw={}, edit={}, geojson={features: 
     const customEventHandlers = (props.eventHandlers == undefined) ? {} : resolveAllProps(props.eventHandlers, props);
     const defaultEventHandlers = props.disableDefaultEventHandlers ? {} : _getDefaultEventHandlers(props);
     nProps.eventHandlers = mergeEventHandlers(defaultEventHandlers, customEventHandlers)
-    console.log(nProps)
     // _registerEvents(nProps)
     return (
         <div>

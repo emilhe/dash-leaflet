@@ -1,14 +1,16 @@
 import React from 'react';
-import {assignEventHandlers} from '../utils';
 import { Polyline as ReactLeafletPolyline } from 'react-leaflet';
-import {PolylineProps as Props} from '../dash-props';
+import {PolylineProps} from "../dash-props"
+import {assignEventHandlers, ClickEvents, EventComponent} from '../events';
+import {DashComponent, Modify} from "../props";
 
+type Props = Modify<PolylineProps, DashComponent & EventComponent & ClickEvents>;
 /**
  * A class for drawing polyline overlays on a map.
  */
 const Polyline = (props: Props) => {
     return (
-        <ReactLeafletPolyline {...assignEventHandlers(props)}></ReactLeafletPolyline>
+        <ReactLeafletPolyline {...assignEventHandlers(props, ["click", "dblclick"])}></ReactLeafletPolyline>
     )
 }
 

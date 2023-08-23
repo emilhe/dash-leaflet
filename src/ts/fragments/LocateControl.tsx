@@ -1,11 +1,10 @@
 import React from 'react';
-import { LocateControlProps as Props } from '../dash-props';
 import { LocateControl as ReactLeafletLocateControl } from '../react-leaflet/LocateControl';
 
 /**
  * Lazy loader.
  */
-const LocateControl = (props: Props) => {
+const LocateControl = (props) => {
     return (
         <ReactLeafletLocateControl {...props}></ReactLeafletLocateControl>
     )

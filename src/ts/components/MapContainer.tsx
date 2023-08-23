@@ -1,14 +1,31 @@
 import React from 'react';
 import {MapContainer as LeafletMapContainer, useMapEvents} from 'react-leaflet';
-import {assignEventHandlers, resolveCRS, resolveEventHandlers, resolveRenderer, robustifySetProps} from '../utils';
-import {MapContainerProps as Props} from '../dash-props';
+import {resolveCRS, resolveRenderer} from '../utils';
+import {ClickEvents, KeyboardEvents, LoadEvents, resolveEventHandlers} from '../events';
+import {DashComponent, Modify} from "../dash-extensions-js";
+import {MapContainerProps} from "../dash-props"
 // Force loading of basic leaflet CSS.
 import '../../../node_modules/leaflet/dist/leaflet.css';
 
 function EventSubscriber(props) {
-    const map = useMapEvents(resolveEventHandlers(props))
+    useMapEvents(resolveEventHandlers(props, ["click", "dblclick", "keydown", "load"]))
     return null
 }
+
+type Props = Modify<MapContainerProps, {
+    /**
+     * The Coordinate Reference System to use. Don't change this if you're not sure what it means. [DL]
+     */
+    crs?: string;
+
+    /**
+     * The default method for drawing vector layers on the map. L.SVG or L.Canvas by default depending on browser support.
+     */
+    renderer?: {
+        method: 'svg' | 'canvas',
+        options: object
+    };
+}  & DashComponent & ClickEvents & LoadEvents & KeyboardEvents>;
 
 /**
  * Component description

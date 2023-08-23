@@ -1,7 +1,9 @@
 import React from 'react';
-import {unDashify} from '../utils';
 import { ZoomControl as ReactLeafletZoomControl } from 'react-leaflet';
-import {ZoomControlProps as Props} from '../dash-props';
+import {ZoomControlProps} from '../dash-props';
+import {DashComponent, Modify, unDashify} from "../dash-extensions-js";
+
+type Props = Modify<ZoomControlProps, DashComponent>;
 
 /**
  * A basic zoom control with two buttons (zoom in and zoom out). It is put on the map by default unless you set its zoomControl option to false.

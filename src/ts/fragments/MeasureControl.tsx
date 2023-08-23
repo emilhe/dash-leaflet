@@ -1,11 +1,10 @@
 import React from 'react';
-import { MeasureControlOptions as Props } from '../dash-props';
 import { MeasureControl as ReactLeafletMeasureControl } from '../react-leaflet/MeasureControl';
 
 /**
  * Lazy loader.
  */
-const MeasureControl = (props: Props) => {
+const MeasureControl = (props) => {
     return (
         <ReactLeafletMeasureControl {...props}></ReactLeafletMeasureControl>
     )

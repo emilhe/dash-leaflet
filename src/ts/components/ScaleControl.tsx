@@ -1,7 +1,9 @@
 import React from 'react';
-import {unDashify} from '../utils';
 import { ScaleControl as ReactLeafletScaleControl } from 'react-leaflet';
-import {ScaleControlProps as Props} from '../dash-props';
+import {ScaleControlProps} from '../dash-props';
+import {unDashify, DashComponent, Modify} from "../dash-extensions-js";
+
+type Props = Modify<ScaleControlProps, DashComponent>;
 
 /**
  * A simple scale control that shows the scale of the current center of screen in metric (m/km) and imperial (mi/ft) systems.

@@ -1,10 +1,13 @@
 import React from 'react';
-import {unDashify} from '../utils';
-import { Colorbar as ReactLeafletColorbar } from '../react-leaflet/Colorbar';
-import {ColorbarProps as Props} from '../dash-props';
+import { Colorbar as ReactLeafletColorbar, ColorbarOptions } from '../react-leaflet/Colorbar';
+import {DashComponent, Modify, unDashify} from "../dash-extensions-js";
+
+type Props = Modify<ColorbarOptions, DashComponent>;
 
 /**
- * Marker is used to display clickable/draggable icons on the map. Extends Layer.
+ * Color bar control component for Leaflet. Most of the functionality is
+ * delegated to chroma-js (see the docs for that module). For creating your
+ * own color schemes for maps, have a look at http://colorbrewer2.org.
  */
 const Colorbar = (props: Props) => {
     return (

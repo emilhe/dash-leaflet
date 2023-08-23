@@ -1,7 +1,15 @@
 import React from 'react';
-import {assignEventHandlers} from '../utils';
 import { TileLayer as ReactLeafletTileLayer } from 'react-leaflet';
-import {TileLayerProps as Props} from '../dash-props';
+import {TileLayerProps} from '../dash-props';
+import {DashComponent, Modify} from "../dash-extensions-js";
+import {assignEventHandlers, EventComponent, LoadEvents} from "../events";
+
+type Props = Modify<TileLayerProps, {
+    /**
+     * The URL template in the form 'https://{s}.somedomain.com/blabla/{z}/{x}/{y}{r}.png'. [MUTABLE, DL]
+     */
+    url?: string;
+} & EventComponent & LoadEvents & DashComponent>;
 
 /**
  * Used to load and display tile layers on the map. Note that most tile servers require attribution.
@@ -12,7 +20,7 @@ const TileLayer = ({
     ...props
 }: Props) => {
     return (
-        <ReactLeafletTileLayer {...assignEventHandlers(props, {url:url})}></ReactLeafletTileLayer>
+        <ReactLeafletTileLayer {...assignEventHandlers(props,["load"], {url:url})}></ReactLeafletTileLayer>
     )
 }
 

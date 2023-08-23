@@ -1,7 +1,10 @@
 import React from 'react';
-import {assignEventHandlers} from '../utils';
+import {assignEventHandlers, EventComponent} from '../events';
 import { LayerGroup as ReactLeafletLayerGroup } from 'react-leaflet';
-import {LayerGroupProps as Props} from '../dash-props';
+import {LayerGroupProps} from '../dash-props';
+import {DashComponent, Modify} from "../props";
+
+type Props = Modify<LayerGroupProps, EventComponent & DashComponent>;
 
 /**
  * A class for drawing LayerGroup overlays on a map.

@@ -1,7 +1,10 @@
 import React from 'react';
-import {assignEventHandlers} from '../utils';
 import { VideoOverlay as ReactLeafletVideoOverlay } from 'react-leaflet';
-import {VideoOverlayProps as Props} from '../dash-props';
+import {VideoOverlayProps} from '../dash-props';
+import {DashComponent, Modify} from "../dash-extensions-js";
+import {assignEventHandlers, ClickEvents, EventComponent, LoadEvents} from "../events";
+
+type Props = Modify<VideoOverlayProps, EventComponent & ClickEvents & LoadEvents & DashComponent>
 
 /**
  * Used to load and display a video player over specific bounds of the map. Uses the <video> HTML5 element.
@@ -11,7 +14,7 @@ const VideoOverlay = ({
     ...props
 }: Props) => {
     return (
-        <ReactLeafletVideoOverlay muted={muted} {...assignEventHandlers(props)}></ReactLeafletVideoOverlay>
+        <ReactLeafletVideoOverlay muted={muted} {...assignEventHandlers(props, ["click", "dblclick", "load"])}></ReactLeafletVideoOverlay>
     )
 }
 

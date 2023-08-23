@@ -1,6 +1,45 @@
 import {createElementObject, createPathComponent, extendContext} from "@react-leaflet/core";
 import "leaflet-polylinedecorator";
 import * as L from "leaflet";
+import {ReactNode} from "react";
+
+export type PolylineDecoratorProps = {
+    /**
+     * An array of geographical points (lat, lon)
+     */
+    positions?: number[][] | number[][][],
+
+    /**
+     * The children of this component. If positions are not specified, an attempt is made to read them from the
+     * children property. In this case, the children must be a single PolyLine or a single Polygon.
+     */
+    children?: ReactNode
+
+    /**
+     * List of patterns to be added.
+     */
+    patterns: {
+        // Options of the pattern itself.
+        offset: string,
+        endOffset: string,
+        repeat: string,
+        // What to draw; either dashes, arrow heads or (arbitrary) makers.
+        dash: {
+            pixelSize: number,
+            pathOptions: object
+        },
+        arrowHead: {
+            polygon: boolean,
+            pixelSize: number,
+            headAngle: number,
+            pathOptions: object
+        },
+        marker: {
+            markerOptions: object,
+            rotate: boolean
+        }
+    }[]
+}
 
 function createLeafletElement(props, context) {
   const patterns = _parsePatterns(props);

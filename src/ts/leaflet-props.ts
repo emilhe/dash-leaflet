@@ -4,7 +4,6 @@
  */
 
 import L from 'leaflet';
-import {DashFunction} from "./props";
 
 export interface LayerProps {
     /**

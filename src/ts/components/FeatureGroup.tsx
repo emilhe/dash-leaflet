@@ -1,7 +1,10 @@
 import React from 'react';
-import {assignEventHandlers} from '../utils';
+import {assignEventHandlers, EventComponent} from '../events';
 import { FeatureGroup as ReactLeafletFeatureGroup } from 'react-leaflet';
-import {FeatureGroupProps as Props} from '../dash-props';
+import {FeatureGroupProps} from '../dash-props';
+import {DashComponent, Modify} from "../dash-extensions-js";
+
+type Props = Modify<FeatureGroupProps, EventComponent & DashComponent>;
 
 /**
  * A class for drawing FeatureGroup overlays on a map.
