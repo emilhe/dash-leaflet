@@ -2,9 +2,9 @@ import React from 'react';
 import { Tooltip as ReactLeafletTooltip } from 'react-leaflet';
 import {DashComponent, Modify} from "../dash-extensions-js";
 import {assignEventHandlers} from "../utils";
-import {ClickEvents, EventComponent, TooltipProps} from "../props";
+import {ClickEvents, EventProps, TooltipProps} from "../props";
 
-type Props = Modify<TooltipProps, EventComponent & ClickEvents & DashComponent>;
+type Props = Modify<TooltipProps, EventProps & ClickEvents & DashComponent>;
 
 /**
  * Used to display small texts on top of map layers.

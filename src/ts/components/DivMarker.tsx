@@ -1,8 +1,6 @@
 import React from 'react';
 import { DivMarker as ReactLeafletDivMarker } from '../react-leaflet/DivMarker';
-import {assignEventHandlers} from '../utils';
-import {DashComponent, Modify} from "../dash-extensions-js";
-import {ClickEvents, EventComponent, MarkerProps} from "../props";
+import {MarkerProps, assignClickEventHandlers, ClickComponent, Modify} from "../props";
 
 type Props = Modify<Omit<MarkerProps, "icon">, {
     /**
@@ -15,14 +13,14 @@ type Props = Modify<Omit<MarkerProps, "icon">, {
         className: string,
         html: string
     };
-} & DashComponent & EventComponent & ClickEvents>
+} & ClickComponent>
 
 /**
  * Marker is used to display clickable/draggable icons on the map. Extends Layer.
  */
 const DivMarker = (props: Props) => {
     return (
-        <ReactLeafletDivMarker{...assignEventHandlers(props, ["click", "dblclick"])}></ReactLeafletDivMarker>
+        <ReactLeafletDivMarker{...assignClickEventHandlers(props)}></ReactLeafletDivMarker>
     )
 }
 

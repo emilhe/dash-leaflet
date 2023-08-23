@@ -2,12 +2,12 @@ import React, { Suspense } from 'react';
 import {DashComponent, Modify, resolveAllProps, robustifySetProps, unDashify} from "../dash-extensions-js";
 import {mergeEventHandlers} from "../utils";
 import { EditControlProps } from '../react-leaflet/EditControl';
-import {EventComponent} from "../props";
+import {EventProps} from "../props";
 
 // eslint-disable-next-line no-inline-comments
 const LazyEditControl = React.lazy(() => import(/* webpackChunkName: "EditControl.ts" */ '../fragments/EditControl'));
 
-type Props = Modify<EditControlProps, EventComponent & DashComponent>;
+type Props = Modify<EditControlProps, EventProps & DashComponent>;
 
 /**
  * EditControl.ts is based on https://github.com/alex3165/react-leaflet-draw/

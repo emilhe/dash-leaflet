@@ -10,9 +10,10 @@
  * order of props with types concatenation.
  */
 
-import {Modify} from "./dash-extensions-js";
+import {Modify, DashComponent} from "./dash-extensions-js";
 import * as LP from "./leaflet-props";
 import * as RLP from "./react-leaflet-props";
+import {resolveEventHandlers} from "./utils";
 
 //#region Combination of Leaflet and React Leaflet props
 
@@ -44,7 +45,7 @@ export type MapContainerProps = Modify<LP.MapProps, RLP.MapContainerProps>;
 
 //#region Event props
 
-export type EventComponent = {
+export type EventProps = {
     /**
      * Object with keys specifying the event type and the value the corresponding event handlers. [MUTABLE]
      */
@@ -89,3 +90,40 @@ export type KeyboardEvents = {
 };
 
 //#endregion
+
+//#region Behavior
+
+// TODO: Maybe use the one from utils?
+export function _assignEventHandlers(props, defaultEvents: string[] = [], target) {
+    const nProps = Object.assign(target, props);
+    nProps.eventHandlers = resolveEventHandlers(nProps, defaultEvents)
+    return nProps
+}
+
+export function assignEventHandlers(props, target={}) {
+    return _assignEventHandlers(props, [], target);
+}
+
+export type EventComponent = DashComponent & EventProps & ClickEvents
+
+export function assignClickEventHandlers(props, target={}) {
+    return _assignEventHandlers(props, ["click", "dblclick"], target);
+}
+
+export type ClickComponent = DashComponent & EventProps & ClickEvents
+
+export function assignLoadEventHandlers(props, target={}) {
+    return _assignEventHandlers(props, ["load"], target);
+}
+
+export type LoadComponent = DashComponent & EventProps & LoadEvents
+
+export function assignMediaEventHandlers(props, target={}) {
+    return _assignEventHandlers(props, ["click", "dblclick", "load"], target)
+}
+
+export type MediaComponent = DashComponent & EventProps & ClickEvents & LoadEvents
+
+//#endregion
+
+export { DashComponent, Modify } from './dash-extensions-js';

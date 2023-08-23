@@ -6,7 +6,7 @@ import {
 } from '../dash-extensions-js';
 import {mergeEventHandlers} from '../utils';
 
-import {ClickEvents, EventComponent, FeatureGroupProps} from "../props";
+import {ClickEvents, EventProps, FeatureGroupProps} from "../props";
 
 type SuperClusterOptions = {
     /**
@@ -116,7 +116,7 @@ type Props = Modify<Modify<FeatureGroupProps, GeoJSONOptions>, {
      */
     options?: object;
 
-} & SuperClusterOptions & EventComponent & ClickEvents & DashComponent>;
+} & SuperClusterOptions & EventProps & ClickEvents & DashComponent>;
 
 // eslint-disable-next-line no-inline-comments
 const LazyGeoJSON = React.lazy(() => import(/* webpackChunkName: "GeoJSON" */ '../fragments/GeoJSON'));

@@ -2,8 +2,10 @@ import * as L from 'leaflet'
 import {LeafletMouseEvent} from 'leaflet'
 import {useMap} from "react-leaflet";
 import {pick, resolveAllProps, robustifySetProps, unDashify} from "./dash-extensions-js"
+import {ClickEvents, EventProps, DashComponent} from "./props";
 
 //#region Events
+
 export function getContext(props){
     return {map: useMap(), ...props}
 }
@@ -19,7 +21,7 @@ export function assignEventHandlers(props, defaultEvents: string[] = [], target=
 
 export function resolveEventHandlers(props, defaultEvents = undefined) {
     const customEventHandlers = (props.eventHandlers === undefined) ? {} : resolveAllProps(props.eventHandlers, getContext(props));
-    const _defaultEventHandlers = props.disableDefaultEventHandlers ? {} : getDefaultEventHandlers(props, defaultEvents);
+    const _defaultEventHandlers = props.disableDefaultEventHandlers ? {} : _getDefaultEventHandlers(props, defaultEvents);
     return mergeEventHandlers(_defaultEventHandlers, customEventHandlers)
 }
 
@@ -39,11 +41,11 @@ export function mergeEventHandlers(defaultEventHandlers, customEventHandlers){
     return eventHandlers
 }
 
-function getDefaultEventHandlers(props, defaultEvents) {
-    if(defaultEvents === undefined){
+function _getDefaultEventHandlers(props, events) {
+    if(events === undefined){
         return {}
     }
-    const defaults =  {
+    const defaultEventHandlers =  {
         click: (e: LeafletMouseEvent) => {
             props.setProps({
                 n_clicks: props.n_clicks == undefined ? 1 : props.n_clicks + 1,
@@ -66,7 +68,7 @@ function getDefaultEventHandlers(props, defaultEvents) {
             props.setProps({n_loads: props.n_loads == undefined ? 1 : props.n_loads + 1})
         }
     }
-    return pick(defaults, defaultEvents)
+    return pick(defaultEventHandlers, ...events)
 }
 
 //#endregion
@@ -93,3 +95,5 @@ export function resolveCRS(value: string): L.CRS {
 }
 
 //#endregion
+
+export { unDashify, omit } from './dash-extensions-js';

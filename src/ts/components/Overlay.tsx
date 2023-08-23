@@ -1,6 +1,4 @@
-import {DashComponent, Modify} from "../dash-extensions-js";
-
-import {OverlayProps} from "../props";
+import {OverlayProps, DashComponent, Modify} from "../props";
 
 type Props = Modify<OverlayProps, DashComponent>;
 

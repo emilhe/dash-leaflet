@@ -2,9 +2,9 @@ import React from 'react';
 import { Popup as ReactLeafletPopup } from 'react-leaflet';
 import {DashComponent, Modify} from "../dash-extensions-js";
 import {assignEventHandlers} from "../utils";
-import {ClickEvents, EventComponent, PopupProps} from "../props";
+import {ClickEvents, EventProps, PopupProps} from "../props";
 
-type Props = Modify<PopupProps, EventComponent & ClickEvents & DashComponent>;
+type Props = Modify<PopupProps, EventProps & ClickEvents & DashComponent>;
 
 /**
  * Used to open popups in certain places of the map.

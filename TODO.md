@@ -1,12 +1,16 @@
 * TODO: For some reason the "Polygon -> Finish" action does not work in the `EditControl`
-* Clean-up the events a BIT more
 
-* TODO: LOOK INTO MAP EVENT SUBSCRIPTION STUFF, e.g. 
+TODO
+
+* Check that things work
+* LOOK INTO MAP EVENT SUBSCRIPTION STUFF, e.g. 
 
 // events are fired when entering or exiting fullscreen.
 map.on('enterFullscreen', function(){
   console.log('entered fullscreen');
 });
+
+* Consider the new design. Is it better? Should imports be reduced more?
 
 TODO:
 

@@ -2,7 +2,7 @@ import React from 'react';
 import {EasyButton as ReactLeafletEasyButton, EasyButtonProps} from "../react-leaflet/EasyButton";
 import {assignEventHandlers} from "../utils";
 import {DashComponent, Modify} from "../dash-extensions-js";
-import {EventComponent} from "../props";
+import {EventProps} from "../props";
 
 type Props = Modify<EasyButtonProps, DashComponent>;
 
