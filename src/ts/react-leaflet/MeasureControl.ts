@@ -5,7 +5,7 @@ import {ControlProps} from "../leaflet-props";
 
 require('leaflet-measure/dist/leaflet-measure.css');
 
-export type MeasureControlOptions = {
+export type MeasureControlProps = {
     /**
      * The primary units used to display length results.
      */
@@ -19,12 +19,12 @@ export type MeasureControlOptions = {
     /**
      * The primary units used to display area results.
      */
-    primaryAreaUnit?: "acres" | "hectares"| "sqfeet"| "sqmeters"| "sqmiles";
+    primaryAreaUnit?: "acres" | "hectares" | "sqfeet" | "sqmeters" | "sqmiles";
 
     /**
      * The secondary units used to display area results.
      */
-    secondaryAreaUnit?: "acres" | "hectares"| "sqfeet"| "sqmeters"| "sqmiles";
+    secondaryAreaUnit?: "acres" | "hectares" | "sqfeet" | "sqmeters" | "sqmiles";
 
     /**
      * The color to use for map features rendered while actively performing a measurement.
@@ -63,7 +63,7 @@ export type MeasureControlOptions = {
 } & ControlProps;
 
 // https://github.com/ljagis/leaflet-measure/issues/171#issuecomment-1137483548
-function _bugfix(){
+function _bugfix() {
     (L.Control as any).Measure.include({
         // set icon on the capture marker
         _setCaptureMarkerIcon: function () {
@@ -79,9 +79,9 @@ function _bugfix(){
     });
 }
 
-function createLeafletElement(props: any) {
-    _bugfix();
-    return new (L.Control as any).Measure(props);
-}
-
-export const MeasureControl = createControlComponent(createLeafletElement);
+export const MeasureControl = createControlComponent<any, MeasureControlProps>(
+    function createLeafletElement(props) {
+        _bugfix();
+        return new (L.Control as any).Measure(props);
+    }
+);

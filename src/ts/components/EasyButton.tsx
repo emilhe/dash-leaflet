@@ -1,22 +1,46 @@
 import React from 'react';
-import {EasyButton as ReactLeafletEasyButton, EasyButtonProps} from "../react-leaflet/EasyButton";
-import {assignEventHandlers} from "../utils";
-import {DashComponent, Modify} from "../dash-extensions-js";
-import {EventProps} from "../props";
+import {EasyButton as ReactLeafletEasyButton} from "../react-leaflet/EasyButton";
+import {
+    DashComponent,
+    Modify,
+    SingleClickEvent,
+    EventComponent,
+    assignEventHandlers
+} from "../props";
+import {ControlProps} from "../leaflet-props";
 
-type Props = Modify<EasyButtonProps, DashComponent>;
+type Props = Modify<{
+    /**
+     * The icon to show, e.g. 'fa-globe' from "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+     */
+    icon: string,
+
+    /**
+     * Title on the button.
+     */
+    title?: string,
+
+} & ControlProps, SingleClickEvent & EventComponent & DashComponent>;
 
 /**
- * A useful control to geolocate the user with many options. Official Leaflet and MapBox plugin.
+ * The easiest way to add buttons with Leaflet.
  */
 const EasyButton = (props: Props) => {
-    const nProps = assignEventHandlers(props, ["click"], {}, false, true)
+    const nProps = assignEventHandlers(props, {}, true)
     const mProps = {
         states: [{
             stateName: 'default',
             icon: nProps.icon,
             title: nProps.title,
-            onClick: nProps.eventHandlers.click
+            onClick: (btn, map) => {
+                if(nProps.eventHandlers && nProps.eventHandlers["click"]){
+                    nProps.eventHandlers["click"](btn);
+                }
+                if(nProps.disableDefaultEventHandlers){return;}
+                nProps.setProps({
+                    n_clicks: nProps.n_clicks == undefined ? 1 : nProps.n_clicks + 1
+                })
+            }
         }],
     }
     return (

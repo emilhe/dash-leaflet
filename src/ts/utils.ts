@@ -96,4 +96,4 @@ export function resolveCRS(value: string): L.CRS {
 
 //#endregion
 
-export { unDashify, omit } from './dash-extensions-js';
+export { pick, omit } from './dash-extensions-js';

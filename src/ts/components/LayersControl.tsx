@@ -1,8 +1,6 @@
 import React, {useEffect} from 'react';
-import {DashComponent, Modify, unDashify} from '../dash-extensions-js';
 import {LayersControl as ReactLeafletLayersControl, useMapEvents} from 'react-leaflet';
-
-import {LayersControlProps} from "../props";
+import {LayersControlProps, DashComponent, Modify} from "../props";
 
 export type Props = Modify<LayersControlProps, {
     /**
@@ -60,7 +58,7 @@ const LayersControl = (props: Props) => {
     }, []);
     // Render the component.
     return (
-        <ReactLeafletLayersControl {...unDashify(props)}></ReactLeafletLayersControl>
+        <ReactLeafletLayersControl {...props}></ReactLeafletLayersControl>
     )
 }
 

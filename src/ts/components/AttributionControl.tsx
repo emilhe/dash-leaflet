@@ -1,7 +1,6 @@
 import React from 'react';
 import { AttributionControl as ReactLeafletAttributionControl } from 'react-leaflet';
-import {DashComponent, Modify, unDashify} from "../dash-extensions-js";
-import {AttributionControlProps} from "../props";
+import {AttributionControlProps, DashComponent, Modify} from "../props";
 
 type Props = Modify<AttributionControlProps, DashComponent>;
 
@@ -10,7 +9,7 @@ type Props = Modify<AttributionControlProps, DashComponent>;
  */
 const AttributionControl = (props: Props) => {
     return (
-        <ReactLeafletAttributionControl {...unDashify(props)}></ReactLeafletAttributionControl>
+        <ReactLeafletAttributionControl {...props}></ReactLeafletAttributionControl>
     )
 }
 

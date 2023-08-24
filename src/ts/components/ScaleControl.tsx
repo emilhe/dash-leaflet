@@ -1,7 +1,6 @@
 import React from 'react';
 import { ScaleControl as ReactLeafletScaleControl } from 'react-leaflet';
-import {unDashify, DashComponent, Modify} from "../dash-extensions-js";
-import {ScaleControlProps} from "../props";
+import {ScaleControlProps, DashComponent, Modify} from "../props";
 
 type Props = Modify<ScaleControlProps, DashComponent>;
 
@@ -10,7 +9,7 @@ type Props = Modify<ScaleControlProps, DashComponent>;
  */
 const ScaleControl = (props: Props) => {
     return (
-        <ReactLeafletScaleControl {...unDashify(props)}></ReactLeafletScaleControl>
+        <ReactLeafletScaleControl {...props}></ReactLeafletScaleControl>
     )
 }
 

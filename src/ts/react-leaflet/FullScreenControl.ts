@@ -37,8 +37,8 @@ export type FullScreenControlProps = {
     fullscreenElement?: false | HTMLElement;
 } & ControlProps;
 
-function createLeafletElement(props: L.Control.FullscreenOptions) {
-    return L.control.fullscreen(props);
-}
-
-export const FullScreenControl = createControlComponent(createLeafletElement);
+export const FullScreenControl = createControlComponent<L.Control.Fullscreen, FullScreenControlProps>(
+    function createLeafletElement(props) {
+        return L.control.fullscreen(props);
+    }
+);

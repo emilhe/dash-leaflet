@@ -1,18 +1,24 @@
-import React, { Suspense } from 'react';
-import {DashComponent, Modify, resolveAllProps, robustifySetProps, unDashify} from "../dash-extensions-js";
+import React, {Suspense} from 'react';
 import {mergeEventHandlers} from "../utils";
-import { EditControlProps } from '../react-leaflet/EditControl';
-import {EventProps} from "../props";
+import {EditControlProps} from '../react-leaflet/EditControl';
+import {EventProps, DashComponent, Modify, resolveAllProps, robustifySetProps} from "../props";
 
 // eslint-disable-next-line no-inline-comments
 const LazyEditControl = React.lazy(() => import(/* webpackChunkName: "EditControl.ts" */ '../fragments/EditControl'));
 
-type Props = Modify<EditControlProps, EventProps & DashComponent>;
+type Props = Modify<EditControlProps, {
+    /**
+     * Geojson representing the current features.
+     */
+    geojson?: {
+        features: object[]
+    },
+} & EventProps & DashComponent>;
 
 /**
  * EditControl.ts is based on https://github.com/alex3165/react-leaflet-draw/
  */
-const EditControl = ({position='topright', draw={}, edit={}, geojson={features: []}, ...props}: Props) => {
+const EditControl = ({position = 'topright', draw = {}, edit = {}, geojson = {features: []}, ...props}: Props) => {
     const nProps = Object.assign(props, {geojson: geojson});
     robustifySetProps(nProps)
     const customEventHandlers = (props.eventHandlers == undefined) ? {} : resolveAllProps(props.eventHandlers, props);
@@ -22,7 +28,7 @@ const EditControl = ({position='topright', draw={}, edit={}, geojson={features: 
     return (
         <div>
             <Suspense fallback={<div>Loading...</div>}>
-                <LazyEditControl position={position} draw={draw} edit={edit} {...unDashify(nProps)}  />
+                <LazyEditControl position={position} draw={draw} edit={edit} {...nProps}  />
             </Suspense>
         </div>
     );
@@ -120,11 +126,11 @@ function _makeFeature(properties, layer) {
     return {type: "Feature", properties: properties, geometry: geometry}
 }
 
-function _makeGeojson (features){
+function _makeGeojson(features) {
     return {type: "FeatureCollection", features: features}
 }
 
-function _updateFeatures(e, features){
+function _updateFeatures(e, features) {
     // Create a map of the features which have changed.
     const featureMap = {};
     Object.keys(e.layers._layers).forEach((key) => {

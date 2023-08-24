@@ -1,10 +1,10 @@
 import React from 'react';
-import { LocateControl as ReactLeafletLocateControl } from '../react-leaflet/LocateControl';
+import {LocateControl as ReactLeafletLocateControl, LocateControlProps} from '../react-leaflet/LocateControl';
 
 /**
  * Lazy loader.
  */
-const LocateControl = (props) => {
+const LocateControl = (props: LocateControlProps) => {
     return (
         <ReactLeafletLocateControl {...props}></ReactLeafletLocateControl>
     )

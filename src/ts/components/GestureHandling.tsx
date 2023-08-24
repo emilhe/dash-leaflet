@@ -1,6 +1,6 @@
 import React from 'react';
 import { GestureHandling as ReactLeafletGestureHandling, GestureHandlingProps} from '../react-leaflet/GestureHandling';
-import {DashComponent, Modify, unDashify} from "../dash-extensions-js";
+import {DashComponent, Modify} from "../props";
 
 type Props = Modify<GestureHandlingProps, DashComponent>;
 
@@ -9,7 +9,7 @@ type Props = Modify<GestureHandlingProps, DashComponent>;
  */
 const GestureHandling = (props: Props) => {
     return (
-        <ReactLeafletGestureHandling {...unDashify(props)}></ReactLeafletGestureHandling>
+        <ReactLeafletGestureHandling {...props}></ReactLeafletGestureHandling>
     )
 }
 

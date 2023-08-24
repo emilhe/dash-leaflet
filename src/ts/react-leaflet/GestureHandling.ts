@@ -2,7 +2,6 @@ import "leaflet-gesture-handling";
 import {useMap} from "react-leaflet";
 import {useEffect} from "react";
 
-import "leaflet/dist/leaflet.css";
 import "leaflet-gesture-handling/dist/leaflet-gesture-handling.css";
 
 // TODO: https://github.com/elmarquis/Leaflet.GestureHandling/issues/47#issuecomment-775158618
@@ -32,7 +31,7 @@ export const GestureHandling = (props: any) => {
         map.gestureHandlingOptions = props;  // TODO: Doesn't work for some reason?
         map.gestureHandling.enable();
         return () => {
-            map.gestureHandling.disenable();
+            map.gestureHandling.disable();
         }
     })
 

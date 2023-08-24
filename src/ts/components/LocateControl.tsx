@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import {DashComponent, Modify} from '../dash-extensions-js'
+import {DashComponent, Modify} from '../props'
 import {LocateControlProps} from "../react-leaflet/LocateControl";
 
 // eslint-disable-next-line no-inline-comments

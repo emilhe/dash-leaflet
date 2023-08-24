@@ -13,7 +13,7 @@
 import {Modify, DashComponent} from "./dash-extensions-js";
 import * as LP from "./leaflet-props";
 import * as RLP from "./react-leaflet-props";
-import {resolveEventHandlers} from "./utils";
+import {resolveEventHandlers, assignEventHandlers as _assignEventHandlers} from "./utils";
 
 //#region Combination of Leaflet and React Leaflet props
 
@@ -70,17 +70,21 @@ export type LoadEvents = {
     'n_loads'?: number,
 }
 
-export type ClickEvents = {
+export type SingleClickEvent = {
     /**
      * An integer that represents the number of times that this element has been clicked on.
      */
     'n_clicks'?: number,
-
-    /**
-     * An integer that represents the number of times that this element has been double-clicked on.
-     */
-    'n_dblclicks'?: number,
 };
+
+export type DoubleClickEvent = {
+    /**
+     * An integer that represents the number of times that this element has been clicked on.
+     */
+    'n_clicks'?: number,
+};
+
+export type ClickEvents = SingleClickEvent & DoubleClickEvent;
 
 export type KeyboardEvents = {
     /**
@@ -93,37 +97,32 @@ export type KeyboardEvents = {
 
 //#region Behavior
 
-// TODO: Maybe use the one from utils?
-export function _assignEventHandlers(props, defaultEvents: string[] = [], target) {
-    const nProps = Object.assign(target, props);
-    nProps.eventHandlers = resolveEventHandlers(nProps, defaultEvents)
-    return nProps
-}
+// TODO: Maybe rename/refactor this part?
 
-export function assignEventHandlers(props, target={}) {
-    return _assignEventHandlers(props, [], target);
+export function assignEventHandlers(props, target={}, robustify=false) {
+    return _assignEventHandlers(props, [], target, true, robustify);
 }
 
 export type EventComponent = DashComponent & EventProps & ClickEvents
 
-export function assignClickEventHandlers(props, target={}) {
-    return _assignEventHandlers(props, ["click", "dblclick"], target);
+export function assignClickEventHandlers(props, target={}, robustify=false) {
+    return _assignEventHandlers(props, ["click", "dblclick"], target, true, robustify);
 }
 
 export type ClickComponent = DashComponent & EventProps & ClickEvents
 
-export function assignLoadEventHandlers(props, target={}) {
-    return _assignEventHandlers(props, ["load"], target);
+export function assignLoadEventHandlers(props, target={}, robustify=false) {
+    return _assignEventHandlers(props, ["load"], target, true, robustify);
 }
 
 export type LoadComponent = DashComponent & EventProps & LoadEvents
 
-export function assignMediaEventHandlers(props, target={}) {
-    return _assignEventHandlers(props, ["click", "dblclick", "load"], target)
+export function assignMediaEventHandlers(props, target={}, robustify=false) {
+    return _assignEventHandlers(props, ["click", "dblclick", "load"], target, robustify)
 }
 
 export type MediaComponent = DashComponent & EventProps & ClickEvents & LoadEvents
 
 //#endregion
 
-export { DashComponent, Modify } from './dash-extensions-js';
+export { DashComponent, Modify, DashFunction, unDashify, robustifySetProps, resolveProp, resolveAllProps } from './dash-extensions-js';

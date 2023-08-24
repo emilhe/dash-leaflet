@@ -163,8 +163,12 @@ export type LocateControlProps = {
 
 } & ControlProps;
 
-function createLeafletElement(props: L.Control.LocateOptions) {
+function createLeafletElement(props: LocateControlProps) {
     return new L.Control.Locate(props);
 }
 
-export const LocateControl = createControlComponent(createLeafletElement);
+export const LocateControl = createControlComponent<L.Control.Locate, LocateControlProps>(
+    function createLeafletElement(props: LocateControlProps) {
+        return new L.Control.Locate(props);
+    }
+);

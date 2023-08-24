@@ -9,6 +9,7 @@ import "leaflet-draw"
 import * as L from "leaflet";
 import {useEffect, useRef} from "react";
 import {ControlProps} from "../leaflet-props";
+import {EventedBehavior} from "../react-leaflet-props";
 
 export type EditControlProps = {
     /**
@@ -50,31 +51,24 @@ export type EditControlProps = {
         n_clicks: number,
     };
 
-    /**
-     * Geojson representing the current features.
-     */
-    geojson?: {
-        features: object[]
-    },
+} & ControlProps & EventedBehavior;
 
-    // TODO: Think about event mapping. Just use the handler map stuff? ADD TEST TO CHECK THAT IT WORKS!
-
-} & ControlProps;
-
-function createEditControl(){
-    const manipulateToolbar = (toolbar, mode, action) => {
-        if(toolbar._activeMode != mode){
-            toolbar._modes[mode].handler.enable();  // enable mode
-        }
-        if (action) {
-            const actionButtons = toolbar._actionButtons;
-            const matches = actionButtons.filter((ab) => ab.button.text.toLowerCase() === action);
-            if (matches.length === 1) {
-                const match = matches[0]
-                match.button.click()  // emulate button click
-            }
+const manipulateToolbar = (toolbar, mode, action) => {
+    if (toolbar._activeMode != mode) {
+        toolbar._modes[mode].handler.enable();  // enable mode
+    }
+    if (action) {
+        const actionButtons = toolbar._actionButtons;
+        const matches = actionButtons.filter((ab) => ab.button.text.toLowerCase() === action);
+        if (matches.length === 1) {
+            const match = matches[0]
+            match.button.click()  // emulate button click
         }
     }
+}
+
+
+function createEditControl(){
     function createDrawElement(props, ctx) {
         const {layerContainer} = ctx;
         const {draw, edit, position} = props;
@@ -104,7 +98,7 @@ function createEditControl(){
             manipulateToolbar(toolbars.edit, mode, action);
         }
     }
-    const useDraw = (props) => {
+    const useDraw = (props: EditControlProps) => {
         const context = useLeafletContext()
         const {map, layerContainer} = context;
         const elementRef = useElement(props, context)
@@ -151,6 +145,6 @@ function createEditControl(){
 
     const useElement = createElementHook(createDrawElement, updateDrawElement)
     const useControl = createControlHook(useDraw)
-    return createLeafComponent(useControl)
+    return createLeafComponent<typeof L.Control.Draw, EditControlProps>(useControl)
 }
 export const EditControl = createEditControl()

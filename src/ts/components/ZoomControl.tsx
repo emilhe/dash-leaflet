@@ -1,7 +1,6 @@
 import React from 'react';
 import { ZoomControl as ReactLeafletZoomControl } from 'react-leaflet';
-import {DashComponent, Modify, unDashify} from "../dash-extensions-js";
-import {ZoomControlProps} from "../props";
+import {ZoomControlProps, DashComponent, Modify} from "../props";
 
 type Props = Modify<ZoomControlProps, DashComponent>;
 
@@ -10,7 +9,7 @@ type Props = Modify<ZoomControlProps, DashComponent>;
  */
 const ZoomControl = (props: Props) => {
     return (
-        <ReactLeafletZoomControl {...unDashify(props)}></ReactLeafletZoomControl>
+        <ReactLeafletZoomControl {...props}></ReactLeafletZoomControl>
     )
 }
 

@@ -1,9 +1,9 @@
-import { Control, Util, DomUtil, DomEvent } from 'leaflet';
+import {Control, Util, DomUtil, DomEvent} from 'leaflet';
 import chroma from 'chroma-js';
 import {createElementHook, createElementObject, createLeafComponent, createControlHook} from '@react-leaflet/core';
 import * as LP from "../leaflet-props";
 
-export type ColorbarOptions = {
+export type ColorbarProps = {
     /**
      * Chroma-js colorscale. Either a colorscale name, e.g. "Viridis", or a list of colors,
      * e.g. ["black", "#fdd49e", "rgba(255,0,0,0.35)"].
@@ -58,7 +58,7 @@ export type ColorbarOptions = {
      */
     tickValues?: number[],
 
-   /**
+    /**
      * If set, this text will be used instead of the data values.
      */
     tickText?: number[],
@@ -91,7 +91,6 @@ export type ColorbarOptions = {
  * delegated to chroma-js (see the docs for that module). For creating your
  * own color schemes for maps, have a look at http://colorbrewer2.org.
  */
-
 const ReactLeafletColorbar = Control.extend({
     options: {
         position: 'topright',
@@ -111,20 +110,24 @@ const ReactLeafletColorbar = Control.extend({
         className: null,
         tooltip: true,
     },
-	initialize: function (options) {
-		Util.setOptions(this, options);
-	},
-	onAdd: function (map) {
-		this._container = DomUtil.create('div', 'leaflet-control-colorbar');
-		DomEvent.disableClickPropagation(this._container);
-        if (this.options.className) { DomUtil.addClass(this._container, this.options.className); }
+    initialize: function (options) {
+        Util.setOptions(this, options);
+    },
+    onAdd: function (map) {
+        this._container = DomUtil.create('div', 'leaflet-control-colorbar');
+        DomEvent.disableClickPropagation(this._container);
+        if (this.options.className) {
+            DomUtil.addClass(this._container, this.options.className);
+        }
 
-		this._update();
+        this._update();
 
-		return this._container;
-	},
-	_update: function () {
-		if (!this._map) { return; }
+        return this._container;
+    },
+    _update: function () {
+        if (!this._map) {
+            return;
+        }
 
         // Unpack stuff.
         const {min, max, colorscale, classes, tickDecimals, unit, width, height, tooltip, opacity} = this.options;
@@ -150,33 +153,36 @@ const ReactLeafletColorbar = Control.extend({
             for (let i = 0; i < nTicks; i++) {
                 tickValues.push(min + range * i / (nTicks - 1))
             }
-        }
-        else{
+        } else {
             nTicks = tickValues.length;
         }
         // Calculate tick positions.
-        let tickPositions = tickValues.map(function (tick) { return (tick -  min) / range });
-        tickPositions.push(1-tickPositions[tickPositions.length]);
+        let tickPositions = tickValues.map(function (tick) {
+            return (tick - min) / range
+        });
+        tickPositions.push(1 - tickPositions[tickPositions.length]);
         // Calculate tick labels. TODO: Raise an error, if lengths do not match?
         tickText = tickText ? tickText :
-            tickValues.map(function (tick) { return String(tick.toFixed(dec)) + " " + String(unit)});
+            tickValues.map(function (tick) {
+                return String(tick.toFixed(dec)) + " " + String(unit)
+            });
 
         let h = '';
         if (width > height) {
             // Horizontal
             h += `<div style="display: block">`
             // Draw the colorbar itself.
-            for (let i=0; i<width; i++) {
-                const x = range*i/width + min;
+            for (let i = 0; i < width; i++) {
+                const x = range * i / width + min;
                 const rgba = scale(x).get('rgba');
-                const title = tooltip? "title=\"" + x.toFixed(dec) + "\"" : "";
-                h += `<span "${title}" style="display: inline-block; background-color: rgba(${rgba[0]},${rgba[1]},${rgba[2]},${rgba[3]*opacity}); width: 1px; height: ${height}px"></span>`;
+                const title = tooltip ? "title=\"" + x.toFixed(dec) + "\"" : "";
+                h += `<span "${title}" style="display: inline-block; background-color: rgba(${rgba[0]},${rgba[1]},${rgba[2]},${rgba[3] * opacity}); width: 1px; height: ${height}px"></span>`;
             }
-            h += `</div><div style="display: block; padding-bottom: 0em; margin-right: ${10 - width/(nTicks - 1)}px; margin-top: -3px">`
+            h += `</div><div style="display: block; padding-bottom: 0em; margin-right: ${10 - width / (nTicks - 1)}px; margin-top: -3px">`
             // Add the ticks.
-            h += `<span style="display: inline-block; transform: translate(-50%,0); text-align: center; width: ${tickPositions[0]* width}px"></span>`;
-            for (let i=0; i<nTicks; i++) {
-                let shift = (tickPositions[i+1] - tickPositions[i]) * width;
+            h += `<span style="display: inline-block; transform: translate(-50%,0); text-align: center; width: ${tickPositions[0] * width}px"></span>`;
+            for (let i = 0; i < nTicks; i++) {
+                let shift = (tickPositions[i + 1] - tickPositions[i]) * width;
                 h += `<span style="display: inline-block; transform: translate(-50%,0); text-align: center; width: ${shift}px">${tickText[i]}</span>`;
             }
             h += `</div>`
@@ -185,18 +191,18 @@ const ReactLeafletColorbar = Control.extend({
             // Vertical
             h += `<div style="display: inline-block; margin-top: 5px">`
             // Draw the colorbar itself.
-            for (let i=0; i<height; i++) {
-                const x = max - range*i/height;
+            for (let i = 0; i < height; i++) {
+                const x = max - range * i / height;
                 const rgba = scale(x).get('rgba');
-                const title = tooltip? "title=\"" + x.toFixed(dec) + "\"" : "";
-                h += `<span ${title} style="display: block; background-color: rgba(${rgba[0]},${rgba[1]},${rgba[2]},${rgba[3]*opacity}); height: 1px; width: ${width}px"></span>`;
+                const title = tooltip ? "title=\"" + x.toFixed(dec) + "\"" : "";
+                h += `<span ${title} style="display: block; background-color: rgba(${rgba[0]},${rgba[1]},${rgba[2]},${rgba[3] * opacity}); height: 1px; width: ${width}px"></span>`;
             }
             h += `</div><div style="position: relative; display: inline-block; vertical-align: top; height: ${height}px; padding-left: 0.3em; margin-top: 5px">`
             // Add the ticks.
-            h += `<span style="display: block; margin-bottom: ${tickPositions[0]* height }px; line-height: 0px; white-space: nowrap"></span>`;
-            for (let i=0; i<nTicks; i++) {
-                let shift  = (tickPositions[i+1] - tickPositions[i]) * height;
-                h += `<span style="display: block; margin-bottom: ${shift}px; line-height: 0px; white-space: nowrap">${tickText[nTicks-i-1]}</span>`;
+            h += `<span style="display: block; margin-bottom: ${tickPositions[0] * height}px; line-height: 0px; white-space: nowrap"></span>`;
+            for (let i = 0; i < nTicks; i++) {
+                let shift = (tickPositions[i + 1] - tickPositions[i]) * height;
+                h += `<span style="display: block; margin-bottom: ${shift}px; line-height: 0px; white-space: nowrap">${tickText[nTicks - i - 1]}</span>`;
             }
             h += `</div>`
         }
@@ -269,49 +275,51 @@ const ReactLeafletColorbar = Control.extend({
     }
 })
 
-function createLeafletElement(props: ColorbarOptions, context) {
-    return createElementObject(new ReactLeafletColorbar(props), context)
-}
-
- function updateLeafletElement(instance, props, prevProps) {
-     if (props.colorscale !== prevProps.colorscale) {
-         instance.setColorscale(props.colorscale);
-     }
-     if (props.tooltip !== prevProps.tooltip) {
-         instance.setTooltip(props.tooltip);
-     }
-     if (props.min !== prevProps.min) {
-         instance.setMin(props.min);
-     }
-     if (props.max !== prevProps.max) {
-         instance.setMax(props.max);
-     }
-     if (props.unit !== prevProps.unit) {
-         instance.setUnit(props.unit);
-     }
-     if (props.classes !== prevProps.classes) {
-         instance.setClasses(props.classes);
-     }
-     if (props.opacity !== prevProps.opacity) {
-         instance.setOpacity(props.opacity);
-     }
-     if (props.nTicks !== prevProps.nTicks) {
-         instance.setNTicks(props.nTicks);
-     }
-     if (props.tickDecimals !== prevProps.tickDecimals) {
-         instance.setTickDecimals(props.tickDecimals);
-     }
-     if (props.tickValues !== prevProps.tickValues) {
-         instance.setTickValues(props.tickValues);
-     }
-     if (props.tickText !== prevProps.tickText) {
-         instance.setTickText(props.tickText);
-     }
-     if (props.className !== prevProps.className) {
-         instance.setClassName(prevProps.className, props.className);
-     }
- }
-
-export const Colorbar = createLeafComponent(createControlHook(createElementHook(createLeafletElement, updateLeafletElement)))
+export const Colorbar = createLeafComponent<typeof ReactLeafletColorbar, ColorbarProps>(
+    createControlHook(createElementHook(
+            function createLeafletElement(props, context) {
+                return createElementObject(new ReactLeafletColorbar(props), context)
+            },
+            function updateLeafletElement(instance: any, props, prevProps) {
+                if (props.colorscale !== prevProps.colorscale) {
+                    instance.setColorscale(props.colorscale);
+                }
+                if (props.tooltip !== prevProps.tooltip) {
+                    instance.setTooltip(props.tooltip);
+                }
+                if (props.min !== prevProps.min) {
+                    instance.setMin(props.min);
+                }
+                if (props.max !== prevProps.max) {
+                    instance.setMax(props.max);
+                }
+                if (props.unit !== prevProps.unit) {
+                    instance.setUnit(props.unit);
+                }
+                if (props.classes !== prevProps.classes) {
+                    instance.setClasses(props.classes);
+                }
+                if (props.opacity !== prevProps.opacity) {
+                    instance.setOpacity(props.opacity);
+                }
+                if (props.nTicks !== prevProps.nTicks) {
+                    instance.setNTicks(props.nTicks);
+                }
+                if (props.tickDecimals !== prevProps.tickDecimals) {
+                    instance.setTickDecimals(props.tickDecimals);
+                }
+                if (props.tickValues !== prevProps.tickValues) {
+                    instance.setTickValues(props.tickValues);
+                }
+                if (props.tickText !== prevProps.tickText) {
+                    instance.setTickText(props.tickText);
+                }
+                if (props.className !== prevProps.className) {
+                    instance.setClassName(prevProps.className, props.className);
+                }
+            }
+        )
+    )
+)
 
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { FullScreenControl as ReactLeafletFullScreenControl, FullScreenControlProps} from '../react-leaflet/FullScreenControl';
-import {unDashify, DashComponent, Modify} from "../dash-extensions-js";
+import { DashComponent, Modify} from "../props";
 
 type Props = Modify<FullScreenControlProps, DashComponent>;
 
@@ -9,7 +9,7 @@ type Props = Modify<FullScreenControlProps, DashComponent>;
  */
 const FullScreenControl = (props: Props) => {
     return (
-        <ReactLeafletFullScreenControl {...unDashify(props)}></ReactLeafletFullScreenControl>
+        <ReactLeafletFullScreenControl {...props}></ReactLeafletFullScreenControl>
     )
 }
 

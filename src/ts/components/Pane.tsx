@@ -1,7 +1,6 @@
 import React from 'react';
 import { Pane as ReactLeafletPane } from 'react-leaflet';
-import {DashComponent, Modify, unDashify} from "../dash-extensions-js";
-import {PaneProps} from "../props";
+import {PaneProps, DashComponent, Modify} from "../props";
 
 type Props = Modify<PaneProps, DashComponent>;
 
@@ -10,7 +9,7 @@ type Props = Modify<PaneProps, DashComponent>;
  */
 const Pane = ({name, ...props}: Props) => {
     return (
-        <ReactLeafletPane name={name} {...unDashify(props)}></ReactLeafletPane>
+        <ReactLeafletPane name={name} {...props}></ReactLeafletPane>
     )
 }
 

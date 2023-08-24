@@ -1,17 +1,15 @@
 import React from 'react';
 import { Popup as ReactLeafletPopup } from 'react-leaflet';
-import {DashComponent, Modify} from "../dash-extensions-js";
-import {assignEventHandlers} from "../utils";
-import {ClickEvents, EventProps, PopupProps} from "../props";
+import {ClickComponent, PopupProps, Modify, assignClickEventHandlers} from "../props";
 
-type Props = Modify<PopupProps, EventProps & ClickEvents & DashComponent>;
+type Props = Modify<PopupProps, ClickComponent>;
 
 /**
  * Used to open popups in certain places of the map.
  */
 const Popup = (props: Props) => {
     return (
-        <ReactLeafletPopup {...assignEventHandlers(props, ["click", "dblclick"])}></ReactLeafletPopup>
+        <ReactLeafletPopup {...assignClickEventHandlers(props)}></ReactLeafletPopup>
     )
 }
 

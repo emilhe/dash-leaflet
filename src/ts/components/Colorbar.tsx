@@ -1,8 +1,8 @@
 import React from 'react';
-import { Colorbar as ReactLeafletColorbar, ColorbarOptions } from '../react-leaflet/Colorbar';
-import {DashComponent, Modify, unDashify} from "../dash-extensions-js";
+import { Colorbar as ReactLeafletColorbar, ColorbarProps } from '../react-leaflet/Colorbar';
+import {DashComponent, Modify} from "../props";
 
-type Props = Modify<ColorbarOptions, DashComponent>;
+type Props = Modify<ColorbarProps, DashComponent>;
 
 /**
  * Color bar control component for Leaflet. Most of the functionality is
@@ -11,7 +11,7 @@ type Props = Modify<ColorbarOptions, DashComponent>;
  */
 const Colorbar = (props: Props) => {
     return (
-        <ReactLeafletColorbar{...unDashify(props)}></ReactLeafletColorbar>
+        <ReactLeafletColorbar{...props}></ReactLeafletColorbar>
     )
 }
 

@@ -150,6 +150,7 @@ export function robustifySetProps(props) {
         }
         original(obj)
     }
+    return props;
 }
 
 //#endregion
