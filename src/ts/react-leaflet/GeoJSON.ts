@@ -1,191 +1,122 @@
-import {createElementHook, createElementObject, withPane, extendContext, useEventHandlers, useLayerLifecycle, createContainerComponent, useLeafletContext, } from "@react-leaflet/core";
-import "leaflet-polylinedecorator";
+import {useEffect, useRef} from "react";
 import * as L from "leaflet";
 import {useMap} from "react-leaflet";
+import {createElementHook, createElementObject, withPane, extendContext, useEventHandlers, useLayerLifecycle, createContainerComponent, useLeafletContext, LeafletElement} from "@react-leaflet/core";
 import Supercluster from "supercluster";
 import update from "immutability-helper";
-import {pick, resolveProp, resolveProps} from "../dash-extensions-js";
-import {useEffect, useRef} from "react";
+import {pick} from "../utils";
+import {FeatureGroupProps, DashFunction, Modify, resolveProp, resolveProps} from "../props";
 
 require('../marker-cluster.css');
 
+type SuperClusterOptions = {
+    /**
+     * If true, marker clustering will be performed. [MUTABLE, DL]
+     */
+    cluster?: boolean;
+
+    /**
+     * Function that determines how a cluster is drawn. [MUTABLE, DL]
+     */
+    clusterToLayer?: DashFunction;
+
+    /**
+     * If true, markers that are not resolved at max zoom level will be spiderfied on click. [MUTABLE, DL]
+     */
+    spiderfyOnMaxZoom?: boolean;
+
+    /**
+     * Options for the SuperCluster object (see https://github.com/mapbox/supercluster for details). [MUTABLE, DL]
+     */
+    superClusterOptions?: object;
+}
+type GeoJSONOptions = {
+    /**
+     * Function defining how GeoJSON points spawn Leaflet layers. It is internally called when data is added, passing the GeoJSON point feature and its LatLng. The default is to spawn a default Marker:
+     * function(geoJsonPoint, latlng) {
+     *     return L.marker(latlng);
+     * }
+     * [MUTABLE, DL]
+     */
+    pointToLayer?: DashFunction;
+
+    /**
+     * A Function defining the Path options for styling GeoJSON lines and polygons, called internally when data is added. The default value is to not override any defaults:
+     * function (geoJsonFeature) {
+     *     return {}
+     * }
+     * [MUTABLE, DL]
+     */
+    style?: DashFunction;
+
+    /**
+     * A Function that will be called once for each created Feature, after it has been created and styled. Useful for attaching events and popups to features. The default is to do nothing with the newly created layers:
+     * function (feature, layer) {}
+     * [MUTABLE, DL]
+     */
+    onEachFeature?: DashFunction;
+
+    /**
+     * A Function that will be used to decide whether to include a feature or not. The default is to include all features:
+     * function (geoJsonFeature) {
+     *     return true;
+     * }
+     * [MUTABLE, DL]
+     */
+    filter?: DashFunction;
+
+    /**
+     * A Function that will be used for converting GeoJSON coordinates to LatLngs. The default is the coordsToLatLng static method. [MUTABLE, DL]
+     */
+    coordsToLatLng?: DashFunction;
+
+    /**
+     * Whether default Markers for "Point" type Features inherit from group options. [MUTABLE, DL]
+     */
+    markersInheritOptions?: boolean;
+}
+export type GeoJSONProps = Modify<Modify<FeatureGroupProps, GeoJSONOptions>, {
+
+    /**
+     * Data (consider using url for better performance). One of data/url must be set. [MUTABLE, DL]
+     */
+    data?: string | object;
+
+    /**
+     * Url to data (use instead of data for better performance). One of data/url must be set. [MUTABLE, DL]
+     */
+    url?: string;
+
+    // Convenience props
+
+    /**
+     * If true, zoom to feature bounds on click. [MUTABLE, DL]
+     */
+    zoomToBoundsOnClick?: boolean;
+
+    /**
+     * If true, zoom bounds when data are set. [MUTABLE, DL]
+     */
+    zoomToBounds?: boolean;
+
+    /**
+     * Style function applied on hover. [MUTABLE, DL]
+     */
+    hoverStyle?: DashFunction;
+
+    /**
+     * Object intended for passing variables to functional properties, i.e. clusterToLayer, hoverStyle and
+     * (options) pointToLayer, style, filter, and onEachFeature functions. [MUTABLE, DL]
+     */
+    hideout?: string | object;
+
+} & SuperClusterOptions>;
+
+
+//#region Data update
+
 const _funcOptions = ["pointToLayer", "style", "onEachFeature", "filter", "coordsToLatLng"]
 const _options = _funcOptions.concat(["markersInheritOptions"])
-
-//#region Component definition
-function useUpdateGeoJSON(element, props) {
-    const map = useMap();
-    const {instance} = element;
-    // Setup references.
-    const indexRef = useRef<Supercluster>();
-    const geojsonRef = useRef();
-    const toSpiderfyRef = useRef<object>();
-    const propsRef = useRef(props)
-    const busyRef = useRef(false)
-
-    //#region Events
-
-    const _onMoveEnd = (e) => {
-        if (!propsRef.current.cluster) {
-            return;
-        }
-        _redrawClusters(instance, propsRef.current, map, indexRef.current, toSpiderfyRef)
-    };
-    const _onClick = (e) => _handleClick(e, instance, propsRef.current, map, indexRef.current, toSpiderfyRef);
-    const _onMouseOver = (e) => {
-        const feature = e.layer.feature;
-        let hoverStyle = propsRef.current.hoverStyle
-        // Hover styling.
-        if (hoverStyle) {
-            hoverStyle = resolveProp(hoverStyle, {map: map, ...props})
-            hoverStyle = typeof hoverStyle === "function" ? hoverStyle(feature) : hoverStyle
-            e.layer.setStyle(hoverStyle);
-            if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-                e.layer.bringToFront();
-            }
-        }
-        props.setProps({hoverData: feature});
-    }
-    const _onMouseOut = (e) => {
-        // Hover styling.
-        if (propsRef.current.hoverStyle) {
-            instance.resetStyle(e.layer);
-        }
-        props.setProps({hoverData: undefined});
-    }
-    const _bindEvents = () => {
-        // Bind hover stuff.
-        instance.on('mouseover', _onMouseOver);
-        instance.on('mouseout', _onMouseOut);
-        // Bind update on click.
-        instance.on('click', _onClick);
-        // Bind update on map move (this is where the "magic" happens).
-        map.on('moveend', _onMoveEnd);
-    }
-    const _unbindEvents = () => {
-        instance.off('mouseover', _onMouseOver);
-        instance.off('mouseout', _onMouseOut);
-        instance.off('click', _onClick);
-        map.off('moveend', _onMoveEnd);
-    }
-
-    //#endregion
-
-    const _setData = (init: boolean = false) => {
-        busyRef.current = true;
-        _fetchGeoJSON(props).then(geojson => {
-            // Cache the data for later reuse.
-            geojsonRef.current = geojson
-            // Register events on init.
-            if (init) {
-                _bindEvents()  // TODO: Is it necessary ever to re-register?
-            }
-            // Refresh index.
-            if (props.cluster) {
-                indexRef.current = _buildIndex(geojson, map, props.superClusterOptions)
-            }
-            // Draw stuff.
-            _redraw(instance, props, map, geojson, indexRef.current, toSpiderfyRef);
-            // Mark as not busy.
-            busyRef.current = false;
-        });
-    }
-    // This hook is responsible for initialization and cleanup.
-    useEffect(
-        function initGeojson() {
-            instance.options = _parseOptions(props, map, indexRef);
-            _setData(true);
-            return function removeEventHandlers() {
-                _unbindEvents();
-            }
-        },
-        [instance],
-    )
-    // This hook is responsible for updates.
-    useEffect(
-        function updateGeojson() {
-            if (busyRef.current) {
-                return;
-            }
-            if (propsRef.current !== props) {
-                const prevProps = propsRef.current as any;
-                let reparseNeeded = false;
-                let redrawNeeded = false;
-                let reindexNeeded = false;
-                // Update element options.
-                let optionsChanged = prevProps.hideout !== props.hideout
-                if (!optionsChanged) {
-                    _options.forEach(o => {
-                        if (prevProps[o] !== props[o]) {
-                            optionsChanged = true;
-                        }
-                    });
-                }
-                if (optionsChanged) {
-                    reparseNeeded = true
-                    redrawNeeded = true;
-                }
-                // Update cluster state
-                const clusterStateChanged = prevProps.cluster !== props.cluster;
-                if (clusterStateChanged) {
-                    reindexNeeded = props.cluster
-                    reparseNeeded = true;
-                    redrawNeeded = true;
-                }
-                // Update cluster options
-                const clusterOptionsChanged = prevProps.superClusterOptions !== props.superClusterOptions;
-                if (clusterOptionsChanged) {
-                    reindexNeeded = true
-                    redrawNeeded = true;
-                }
-                // Fetch new data.
-                if (prevProps.data !== props.data || prevProps.url !== props.url) {
-                    redrawNeeded = false;  // redraw will happen async
-                    reindexNeeded = false;  // reindex will happen async
-                    _setData()
-                }
-                // If needed, dispatch actions.
-                if (reindexNeeded) {
-                    indexRef.current = _buildIndex(geojsonRef.current, map, props.superClusterOptions)
-                }
-                if (reparseNeeded) {
-                    instance.options = {...instance.options, ..._parseOptions(props, map, indexRef)}
-                }
-                if (redrawNeeded) {
-                    _redraw(instance, props, map, geojsonRef.current, indexRef.current, toSpiderfyRef);
-                }
-            }
-            // Update ref.
-            propsRef.current = props
-        },
-        [element, props, instance],
-    )
-}
-
-function createGeoJSONComponent(){
-    // Return an initially empty object, data will be loaded async via useUpdateGeoJSON hook.
-    const createGeoJSONElement = (props, ctx) =>
-    {
-        const geoJSON = new L.GeoJSON(null);
-        return createElementObject(
-            geoJSON,
-            extendContext(ctx, {overlayContainer: geoJSON}),
-        )
-    }
-    // Don't use update function here, updates will be performed via useUpdateGeoJSON hook.
-    const useElement = createElementHook(createGeoJSONElement)
-    // Similar to "createPathHook", except that "usePathOptions" is exchanged with "useUpdateGeoJSON".
-    const useGeoJSON = (props) => {
-        const context = useLeafletContext()
-        const elementRef = useElement(withPane(props, context), context)
-        useLayerLifecycle(elementRef.current, context)
-        useEventHandlers(elementRef.current, props.eventHandlers)
-        useUpdateGeoJSON(elementRef.current, props)
-        return elementRef
-    }
-    return createContainerComponent(useGeoJSON)
-}
-
 function _parseOptions(props, map, indexRef) {
     // TODO: Can it be avoided to do resolveProps here?
     const context = {map: map, ...props};
@@ -235,10 +166,6 @@ function _parseOptions(props, map, indexRef) {
     }
     return options
 }
-
-//#endregion
-
-//#region Data update
 
 async function _fetchGeoJSON(props) {
     const { data, url } = props;
@@ -508,4 +435,172 @@ function _handleClick(e, instance, props, map, index, toSpiderfyRef) {
 
 //#endregion
 
-export const GeoJSON = createGeoJSONComponent()
+function useUpdateGeoJSON(element: LeafletElement<L.GeoJSON>, props: GeoJSONProps) {
+    const map = useMap();
+    const {instance} = element;
+    // Setup references.
+    const indexRef = useRef<Supercluster>();
+    const geojsonRef = useRef();
+    const toSpiderfyRef = useRef<object>();
+    const propsRef = useRef(props)
+    const busyRef = useRef(false)
+
+    //#region Events
+
+    const _onMoveEnd = (e) => {
+        if (!propsRef.current.cluster) {
+            return;
+        }
+        _redrawClusters(instance, propsRef.current, map, indexRef.current, toSpiderfyRef)
+    };
+    const _onClick = (e) => _handleClick(e, instance, propsRef.current, map, indexRef.current, toSpiderfyRef);
+    const _onMouseOver = (e) => {
+        const feature = e.layer.feature;
+        let hoverStyle = propsRef.current.hoverStyle
+        // Hover styling.
+        if (hoverStyle) {
+            hoverStyle = resolveProp(hoverStyle, {map: map, ...props})
+            hoverStyle = typeof hoverStyle === "function" ? hoverStyle(feature) : hoverStyle
+            e.layer.setStyle(hoverStyle);
+            if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                e.layer.bringToFront();
+            }
+        }
+    }
+    const _onMouseOut = (e) => {
+        // Hover styling.
+        if (propsRef.current.hoverStyle) {
+            instance.resetStyle(e.layer);
+        }
+    }
+    const _bindEvents = () => {
+        // Bind hover stuff.
+        instance.on('mouseover', _onMouseOver);
+        instance.on('mouseout', _onMouseOut);
+        // Bind update on click.
+        instance.on('click', _onClick);
+        // Bind update on map move (this is where the "magic" happens).
+        map.on('moveend', _onMoveEnd);
+    }
+    const _unbindEvents = () => {
+        instance.off('mouseover', _onMouseOver);
+        instance.off('mouseout', _onMouseOut);
+        instance.off('click', _onClick);
+        map.off('moveend', _onMoveEnd);
+    }
+
+    //#endregion
+
+    const _setData = (init: boolean = false) => {
+        busyRef.current = true;
+        _fetchGeoJSON(props).then(geojson => {
+            // Cache the data for later reuse.
+            geojsonRef.current = geojson
+            // Register events on init.
+            if (init) {
+                _bindEvents()  // TODO: Is it necessary ever to re-register?
+            }
+            // Refresh index.
+            if (props.cluster) {
+                indexRef.current = _buildIndex(geojson, map, props.superClusterOptions)
+            }
+            // Draw stuff.
+            _redraw(instance, props, map, geojson, indexRef.current, toSpiderfyRef);
+            // Mark as not busy.
+            busyRef.current = false;
+        });
+    }
+    // This hook is responsible for initialization and cleanup.
+    useEffect(
+        function initGeojson() {
+            instance.options = _parseOptions(props, map, indexRef);
+            _setData(true);
+            return function removeEventHandlers() {
+                _unbindEvents();
+            }
+        },
+        [instance],
+    )
+    // This hook is responsible for updates.
+    useEffect(
+        function updateGeojson() {
+            if (busyRef.current) {
+                return;
+            }
+            if (propsRef.current !== props) {
+                const prevProps = propsRef.current as any;
+                let reparseNeeded = false;
+                let redrawNeeded = false;
+                let reindexNeeded = false;
+                // Update element options.
+                let optionsChanged = prevProps.hideout !== props.hideout
+                if (!optionsChanged) {
+                    _options.forEach(o => {
+                        if (prevProps[o] !== props[o]) {
+                            optionsChanged = true;
+                        }
+                    });
+                }
+                if (optionsChanged) {
+                    reparseNeeded = true
+                    redrawNeeded = true;
+                }
+                // Update cluster state
+                const clusterStateChanged = prevProps.cluster !== props.cluster;
+                if (clusterStateChanged) {
+                    reindexNeeded = props.cluster
+                    reparseNeeded = true;
+                    redrawNeeded = true;
+                }
+                // Update cluster options
+                const clusterOptionsChanged = prevProps.superClusterOptions !== props.superClusterOptions;
+                if (clusterOptionsChanged) {
+                    reindexNeeded = true
+                    redrawNeeded = true;
+                }
+                // Fetch new data.
+                if (prevProps.data !== props.data || prevProps.url !== props.url) {
+                    redrawNeeded = false;  // redraw will happen async
+                    reindexNeeded = false;  // reindex will happen async
+                    _setData()
+                }
+                // If needed, dispatch actions.
+                if (reindexNeeded) {
+                    indexRef.current = _buildIndex(geojsonRef.current, map, props.superClusterOptions)
+                }
+                if (reparseNeeded) {
+                    instance.options = {...instance.options, ..._parseOptions(props, map, indexRef)}
+                }
+                if (redrawNeeded) {
+                    _redraw(instance, props, map, geojsonRef.current, indexRef.current, toSpiderfyRef);
+                }
+            }
+            // Update ref.
+            propsRef.current = props
+        },
+        [element, props, instance],
+    )
+}
+
+const useGeoJSON = createElementHook<L.GeoJSON, GeoJSONProps>(
+    (props, ctx) => {
+        // Return an initially empty object, data will be loaded async via useUpdateGeoJSON hook.
+        const geoJSON = new L.GeoJSON(null);
+        return createElementObject(
+            geoJSON,
+            extendContext(ctx, {overlayContainer: geoJSON}),
+        )
+    }
+)
+
+export const GeoJSON = createContainerComponent<L.GeoJSON, GeoJSONProps>(
+        // Similar to "createPathHook", except that "usePathOptions" is exchanged with "useUpdateGeoJSON".
+        (props) => {
+            const context = useLeafletContext()
+            const elementRef = useGeoJSON(withPane(props, context), context)
+            useLayerLifecycle(elementRef.current, context)
+            useEventHandlers(elementRef.current, props.eventHandlers)
+            useUpdateGeoJSON(elementRef.current, props)
+            return elementRef
+        }
+    )

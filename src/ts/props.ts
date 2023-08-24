@@ -74,14 +74,14 @@ export type SingleClickEvent = {
     /**
      * An integer that represents the number of times that this element has been clicked on.
      */
-    'n_clicks'?: number,
+    'n_clicks'?: number;
 };
 
 export type DoubleClickEvent = {
     /**
-     * An integer that represents the number of times that this element has been clicked on.
+     * An integer that represents the number of times that this element has been double-clicked on.
      */
-    'n_clicks'?: number,
+    'n_dblclicks'?: number;
 };
 
 export type ClickEvents = SingleClickEvent & DoubleClickEvent;
@@ -125,4 +125,4 @@ export type MediaComponent = DashComponent & EventProps & ClickEvents & LoadEven
 
 //#endregion
 
-export { DashComponent, Modify, DashFunction, unDashify, robustifySetProps, resolveProp, resolveAllProps } from './dash-extensions-js';
+export { DashComponent, Modify, DashFunction, unDashify, robustifySetProps, resolveProp, resolveAllProps, resolveProps } from './dash-extensions-js';
