@@ -62,7 +62,9 @@ const manipulateToolbar = (toolbar, mode, action) => {
         const matches = actionButtons.filter((ab) => ab.button.text.toLowerCase() === action);
         if (matches.length === 1) {
             const match = matches[0]
-            match.button.click()  // emulate button click
+            setTimeout(()=> {
+                match.button.click()  // emulate button click
+            }, 1)  // delay is necessary for some actions to work
         }
     }
 }
