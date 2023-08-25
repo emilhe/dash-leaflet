@@ -9,7 +9,7 @@ function EventSubscriber(props) {
     const map = useMapEvents(resolveEventHandlers(props, ["click", "dblclick", "keydown", "load"]))
 
     useEffect(function invalidateSize(){
-        if(props.uirevision !== undefined){
+        if(props.invalidateSize !== undefined){
             map.invalidateSize()
         }
     }, [props.invalidateSize])
