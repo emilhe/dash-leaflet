@@ -58,7 +58,7 @@ export interface GridLayerProps extends LayerProps {
      /**
      * If set, tiles will only be loaded inside the set LatLngBounds.
      */
-     bounds?: L.LatLngBoundsExpression;   
+     bounds?: L.LatLngBounds;
 
      /**
      * The minimum zoom level down to which this layer will be displayed (inclusive).
