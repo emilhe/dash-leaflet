@@ -4,12 +4,6 @@ All notable changes to this project will be documented in this file.
 
 ## [1.0.2] - 2023-08-25
 
-### Changed
-
-- The `GeoJSON` component now supports single features
-
-## [1.0.1] - 2023-08-25
-
 ### Added
 
 - New event handling system, allowing much greater flexibility
@@ -21,6 +15,7 @@ All notable changes to this project will be documented in this file.
 - Library completely rewritten in TypeScript based on React Leaflet v4
 - Dependencies updated (incl. React version bump), npm now reports *0 vulnerabilities*
 - The `GeoJSON` component is now loaded async, bringing the main asset < 300 kB
+- The `GeoJSON` component now supports single features
 
 ### Removed
 
