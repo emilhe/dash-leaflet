@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {MapContainer as LeafletMapContainer, useMapEvents} from 'react-leaflet';
 import {resolveCRS, resolveEventHandlers, resolveRenderer} from '../utils';
 // Force loading of basic leaflet CSS.
@@ -6,7 +6,14 @@ import '../../../node_modules/leaflet/dist/leaflet.css';
 import {ClickEvents, KeyboardEvents, LoadEvents, MapContainerProps, DashComponent, Modify} from "../props";
 
 function EventSubscriber(props) {
-    useMapEvents(resolveEventHandlers(props, ["click", "dblclick", "keydown", "load"]))
+    const map = useMapEvents(resolveEventHandlers(props, ["click", "dblclick", "keydown", "load"]))
+
+    useEffect(function invalidateSize(){
+        if(props.uirevision !== undefined){
+            map.invalidateSize()
+        }
+    }, [props.invalidateSize])
+
     return null
 }
 
@@ -17,12 +24,17 @@ type Props = Modify<MapContainerProps, {
     crs?: string;
 
     /**
-     * The default method for drawing vector layers on the map. L.SVG or L.Canvas by default depending on browser support.
+     * The default method for drawing vector layers on the map. L.SVG or L.Canvas by default depending on browser support. [DL]
      */
     renderer?: {
         method: 'svg' | 'canvas',
         options: object
     };
+
+    /**
+     * Change the value to force map size invalidation. [DL]
+     */
+    invalidateSize?: string | number | object
 }  & DashComponent & ClickEvents & LoadEvents & KeyboardEvents>;
 
 /**

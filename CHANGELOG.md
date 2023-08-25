@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.0.3] - 2023-08-25
+## [1.0.4] - 2023-08-25
 
 ### Added
 
@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - Basic unit tests for all components (rendering or better)
 - Added (separate) `Attribution` component
 - Add option to specify custom units in the `MeasureControl`
+- Add `invalidateSize` property to Map component
 
 ### Changed
 

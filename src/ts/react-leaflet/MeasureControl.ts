@@ -44,7 +44,7 @@ export type MeasureControlProps = {
     /**
      * Custom units to make available to the measurement calculator. Packaged units are feet, meters, miles, and kilometers for length and acres, hectares, sqfeet, sqmeters, and sqmiles for areas. Additional unit definitions can be added to the packaged units using this option.
      */
-    units: {
+    units?: {
         string : {
             factor: number,
             display: string,
