@@ -9,22 +9,22 @@ export type MeasureControlProps = {
     /**
      * The primary units used to display length results.
      */
-    primaryLengthUnit?: "feet" | "meters" | "miles" | "kilometers";
+    primaryLengthUnit?: "feet" | "meters" | "miles" | "kilometers" | string;
 
     /**
      * The secondary units used to display length results.
      */
-    secondaryLengthUnit?: "feet" | "meters" | "miles" | "kilometers";
+    secondaryLengthUnit?: "feet" | "meters" | "miles" | "kilometers"| string;
 
     /**
      * The primary units used to display area results.
      */
-    primaryAreaUnit?: "acres" | "hectares" | "sqfeet" | "sqmeters" | "sqmiles";
+    primaryAreaUnit?: "acres" | "hectares" | "sqfeet" | "sqmeters" | "sqmiles" | string;
 
     /**
      * The secondary units used to display area results.
      */
-    secondaryAreaUnit?: "acres" | "hectares" | "sqfeet" | "sqmeters" | "sqmiles";
+    secondaryAreaUnit?: "acres" | "hectares" | "sqfeet" | "sqmeters" | "sqmiles" | string;
 
     /**
      * The color to use for map features rendered while actively performing a measurement.
@@ -41,10 +41,16 @@ export type MeasureControlProps = {
      */
     popupOptions?: L.PopupOptions,
 
-    // /**
-    //  * Custom units to make available to the measurement calculator. Packaged units are feet, meters, miles, and kilometers for length and acres, hectares, sqfeet, sqmeters, and sqmiles for areas. Additional unit definitions can be added to the packaged units using this option.
-    //  */
-    // unit: string,
+    /**
+     * Custom units to make available to the measurement calculator. Packaged units are feet, meters, miles, and kilometers for length and acres, hectares, sqfeet, sqmeters, and sqmiles for areas. Additional unit definitions can be added to the packaged units using this option.
+     */
+    units: {
+        string : {
+            factor: number,
+            display: string,
+            decimals: number
+        }
+    }
 
     /**
      * The Z-index of the marker used to capture measure clicks.

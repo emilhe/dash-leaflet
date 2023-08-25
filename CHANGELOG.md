@@ -2,13 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.0.2] - 2023-08-25
+## [1.0.3] - 2023-08-25
 
 ### Added
 
 - New event handling system, allowing much greater flexibility
 - Basic unit tests for all components (rendering or better)
 - Added (separate) `Attribution` component
+- Add option to specify custom units in the `MeasureControl`
 
 ### Changed
 
