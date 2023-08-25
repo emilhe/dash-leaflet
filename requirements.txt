@@ -2,7 +2,6 @@ dash[dev,testing]>=2.12.1
 dash_extensions==1.0.3
 pyyaml
 colorcet
-geobuf
 dash_svg
 wheel
 build

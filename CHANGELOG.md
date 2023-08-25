@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.0.0] - UNRELEASED
+## [1.0.0] - 2023-08-25
 
 ### Added
 
@@ -13,7 +13,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Library completely rewritten in TypeScript based on React Leaflet v4
-- Dependencies updates (incl. React version bump), npm now reports 0 vulnerabilities
+- Dependencies updated (incl. React version bump), npm now reports *0 vulnerabilities*
 - The `GeoJSON` component is now loaded async, bringing the main asset < 300 kB
 
 ### Removed
