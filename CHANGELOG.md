@@ -6,11 +6,15 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Added `Attribution` component
+- New event handling system, allowing much greater flexibility
+- Basic unit tests for all components (rendering or better)
+- Added (separate) `Attribution` component
 
 ### Changed
 
-- Library completely rewritten based on React Leaflet v4
+- Library completely rewritten in TypeScript based on React Leaflet v4
+- Dependencies updates (incl. React version bump), npm now reports 0 vulnerabilities
+- The `GeoJSON` component is now loaded async, bringing the main asset < 300 kB
 
 ### Removed
 
