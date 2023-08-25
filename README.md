@@ -32,6 +32,10 @@ The documentation has been moved to [a separate page](https://dash-leaflet.com) 
 
 NB: The 1.0.0 release contains a wide range of breaking changes, please refer to the migration guidelines
 
+## Support
+
+Please do not use GitHub issues for support, but instead ask your questions on [StackOverflow](https://stackoverflow.com/) using the [`dash-leaflet` tag](https://stackoverflow.com/questions/tagged/dash-leaflet). 
+
 ## Build instructions
 
 Start by cloning this repository,
