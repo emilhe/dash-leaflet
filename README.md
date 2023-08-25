@@ -34,7 +34,7 @@ NB: The 1.0.0 release contains a wide range of breaking changes, please refer to
 
 ## Support
 
-Please ask questions on [StackOverflow](https://stackoverflow.com/) using the [`dash-leaflet` tag](https://stackoverflow.com/questions/tagged/dash-leaflet), and use GitHub issues only for bug reports and feature requests.
+Please ask questions on [StackOverflow](https://stackoverflow.com/) using the [`dash-leaflet` tag](https://stackoverflow.com/questions/tagged/dash-leaflet), use GitHub issues only for bug reports.
 
 ## Build instructions
 
