@@ -1,3 +1,5 @@
+# Dash Leaflet
+
 Dash Leaflet is a light wrapper around React-Leaflet. The syntax is similar to other Dash components, with naming conventions following the React-Leaflet API.
 
 ## Getting started
@@ -5,30 +7,30 @@ Dash Leaflet is a light wrapper around React-Leaflet. The syntax is similar to o
 The easiest way to get started is to install the latest version of Dash and Dash Leaflet via pip.
 
 ```
-pip install dash==2.0.0
-pip install dash-leaflet
+pip install dash==2.12.1
+pip install dash-leaflet==1.0.0
 ```
 
 Once the installation is completed, paste the following lines of code into a .py file and run it.
 
 ````
-import dash
+from dash import Dash
 import dash_leaflet as dl
 
-app = dash.Dash()
-app.layout = dl.Map(dl.TileLayer(), style={'width': '1000px', 'height': '500px'})
+app = Dash()
+app.layout = dl.Map(dl.TileLayer(), style={'height': '50vh'}, center=[56, 10], zoom=6)
 
 if __name__ == '__main__':
     app.run_server()
 ````
 
-If you visit http://127.0.0.1:8050/ in your browser, you should see a Leaflet map.
+That's it! If you visit http://127.0.0.1:8050/ in your browser, you should see a Leaflet map.
 
 ## Documentation
 
-The documentation has been moved to [Render](https://dash-leaflet-docs.onrender.com/) to enable an interactive example gallery.
+The documentation has been moved to [a separate page](https://dash-leaflet.com) to enable an interactive example gallery.
 
-NB: The 0.1.0 release contains a number breaking changes, most prominently merging of the `SuperCluster` and `GeoJSON` components into a new `GeoJSON` component powered by [functional properties](https://dash-leaflet-docs.onrender.com/#func_props).
+NB: The 1.0.0 release contains a wide range of breaking changes, please refer to the migration guidelines
 
 ## Build instructions
 

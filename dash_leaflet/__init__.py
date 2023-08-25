@@ -10,6 +10,9 @@ import dash as _dash
 from ._imports_ import *
 from ._imports_ import __all__
 
+# backwards compatibility with dash-leaflet 0.x.x
+from .MapContainer import MapContainer as Map
+
 if not hasattr(_dash, '__plotly_dash') and not hasattr(_dash, 'development'):
     print('Dash was not successfully imported. '
           'Make sure you don\'t have a file '
@@ -28,36 +31,35 @@ _current_path = _os.path.dirname(_os.path.abspath(__file__))
 
 _this_module = _sys.modules[__name__]
 
-async_resources = ["markerClusterGroup", "editControl", "geoTiffOverlay", "locateControl", "measureControl",
-                   "minichart", "null"]
+_js_dist = []
 
-_js_dist = [
-    {
-        'relative_package_path': 'leaflet@1.8.0.js',
-        'external_url': 'https://unpkg.com/leaflet@1.8.0/dist/leaflet.js',
-        'namespace': package_name
-    },
-    {
-        'relative_package_path': 'leaflet.js.map',
-        'external_url': 'https://unpkg.com/leaflet@1.8.0/dist/leaflet.js.map',
-        'namespace': package_name,
-        "dynamic": True
-    },
-    {
-        'relative_package_path': 'react-leaflet@2.8.0.js',
-        'external_url': 'https://unpkg.com/react-leaflet@2.8.0/dist/react-leaflet.js',
-        'namespace': package_name
-    },
-]
+_js_dist.extend(
+    [
+        {
+            'relative_package_path': 'dash_leaflet.js',
+    
+            'namespace': package_name
+        },
+        {
+            'relative_package_path': 'dash_leaflet.js.map',
+    
+            'namespace': package_name,
+            'dynamic': True
+        }
+    ]
+)
+
+# region Async modifications
+
+async_resources = ["LocateControl", "MeasureControl", "EditControl.ts", "GeoJSON"]
 
 _js_dist.extend(
     [
         {
             "relative_package_path": "async-{}.js".format(async_resource),
-            "external_url": (
-                "https://unpkg.com/{0}@{2}"
-                "/{1}/async-{3}.js"
-            ).format(package_name, __name__, __version__, async_resource),
+            "external_url": ("https://unpkg.com/{0}@{2}" "/{1}/async-{3}.js").format(
+                package_name, __name__, __version__, async_resource
+            ),
             "namespace": package_name,
             "async": True,
         }
@@ -70,10 +72,9 @@ _js_dist.extend(
     [
         {
             "relative_package_path": "async-{}.js.map".format(async_resource),
-            "external_url": (
-                "https://unpkg.com/{0}@{2}"
-                "/{1}/async-{3}.js.map"
-            ).format(package_name, __name__, __version__, async_resource),
+            "external_url": ("https://unpkg.com/{0}@{2}" "/{1}/async-{3}.js.map").format(
+                package_name, __name__, __version__, async_resource
+            ),
             "namespace": package_name,
             "dynamic": True,
         }
@@ -81,31 +82,10 @@ _js_dist.extend(
     ]
 )
 
-_js_dist.extend(
-    [
-        {
-            'relative_package_path': 'dash_leaflet.min.js',
-            'external_url': 'https://unpkg.com/{0}@{2}/{1}/{1}.min.js'.format(
-                package_name, __name__, __version__),
-            'namespace': package_name
-        },
-        {
-            'relative_package_path': 'dash_leaflet.min.js.map',
-            'external_url': 'https://unpkg.com/{0}@{2}/{1}/{1}.min.js.map'.format(
-                package_name, __name__, __version__),
-            'namespace': package_name,
-            'dynamic': True
-        }
-    ]
-)
+# endregion
 
-_css_dist = [
-    {
-        'relative_package_path': 'leaflet@1.8.0.css',
-        'external_url': 'https://unpkg.com/leaflet@1.8.0/dist/leaflet.css',
-        'namespace': package_name
-    },
-]
+_css_dist = []
+
 
 for _component in __all__:
     setattr(locals()[_component], '_js_dist', _js_dist)

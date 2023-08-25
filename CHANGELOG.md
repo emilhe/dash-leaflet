@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.0] - UNRELEASED
+
+### Added
+
+- New event handling system, allowing much greater flexibility
+- Basic unit tests for all components (rendering or better)
+- Added (separate) `Attribution` component
+
+### Changed
+
+- Library completely rewritten in TypeScript based on React Leaflet v4
+- Dependencies updates (incl. React version bump), npm now reports 0 vulnerabilities
+- The `GeoJSON` component is now loaded async, bringing the main asset < 300 kB
+
+### Removed
+
+- Dropped `Minichart` component. The underlying library is not maintained, and the current version in incompatible with newer versions of Leaflet
+- Dropped `MarkerClusterGroup` component due to performance issues. Please use the `GeoJSON` instead
+- Dropped `GeoTIFFOverlay` component. This (highly custom) component has long been deprecated, and I decided now was the time to drop it completely
+
 ## [0.1.28] - 2023-06-27
 
 ### Added

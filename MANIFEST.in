@@ -1,8 +1,5 @@
-include dash_leaflet/*.json
-include dash_leaflet/*.css
-include dash_leaflet/*.js
-include dash_leaflet/*.js.map
-include dash_leaflet/images/*.png
+recursive-include dash_leaflet/** *.js *.css *.json *.html
 include package.json
 include README.md
 include LICENSE
+prune tests
