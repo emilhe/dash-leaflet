@@ -179,6 +179,13 @@ async function _fetchGeoJSON(props) {
         const response = await fetch(url);
         geojson = await response.json();
     }
+    // Handle single geometries.
+    if(geojson.type === "Feature"){
+        geojson = {
+            type: "FeatureCollection",
+            features: [geojson]
+        }
+    }
     // Add cluster properties if they are missing.
     geojson.features = geojson.features.map(feature => {
         if (!feature.properties) {

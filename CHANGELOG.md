@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.2] - 2023-08-25
+
+### Changed
+
+- The `GeoJSON` component now supports single features
+
 ## [1.0.1] - 2023-08-25
 
 ### Added
