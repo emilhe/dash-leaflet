@@ -186,13 +186,17 @@ async function _fetchGeoJSON(props) {
             features: [geojson]
         }
     }
-    // Add cluster properties if they are missing.
-    geojson.features = geojson.features.map(feature => {
+    geojson.features = geojson.features.map((feature, index) => {
         if (!feature.properties) {
             feature["properties"] = {}
         }
+        // Add cluster property if missing.
         if (!feature.properties.cluster) {
             feature["properties"]["cluster"] = false
+        }
+        // Add id property if missing.
+        if (!feature.properties.id) {
+            feature["properties"]["id"] = index
         }
         return feature
     });
@@ -233,6 +237,10 @@ function _redrawClusters(instance, props, map, index, toSpiderfyRef) {
     } catch (err) {
         return
     }
+    // Reduce clusters to delta, i.e. the ones that need to be added.
+    if(Object.keys(instance._layers).length > 0){
+        clusters = deltaClusters(instance, clusters)
+    }
     // Update the data.
     if (props.spiderfyOnMaxZoom && toSpiderfyRef.current) {
         // If zoom level has changes, drop the spiderfy state.
@@ -245,8 +253,48 @@ function _redrawClusters(instance, props, map, index, toSpiderfyRef) {
             toSpiderfyRef.current.zoom = zoom;
         }
     }
-    instance.clearLayers();
+    // If the data hasn't changed, just return.
+    if(clusters.length === 0){return;}
+    // Add clusters to the map.
     instance.addData(clusters);
+}
+
+function deltaClusters(instance, clusters){
+    const layers = instance._layers;
+    // If there is no data on the map, delta = all.
+    if(Object.keys(layers).length == 0){
+        return clusters;
+    }
+    // Allocate new/unchanged arrays.
+    const newIds = clusters.filter(c => !c.properties.cluster).map(c => c.properties.id);
+    const newClusterIds = clusters.filter(c => c.properties.cluster).map(c => c.properties.cluster_id);
+    const unchangedIds = [];
+    const unchangedClusterIds = [];
+    // Loop layers, removing any layer not to be shown.
+    for (const l of Object.values(layers)) {
+        const props = (l as any).feature.properties;
+        if (props.cluster) {
+            // If the feature is still there, don't re-add it.
+            if (newClusterIds.includes(props.cluster_id)) {
+                unchangedClusterIds.push(props.cluster_id)
+            }
+            // Otherwise, remove it.
+            else {
+                instance.removeLayer(l);
+            }
+        } else {
+            // If the feature is still there, don't re-add it.
+            if (newIds.includes(props.id)) {
+                unchangedIds.push(props.id)
+            }
+            // Otherwise, remove it.
+            else {
+                instance.removeLayer(l);
+            }
+        }
+    }
+    // Return delta clusters.
+    return clusters.filter(c => c.properties.cluster? !unchangedClusterIds.includes(c.properties.cluster_id) : !unchangedIds.includes(c.properties.id))
 }
 
 function _redrawGeoJSON(instance, props, map, geojson) {
