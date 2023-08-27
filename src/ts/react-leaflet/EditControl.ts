@@ -64,7 +64,7 @@ const manipulateToolbar = (toolbar, mode, action) => {
             const match = matches[0]
             setTimeout(()=> {
                 match.button.click()  // emulate button click
-            }, 1)  // delay is necessary for some actions to work
+            }, 10)  // delay is necessary for some actions to work
         }
     }
 }
