@@ -2,22 +2,37 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.0.4] - 2023-08-25
+## [1.0.5] - 2023-08-27
+
+### Changed
+
+- When clustering is enabled, the `GeoJSON` component now performs _delta_ updates, i.e. features that remain within the viewport are no longer redraw on pan/zoom. Fixes [#180](https://github.com/thedirtyfew/dash-leaflet/issues/180)
+
+## [1.0.4] - 2023-08-26
+
+### Added
+
+- Add option to specify custom units in the `MeasureControl`. Fixes [#130](https://github.com/thedirtyfew/dash-leaflet/issues/130)
+- Add `invalidateSize` option to the map component. Fixes [#73](https://github.com/thedirtyfew/dash-leaflet/issues/73)
+
+### Changed
+
+- The `GeoJSON` component now supports single features (in addition to feature collections). Fixes [#160](https://github.com/thedirtyfew/dash-leaflet/issues/160)
+
+## [1.0.0] - 2023-08-25
 
 ### Added
 
 - New event handling system, allowing much greater flexibility
 - Basic unit tests for all components (rendering or better)
 - Added (separate) `Attribution` component
-- Add option to specify custom units in the `MeasureControl`
-- Add `invalidateSize` property to Map component
 
 ### Changed
 
 - Library completely rewritten in TypeScript based on React Leaflet v4
 - Dependencies updated (incl. React version bump), npm now reports *0 vulnerabilities*
+- Various fixes, incl. but not limited to [#193](https://github.com/thedirtyfew/dash-leaflet/issues/193), [#192](https://github.com/thedirtyfew/dash-leaflet/issues/192), [#189](https://github.com/thedirtyfew/dash-leaflet/issues/189), [#184](https://github.com/thedirtyfew/dash-leaflet/issues/184), [#178](https://github.com/thedirtyfew/dash-leaflet/issues/178)
 - The `GeoJSON` component is now loaded async, bringing the main asset < 300 kB
-- The `GeoJSON` component now supports single features
 
 ### Removed
 
