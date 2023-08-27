@@ -237,11 +237,7 @@ function _redrawClusters(instance, props, map, index, toSpiderfyRef) {
     } catch (err) {
         return
     }
-    // Reduce clusters to delta, i.e. the ones that need to be added.
-    if(Object.keys(instance._layers).length > 0){
-        clusters = deltaClusters(instance, clusters)
-    }
-    // Update the data.
+    // Update with spiderfied data.
     if (props.spiderfyOnMaxZoom && toSpiderfyRef.current) {
         // If zoom level has changes, drop the spiderfy state.
         if (toSpiderfyRef.current.zoom && toSpiderfyRef.current.zoom !== zoom) {
@@ -252,6 +248,10 @@ function _redrawClusters(instance, props, map, index, toSpiderfyRef) {
             clusters = _defaultSpiderfy(map, index, clusters, [toSpiderfyRef.current.clusterId]);
             toSpiderfyRef.current.zoom = zoom;
         }
+    }
+    // Reduce clusters to delta, i.e. the ones that need to be added.
+    if(Object.keys(instance._layers).length > 0){
+        clusters = deltaClusters(instance, clusters)
     }
     // If the data hasn't changed, just return.
     if(clusters.length === 0){return;}
@@ -423,7 +423,11 @@ function _defaultSpiderfy(map, index, clusters, toSpiderfy) {
         for (let i = 0; i < leaves.length; i++) {
             newPos = map.layerPointToLatLng(positions[i]);
             leg = [cluster.geometry.coordinates, [newPos.lng, newPos.lat]];
-            legs.push({"type": "Feature", "geometry": {"type": "LineString", "coordinates": leg}});
+            legs.push({
+                "type": "Feature",
+                "geometry": {"type": "LineString", "coordinates": leg},
+                "properties": {"id": leaves[i].properties.id}
+            });
             // Update the marker position.
             leaves[i] = update(leaves[i], {geometry: {coordinates: {$set: [newPos.lng, newPos.lat]}}})
         }
