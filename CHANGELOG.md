@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - When clustering is enabled, the `GeoJSON` component now performs _delta_ updates, i.e. features that remain within the viewport are no longer redraw on pan/zoom. Fixes [#180](https://github.com/thedirtyfew/dash-leaflet/issues/180)
-- The map viewport is now tracked (through the `zoom`, `center`, and `bounds` properties) unless `trackViewport` it set to `False`
+- The map viewport is now tracked (through the `zoom`, `center`, and `bounds` properties) unless `trackViewport` it set to `False`. Fixes [#194](https://github.com/thedirtyfew/dash-leaflet/issues/194)
 
 ## [1.0.4] - 2023-08-26
 
