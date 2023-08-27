@@ -75,6 +75,15 @@ export type SingleClickEvent = {
      * An integer that represents the number of times that this element has been clicked on.
      */
     'n_clicks'?: number;
+
+    /**
+     * An object holding data related to the click event. Typing is indicative.
+     */
+    'clickData'?: {
+        'latlng': number[],
+        'layerPoint': number[],
+        'containerPoint': number[]
+    };
 };
 
 export type DoubleClickEvent = {
@@ -82,6 +91,15 @@ export type DoubleClickEvent = {
      * An integer that represents the number of times that this element has been double-clicked on.
      */
     'n_dblclicks'?: number;
+
+    /**
+     * An object holding data related to the double click event. Typing is indicative.
+     */
+    'dblclickData'?: {
+        'latlng': number[],
+        'layerPoint': number[],
+        'containerPoint': number[]
+    };
 };
 
 export type ClickEvents = SingleClickEvent & DoubleClickEvent;
@@ -91,6 +109,17 @@ export type KeyboardEvents = {
      * An integer that represents the number of times that the keyboard has been pressed.
      */
     'n_keydowns'?: number;
+
+    /**
+     * An object holding data related to the keydown event. Typing is indicative.
+     */
+    'keydownData'?: {
+        'key': string,
+        'ctrlKey': boolean,
+        'metaKey': boolean,
+        'shiftKey': boolean,
+        'repeat': boolean
+    };
 };
 
 //#endregion
