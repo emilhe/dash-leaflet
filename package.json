@@ -50,6 +50,7 @@
   "dependencies": {
     "base64-js": "^1.5.1",
     "chroma-js": "^2.4.2",
+    "flatgeobuf": "^3.26.2",
     "immutability-helper": "^3.1.1",
     "leaflet": "^1.9.3",
     "leaflet-easybutton": "^2.4.0",
