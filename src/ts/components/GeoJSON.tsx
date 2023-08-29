@@ -21,7 +21,7 @@ type Props = Modify<GeoJSONProps, {
  * extra functionality (e.g. marker clustering via supercluster https://github.com/mapbox/supercluster) added on top.
  * Marker cluster styles are based on https://github.com/Leaflet/Leaflet.markercluster
  */
-const GeoJSON = ({spiderfyOnMaxZoom=true, options= {}, ...props}: Props) => {
+const GeoJSON = ({spiderfyOnMaxZoom=true, options= {}, format="geojson", ...props}: Props) => {
     // Legacy injection of properties via options.
     const nProps: Props = Object.assign(options, props)
     // Add event handlers.
@@ -32,7 +32,7 @@ const GeoJSON = ({spiderfyOnMaxZoom=true, options= {}, ...props}: Props) => {
     return (
         <Suspense fallback={<div>Loading...</div>}>
             <LazyGeoJSON
-                spiderfyOnMaxZoom={spiderfyOnMaxZoom} {...nProps}></LazyGeoJSON>
+                spiderfyOnMaxZoom={spiderfyOnMaxZoom} format={format} {...nProps}></LazyGeoJSON>
         </Suspense>
     )
 }
