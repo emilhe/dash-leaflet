@@ -7,8 +7,8 @@ Dash Leaflet is a light wrapper around React-Leaflet. The syntax is similar to o
 The easiest way to get started is to install the latest version of Dash and Dash Leaflet via pip.
 
 ```
-pip install dash==2.12.1
-pip install dash-leaflet==1.0.0
+pip install dash
+pip install dash-leaflet
 ```
 
 Once the installation is completed, paste the following lines of code into a .py file and run it.
