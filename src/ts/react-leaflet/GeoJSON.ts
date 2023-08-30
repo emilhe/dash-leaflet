@@ -113,14 +113,14 @@ export type GeoJSONProps = Modify<Modify<FeatureGroupProps, GeoJSONOptions>, {
     hideout?: string | object;
 
     /**
-     * FORMAT. [MUTABLE, DL]
+     * Format of the data, applies both to url/data properties. Defaults to "geojson". [MUTABLE, DL]
      */
     format?: "geojson" | "geobuf" | "flatgeobuf";
 
     /**
-     * FORMAT OPTIONS. [MUTABLE, DL]
+     * Format options, currently only used for "flatgeobuf". [MUTABLE, DL]
      */
-    formatOptions?: object;
+    formatOptions?: {rect: {minX: number, minY: number, maxX: number, maxY: number}};
 
 } & SuperClusterOptions>;
 
