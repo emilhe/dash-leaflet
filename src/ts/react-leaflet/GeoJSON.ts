@@ -219,7 +219,6 @@ async function _fetchGeoJSON(props) {
     else{
         if (format == "geobuf") {
             geojson = toByteArray(geojson)
-            console.log(geojson)
         }
     }
     // Do any data transformations needed to arrive at geojson data. TODO: Might work only in node?
@@ -667,7 +666,7 @@ function useUpdateGeoJSON(element: LeafletElement<L.GeoJSON>, props: GeoJSONProp
                     redrawNeeded = true;
                 }
                 // Fetch new data.
-                if (prevProps.data !== props.data || prevProps.url !== props.url) {
+                if (prevProps.data !== props.data || prevProps.url !== props.url || prevProps.format !== props.format || prevProps.formatOptions !== props.formatOptions) {
                     redrawNeeded = false;  // redraw will happen async
                     reindexNeeded = false;  // reindex will happen async
                     _setData()

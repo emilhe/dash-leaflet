@@ -1,4 +1,4 @@
-dash[dev,testing]>=2.12.1
+dash[dev,testing]>=2.13.0
 dash_extensions==1.0.3
 pyyaml
 colorcet
