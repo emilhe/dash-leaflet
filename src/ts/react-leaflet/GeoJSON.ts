@@ -6,6 +6,8 @@ import Supercluster from "supercluster";
 import update from "immutability-helper";
 import {pick} from "../utils";
 import {FeatureGroupProps, DashFunction, Modify, resolveProp, resolveProps} from "../props";
+import {toByteArray} from "base64-js";
+import {decode} from "geobuf";
 
 require('../marker-cluster.css');
 
@@ -110,6 +112,16 @@ export type GeoJSONProps = Modify<Modify<FeatureGroupProps, GeoJSONOptions>, {
      */
     hideout?: string | object;
 
+    /**
+     * Format of the data, applies both to url/data properties. Defaults to "geojson". [MUTABLE, DL]
+     */
+    format?: "geojson" | "geobuf" | "flatgeobuf";
+
+    /**
+     * Format options, currently only used for "flatgeobuf". [MUTABLE, DL]
+     */
+    formatOptions?: {rect: {minX: number, minY: number, maxX: number, maxY: number}};
+
 } & SuperClusterOptions>;
 
 
@@ -168,7 +180,7 @@ function _parseOptions(props, map, indexRef) {
 }
 
 async function _fetchGeoJSON(props) {
-    const { data, url } = props;
+    const { data, url, format, formatOptions } = props;
     // Handle case when there is no data.
     if (!data && !url) {
         return { features: [] };
@@ -176,8 +188,43 @@ async function _fetchGeoJSON(props) {
     // Download data if needed.
     let geojson = data;
     if (!data && url) {
-        const response = await fetch(url);
-        geojson = await response.json();
+        if (format === "geojson") {
+            const response = await fetch(url);
+            geojson = await response.json();
+        }
+        if (format == "geobuf") {
+            const response = await fetch(url);
+            geojson = await response.arrayBuffer();
+        }
+        if (format == "flatgeobuf") {
+            const flatgeobuf = await import(/* webpackChunkName: "flatgeobuf" */  'flatgeobuf'); //.then((module) => module.default);
+            geojson = {type: "FeatureCollection", features: []};
+            if (formatOptions && formatOptions.rect) {
+                const iter = await flatgeobuf.geojson.deserialize(url, formatOptions.rect);
+                // @ts-ignore
+                for await (let feature of iter) {
+                    geojson.features.push({...feature});
+                }
+            }
+            else{
+                const response = await fetch(url);
+                // @ts-ignore
+                for await (let feature of flatgeobuf.geojson.deserialize(response.body)) {
+                    geojson.features.push({...feature});
+                }
+            }
+        }
+    }
+    // If the data are geobuf, do base64 decoding.
+    else{
+        if (format == "geobuf") {
+            geojson = toByteArray(geojson)
+        }
+    }
+    // Do any data transformations needed to arrive at geojson data. TODO: Might work only in node?
+    if (format == "geobuf") {
+        const pbf = await import(/* webpackChunkName: "geobuf" */  'pbf').then((module) => module.default);
+        geojson = decode(new pbf(geojson));
     }
     // Handle single geometries.
     if(geojson.type === "Feature"){
@@ -186,6 +233,7 @@ async function _fetchGeoJSON(props) {
             features: [geojson]
         }
     }
+    // Add "missing" properties.
     geojson.features = geojson.features.map((feature, index) => {
         if (!feature.properties) {
             feature["properties"] = {}
@@ -618,7 +666,7 @@ function useUpdateGeoJSON(element: LeafletElement<L.GeoJSON>, props: GeoJSONProp
                     redrawNeeded = true;
                 }
                 // Fetch new data.
-                if (prevProps.data !== props.data || prevProps.url !== props.url) {
+                if (prevProps.data !== props.data || prevProps.url !== props.url || prevProps.format !== props.format || prevProps.formatOptions !== props.formatOptions) {
                     redrawNeeded = false;  // redraw will happen async
                     reindexNeeded = false;  // reindex will happen async
                     _setData()

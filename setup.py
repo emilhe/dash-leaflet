@@ -26,7 +26,14 @@ setup(
     long_description=README,
     long_description_content_type="text/markdown",
     url="https://github.com/thedirtyfew/dash-leaflet",
-    install_requires=[],
+    install_requires=[
+        "dash>=2.13.0",
+    ],
+    extras_require={
+        "svg": ["dash-svg"],
+        "geobuf": ["protobuf==3.20.0", "geobuf==1.1.1"],
+        "all": ["dash-svg", "protobuf==3.20.0", "geobuf==1.1.1", "dash-extensions>=1.0.3"]
+    },
     classifiers=[
         'Framework :: Dash',
     ],

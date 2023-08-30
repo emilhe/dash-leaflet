@@ -51,7 +51,7 @@ _js_dist.extend(
 
 # region Async modifications
 
-async_resources = ["LocateControl", "MeasureControl", "EditControl.ts", "GeoJSON"]
+async_resources = ["LocateControl", "MeasureControl", "EditControl.ts", "GeoJSON", "geobuf", "flatgeobuf"]
 
 _js_dist.extend(
     [

@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.8] - 2023-08-27
+
+### Added
+
+- Add support for `flatgeobuf` file format, including bounding box filtering
+- Add extra optional options (`svg`, `geobuf`, `all`)
+
+### Changed
+
+- Restored support for `geobuf` file format
+
 ## [1.0.7] - 2023-08-27
 
 ### Changed
