@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.9] - UNRELEASED
+
+### Added
+
+- Add `viewport` property for the `Map` component to enable easy manipulation of the viewport (i.e. zoom/center)
+
 ## [1.0.8] - 2023-08-30
 
 ### Added
