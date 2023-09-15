@@ -8,7 +8,7 @@ import {ClickEvents, KeyboardEvents, LoadEvents, MapContainerProps, DashComponen
 const trackViewport = (map, props) => {
     const bounds = map.getBounds()
     props.setProps({
-        zoom: map.zoom, center: map.center,
+        zoom: map.getZoom(), center: map.getCenter(),
         bounds: [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]]
     })
 }
