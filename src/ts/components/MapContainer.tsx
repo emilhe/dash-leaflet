@@ -8,7 +8,7 @@ import {ClickEvents, KeyboardEvents, LoadEvents, MapContainerProps, DashComponen
 const trackViewport = (map, props) => {
     const bounds = map.getBounds()
     props.setProps({
-        zoom: map.zoom, center: map.center,
+        zoom: map.getZoom(), center: map.getCenter(),
         bounds: [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]]
     })
 }
@@ -32,6 +32,30 @@ function EventSubscriber(props) {
         }
     }, [props.invalidateSize])
 
+    useEffect(function updateViewport(){
+        if(props.viewport === undefined){
+            return;
+        }
+        let {transition, center, zoom, options} = props.viewport;
+        if(!center){
+            center = map.getCenter();
+        }
+        if(!zoom){
+            zoom = map.getZoom();
+        }
+        // TODO: Maybe check for change before invoking transition?
+        switch (transition) {
+            case 'flyTo':
+                map.flyTo(center, zoom, options)
+                return;
+            case 'panTo':
+                map.panTo(center, options)
+                return;
+            default:
+                map.setView(center, zoom, options)
+        }
+    }, [props.viewport])
+
     return null
 }
 
@@ -53,6 +77,21 @@ type Props = Modify<MapContainerProps, {
      * Change the value to force map size invalidation. [DL]
      */
     invalidateSize?: string | number | object;
+
+    /**
+     * This property can be used to manipulate the viewport after initializing the map. [DL]
+     */
+    viewport?: {
+        center?: number[],
+        zoom?: number
+        transition?: "flyTo" | "panTo" | "setView"
+        options?: {
+            animate?: boolean,
+            duration?: number,
+            easeLinearity?: number,
+            noMoveStart?: boolean
+        }
+    };
 
     /**
      * If true (default), zoom, center, and bounds properties are updated on whenReady/moveend. [DL]
