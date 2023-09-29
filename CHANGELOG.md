@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.10] - 2023-09-29
+
+### Changed
+
+- Extend `viewport` property to support `bounds` manipulation
+
 ## [1.0.9] - 2023-09-25
 
 ### Added

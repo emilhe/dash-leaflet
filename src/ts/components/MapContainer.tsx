@@ -36,7 +36,21 @@ function EventSubscriber(props) {
         if(props.viewport === undefined){
             return;
         }
-        let {transition, center, zoom, options} = props.viewport;
+        let {transition, center, zoom, options, bounds} = props.viewport;
+        // TODO: Should bounds take precedence?
+        if(bounds){
+            switch (transition) {
+                case 'flyToBounds':
+                    map.flyToBounds(bounds, options)
+                    return;
+                case 'panInsideBounds':
+                    map.panInsideBounds(bounds, options)
+                    return;
+                default:
+                    map.fitBounds(bounds, options)
+            }
+            return;
+        }
         if(!center){
             center = map.getCenter();
         }
@@ -79,17 +93,24 @@ type Props = Modify<MapContainerProps, {
     invalidateSize?: string | number | object;
 
     /**
-     * This property can be used to manipulate the viewport after initializing the map. [DL]
+     * This property can be used to manipulate the viewport after initializing the map. Set either "center"/"zoom",
+     * or bounds. If both are set, "bounds" takes precedence. Default value for transition is "setView" for "center"/
+     * "zoom", and "fitBounds" for "bounds". [DL]
      */
     viewport?: {
         center?: number[],
         zoom?: number
-        transition?: "flyTo" | "panTo" | "setView"
+        transition?: "flyTo" | "panTo" | "setView" | "fitBounds" | "flyToBounds" | "panInsideBounds"
+        bounds?: number[][]
         options?: {
             animate?: boolean,
             duration?: number,
             easeLinearity?: number,
-            noMoveStart?: boolean
+            noMoveStart?: boolean,
+            // These are for bounds panning
+            paddingTopLeft?: number[],
+            paddingBottomRight?: number[],
+            padding?: number[],
         }
     };
 
