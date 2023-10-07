@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.11] - 07-10-23
+
+### Added
+
+- Publishing to npm added to CICD pipeline
+
 ## [1.0.10] - 2023-09-29
 
 ### Changed
