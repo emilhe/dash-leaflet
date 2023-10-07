@@ -17,6 +17,7 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 16
+        registry-url: https://registry.npmjs.org/
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
@@ -31,8 +32,10 @@ jobs:
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: |
         npm install | echo "Ignore npm install error"
         npm run build
+        npm publish
         python setup.py sdist bdist_wheel
         twine upload dist/*
