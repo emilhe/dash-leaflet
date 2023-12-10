@@ -4,13 +4,37 @@ import {resolveCRS, resolveEventHandlers, resolveRenderer} from '../utils';
 // Force loading of basic leaflet CSS.
 import '../../../node_modules/leaflet/dist/leaflet.css';
 import {ClickEvents, KeyboardEvents, LoadEvents, MapContainerProps, DashComponent, Modify} from "../props";
+import L from "leaflet";
+
+const isEmpty = (obj) => {
+   return Object.keys(obj).length === 0;
+}
+
+const deltaZoomCenter = (map, zoom, center) => {
+    const centerObj = L.latLng(center);
+    const mapZoom = map.getZoom()
+    const mapCenter = map.getCenter()
+    // Check if anything changed.
+    const delta = {}
+    if(zoom != mapZoom){
+        delta['zoom'] = mapZoom
+    }
+   if(!centerObj.equals(mapCenter)) {
+       delta['center'] = mapCenter
+   }
+   return delta
+}
 
 const trackViewport = (map, props) => {
+    const delta = deltaZoomCenter(map, props.zoom, props.center);
+   // If the view didn't change, don't update anything.
+    if(isEmpty(delta)){
+       return
+    }
+   // Otherwise, issue the update.
     const bounds = map.getBounds()
-    props.setProps({
-        zoom: map.getZoom(), center: map.getCenter(),
-        bounds: [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]]
-    })
+    delta['bounds'] = [[bounds.getSouth(), bounds.getWest()], [bounds.getNorth(), bounds.getEast()]]
+    props.setProps(delta)
 }
 
 function EventSubscriber(props) {
@@ -22,7 +46,8 @@ function EventSubscriber(props) {
     }));
     if(props.trackViewport) {
         map.whenReady(() => {
-            trackViewport(map, props);
+            // The setTimeout ensures map is rendered before initial viewport tracking call.
+            setTimeout(()=>{trackViewport(map, props)}, 0);
         })
     }
 
@@ -36,9 +61,17 @@ function EventSubscriber(props) {
         if(props.viewport === undefined){
             return;
         }
-        let {transition, center, zoom, options, bounds} = props.viewport;
-        // TODO: Should bounds take precedence?
+        let {transition, options, bounds, center, zoom} = props.viewport;
+        // If bounds are specified, they take precedence.
         if(bounds){
+            bounds = new L.LatLngBounds(bounds)
+            // Check if update is needed.
+            if(map.getBounds().equals(bounds)){
+                console.log("BREAK BOUNDS CHANGE")
+                return;
+            }
+            // Issue the update.
+            console.log("ISSUE BOUNDS UPDATE")
             switch (transition) {
                 case 'flyToBounds':
                     map.flyToBounds(bounds, options)
@@ -51,13 +84,20 @@ function EventSubscriber(props) {
             }
             return;
         }
+        // Otherwise, read center/zoom if missing.
         if(!center){
             center = map.getCenter();
         }
         if(!zoom){
             zoom = map.getZoom();
         }
-        // TODO: Maybe check for change before invoking transition?
+        const delta = deltaZoomCenter(map, zoom, center)
+        // Check if an update is missing.
+        if(isEmpty(delta)){
+            console.log("BREAK CENTER/ZOOM CHANGE")
+        }
+        // Issue the update.
+        console.log("ISSUE CENTER/ZOOM CHANGE")
         switch (transition) {
             case 'flyTo':
                 map.flyTo(center, zoom, options)
@@ -69,6 +109,26 @@ function EventSubscriber(props) {
                 map.setView(center, zoom, options)
         }
     }, [props.viewport])
+
+    useEffect(function updateZoom(){
+        if(props.zoom === undefined){
+            return;
+        }
+        if(props.zoom == map.getZoom()){
+            return;
+        }
+        map.setZoom(props.zoom);
+    }, [props.zoom])
+
+    useEffect(function updateCenter(){
+        if(props.center === undefined){
+            return;
+        }
+        if(L.latLng(props.center).equals(map.getCenter())){
+            return;
+        }
+        map.setView(props.center);
+    }, [props.center])
 
     return null
 }
