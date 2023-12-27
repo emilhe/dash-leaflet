@@ -2,11 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.0.13] - UNRELEASED
+## [1.0.13] - 27-12-23
 
 ### Changed
 
-- Viewport tracking logic change to use delta updates, which combined with a delay fixes [#211](https://github.com/emilhe/dash-leaflet/issues/211)
+- Viewport tracking logic changed to use delta updates, which combined with a delay fixes [#211](https://github.com/emilhe/dash-leaflet/issues/211)
 - Re-enable the ability to set `zoom`/`center` props (due to many user requests)
 
 ## [1.0.12] - 05-11-23
