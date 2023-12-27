@@ -82,7 +82,7 @@ export type GeoJSONProps = Modify<Modify<FeatureGroupProps, GeoJSONOptions>, {
     /**
      * Data (consider using url for better performance). One of data/url must be set. [MUTABLE, DL]
      */
-    data?: string | object;
+    data?: object;
 
     /**
      * Url to data (use instead of data for better performance). One of data/url must be set. [MUTABLE, DL]
@@ -367,6 +367,7 @@ function _redraw(instance, props, map, geojson, index, toSpiderfyRef) {
         map.fitBounds(dummy.getBounds())
     }
     // Draw the cluster.
+    instance.clearLayers();
     _redrawClusters(instance, props, map, index, toSpiderfyRef)
 }
 
