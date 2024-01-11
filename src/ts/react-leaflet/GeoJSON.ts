@@ -176,7 +176,7 @@ function _parseOptions(props, map, indexRef) {
             return _defaultPointToLayer(feature, latlng, options)
         }
     }
-    return options
+    return withPane(options, context)
 }
 
 async function _fetchGeoJSON(props) {
@@ -705,10 +705,10 @@ export const GeoJSON = createContainerComponent<L.GeoJSON, GeoJSONProps>(
         // Similar to "createPathHook", except that "usePathOptions" is exchanged with "useUpdateGeoJSON".
         (props) => {
             const context = useLeafletContext()
-            const elementRef = useGeoJSON(withPane(props, context), context)
+            const elementRef = useGeoJSON(props, context)
             useLayerLifecycle(elementRef.current, context)
             useEventHandlers(elementRef.current, props.eventHandlers)
-            useUpdateGeoJSON(elementRef.current, props)
+            useUpdateGeoJSON(elementRef.current, withPane(props, context))
             return elementRef
         }
     )

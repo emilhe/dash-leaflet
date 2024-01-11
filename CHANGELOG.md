@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.14] - 11-01-24
+
+### Changed
+
+- Propagate pane information to GeoJSON object, thereby fixing [#221](https://github.com/emilhe/dash-leaflet/issues/221)
+
 ## [1.0.13] - 27-12-23
 
 ### Changed
