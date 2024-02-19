@@ -562,6 +562,10 @@ function useUpdateGeoJSON(element: LeafletElement<L.GeoJSON>, props: GeoJSONProp
         _redrawClusters(instance, propsRef.current, map, indexRef.current, toSpiderfyRef)
     };
     const _onClick = (e) => _handleClick(e, instance, propsRef.current, map, indexRef.current, toSpiderfyRef);
+    const _unSpiderfy = (e) => {
+        toSpiderfyRef.current = null;
+        _redrawClusters(instance, props, map, indexRef.current, toSpiderfyRef)
+    }
     const _onMouseOver = (e) => {
         const feature = e.layer.feature;
         let hoverStyle = propsRef.current.hoverStyle
@@ -587,6 +591,7 @@ function useUpdateGeoJSON(element: LeafletElement<L.GeoJSON>, props: GeoJSONProp
         instance.on('mouseout', _onMouseOut);
         // Bind update on click.
         instance.on('click', _onClick);
+        map.on('click', _unSpiderfy);
         // Bind update on map move (this is where the "magic" happens).
         map.on('moveend', _onMoveEnd);
     }
@@ -595,6 +600,7 @@ function useUpdateGeoJSON(element: LeafletElement<L.GeoJSON>, props: GeoJSONProp
         instance.off('mouseout', _onMouseOut);
         instance.off('click', _onClick);
         map.off('moveend', _onMoveEnd);
+        map.off('click', _unSpiderfy);
     }
 
     //#endregion

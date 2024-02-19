@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.16] - UNRELEASED
+
+### Added
+
+- Added unspiderfy on click to the `GeoJSON` component 
+
+### Changed
+
+- Stripped `children`, `setProps`, `loading_state` props from being passed to the `ReactLeafletWMSTileLayer` component
+
 ## [1.0.15] - 11-01-24
 
 ### Changed
