@@ -49,20 +49,28 @@
   "author": "Emil Haldrup Eriksen <emil.h.eriksen@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@mapbox/vector-tile": "^2.0.3",
+    "@rollup/plugin-commonjs": "^28.0.0",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-terser": "^0.4.4",
     "base64-js": "^1.5.1",
     "chroma-js": "^2.4.2",
     "flatgeobuf": "^3.26.2",
     "geobuf": "^3.0.2",
     "immutability-helper": "^3.1.1",
+    "jslint-cli": "^20201106.0.0",
     "leaflet": "^1.9.3",
     "leaflet-easybutton": "^2.4.0",
     "leaflet-gesture-handling": "^1.2.2",
     "leaflet-measure": "^3.1.0",
     "leaflet-polylinedecorator": "^1.6.0",
+    "leaflet-vector-tile-layer": "^0.16.1",
     "leaflet.fullscreen": "^2.4.0",
     "leaflet.locatecontrol": "^0.79.0",
+    "pbf": "^4.0.1",
     "react-leaflet": "^4.2.1",
     "react-leaflet-draw": "^0.20.4",
+    "rollup": "^4.24.0",
     "supercluster": "^8.0.1"
   }
 }
