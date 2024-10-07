@@ -14,7 +14,7 @@ export type Props = Modify<WMSTileLayerProps, {
  * Used to display WMS services as tile layers on the map.
  */
 const WMSTileLayer = ({crs, url, ...props}: Props) => {
-    const nProps = omit(assignLoadEventHandlers(props), 'id')
+    const nProps = omit(assignLoadEventHandlers(props), 'id', 'loading_state', 'setProps', 'children');
     return (
         <ReactLeafletWMSTileLayer url={url} crs={resolveCRS(crs)} {...nProps}></ReactLeafletWMSTileLayer>
     )

@@ -2,11 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.16] - UNRELEASED
+
+### Changed
+
+- Fix issue with `TileLayer` component on non-integer zoom update [#236](https://github.com/emilhe/dash-leaflet/issues/236)
+- Fix issue with extra Dash props making it into `WMSTileLayer` component [#225](https://github.com/emilhe/dash-leaflet/issues/225)
+
 ## [1.0.15] - 11-01-24
 
 ### Changed
 
-- Propagate pane information to GeoJSON object, thereby fixing [#221](https://github.com/emilhe/dash-leaflet/issues/221)
+- Propagate pane information to `GeoJSON` object, thereby fixing [#221](https://github.com/emilhe/dash-leaflet/issues/221)
 
 ## [1.0.13] - 27-12-23
 
@@ -19,8 +26,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- Bugfix in GeoJSON component correcting wrong behaviour when changing clustered data dynamically
-- Correct GeoJSON data type definition (remove string as allowed type)
+- Bugfix in `GeoJSON` component correcting wrong behavior when changing clustered data dynamically
+- Correct `GeoJSON` component data type definition (remove string as allowed type)
 
 ## [1.0.11] - 07-10-23
 
