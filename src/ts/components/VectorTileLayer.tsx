@@ -20,12 +20,11 @@ const VectorTileLayer = ({...props}: Props) => {
     // const defaultEventHandlers = props.disableDefaultEventHandlers ? {} : _getDefaultEventHandlers(props);
     // const customEventHandlers = (props.eventHandlers == undefined) ? {} : resolveAllProps(props.eventHandlers, props);
     // nProps.eventHandlers = mergeEventHandlers(defaultEventHandlers, customEventHandlers)
-    const nProps = omit(props, "loading_state", "setProps")  // "children", 
     // Render the component.
     return (
         <Suspense fallback={<div>Loading...</div>}>
             <LazyVectorTileLayer
-                 {...nProps}></LazyVectorTileLayer>
+                 {...props}></LazyVectorTileLayer>
         </Suspense>
     )
 }

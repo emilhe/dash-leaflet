@@ -9,7 +9,7 @@ import {
 import { default as leafletVectorTileLayer } from 'leaflet-vector-tile-layer'
 import { DashFunction, Modify, resolveProps, TileLayerProps } from "../props";
 import { omit, pick } from "../utils";
-import { GridLayer } from 'leaflet';
+import { GridLayer, TileLayer } from 'leaflet';
 
 export type VectorTileLayerOptions = {
     /**
@@ -84,28 +84,20 @@ export type VectorTileLayerProps = Modify<TileLayerProps, {
 const _funcOptions = ["featureToLayer", "filter", "layerOrder", "style"]
 
 export const VectorTileLayer = createTileLayerComponent<
-    GridLayer,  // MAKE PROPER CLASS (might be equal though?)
+    TileLayer,  // MAKE PROPER CLASS (might be equal though?)
     VectorTileLayerProps
 >(
     function createTileLayer({ url, ...options }, context) {
-        console.log("CREATE TILE LAYER")
-        console.log(Object.assign({}, options))
         const resolvedOptions = resolveProps(options, _funcOptions, context);
-        console.log(resolvedOptions)
         const layer = leafletVectorTileLayer(url, withPane(resolvedOptions, context))
-        const layer2 = new GridLayer()
-        console.log(layer)
-        console.log(layer2)
-        console.log("CREATE ELEMENT OBJECT LAYER")
         return createElementObject(layer, context)
     },
     function updateTileLayer(layer, props, prevProps) {
         updateGridLayer(layer, props, prevProps)
-        // TODO: Fix when we get there(!)
-        // const { url } = props
-        // // TODO: Double check property stuff here
-        // if (url != null && url !== prevProps.url) {
-        //     layer.setUrl(url)
-        // }
+        const { url } = props
+        // TODO: Double check property stuff here
+        if (url != null && url !== prevProps.url) {
+            layer.setUrl(url)
+        }
     },
 )
