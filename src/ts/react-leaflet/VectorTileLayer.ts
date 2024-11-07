@@ -72,6 +72,12 @@ export type VectorTileLayerOptions = {
      */
     vectorTileLayerStyles?: object; // default undefined
 
+    /**
+     * Passing a Python dictionary, this dictionary will be turned into 
+     * a URLSearchParams JavaScript object, which will be a part of url
+     * https://xyz/collections/public.building/tiles/WebMercatorQuad/{z}/{x}/{y}?{query}
+     */
+    query?: object;
 }
 
 export type VectorTileLayerProps = Modify<TileLayerProps, {
@@ -83,21 +89,56 @@ export type VectorTileLayerProps = Modify<TileLayerProps, {
 
 const _funcOptions = ["featureToLayer", "filter", "layerOrder", "style"]
 
+const query_formatted = new URLSearchParams({});
+
 export const VectorTileLayer = createTileLayerComponent<
     TileLayer,  // MAKE PROPER CLASS (might be equal though?)
     VectorTileLayerProps
 >(
+    
     function createTileLayer({ url, ...options }, context) {
+        if (options.query != null) {
+            for (const [key, value] of Object.entries(options.query)) {
+                query_formatted.append(key,value);
+            }
+        }
+
         const resolvedOptions = resolveProps(options, _funcOptions, context);
-        const layer = leafletVectorTileLayer(url, withPane(resolvedOptions, context))
-        return createElementObject(layer, context)
+        const layer = leafletVectorTileLayer(url, Object.assign({},withPane(resolvedOptions, context), {query_formatted}));
+        return createElementObject(layer, context);
     },
     function updateTileLayer(layer, props, prevProps) {
-        updateGridLayer(layer, props, prevProps)
-        const { url } = props
+        updateGridLayer(layer, props, prevProps);
+        const { query } = props
         // TODO: Double check property stuff here
-        if (url != null && url !== prevProps.url) {
-            layer.setUrl(url)
+        if (query != null && JSON.stringify(query) != JSON.stringify(prevProps.query)) {
+            console.log("Current query");
+            console.log(query);
+            console.log("Previous query");
+            console.log(prevProps.query);
+
+            const new_query_keys = Object.keys(query);
+            
+            // loop through the old query
+            query_formatted.forEach((value, key) => {
+                if (new_query_keys.includes(key)) {
+                    if (query[key] !== value) {
+                        query_formatted.set(key, query[key]);
+                    }
+                }
+                else {
+                    query_formatted.delete(key);
+                }
+            });
+
+            // loop through new query
+            for (const [key, value] of Object.entries(query)) {
+                if (!query_formatted.has(key)) {
+                    query_formatted.append(key,value);
+                }
+            }
+
+            layer.redraw();
         }
     },
 )
