@@ -74,8 +74,8 @@ export type VectorTileLayerOptions = {
 
     /**
      * Passing a Python dictionary, this dictionary will be turned into 
-     * a URLSearchParams JavaScript object, which will be a part of url
-     * https://xyz/collections/public.building/tiles/WebMercatorQuad/{z}/{x}/{y}?{query}
+     * a URLSearchParams JavaScript object, which will correspond to {q} in the following url
+     * https://xyz/collections/schema.table/tiles/WebMercatorQuad/{z}/{x}/{y}?{q}
      */
     query?: object;
 }
@@ -89,7 +89,7 @@ export type VectorTileLayerProps = Modify<TileLayerProps, {
 
 const _funcOptions = ["featureToLayer", "filter", "layerOrder", "style"]
 
-const query_formatted = new URLSearchParams({});
+const q = new URLSearchParams({});
 
 export const VectorTileLayer = createTileLayerComponent<
     TileLayer,  // MAKE PROPER CLASS (might be equal though?)
@@ -99,12 +99,12 @@ export const VectorTileLayer = createTileLayerComponent<
     function createTileLayer({ url, ...options }, context) {
         if (options.query != null) {
             for (const [key, value] of Object.entries(options.query)) {
-                query_formatted.append(key,value);
+                q.append(key,value);
             }
         }
 
         const resolvedOptions = resolveProps(options, _funcOptions, context);
-        const layer = leafletVectorTileLayer(url, Object.assign({},withPane(resolvedOptions, context), {query_formatted}));
+        const layer = leafletVectorTileLayer(url, Object.assign({},withPane(resolvedOptions, context), {q}));
         return createElementObject(layer, context);
     },
     function updateTileLayer(layer, props, prevProps) {
@@ -112,29 +112,25 @@ export const VectorTileLayer = createTileLayerComponent<
         const { query } = props
         // TODO: Double check property stuff here
         if (query != null && JSON.stringify(query) != JSON.stringify(prevProps.query)) {
-            console.log("Current query");
-            console.log(query);
-            console.log("Previous query");
-            console.log(prevProps.query);
 
             const new_query_keys = Object.keys(query);
             
             // loop through the old query
-            query_formatted.forEach((value, key) => {
+            q.forEach((value, key) => {
                 if (new_query_keys.includes(key)) {
                     if (query[key] !== value) {
-                        query_formatted.set(key, query[key]);
+                        q.set(key, query[key]);
                     }
                 }
                 else {
-                    query_formatted.delete(key);
+                    q.delete(key);
                 }
             });
 
             // loop through new query
             for (const [key, value] of Object.entries(query)) {
-                if (!query_formatted.has(key)) {
-                    query_formatted.append(key,value);
+                if (!q.has(key)) {
+                    q.append(key,value);
                 }
             }
 
