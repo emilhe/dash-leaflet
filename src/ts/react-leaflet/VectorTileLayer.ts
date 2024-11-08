@@ -9,7 +9,7 @@ import {
 import { default as leafletVectorTileLayer } from 'leaflet-vector-tile-layer'
 import { DashFunction, Modify, resolveProps, TileLayerProps } from "../props";
 import { omit, pick } from "../utils";
-import { GridLayer, TileLayer } from 'leaflet';
+import { GridLayer, TileLayer, TileLayerOptions } from 'leaflet';
 
 export type VectorTileLayerOptions = {
     /**
@@ -89,7 +89,9 @@ export type VectorTileLayerProps = Modify<TileLayerProps, {
 
 const _funcOptions = ["featureToLayer", "filter", "layerOrder", "style"]
 
-const q = new URLSearchParams({});
+interface ExtendedTileLayerOptions extends TileLayerOptions {
+    q?: URLSearchParams;
+}
 
 export const VectorTileLayer = createTileLayerComponent<
     TileLayer,  // MAKE PROPER CLASS (might be equal though?)
@@ -97,6 +99,8 @@ export const VectorTileLayer = createTileLayerComponent<
 >(
     
     function createTileLayer({ url, ...options }, context) {
+        const q = new URLSearchParams({});
+
         if (options.query != null) {
             for (const [key, value] of Object.entries(options.query)) {
                 q.append(key,value);
@@ -114,7 +118,8 @@ export const VectorTileLayer = createTileLayerComponent<
         if (query != null && JSON.stringify(query) != JSON.stringify(prevProps.query)) {
 
             const new_query_keys = Object.keys(query);
-            
+            const q = (layer.options as ExtendedTileLayerOptions).q;
+            const _oldKeyToRemove = [];
             // loop through the old query
             q.forEach((value, key) => {
                 if (new_query_keys.includes(key)) {
@@ -123,9 +128,15 @@ export const VectorTileLayer = createTileLayerComponent<
                     }
                 }
                 else {
-                    q.delete(key);
+                    _oldKeyToRemove.push(key);
                 }
             });
+
+            for (let _key of _oldKeyToRemove) {
+                if (_key != null) {
+                    q.delete(_key);
+                }
+            }
 
             // loop through new query
             for (const [key, value] of Object.entries(query)) {
