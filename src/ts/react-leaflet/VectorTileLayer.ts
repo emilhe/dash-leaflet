@@ -93,8 +93,42 @@ interface ExtendedTileLayerOptions extends TileLayerOptions {
     q?: URLSearchParams;
 }
 
+interface VectorTileLayer extends TileLayer {
+    setStyle(style: any): void;
+}
+
+function checkStrictEqualStyle(style1 : any, style2 : any) {
+    if (typeof style1 === 'function' && typeof style2 === 'function') {
+        if (style1.toString() === style2.toString()) {
+            // If two functions' string representation are the same, but they 
+            // rely on an additional parameter/variable in it that can change;
+            // let's standardize this parameter name hideout
+            if (style1.hideout != null && style2.hideout != null) {
+                if (typeof style1.hideout === 'object' && typeof style2.hideout === 'object') {
+                    if (JSON.stringify(style1.hideout) == JSON.stringify(style2.hideout)) {
+                        return true;
+                    }
+                }
+                else if (style1.hideout === style2.hideout) {
+                    return true;
+                }
+            }
+        }
+    }
+    else if (typeof style1 === 'object' && typeof style2 === 'object') {
+        if (JSON.stringify(style1) == JSON.stringify(style2)) {
+            return true;
+        }
+    }
+    else if (style1 === style2) {
+        return true;
+    }
+
+    return false;
+}
+
 export const VectorTileLayer = createTileLayerComponent<
-    TileLayer,  // MAKE PROPER CLASS (might be equal though?)
+    VectorTileLayer,  // MAKE PROPER CLASS (might be equal though?)
     VectorTileLayerProps
 >(
     
@@ -113,7 +147,7 @@ export const VectorTileLayer = createTileLayerComponent<
     },
     function updateTileLayer(layer, props, prevProps) {
         updateGridLayer(layer, props, prevProps);
-        const { query } = props
+        const { query, style } = props;
         // TODO: Double check property stuff here
         if (query != null && JSON.stringify(query) != JSON.stringify(prevProps.query)) {
 
@@ -146,6 +180,15 @@ export const VectorTileLayer = createTileLayerComponent<
             }
 
             layer.redraw();
+        }
+
+        if (style != null && checkStrictEqualStyle(style, prevProps.style)==false) {
+            //console.log("Update style");
+            //console.log(prevProps.style);
+            //console.log(style);
+            layer.setStyle(style);
+            // It seems that setStyle does not require calling layer redraw method
+            // as the layer is updated automatically
         }
     },
 )
