@@ -9,7 +9,7 @@ import {
 import { default as leafletVectorTileLayer } from 'leaflet-vector-tile-layer'
 import { DashFunction, Modify, resolveProps, TileLayerProps } from "../props";
 import { omit, pick } from "../utils";
-import { GridLayer, TileLayer } from 'leaflet';
+import { GridLayer, TileLayer, TileLayerOptions } from 'leaflet';
 
 export type VectorTileLayerOptions = {
     /**
@@ -72,6 +72,12 @@ export type VectorTileLayerOptions = {
      */
     vectorTileLayerStyles?: object; // default undefined
 
+    /**
+     * Passing a Python dictionary, this dictionary will be turned into 
+     * a URLSearchParams JavaScript object, which will correspond to {q} in the following url
+     * https://xyz/collections/schema.table/tiles/WebMercatorQuad/{z}/{x}/{y}?{q}
+     */
+    query?: object;
 }
 
 export type VectorTileLayerProps = Modify<TileLayerProps, {
@@ -83,21 +89,123 @@ export type VectorTileLayerProps = Modify<TileLayerProps, {
 
 const _funcOptions = ["featureToLayer", "filter", "layerOrder", "style"]
 
+interface ExtendedTileLayerOptions extends TileLayerOptions {
+    q?: URLSearchParams;
+
+    // Tracking zoom when last time use setStyle method; if the zoom this time apply setStyle is different from last time
+    // the layer will need to be redraw
+    zoomWhenStyleChanged?:  number;
+}
+
+interface VectorTileLayer extends TileLayer {
+    setStyle(style: any): void;
+}
+
+function checkStrictEqualStyle(style1 : any, style2 : any) {
+    if (typeof style1 === 'function' && typeof style2 === 'function') {
+        if (style1.toString() === style2.toString()) {
+            // If two functions' string representation are the same, but they 
+            // rely on an additional parameter/variable in it that can change;
+            // let's standardize this parameter name hideout
+            if (style1.hideout != null && style2.hideout != null) {
+                if (typeof style1.hideout === 'object' && typeof style2.hideout === 'object') {
+                    if (JSON.stringify(style1.hideout) == JSON.stringify(style2.hideout)) {
+                        return true;
+                    }
+                }
+                else if (style1.hideout === style2.hideout) {
+                    return true;
+                }
+            }
+        }
+    }
+    else if (typeof style1 === 'object' && typeof style2 === 'object') {
+        if (JSON.stringify(style1) == JSON.stringify(style2)) {
+            return true;
+        }
+    }
+    else if (style1 === style2) {
+        return true;
+    }
+
+    return false;
+}
+
 export const VectorTileLayer = createTileLayerComponent<
-    TileLayer,  // MAKE PROPER CLASS (might be equal though?)
+    VectorTileLayer,  // MAKE PROPER CLASS (might be equal though?)
     VectorTileLayerProps
 >(
+    
     function createTileLayer({ url, ...options }, context) {
+        const q = new URLSearchParams({});
+
+        if (options.query != null) {
+            for (const [key, value] of Object.entries(options.query)) {
+                q.append(key,value);
+            }
+        }
+
         const resolvedOptions = resolveProps(options, _funcOptions, context);
-        const layer = leafletVectorTileLayer(url, withPane(resolvedOptions, context))
-        return createElementObject(layer, context)
+        const layer = leafletVectorTileLayer(url, Object.assign({},withPane(resolvedOptions, context), {q}));
+        return createElementObject(layer, context);
     },
     function updateTileLayer(layer, props, prevProps) {
-        updateGridLayer(layer, props, prevProps)
-        const { url } = props
+        updateGridLayer(layer, props, prevProps);
+        const { query, style } = props;
         // TODO: Double check property stuff here
-        if (url != null && url !== prevProps.url) {
-            layer.setUrl(url)
+        if (query != null && JSON.stringify(query) != JSON.stringify(prevProps.query)) {
+
+            const new_query_keys = Object.keys(query);
+            const q = (layer.options as ExtendedTileLayerOptions).q;
+            const _oldKeyToRemove = [];
+            // loop through the old query
+            q.forEach((value, key) => {
+                if (new_query_keys.includes(key)) {
+                    if (query[key] !== value) {
+                        q.set(key, query[key]);
+                    }
+                }
+                else {
+                    _oldKeyToRemove.push(key);
+                }
+            });
+
+            for (let _key of _oldKeyToRemove) {
+                if (_key != null) {
+                    q.delete(_key);
+                }
+            }
+
+            // loop through new query
+            for (const [key, value] of Object.entries(query)) {
+                if (!q.has(key)) {
+                    q.append(key,value);
+                }
+            }
+
+            layer.redraw();
+        }
+
+        if (style != null && checkStrictEqualStyle(style, prevProps.style)==false) {
+            //console.log("Update style");
+            //console.log(prevProps.style);
+            //console.log(style);
+            layer.setStyle(style);
+            // In most cases setStyle does not require calling layer redraw method
+            // as the layer is updated automatically, but in some situations (such as
+            // applying a filter to get a subset of features shown -> zoom out or in
+            // -> remove the filter), the layer will not update automatically
+
+            const zoomWhenStyleChanged = (layer.options as ExtendedTileLayerOptions).zoomWhenStyleChanged;
+            if (zoomWhenStyleChanged == null) {
+                (layer.options as ExtendedTileLayerOptions).zoomWhenStyleChanged = layer["_tileZoom"];
+                //console.log(`First time set zoomWhenStyleChanged to ${layer["_tileZoom"]}`);
+            }
+            else if (zoomWhenStyleChanged !== layer["_tileZoom"]) {
+                layer.redraw();
+                //console.log(`Redraw: ${zoomWhenStyleChanged} changed to ${layer["_tileZoom"]}`);
+                (layer.options as ExtendedTileLayerOptions).zoomWhenStyleChanged = layer["_tileZoom"];
+            }
         }
     },
 )
