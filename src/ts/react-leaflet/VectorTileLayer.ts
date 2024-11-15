@@ -91,6 +91,10 @@ const _funcOptions = ["featureToLayer", "filter", "layerOrder", "style"]
 
 interface ExtendedTileLayerOptions extends TileLayerOptions {
     q?: URLSearchParams;
+
+    // Tracking zoom when last time use setStyle method; if the zoom this time apply setStyle is different from last time
+    // the layer will need to be redraw
+    zoomWhenStyleChanged?:  number;
 }
 
 interface VectorTileLayer extends TileLayer {
@@ -187,8 +191,21 @@ export const VectorTileLayer = createTileLayerComponent<
             //console.log(prevProps.style);
             //console.log(style);
             layer.setStyle(style);
-            // It seems that setStyle does not require calling layer redraw method
-            // as the layer is updated automatically
+            // In most cases setStyle does not require calling layer redraw method
+            // as the layer is updated automatically, but in some situations (such as
+            // applying a filter to get a subset of features shown -> zoom out or in
+            // -> remove the filter), the layer will not update automatically
+
+            const zoomWhenStyleChanged = (layer.options as ExtendedTileLayerOptions).zoomWhenStyleChanged;
+            if (zoomWhenStyleChanged == null) {
+                (layer.options as ExtendedTileLayerOptions).zoomWhenStyleChanged = layer["_tileZoom"];
+                //console.log(`First time set zoomWhenStyleChanged to ${layer["_tileZoom"]}`);
+            }
+            else if (zoomWhenStyleChanged !== layer["_tileZoom"]) {
+                layer.redraw();
+                //console.log(`Redraw: ${zoomWhenStyleChanged} changed to ${layer["_tileZoom"]}`);
+                (layer.options as ExtendedTileLayerOptions).zoomWhenStyleChanged = layer["_tileZoom"];
+            }
         }
     },
 )
