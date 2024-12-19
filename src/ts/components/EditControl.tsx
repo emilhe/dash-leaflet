@@ -1,78 +1,154 @@
-import React, {Suspense} from 'react';
+import React, {Suspense, useEffect, useRef} from 'react';
 import {mergeEventHandlers} from "../utils";
 import {EditControlProps} from '../react-leaflet/EditControl';
 import {EventProps, DashComponent, Modify, resolveAllProps, robustifySetProps} from "../props";
+import L from 'leaflet';
 
 // eslint-disable-next-line no-inline-comments
 const LazyEditControl = React.lazy(() => import(/* webpackChunkName: "EditControl.ts" */ '../fragments/EditControl'));
+
+interface StylableLayer extends L.Layer {
+    setStyle?: (style: L.PathOptions) => void;
+    _leaflet_id?: number;
+}
+
+interface GeoJSONFeatureProperties {
+    leafletId: number;  // Changed from _leaflet_id
+    type: string;
+    color?: string;
+    radius?: number;    // Changed from _radius
+    mRadius?: number;   // Changed from _mRadius
+    bounds?: [L.LatLng, L.LatLng];  // Changed from _bounds
+}
+
+interface GeoJSONFeature {
+    type: string;
+    properties: GeoJSONFeatureProperties;
+    geometry: {
+        type: string;
+        coordinates: number[] | number[][] | number[][][];
+    };
+}
+
+interface GeoJSONCollection {
+    type: string;
+    features: GeoJSONFeature[];
+}
+
 
 type Props = Modify<EditControlProps, {
     /**
      * Geojson representing the current features.
      */
-    geojson?: {
-        features: object[]
-    },
+    geojson?: GeoJSONCollection,
+    /**
+     * Currently selected color for shapes
+     */
+    currentColor?: string,
 } & EventProps & DashComponent>;
 
 /**
  * EditControl.ts is based on https://github.com/alex3165/react-leaflet-draw/
  */
-const EditControl = ({position = 'topright', draw = {}, edit = {}, geojson = {features: []}, ...props}: Props) => {
+const EditControl = ({
+    position = 'topright',
+    draw = {},
+    edit = {},
+    geojson = { type: "FeatureCollection", features: [] } as GeoJSONCollection,
+    currentColor = '#3388ff',
+    ...props
+}: Props) => {
+    const layerRef = useRef<{[key: string]: StylableLayer}>({});
+
     const nProps = Object.assign(props, {geojson: geojson});
     robustifySetProps(nProps)
     const customEventHandlers = (props.eventHandlers == undefined) ? {} : resolveAllProps(props.eventHandlers, props);
-    const defaultEventHandlers = props.disableDefaultEventHandlers ? {} : _getDefaultEventHandlers(props);
-    nProps.eventHandlers = mergeEventHandlers(defaultEventHandlers, customEventHandlers)
-    // _registerEvents(nProps)
+    const defaultEventHandlers = props.disableDefaultEventHandlers ? {} : _getDefaultEventHandlers(props, layerRef);
+
+    nProps.eventHandlers = mergeEventHandlers(defaultEventHandlers, customEventHandlers);
+
+    // Update existing shapes when color changes
+    // Update existing shapes when color changes
+    useEffect(() => {
+        // Skip if no geojson data
+        if (!nProps.geojson || !nProps.geojson.features) {
+            return;
+        }
+
+        // Update only the visual style of layers
+        nProps.geojson.features.forEach((feature: GeoJSONFeature) => {
+            const leafletId = feature.properties.leafletId;
+            const layer = layerRef.current[leafletId];
+
+            // Update the layer style if it exists
+            if (layer && layer.setStyle) {
+                layer.setStyle({
+                    color: feature.properties.color || currentColor,
+                    fillColor: feature.properties.color || currentColor,
+                    opacity: 0.5,
+                    fillOpacity: 0.2,
+                    weight: 4
+                });
+            }
+        });
+    }, [currentColor, nProps.geojson]);
+
     return (
         <div>
             <Suspense fallback={<div>Loading...</div>}>
-                <LazyEditControl position={position} draw={draw} edit={edit} {...nProps}  />
+                <LazyEditControl position={position} draw={draw} edit={edit} {...nProps} />
             </Suspense>
         </div>
     );
 }
 
-function _getDefaultEventHandlers(props) {
+function _getDefaultEventHandlers(props, layerRef: React.MutableRefObject<{[key: string]: StylableLayer}>) {
     const eventHandlers = {}
-    // Bind feature create event.
+
     eventHandlers["draw:created"] = (e) => {
-        const feature = _makeFeature({}, e.layer);
+        const layer = e.layer as StylableLayer;
+        const id = L.Util.stamp(layer);
+        layer._leaflet_id = id;
+        layerRef.current[id] = layer;
+
+        const feature = _makeFeature({
+            color: props.currentColor || '#3388ff',
+            leafletId: id  // Store as leafletId instead of _leaflet_id
+        }, layer);
+
+
         props.setProps({geojson: _makeGeojson(props.geojson.features.concat([feature]))});
     }
+
+
     // Bind feature edit event.
     eventHandlers["draw:edited"] = (e) => {
         props.setProps({geojson: _makeGeojson(_updateFeatures(e, props.geojson.features))});
     }
+
     // Bind feature delete event.
     eventHandlers["draw:deleted"] = (e) => {
+        Object.keys(e.layers._layers).forEach(id => {
+            delete layerRef.current[id];
+        });
         props.setProps({geojson: _makeGeojson(_updateFeatures(e, props.geojson.features))});
     }
-    // Bind mount event. The 1 ms timeout is necessary for the features to be loaded.
+
+    // Bind mount event.
     eventHandlers["draw:mounted"] = (e) => {
         setTimeout(function () {
             const features = []
             let layers = e.instance.options.edit.featureGroup._layers;
             Object.keys(layers).forEach((key) => {
-                features.push(_makeFeature({type: 'mount'}, layers[key]));
+                const layer = layers[key] as StylableLayer;
+                layerRef.current[key] = layer;
+                features.push(_makeFeature({type: 'mount'}, layer));
             })
             props.setProps({geojson: _makeGeojson(features)});
         }, 1);
     }
-    // Bind action events.
-    const actionEvents = ['draw:drawStart', 'draw:drawStop', 'draw:deleteStart', 'draw:deleteStop', 'draw:editStart', 'draw:editStop'];
-    for (const actionEvent of actionEvents) {
-        eventHandlers[actionEvent] = (e) => {
-            props.setProps({
-                action: {
-                    layer_type: e.layerType, type: e.type,
-                    n_actions: props.action == undefined ? 1 : props.action.n_actions + 1
-                }
-            });
-        }
-    }
-    return eventHandlers
+
+    return eventHandlers;
 }
 
 function _makeFeature(properties, layer) {
@@ -106,23 +182,33 @@ function _makeFeature(properties, layer) {
         geometry = {type: geometry_type, coordinates: coords};
     }
     properties.type = type;
+
+    // Get color from layer options if available
+    if (layer.options && layer.options.color) {
+        properties.color = layer.options.color;
+    }
+
     // Collect relevant properties.
     const propMappings = {
-        _bounds: (x) => {
+        bounds: (x) => {
             return [x._southWest, x._northEast];
         }
     }
-    const propsToCollect = ["_bounds", "_radius", "_mRadius", "_leaflet_id"];
+    const propsToCollect = ["bounds", "radius", "mRadius", "leafletId"];
     propsToCollect.forEach(prop => {
-        if (layer.hasOwnProperty(prop)) {
-            let value = layer[prop];
+        const layerProp = '_' + prop;  // Convert to layer's underscore property name
+        if (layer.hasOwnProperty(layerProp)) {
+            let value = layer[layerProp];
             if (prop in propMappings) {
                 value = propMappings[prop](value);
             }
             properties[prop] = value;
         }
     });
-    // Convert to geojson feature.
+
+    // Here's the key change - use the current color from the options or properties
+    properties.color = properties.color || layer.options?.color || '#3388ff';
+
     return {type: "Feature", properties: properties, geometry: geometry}
 }
 
@@ -134,12 +220,17 @@ function _updateFeatures(e, features) {
     // Create a map of the features which have changed.
     const featureMap = {};
     Object.keys(e.layers._layers).forEach((key) => {
-        featureMap[key] = _makeFeature({}, e.layers._layers[key]);
-    })
+        const layer = e.layers._layers[key];
+        // Changed from _leaflet_id to leafletId
+        const existingFeature = features.find(f => f.properties.leafletId === parseInt(key));
+        const properties = existingFeature ? {...existingFeature.properties} : {};
+        featureMap[key] = _makeFeature(properties, layer);
+    });
+
     // Construct a new list and fill in the updated features.
     const updatedFeatures = []
     for (const feature of features) {
-        let leafletId = feature.properties._leaflet_id;
+        let leafletId = feature.properties.leafletId;  // Changed from _leaflet_id to leafletId
         // Collect all features not modified.
         if (!(leafletId in featureMap)) {
             updatedFeatures.push(feature);
@@ -153,7 +244,6 @@ function _updateFeatures(e, features) {
         if (e.type === "draw:edited") {
             updatedFeatures.push(featureMap[leafletId]);
         }
-        // TODO: Handle other events?
     }
     return updatedFeatures
 }
