@@ -31,6 +31,7 @@ import Colorbar from './components/Colorbar';
 import MeasureControl from './components/MeasureControl';
 import EditControl from './components/EditControl';
 import GeoJSON from './components/GeoJSON';
+import SideBySide from "./components/SideBySide";
 
 export {
     MapContainer,
@@ -65,5 +66,6 @@ export {
     Colorbar,
     MeasureControl,
     EditControl,
-    GeoJSON
+    GeoJSON,
+    SideBySide
 }
