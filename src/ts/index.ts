@@ -69,5 +69,5 @@ export {
     EditControl,
     GeoJSON,
     AntPath,
-    ImageMarker
+    ImageMarker,
 }
