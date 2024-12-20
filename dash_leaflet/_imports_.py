@@ -11,6 +11,7 @@ from .FeatureGroup import FeatureGroup
 from .FullScreenControl import FullScreenControl
 from .GeoJSON import GeoJSON
 from .GestureHandling import GestureHandling
+from .ImageMarker import ImageMarker
 from .ImageOverlay import ImageOverlay
 from .LayerGroup import LayerGroup
 from .LayersControl import LayersControl
@@ -47,6 +48,7 @@ __all__ = [
     "FullScreenControl",
     "GeoJSON",
     "GestureHandling",
+    "ImageMarker",
     "ImageOverlay",
     "LayerGroup",
     "LayersControl",

@@ -32,6 +32,7 @@ import MeasureControl from './components/MeasureControl';
 import EditControl from './components/EditControl';
 import GeoJSON from './components/GeoJSON';
 import AntPath from "./components/AntPath";
+import ImageMarker from "./components/ImageMarker";
 
 export {
     MapContainer,
@@ -67,5 +68,6 @@ export {
     MeasureControl,
     EditControl,
     GeoJSON,
-    AntPath
+    AntPath,
+    ImageMarker
 }
