@@ -69,8 +69,9 @@ app = app_stub(
                 positions=polyline_path,
                 color="#0000FF",
                 pulseColor="#FFFFFF",
-                delay=400,
-                weight=3,
+                delay=800,
+                weight=10,
+                dashArray=[1, 100],  # Add default dashArray
                 children="Polyline Path"
             ),
             # Polygon AntPath
@@ -80,7 +81,7 @@ app = app_stub(
                 color="#FF0000",
                 pulseColor="#FFFF00",
                 delay=400,
-                weight=3,
+                weight=8,
                 children="Polygon Path"
             ),
             # Rectangle AntPath
@@ -99,8 +100,9 @@ app = app_stub(
                 positions=circle_path,
                 color="#FF00FF",
                 pulseColor="#FFFFFF",
-                delay=400,
-                weight=3,
+                delay=100,
+                weight=6,
+                dashArray=[1, 10],
                 children="Circle Path"
             ),
             # Curve AntPath
@@ -110,10 +112,10 @@ app = app_stub(
                 color="#00FFFF",
                 pulseColor="#FFFFFF",
                 delay=400,
-                weight=3,
+                weight=10,
                 children="Curve Path"
             ),
-        ]
+        ], zoom=13, center=[51.51, -0.09]
 )
 
 
@@ -121,6 +123,7 @@ app = app_stub(
 app.layout.children.insert(-1, html.Div([
     Grid([
         GridCol([
+            # Modify the Stack in your layout to include these controls:
             Stack([
                 # html.Label('Base Color'),
                 # ColorPicker(id='color-picker', value='#0000FF'),
@@ -130,6 +133,15 @@ app.layout.children.insert(-1, html.Div([
                 # NumberInput(id='delay-input', value=400, min=100, max=2000, step=100),
                 # html.Label('Line Weight'),
                 # NumberInput(id='weight-input', value=3, min=1, max=10),
+                # html.Label('Dash Array Size'),
+                # Grid([
+                #     GridCol([
+                #         NumberInput(id='dash-size-input', value=10, min=1, max=50, label="Dash Size"),
+                #     ], span=6),
+                #     GridCol([
+                #         NumberInput(id='gap-size-input', value=20, min=1, max=50, label="Gap Size"),
+                #     ], span=6),
+                # ]),
                 Switch(id='pause-switch', label='Pause Animation'),
                 Switch(id='reverse-switch', label='Reverse Animation'),
             ])
@@ -139,7 +151,6 @@ app.layout.children.insert(-1, html.Div([
 ]))
 
 
-# Callbacks
 # @callback(
 #     [Output('antpath-polyline', 'color'),
 #      Output('antpath-polygon', 'color'),
@@ -150,7 +161,6 @@ app.layout.children.insert(-1, html.Div([
 # )
 # def update_color(color):
 #     return [color] * 5
-#
 #
 # @callback(
 #     [Output('antpath-polyline', 'pulseColor'),
@@ -163,7 +173,6 @@ app.layout.children.insert(-1, html.Div([
 # def update_pulse_color(color):
 #     return [color] * 5
 #
-#
 # @callback(
 #     [Output('antpath-polyline', 'delay'),
 #      Output('antpath-polygon', 'delay'),
@@ -174,7 +183,6 @@ app.layout.children.insert(-1, html.Div([
 # )
 # def update_delay(delay):
 #     return [delay] * 5
-#
 #
 # @callback(
 #     [Output('antpath-polyline', 'weight'),
@@ -187,6 +195,18 @@ app.layout.children.insert(-1, html.Div([
 # def update_weight(weight):
 #     return [weight] * 5
 #
+# @callback(
+#     [Output('antpath-polyline', 'dashArray'),
+#      Output('antpath-polygon', 'dashArray'),
+#      Output('antpath-rectangle', 'dashArray'),
+#      Output('antpath-circle', 'dashArray'),
+#      Output('antpath-curve', 'dashArray')],
+#     [Input('dash-size-input', 'value'),
+#      Input('gap-size-input', 'value')]
+# )
+# def update_dash_array(dash_size, gap_size):
+#     dash_array = [dash_size, gap_size]
+#     return [dash_array] * 5
 
 @callback(
     [Output('antpath-polyline', 'paused'),
