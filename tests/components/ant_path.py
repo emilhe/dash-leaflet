@@ -1,6 +1,6 @@
 from dash import Dash, html, dcc, callback, Output, Input, State
-from dash_leaflet import AntPath, TileLayer, MapContainer
-from dash_mantine_components import ColorPicker, Button, NumberInput, Stack, Grid, Switch, GridCol
+from dash_leaflet import AntPath, TileLayer, MapContainer, Marker, Popup
+from dash_mantine_components import ColorPicker, Button, NumberInput, Stack, Grid, Switch, GridCol, Group
 import math
 from tests.stubs import app_stub
 
@@ -72,7 +72,7 @@ app = app_stub(
                 delay=800,
                 weight=10,
                 dashArray=[1, 100],  # Add default dashArray
-                children="Polyline Path"
+                children="Polygon Path"
             ),
             # Polygon AntPath
             AntPath(
@@ -125,88 +125,87 @@ app.layout.children.insert(-1, html.Div([
         GridCol([
             # Modify the Stack in your layout to include these controls:
             Stack([
-                # html.Label('Base Color'),
-                # ColorPicker(id='color-picker', value='#0000FF'),
-                # html.Label('Pulse Color'),
-                # ColorPicker(id='pulse-color-picker', value='#FFFFFF'),
-                # html.Label('Animation Delay (ms)'),
-                # NumberInput(id='delay-input', value=400, min=100, max=2000, step=100),
-                # html.Label('Line Weight'),
-                # NumberInput(id='weight-input', value=3, min=1, max=10),
-                # html.Label('Dash Array Size'),
-                # Grid([
-                #     GridCol([
-                #         NumberInput(id='dash-size-input', value=10, min=1, max=50, label="Dash Size"),
-                #     ], span=6),
-                #     GridCol([
-                #         NumberInput(id='gap-size-input', value=20, min=1, max=50, label="Gap Size"),
-                #     ], span=6),
-                # ]),
-                Switch(id='pause-switch', label='Pause Animation'),
-                Switch(id='reverse-switch', label='Reverse Animation'),
+                Group([
+                    Stack([html.Label('Base Color'),
+                        ColorPicker(id='color-picker', value='#0000FF'),]),
+                    Stack([html.Label('Pulse Color'),
+                        ColorPicker(id='pulse-color-picker', value='#FFFFFF')]),
+                    Stack([
+                        NumberInput(id='delay-input', value=400, min=100, max=2000, step=100, label="Delay"),
+                        NumberInput(id='weight-input', value=3, min=1, max=10, label="Line Weight"),
+                    ]),
+                    Stack([
+                        NumberInput(id='dash-size-input', value=10, min=1, max=50, label="Dash Size"),
+                        NumberInput(id='gap-size-input', value=20, min=1, max=50, label="Gap Size"),
+                    ]),
+                    Stack([
+                        Switch(id='pause-switch', label='Pause Animation'),
+                        Switch(id='reverse-switch', label='Reverse Animation'),
+                    ]),
+                ], grow=True),
             ])
-        ], span=3)
+        ], span=12)
     ], style={'padding': '20px'})
 
 ]))
 
 
-# @callback(
-#     [Output('antpath-polyline', 'color'),
-#      Output('antpath-polygon', 'color'),
-#      Output('antpath-rectangle', 'color'),
-#      Output('antpath-circle', 'color'),
-#      Output('antpath-curve', 'color')],
-#     Input('color-picker', 'value')
-# )
-# def update_color(color):
-#     return [color] * 5
-#
-# @callback(
-#     [Output('antpath-polyline', 'pulseColor'),
-#      Output('antpath-polygon', 'pulseColor'),
-#      Output('antpath-rectangle', 'pulseColor'),
-#      Output('antpath-circle', 'pulseColor'),
-#      Output('antpath-curve', 'pulseColor')],
-#     Input('pulse-color-picker', 'value')
-# )
-# def update_pulse_color(color):
-#     return [color] * 5
-#
-# @callback(
-#     [Output('antpath-polyline', 'delay'),
-#      Output('antpath-polygon', 'delay'),
-#      Output('antpath-rectangle', 'delay'),
-#      Output('antpath-circle', 'delay'),
-#      Output('antpath-curve', 'delay')],
-#     Input('delay-input', 'value')
-# )
-# def update_delay(delay):
-#     return [delay] * 5
-#
-# @callback(
-#     [Output('antpath-polyline', 'weight'),
-#      Output('antpath-polygon', 'weight'),
-#      Output('antpath-rectangle', 'weight'),
-#      Output('antpath-circle', 'weight'),
-#      Output('antpath-curve', 'weight')],
-#     Input('weight-input', 'value')
-# )
-# def update_weight(weight):
-#     return [weight] * 5
-#
-# @callback(
-#     [Output('antpath-polyline', 'dashArray'),
-#      Output('antpath-polygon', 'dashArray'),
-#      Output('antpath-rectangle', 'dashArray'),
-#      Output('antpath-circle', 'dashArray'),
-#      Output('antpath-curve', 'dashArray')],
-#     [Input('dash-size-input', 'value'),
-#      Input('gap-size-input', 'value')]
-# )
-# def update_dash_array(dash_size, gap_size):
-#     dash_array = [dash_size, gap_size]
-#     return [dash_array] * 5
+@callback(
+    [Output('antpath-polyline', 'color'),
+     Output('antpath-polygon', 'color'),
+     Output('antpath-rectangle', 'color'),
+     Output('antpath-circle', 'color'),
+     Output('antpath-curve', 'color')],
+    Input('color-picker', 'value')
+)
+def update_color(color):
+    return [color] * 5
+
+@callback(
+    [Output('antpath-polyline', 'pulseColor'),
+     Output('antpath-polygon', 'pulseColor'),
+     Output('antpath-rectangle', 'pulseColor'),
+     Output('antpath-circle', 'pulseColor'),
+     Output('antpath-curve', 'pulseColor')],
+    Input('pulse-color-picker', 'value')
+)
+def update_pulse_color(color):
+    return [color] * 5
+
+@callback(
+    [Output('antpath-polyline', 'delay'),
+     Output('antpath-polygon', 'delay'),
+     Output('antpath-rectangle', 'delay'),
+     Output('antpath-circle', 'delay'),
+     Output('antpath-curve', 'delay')],
+    Input('delay-input', 'value')
+)
+def update_delay(delay):
+    return [delay] * 5
+
+@callback(
+    [Output('antpath-polyline', 'weight'),
+     Output('antpath-polygon', 'weight'),
+     Output('antpath-rectangle', 'weight'),
+     Output('antpath-circle', 'weight'),
+     Output('antpath-curve', 'weight')],
+    Input('weight-input', 'value')
+)
+def update_weight(weight):
+    return [weight] * 5
+
+@callback(
+    [Output('antpath-polyline', 'dashArray'),
+     Output('antpath-polygon', 'dashArray'),
+     Output('antpath-rectangle', 'dashArray'),
+     Output('antpath-circle', 'dashArray'),
+     Output('antpath-curve', 'dashArray')],
+    [Input('dash-size-input', 'value'),
+     Input('gap-size-input', 'value')]
+)
+def update_dash_array(dash_size, gap_size):
+    dash_array = [dash_size, gap_size]
+    return [dash_array] * 5
 
 @callback(
     [Output('antpath-polyline', 'paused'),

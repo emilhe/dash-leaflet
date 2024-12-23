@@ -5,18 +5,28 @@ import { LayerProps } from '@react-leaflet/core';
 import L from 'leaflet';
 import 'leaflet-ant-path';
 
+// Extend PathOptions to include AntPath specific options
 declare module 'leaflet' {
+    interface PathOptions {
+        pulseColor?: string;
+        delay?: number;
+        hardwareAccelerated?: boolean;
+        paused?: boolean;
+        reverse?: boolean;
+    }
+
     namespace Polyline {
         class AntPath extends L.Polyline {
-            constructor(path: L.LatLngExpression[] | L.LatLngExpression[][], options?: any);
+            constructor(path: L.LatLngExpression[] | L.LatLngExpression[][], options?: PathOptions);
             pause(): boolean;
             resume(): boolean;
             reverse(): this;
             map(callback: (latlng: L.LatLng) => L.LatLng): AntPath;
+            setStyle(options: PathOptions): this;
         }
     }
     namespace polyline {
-        function antPath(path: L.LatLngExpression[] | L.LatLngExpression[][], options?: any): L.Polyline.AntPath;
+        function antPath(path: L.LatLngExpression[] | L.LatLngExpression[][], options?: PathOptions): L.Polyline.AntPath;
     }
 }
 
@@ -135,6 +145,31 @@ const AntPath = createLayerComponent<L.Polyline.AntPath, Props>(
             layer.setLatLngs(props.positions);
         }
 
+        // Create a single style update object
+        const styleUpdates: L.PathOptions = {};
+
+        if (props.color !== prevProps.color) {
+            styleUpdates.color = props.color;
+        }
+        if (props.pulseColor !== prevProps.pulseColor) {
+            styleUpdates.pulseColor = props.pulseColor;
+        }
+        if (props.weight !== prevProps.weight) {
+            styleUpdates.weight = props.weight;
+        }
+        if (props.dashArray !== prevProps.dashArray) {
+            styleUpdates.dashArray = props.dashArray;
+        }
+        if (props.delay !== prevProps.delay) {
+            styleUpdates.delay = props.delay;
+        }
+
+        // Apply style updates if there are any
+        if (Object.keys(styleUpdates).length > 0) {
+            layer.setStyle(styleUpdates);
+        }
+
+        // Handle pause/resume
         if (props.paused !== prevProps.paused) {
             if (props.paused) {
                 layer.pause();
@@ -143,6 +178,7 @@ const AntPath = createLayerComponent<L.Polyline.AntPath, Props>(
             }
         }
 
+        // Handle reverse
         if (props.reverse !== prevProps.reverse) {
             layer.reverse();
         }
