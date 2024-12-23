@@ -1,6 +1,6 @@
 from dash import Dash, html, dcc, callback, Output, Input, State
-from dash_leaflet import AntPath, TileLayer, MapContainer, Marker, Popup
-from dash_mantine_components import ColorPicker, Button, NumberInput, Stack, Grid, Switch, GridCol, Group
+from dash_leaflet import AntPath, TileLayer, MapContainer, Marker, Popup, Tooltip
+from dash_mantine_components import ColorPicker, Button, NumberInput, Stack, Grid, Switch, GridCol, Group, Textarea
 import math
 from tests.stubs import app_stub
 
@@ -72,7 +72,7 @@ app = app_stub(
                 delay=800,
                 weight=10,
                 dashArray=[1, 100],  # Add default dashArray
-                children="Polygon Path"
+                children='Polyline Path'
             ),
             # Polygon AntPath
             AntPath(
@@ -143,7 +143,15 @@ app.layout.children.insert(-1, html.Div([
                         Switch(id='reverse-switch', label='Reverse Animation'),
                     ]),
                 ], grow=True),
-            ])
+            ]),
+            Textarea(
+                    label="Autosize with 4 rows max",
+                    placeholder="Autosize with 4 rows max",
+                    w=500,
+                    autosize=True,
+                    minRows=2,
+                    maxRows=4,
+                )
         ], span=12)
     ], style={'padding': '20px'})
 
@@ -232,4 +240,4 @@ def update_reverse(reverse):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True, port=9997)
+    app.run_server(debug=True, port=9996)

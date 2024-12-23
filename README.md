@@ -41,7 +41,7 @@ Please ask questions on [StackOverflow](https://stackoverflow.com/) using the [`
 Start by cloning this repository,
 
 ````
-git clone git@github.com:thedirtyfew/dash-leaflet.git
+git clone https://github.com/pip-install-python/dash-leaflet.git
 cd dash-leaflet
 ````
 
