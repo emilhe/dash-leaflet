@@ -31,6 +31,9 @@ import Colorbar from './components/Colorbar';
 import MeasureControl from './components/MeasureControl';
 import EditControl from './components/EditControl';
 import GeoJSON from './components/GeoJSON';
+import AntPath from "./components/AntPath";
+import ImageMarker from "./components/ImageMarker";
+import RotatedMarker from "./components/RotatedMarker";
 
 export {
     MapContainer,
@@ -65,5 +68,8 @@ export {
     Colorbar,
     MeasureControl,
     EditControl,
-    GeoJSON
+    GeoJSON,
+    AntPath,
+    ImageMarker,
+    RotatedMarker
 }

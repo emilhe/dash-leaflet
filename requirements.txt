@@ -6,3 +6,6 @@ dash_svg
 wheel
 build
 pytest-cov
+dash_mantine_components
+dash_image_gallery
+dash_emoji_mart

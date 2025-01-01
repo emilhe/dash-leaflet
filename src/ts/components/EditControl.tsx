@@ -1,82 +1,151 @@
-import React, {Suspense} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {mergeEventHandlers} from "../utils";
 import {EditControlProps} from '../react-leaflet/EditControl';
 import {EventProps, DashComponent, Modify, resolveAllProps, robustifySetProps} from "../props";
+import L from 'leaflet';
+import { EditControl as ReactLeafletEditControl } from '../react-leaflet/EditControl';
+import 'leaflet-draw/dist/leaflet.draw.css';
 
-// eslint-disable-next-line no-inline-comments
-const LazyEditControl = React.lazy(() => import(/* webpackChunkName: "EditControl.ts" */ '../fragments/EditControl'));
+const LazyEditControl = React.lazy(() => import('../fragments/EditControl'));
+
+interface StylableLayer extends L.Layer {
+    setStyle?: (style: L.PathOptions) => void;
+    _leaflet_id?: number;
+    setIcon?: (icon: L.Icon) => void;
+}
+
+interface GeoJSONFeatureProperties {
+    leafletId: number;
+    type: string;
+    color?: string;
+    emoji?: string;
+    radius?: number;
+    mRadius?: number;
+    bounds?: [L.LatLng, L.LatLng];
+}
+
+interface GeoJSONFeature {
+    type: string;
+    properties: GeoJSONFeatureProperties;
+    geometry: {
+        type: string;
+        coordinates: number[] | number[][] | number[][][];
+    };
+}
+
+interface GeoJSONCollection {
+    type: string;
+    features: GeoJSONFeature[];
+}
 
 type Props = Modify<EditControlProps, {
-    /**
-     * Geojson representing the current features.
-     */
-    geojson?: {
-        features: object[]
-    },
+    geojson?: GeoJSONCollection,
+    currentColor?: string,
+    currentEmoji?: string,
 } & EventProps & DashComponent>;
 
-/**
- * EditControl.ts is based on https://github.com/alex3165/react-leaflet-draw/
- */
-const EditControl = ({position = 'topright', draw = {}, edit = {}, geojson = {features: []}, ...props}: Props) => {
+const EditControl = ({
+    position = 'topright',
+    draw = {},
+    edit = {},
+    geojson = { type: "FeatureCollection", features: [] } as GeoJSONCollection,
+    currentColor = '#3388ff',
+    currentEmoji = '',
+    ...props
+}: Props) => {
+    const layerRef = useRef<{[key: string]: StylableLayer}>({});
+
     const nProps = Object.assign(props, {geojson: geojson});
     robustifySetProps(nProps)
     const customEventHandlers = (props.eventHandlers == undefined) ? {} : resolveAllProps(props.eventHandlers, props);
-    const defaultEventHandlers = props.disableDefaultEventHandlers ? {} : _getDefaultEventHandlers(props);
-    nProps.eventHandlers = mergeEventHandlers(defaultEventHandlers, customEventHandlers)
-    // _registerEvents(nProps)
+    const defaultEventHandlers = props.disableDefaultEventHandlers ? {} : _getDefaultEventHandlers(props, layerRef);
+
+    nProps.eventHandlers = mergeEventHandlers(defaultEventHandlers, customEventHandlers);
+
+    useEffect(() => {
+        if (!nProps.geojson || !nProps.geojson.features) {
+            return;
+        }
+
+        nProps.geojson.features.forEach((feature: GeoJSONFeature) => {
+            const leafletId = feature.properties.leafletId;
+            const layer = layerRef.current[leafletId];
+
+            if (layer) {
+                if (feature.properties.type === 'marker' && layer.setIcon && feature.properties.emoji) {
+                    console.log("Updating marker icon:", feature.properties.emoji);  // Debug log
+                    const icon = new L.Icon({
+                        iconUrl: feature.properties.emoji,
+                        iconSize: [25, 25],
+                        iconAnchor: [12.5, 12.5],
+                        popupAnchor: [0, -12.5]
+                    });
+                    layer.setIcon(icon);
+                } else if (layer.setStyle && feature.properties.color) {
+                    console.log("Updating shape color:", feature.properties.color);  // Debug log
+                    layer.setStyle({
+                        color: feature.properties.color,
+                        fillColor: feature.properties.color,
+                        opacity: 0.5,
+                        fillOpacity: 0.2,
+                        weight: 4
+                    });
+                }
+            }
+        });
+    }, [currentColor, currentEmoji, nProps.geojson]);
+
     return (
-        <div>
-            <Suspense fallback={<div>Loading...</div>}>
-                <LazyEditControl position={position} draw={draw} edit={edit} {...nProps}  />
-            </Suspense>
-        </div>
+        <ReactLeafletEditControl position={position} draw={draw} edit={edit} {...nProps} />
     );
 }
 
-function _getDefaultEventHandlers(props) {
+function _getDefaultEventHandlers(props, layerRef: React.MutableRefObject<{[key: string]: StylableLayer}>) {
     const eventHandlers = {}
-    // Bind feature create event.
+
     eventHandlers["draw:created"] = (e) => {
-        const feature = _makeFeature({}, e.layer);
+        const layer = e.layer as StylableLayer;
+        const id = L.Util.stamp(layer);
+        layer._leaflet_id = id;
+        layerRef.current[id] = layer;
+
+        const feature = _makeFeature({
+            color: props.currentColor || '#3388ff',
+            emoji: props.currentEmoji || '',
+            leafletId: id
+        }, layer);
+
         props.setProps({geojson: _makeGeojson(props.geojson.features.concat([feature]))});
     }
-    // Bind feature edit event.
+
     eventHandlers["draw:edited"] = (e) => {
         props.setProps({geojson: _makeGeojson(_updateFeatures(e, props.geojson.features))});
     }
-    // Bind feature delete event.
+
     eventHandlers["draw:deleted"] = (e) => {
+        Object.keys(e.layers._layers).forEach(id => {
+            delete layerRef.current[id];
+        });
         props.setProps({geojson: _makeGeojson(_updateFeatures(e, props.geojson.features))});
     }
-    // Bind mount event. The 1 ms timeout is necessary for the features to be loaded.
+
     eventHandlers["draw:mounted"] = (e) => {
         setTimeout(function () {
             const features = []
             let layers = e.instance.options.edit.featureGroup._layers;
             Object.keys(layers).forEach((key) => {
-                features.push(_makeFeature({type: 'mount'}, layers[key]));
+                const layer = layers[key] as StylableLayer;
+                layerRef.current[key] = layer;
+                features.push(_makeFeature({type: 'mount'}, layer));
             })
             props.setProps({geojson: _makeGeojson(features)});
         }, 1);
     }
-    // Bind action events.
-    const actionEvents = ['draw:drawStart', 'draw:drawStop', 'draw:deleteStart', 'draw:deleteStop', 'draw:editStart', 'draw:editStop'];
-    for (const actionEvent of actionEvents) {
-        eventHandlers[actionEvent] = (e) => {
-            props.setProps({
-                action: {
-                    layer_type: e.layerType, type: e.type,
-                    n_actions: props.action == undefined ? 1 : props.action.n_actions + 1
-                }
-            });
-        }
-    }
-    return eventHandlers
+
+    return eventHandlers;
 }
 
 function _makeFeature(properties, layer) {
-    // Figure out the geometry and type.
     let geometry;
     let type;
     if ("_latlng" in layer) {
@@ -96,33 +165,48 @@ function _makeFeature(properties, layer) {
         const latlng = polygon ? layer._latlngs[0] : layer._latlngs;
         let coords = latlng.map(latlng => [latlng.lng, latlng.lat]);
         if (polygon) {
-            coords.push(coords[0]);  // close the polygon
+            coords.push(coords[0]);
             coords = [coords];
         }
-        // Special case for rectangle.
         if ("_shape" in layer.editing) {
             type = "rectangle";
         }
         geometry = {type: geometry_type, coordinates: coords};
     }
     properties.type = type;
-    // Collect relevant properties.
+
+    if (type === 'marker' && properties.emoji) {
+        properties.emoji = properties.emoji;
+        properties.icon = {
+            iconUrl: properties.emoji,
+            iconSize: [25, 25],
+            iconAnchor: [12, 12]
+        };
+    }
+
+    if (layer.options && layer.options.color) {
+        properties.color = layer.options.color;
+    }
+
     const propMappings = {
-        _bounds: (x) => {
+        bounds: (x) => {
             return [x._southWest, x._northEast];
         }
     }
-    const propsToCollect = ["_bounds", "_radius", "_mRadius", "_leaflet_id"];
+    const propsToCollect = ["bounds", "radius", "mRadius", "leafletId"];
     propsToCollect.forEach(prop => {
-        if (layer.hasOwnProperty(prop)) {
-            let value = layer[prop];
+        const layerProp = '_' + prop;
+        if (layer.hasOwnProperty(layerProp)) {
+            let value = layer[layerProp];
             if (prop in propMappings) {
                 value = propMappings[prop](value);
             }
             properties[prop] = value;
         }
     });
-    // Convert to geojson feature.
+
+    properties.color = properties.color || layer.options?.color || '#3388ff';
+
     return {type: "Feature", properties: properties, geometry: geometry}
 }
 
@@ -131,29 +215,27 @@ function _makeGeojson(features) {
 }
 
 function _updateFeatures(e, features) {
-    // Create a map of the features which have changed.
     const featureMap = {};
     Object.keys(e.layers._layers).forEach((key) => {
-        featureMap[key] = _makeFeature({}, e.layers._layers[key]);
-    })
-    // Construct a new list and fill in the updated features.
+        const layer = e.layers._layers[key];
+        const existingFeature = features.find(f => f.properties.leafletId === parseInt(key));
+        const properties = existingFeature ? {...existingFeature.properties} : {};
+        featureMap[key] = _makeFeature(properties, layer);
+    });
+
     const updatedFeatures = []
     for (const feature of features) {
-        let leafletId = feature.properties._leaflet_id;
-        // Collect all features not modified.
+        let leafletId = feature.properties.leafletId;
         if (!(leafletId in featureMap)) {
             updatedFeatures.push(feature);
             continue;
         }
-        // If deleted, do nothing.
         if (e.type === "draw:deleted") {
             continue;
         }
-        // If edited, append feature.
         if (e.type === "draw:edited") {
             updatedFeatures.push(featureMap[leafletId]);
         }
-        // TODO: Handle other events?
     }
     return updatedFeatures
 }

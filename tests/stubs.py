@@ -3,17 +3,22 @@ from typing import Optional
 from dash import Dash, html, Output, Input
 from dash_leaflet import MapContainer
 from dash.development.base_component import Component
-
+import dash_mantine_components as dmc
+import dash
 def app_stub(components: Optional[list[Component]] = None, app_kwargs=None, **kwargs):
     if "bounds" not in kwargs:
         kwargs["center"] = kwargs["center"] if ("center" in kwargs) else [56,10]
         kwargs["zoom"] = kwargs["zoom"] if ("zoom" in kwargs) else 6
-    app = Dash(__name__, **(app_kwargs if app_kwargs is not None else {}))
-    app.layout = html.Div(
+    dash._dash_renderer._set_react_version('18.2.0')
+
+    app = Dash(__name__, **(app_kwargs if app_kwargs is not None else {}), external_stylesheets=[dmc.styles.ALL, "https://use.fontawesome.com/releases/v6.2.1/css/all.css"])
+    app.layout = dmc.MantineProvider(
         [
-            MapContainer(components if components is not None else [], id="map", **kwargs, style=dict(width="500px", height="500px")),
+            MapContainer(components if components is not None else [], id="map", **kwargs, style=dict(width="100%", height="500px")),
             html.Div(id="log")
-        ]
+        ],
+    forceColorScheme="dark",
+
     )
     return app
 

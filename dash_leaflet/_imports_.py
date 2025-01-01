@@ -1,3 +1,4 @@
+from .AntPath import AntPath
 from .AttributionControl import AttributionControl
 from .BaseLayer import BaseLayer
 from .Circle import Circle
@@ -10,6 +11,7 @@ from .FeatureGroup import FeatureGroup
 from .FullScreenControl import FullScreenControl
 from .GeoJSON import GeoJSON
 from .GestureHandling import GestureHandling
+from .ImageMarker import ImageMarker
 from .ImageOverlay import ImageOverlay
 from .LayerGroup import LayerGroup
 from .LayersControl import LayersControl
@@ -33,6 +35,7 @@ from .WMSTileLayer import WMSTileLayer
 from .ZoomControl import ZoomControl
 
 __all__ = [
+    "AntPath",
     "AttributionControl",
     "BaseLayer",
     "Circle",
@@ -45,6 +48,7 @@ __all__ = [
     "FullScreenControl",
     "GeoJSON",
     "GestureHandling",
+    "ImageMarker",
     "ImageOverlay",
     "LayerGroup",
     "LayersControl",
