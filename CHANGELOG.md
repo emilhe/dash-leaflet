@@ -2,10 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.0.16] - UNRELEASED
+## [1.1.0] - UNRELEASED
 
 ### Changed
 
+- Update dependency to Dash 3.0.0
 - Fix issue with `TileLayer` component on non-integer zoom update [#236](https://github.com/emilhe/dash-leaflet/issues/236)
 - Fix issue with extra Dash props making it into `WMSTileLayer` component [#225](https://github.com/emilhe/dash-leaflet/issues/225)
 
