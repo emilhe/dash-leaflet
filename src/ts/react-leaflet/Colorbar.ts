@@ -216,48 +216,37 @@ const ReactLeafletColorbar = Control.extend({
 
     },
     setColorscale: function (colorscale) {
-        this.options.colorscale = colorscale;
-        this._update();
+        this.options.colorscale = colorscale || null;
     },
     setUnit: function (unit) {
-        this.options.unit = unit;
-        this._update();
+        this.options.unit = unit || null;
     },
     setMin: function (min) {
-        this.options.min = min;
-        this._update();
+        this.options.min = min || null;
     },
     setMax: function (max) {
-        this.options.max = max;
-        this._update();
+        this.options.max = max || null;
     },
     setClasses: function (classes) {
-        this.options.classes = classes;
-        this._update();
+        this.options.classes = classes || null;
     },
     setOpacity: function (opacity) {
-        this.options.opacity = opacity;
-        this._update();
+        this.options.opacity = opacity || null;
     },
     setNTicks: function (nTicks) {
-        this.options.nTicks = nTicks;
-        this._update();
+        this.options.nTicks = nTicks || null;
     },
     setTickValues: function (tickValues) {
-        this.options.tickValues = tickValues;
-        this._update();
+        this.options.tickValues = tickValues || null;
     },
     setTickText: function (tickText) {
-        this.options.tickText = tickText;
-        this._update();
+        this.options.tickText = tickText || null;
     },
     setTickDecimals: function (tickDecimals) {
-        this.options.tickDecimals = tickDecimals;
-        this._update();
+        this.options.tickDecimals = tickDecimals || null;
     },
     setTooltip: function (tooltip) {
-        this.options.tooltip = tooltip;
-        this._update();
+        this.options.tooltip = tooltip || null;
     },
     setClassName: function (oldClass, newClass) {
         this.options.className = newClass;
@@ -271,7 +260,6 @@ const ReactLeafletColorbar = Control.extend({
                 DomUtil.addClass(this._container, c);
             }
         }
-        this._update();
     }
 })
 
@@ -317,6 +305,7 @@ export const Colorbar = createLeafComponent<typeof ReactLeafletColorbar, Colorba
                 if (props.className !== prevProps.className) {
                     instance.setClassName(prevProps.className, props.className);
                 }
+                instance._update();
             }
         )
     )
