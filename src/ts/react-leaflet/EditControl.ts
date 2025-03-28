@@ -92,7 +92,9 @@ function createEditControl(){
             options["position"] = position;
         }
         if (buttons) {
-            L.drawLocal.draw.toolbar.buttons = buttons;
+            L.drawLocal.draw.toolbar.buttons = {
+                ...L.drawLocal.draw.toolbar.buttons, ...buttons
+            }
         }
         return createElementObject(new L.Control.Draw(options), ctx)
     }
