@@ -13,7 +13,7 @@ pip install dash-leaflet
 
 Once the installation is completed, paste the following lines of code into a .py file and run it.
 
-````
+```
 from dash import Dash
 import dash_leaflet as dl
 
@@ -22,7 +22,7 @@ app.layout = dl.Map(dl.TileLayer(), style={'height': '50vh'}, center=[56, 10], z
 
 if __name__ == '__main__':
     app.run_server()
-````
+```
 
 That's it! If you visit http://127.0.0.1:8050/ in your browser, you should see a Leaflet map.
 
@@ -40,27 +40,24 @@ Please ask questions on [StackOverflow](https://stackoverflow.com/) using the [`
 
 Start by cloning this repository,
 
-````
+```
 git clone git@github.com:thedirtyfew/dash-leaflet.git
 cd dash-leaflet
-````
+```
 
-Next, create a virtual environment and install the python dependencies,
+Next, create a virtual environment and install the python dependencies (make sure to have Python 3.12 and uv installed),
 
-````
-python3 -m venv venv && . venv/bin/activate
-pip install -r requirements.txt
-````
+```
+uv venv && source .venv/bin/activate && uv sync
+```
 
 Finally, install packages via npm (ignore errors) and run the build script,
 
-````
+```
 npm i --ignore-scripts
 npm run build
-````
+```
 
 ## Donation
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=Z9RXT5HVPK3B8&currency_code=DKK&source=url)
-
-

@@ -1,6 +1,6 @@
 {
   "name": "dash-leaflet",
-  "version": "1.0.15",
+  "version": "1.1.0rc1",
   "description": "Dash Leaflet is a light wrapper around React-Leaflet. The syntax is similar to other Dash components, with naming conventions following the React-Leaflet API.",
   "main": "index.ts",
   "repository": {
@@ -15,7 +15,8 @@
     "build:js::dev": "webpack --mode development",
     "build:js": "webpack --mode production",
     "build:backends": "dash-generate-components ./src/ts/components dash_leaflet -p package-info.json --r-prefix '' --jl-prefix '' --ignore \\.test\\.",
-    "build": "npm run build:js && npm run build:backends",
+    "build": "npm run build:js && npm run build:backends && npm run update:pyproject",
+    "update:pyproject": "uv run python pyproject.py",
     "watch": "npm run build:js::dev -- --watch"
   },
   "devDependencies": {
@@ -61,6 +62,7 @@
     "leaflet-polylinedecorator": "^1.6.0",
     "leaflet.fullscreen": "^2.4.0",
     "leaflet.locatecontrol": "^0.79.0",
+    "prop-types": "^15.8.1",
     "react-leaflet": "^4.2.1",
     "react-leaflet-draw": "^0.20.4",
     "supercluster": "^8.0.1"
