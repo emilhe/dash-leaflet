@@ -1,6 +1,6 @@
 [project]
 name = "dash-leaflet"
-version = "1.1.0"
+version = "1.1.1"
 description = "Dash Leaflet is a light wrapper around React-Leaflet. The syntax is similar to other Dash components, with naming conventions following the React-Leaflet API."
 authors = [
     { name = "emher", email = "emil.h.eriksen@gmail.com" },
