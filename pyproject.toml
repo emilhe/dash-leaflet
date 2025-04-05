@@ -12,7 +12,7 @@ dependencies = [
     "dash>=3.0.0",
     "dash-extensions>=2.0.0",
     "dash_svg",
-    "protobuf==3.20.0",
+    "protobuf==3.20.2",
     "geobuf==1.1.1",
     "pyyaml",
     "colorcet",
