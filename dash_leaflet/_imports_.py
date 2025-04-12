@@ -26,6 +26,7 @@ from .Popup import Popup
 from .Rectangle import Rectangle
 from .SVGOverlay import SVGOverlay
 from .ScaleControl import ScaleControl
+from .SideBySideControl import SideBySideControl
 from .TileLayer import TileLayer
 from .Tooltip import Tooltip
 from .VideoOverlay import VideoOverlay
@@ -61,6 +62,7 @@ __all__ = [
     "Rectangle",
     "SVGOverlay",
     "ScaleControl",
+    "SideBySideControl",
     "TileLayer",
     "Tooltip",
     "VideoOverlay",
