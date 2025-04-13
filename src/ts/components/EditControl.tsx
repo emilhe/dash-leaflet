@@ -61,7 +61,7 @@ function _getDefaultEventHandlers(props) {
         }, 1);
     }
     // Bind action events.
-    const actionEvents = ['draw:drawStart', 'draw:drawStop', 'draw:deleteStart', 'draw:deleteStop', 'draw:editStart', 'draw:editStop'];
+    const actionEvents = ['draw:drawstart', 'draw:drawstop', 'draw:deletestart', 'draw:deletestop', 'draw:editstart', 'draw:editstop'];
     for (const actionEvent of actionEvents) {
         eventHandlers[actionEvent] = (e) => {
             props.setProps({
