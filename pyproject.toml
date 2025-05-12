@@ -1,6 +1,6 @@
 [project]
 name = "dash-leaflet"
-version = "1.1.1"
+version = "1.1.2"
 description = "Dash Leaflet is a light wrapper around React-Leaflet. The syntax is similar to other Dash components, with naming conventions following the React-Leaflet API."
 authors = [
     { name = "emher", email = "emil.h.eriksen@gmail.com" },
@@ -12,8 +12,8 @@ dependencies = [
     "dash>=3.0.0",
     "dash-extensions>=2.0.0",
     "dash_svg",
-    "protobuf==3.20.0",
-    "geobuf==1.1.1",
+    "protobuf>=6.30.2",
+    "geobuf>=2.0.0",
     "pyyaml",
     "colorcet",
 ]

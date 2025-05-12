@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.2] - 12-05-25
+
+### Changed
+
+- Update `geobuf` / `protobuf` dependency version pins
+
 ## [1.1.1] - 05-04-25
 
 ### Changed
