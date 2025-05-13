@@ -77,8 +77,8 @@ module.exports = function (env, argv) {
                     ],
                 },
                 {
-                   test:  /\.(png|jpe?g|gif|svg)$/i,
-                   type: 'asset/inline'
+                    test: /\.(png|jpe?g|gif|svg)$/i,
+                    type: 'asset/inline'
                 }
             ]
         },

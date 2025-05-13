@@ -1,3 +1,44 @@
+[project]
+name = "dash-leaflet"
+version = "1.1.3rc1"
+description = "Dash Leaflet is a light wrapper around React-Leaflet. The syntax is similar to other Dash components, with naming conventions following the React-Leaflet API."
+authors = [
+    { name = "emher", email = "emil.h.eriksen@gmail.com" },
+]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dash>=3.0.0",
+    "dash-extensions>=2.0.0",
+    "dash_svg",
+    "protobuf>=6.30.2",
+    "geobuf>=2.0.0",
+    "pyyaml",
+    "colorcet",
+]
+
+[project.urls]
+homepage = "https://dash-leaflet.com"
+repository = "https://github.com/emilhe/dash-leaflet"
+
+[dependency-groups]
+dev = [
+    "dash[dev, testing]>=3.0.0",
+    "pytest-cov>=6.0.0",
+    "requests>=2.32.2",
+    "ruff>=0.11.0",
+    "tomli>=2.2.1",
+    "tomli-w>=1.2.0",
+    "selenium>=4.2.0",
+    "wheel>=0.45.1",
+]
+
+[tool.uv]
+default-groups = [
+    "dev",
+]
+
 [tool.ruff]
 line-length = 120
-target-version = "py39"
+target-version = "py313"

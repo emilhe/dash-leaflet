@@ -41,7 +41,7 @@ const LayersControl = (props: Props) => {
         const overlays = [];
         let baseLayer = undefined;
         React.Children.map(props.children, (child) => {
-            const dpl = (child as any).props._dashprivate_layout;
+            const dpl = (window as any).dash_component_api.getLayout((child as any).props.componentPath)
             const props = dpl.props;
             if(dpl.type === "BaseLayer" && props.checked){
                 console.log()

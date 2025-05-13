@@ -1,8 +1,0 @@
-dash[dev,testing]>=2.13.0
-dash_extensions==1.0.3
-pyyaml
-colorcet
-dash_svg
-wheel
-build
-pytest-cov

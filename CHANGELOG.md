@@ -2,11 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.2] - 12-05-25
+
+### Changed
+
+- Update `geobuf` / `protobuf` dependency version pins
+
+## [1.1.1] - 05-04-25
+
+### Changed
+
+- Update dependency to Dash 3.0.0
+- Fix issue with `TileLayer` component on non-integer zoom update [#236](https://github.com/emilhe/dash-leaflet/issues/236)
+- Fix issue with extra Dash props making it into `WMSTileLayer` component [#225](https://github.com/emilhe/dash-leaflet/issues/225)
+- Update build system to use uv
+
 ## [1.0.15] - 11-01-24
 
 ### Changed
 
-- Propagate pane information to GeoJSON object, thereby fixing [#221](https://github.com/emilhe/dash-leaflet/issues/221)
+- Propagate pane information to `GeoJSON` object, thereby fixing [#221](https://github.com/emilhe/dash-leaflet/issues/221)
 
 ## [1.0.13] - 27-12-23
 
@@ -19,8 +34,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- Bugfix in GeoJSON component correcting wrong behaviour when changing clustered data dynamically
-- Correct GeoJSON data type definition (remove string as allowed type)
+- Bugfix in `GeoJSON` component correcting wrong behavior when changing clustered data dynamically
+- Correct `GeoJSON` component data type definition (remove string as allowed type)
 
 ## [1.0.11] - 07-10-23
 
@@ -80,7 +95,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Library completely rewritten in TypeScript based on React Leaflet v4
-- Dependencies updated (incl. React version bump), npm now reports *0 vulnerabilities*
+- Dependencies updated (incl. React version bump), npm now reports _0 vulnerabilities_
 - Various fixes, incl. but not limited to [#193](https://github.com/thedirtyfew/dash-leaflet/issues/193), [#192](https://github.com/thedirtyfew/dash-leaflet/issues/192), [#189](https://github.com/thedirtyfew/dash-leaflet/issues/189), [#184](https://github.com/thedirtyfew/dash-leaflet/issues/184), [#178](https://github.com/thedirtyfew/dash-leaflet/issues/178)
 - The `GeoJSON` component is now loaded async, bringing the main asset < 300 kB
 
@@ -110,7 +125,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- Leaflet and react-leaflet are now [bundled with dash-leaflet](https://github.com/thedirtyfew/dash-leaflet/pull/146). This structure enables **development of plugins as external packages**. 
+- Leaflet and react-leaflet are now [bundled with dash-leaflet](https://github.com/thedirtyfew/dash-leaflet/pull/146). This structure enables **development of plugins as external packages**.
 - Various dependency updates.
 
 ## [0.1.23] - 2021-08-11
@@ -343,8 +358,6 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - ScaleControl object added.
-
-
 
 ## [0.0.8] - 2020-22-04
 
