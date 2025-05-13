@@ -28,6 +28,7 @@ from .SVGOverlay import SVGOverlay
 from .ScaleControl import ScaleControl
 from .TileLayer import TileLayer
 from .Tooltip import Tooltip
+from .VectorTileLayer import VectorTileLayer
 from .VideoOverlay import VideoOverlay
 from .WMSTileLayer import WMSTileLayer
 from .ZoomControl import ZoomControl
@@ -63,6 +64,7 @@ __all__ = [
     "ScaleControl",
     "TileLayer",
     "Tooltip",
+    "VectorTileLayer",
     "VideoOverlay",
     "WMSTileLayer",
     "ZoomControl"
