@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.3] - 15-05-25
+
+### Changed
+
+- Relax (minimum) Python version requirement from `3.12` to `3.11`
+
 ## [1.1.2] - 12-05-25
 
 ### Changed
