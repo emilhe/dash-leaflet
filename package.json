@@ -50,6 +50,7 @@
   "author": "Emil Haldrup Eriksen <emil.h.eriksen@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@types/leaflet-mouse-position": "^1.2.4",
     "base64-js": "^1.5.1",
     "chroma-js": "^2.4.2",
     "flatgeobuf": "^3.26.2",
@@ -59,6 +60,7 @@
     "leaflet-easybutton": "^2.4.0",
     "leaflet-gesture-handling": "^1.2.2",
     "leaflet-measure": "^3.1.0",
+    "leaflet-mouse-position": "^1.2.0",
     "leaflet-polylinedecorator": "^1.6.0",
     "leaflet.fullscreen": "^2.4.0",
     "leaflet.locatecontrol": "^0.79.0",
