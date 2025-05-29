@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.4] - UNRELEASED
+
+### Changed
+
+- Fix issue with the `action` property of the `EditControl` not firering [#265](https://github.com/emilhe/dash-leaflet/pull/265), thereby resolving [#264](https://github.com/emilhe/dash-leaflet/issues/264)
+- Fix spiderfy function not working in some cases [#267](https://github.com/emilhe/dash-leaflet/pull/267), thereby resolving [#266](https://github.com/emilhe/dash-leaflet/issues/266)
+
+## [1.1.3] - 15-05-25
+
+### Changed
+
+- Relax (minimum) Python version requirement from `3.12` to `3.11`
+
+## [1.1.2] - 12-05-25
+
+### Changed
+
+- Update `geobuf` / `protobuf` dependency version pins
+
 ## [1.1.1] - 05-04-25
 
 ### Changed

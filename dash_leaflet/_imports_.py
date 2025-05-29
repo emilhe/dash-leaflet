@@ -20,6 +20,7 @@ from .LocateControl import LocateControl
 from .MapContainer import MapContainer
 from .Marker import Marker
 from .MeasureControl import MeasureControl
+from .MousePosition import MousePosition
 from .Overlay import Overlay
 from .Pane import Pane
 from .Polygon import Polygon
@@ -59,6 +60,7 @@ __all__ = [
     "MapContainer",
     "Marker",
     "MeasureControl",
+    "MousePosition",
     "Overlay",
     "Pane",
     "Polygon",

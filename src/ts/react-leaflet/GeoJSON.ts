@@ -525,7 +525,7 @@ function _handleClick(e, instance, props, map, index, toSpiderfyRef) {
     const {latlng} = e;
     // Set spiderfy.
     const expansionZoom = index.getClusterExpansionZoom(clusterId)
-    const spiderfy = expansionZoom > index.options.maxZoom;
+    const spiderfy = expansionZoom > map.getZoom();
     if (spiderfy) {
         toSpiderfyRef.current = {"clusterId": clusterId};
     }
