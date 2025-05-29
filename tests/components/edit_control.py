@@ -9,6 +9,7 @@ import dash_leaflet as dl
 import dash_mantine_components as dmc
 from dash_emoji_mart import DashEmojiMart
 
+
 # Create custom emoji data for the emoji picker
 custom_emojis = [
     {
