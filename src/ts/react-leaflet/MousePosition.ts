@@ -37,7 +37,13 @@ export type MousePositionProps = {
     wrapLng?: boolean;
 } & ControlProps;
 
-export const MousePosition = createControlComponent<L.Control.Fullscreen, MousePositionProps>(
+declare module 'leaflet' {
+    namespace control {
+        function mousePosition(options?: any): Control;
+    }
+}
+
+export const MousePosition = createControlComponent<L.Control, MousePositionProps>(
 
     function createLeafletElement(props) {
         return L.control.mousePosition(props);
