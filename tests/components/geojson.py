@@ -11,4 +11,4 @@ component = GeoJSON(data=geojson, id="geojson")
 app, _ = event_app_stub(components=[component])
 
 if __name__ == "__main__":
-    app.run_server(port=9997)
+    app.run(port=9997)

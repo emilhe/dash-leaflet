@@ -6,4 +6,4 @@ component = FeatureGroup(Marker(position=[56, 10], id=target_id))
 app, _ = event_app_stub(components=[component], target_id=target_id)
 
 if __name__ == "__main__":
-    app.run_server(port =9997)
+    app.run(port =9997)

@@ -6,4 +6,4 @@ component = Marker(position=[56, 10], id="marker")
 app, _ = event_app_stub(components=[component])
 
 if __name__ == "__main__":
-    app.run_server(port=9997)
+    app.run(port=9997)
