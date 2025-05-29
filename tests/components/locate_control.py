@@ -5,4 +5,4 @@ component = LocateControl(locateOptions=dict(enableHighAccuracy=True))
 app = app_stub(components=[component, TileLayer()])
 
 if __name__ == "__main__":
-    app.run_server(port=9997)
+    app.run(port=9997)

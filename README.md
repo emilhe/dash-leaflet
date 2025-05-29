@@ -50,6 +50,11 @@ Next, create a virtual environment and install the python dependencies (make sur
 ```
 uv venv && source .venv/bin/activate && uv sync
 ```
+pip install dash
+
+pip install PyYAML
+
+
 
 Finally, install packages via npm (ignore errors) and run the build script,
 
@@ -61,3 +66,9 @@ npm run build
 ## Donation
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=Z9RXT5HVPK3B8&currency_code=DKK&source=url)
+
+## Contributing
+Useful commands for development:
+- `npm install`: Install JavaScript dependencies.
+- `npm run build`: Build the JavaScript components.
+- `pip install -e .` to install the package in editable mode.

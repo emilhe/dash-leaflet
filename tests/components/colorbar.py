@@ -6,4 +6,4 @@ colorbar = Colorbar(colorscale=colorscale, width=20, height=150, min=0, max=1, u
 app, _ = event_app_stub(components=[colorbar])
 
 if __name__ == "__main__":
-    app.run_server(port=9997)
+    app.run(port=9997)

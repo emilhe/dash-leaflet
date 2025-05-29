@@ -7,4 +7,4 @@ component = Popup(position=[56, 10], children=html.Button("Click me!", id=target
 app, selector = event_app_stub(target_id=target_id, components=[component])
 
 if __name__ == "__main__":
-    app.run_server(port=9997)
+    app.run(port=9997)

@@ -31,7 +31,8 @@ import Colorbar from './components/Colorbar';
 import MeasureControl from './components/MeasureControl';
 import EditControl from './components/EditControl';
 import GeoJSON from './components/GeoJSON';
-import MousePosition from "./components/MousePosition";
+import AntPath from "./components/AntPath";
+import StreetLabelProvider from './components/StreetLabelProvider';
 
 export {
     MapContainer,
@@ -67,5 +68,6 @@ export {
     MeasureControl,
     EditControl,
     GeoJSON,
-    MousePosition
+    AntPath,
+    StreetLabelProvider
 }

@@ -7,4 +7,4 @@ arrow = PolylineDecorator(positions=[[58.44773, -28.65234], [52.9354, -23.33496]
 app, _ = event_app_stub(components=[arrow, TileLayer()], center=[56, -12])
 
 if __name__ == "__main__":
-    app.run_server(port=9997, debug=True)
+    app.run(port=9997, debug=True)

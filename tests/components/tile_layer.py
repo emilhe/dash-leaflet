@@ -6,4 +6,4 @@ component = TileLayer(id=target_id, url="https://{s}.tile.openstreetmap.org/{z}/
 app, _ = event_app_stub(components=[component], target_prop="n_loads")
 
 if __name__ == "__main__":
-    app.run_server(port=9997)
+    app.run(port=9997)

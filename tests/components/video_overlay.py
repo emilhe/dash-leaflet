@@ -9,4 +9,4 @@ component = VideoOverlay(
 app, _ = event_app_stub(components=[component, TileLayer()], bounds=bounds, zoom=4)
 
 if __name__ == "__main__":
-    app.run_server(port=9997)
+    app.run(port=9997)
