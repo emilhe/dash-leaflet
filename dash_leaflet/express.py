@@ -12,8 +12,8 @@ def _try_import_geobuf():
     except ImportError as ex:
         logging.error(f"Unable to import [geobuf/protobuf]. Please install it, {install_txt}")
         raise ex
-    if google.protobuf.__version__ != "3.20.0":
-        version_txt = f"The recommended protobuf version is 3.20.0 (you have {google.protobuf.__version__})"
+    if google.protobuf.__version__ < "6.30.2":
+        version_txt = f"The recommended protobuf version is at least 6.30.2 (you have {google.protobuf.__version__})"
         logging.warning(f"{version_txt}. You can fix it {install_txt}")
     return geobuf
 
