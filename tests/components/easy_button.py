@@ -6,4 +6,4 @@ app_kwargs = dict(external_stylesheets=["https://cdnjs.cloudflare.com/ajax/libs/
 app, _ = event_app_stub(components=[component, TileLayer()], app_kwargs=app_kwargs, target_prop="n_clicks")
 
 if __name__ == "__main__":
-    app.run_server(port=9997, debug=True)
+    app.run(port=9997, debug=True)

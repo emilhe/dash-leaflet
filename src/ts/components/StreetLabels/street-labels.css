@@ -1,0 +1,37 @@
+/* src/ts/components/StreetLabels/street-labels.css */
+
+/* Canvas layer for street labels */
+.leaflet-street-labels {
+    position: absolute;
+    pointer-events: none;
+    z-index: 650 !important; /* Above tile layers and paths */
+}
+
+/* Ensure the canvas is above path layers */
+.leaflet-pane.leaflet-marker-pane .leaflet-street-labels {
+    z-index: 700 !important;
+}
+
+/* Ensure smooth rendering */
+.leaflet-street-labels canvas {
+    image-rendering: auto;
+    image-rendering: crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+}
+
+/* Optional: Add subtle animation when labels appear/disappear */
+.leaflet-street-labels {
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.leaflet-zoom-anim .leaflet-street-labels {
+    opacity: 0;
+}
+
+/* For high DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .leaflet-street-labels canvas {
+        image-rendering: -webkit-optimize-contrast;
+    }
+}

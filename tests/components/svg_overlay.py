@@ -19,4 +19,4 @@ center = [(bounds[0][0] + bounds[1][0])/2, (bounds[0][1] + bounds[1][1])/2]
 app, _ = event_app_stub(components=[component, TileLayer()], center=center, zoom=8)
 
 if __name__ == "__main__":
-    app.run_server(port=9997)
+    app.run(port=9997)

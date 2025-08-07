@@ -10,4 +10,4 @@ components = [
 app, _ = event_app_stub(components=components, target_id=target_id)
 
 if __name__ == "__main__":
-    app.run_server(port=9997)
+    app.run(port=9997)

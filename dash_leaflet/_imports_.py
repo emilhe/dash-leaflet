@@ -1,3 +1,6 @@
+from .CanvasTextLayer import CanvasTextLayer
+from .StreetLabelContext import StreetLabelContext
+from .AntPath import AntPath
 from .AttributionControl import AttributionControl
 from .BaseLayer import BaseLayer
 from .Circle import Circle
@@ -27,6 +30,7 @@ from .Popup import Popup
 from .Rectangle import Rectangle
 from .SVGOverlay import SVGOverlay
 from .ScaleControl import ScaleControl
+from .StreetLabelProvider import StreetLabelProvider
 from .TileLayer import TileLayer
 from .Tooltip import Tooltip
 from .VideoOverlay import VideoOverlay
@@ -34,6 +38,9 @@ from .WMSTileLayer import WMSTileLayer
 from .ZoomControl import ZoomControl
 
 __all__ = [
+    "CanvasTextLayer",
+    "StreetLabelContext",
+    "AntPath",
     "AttributionControl",
     "BaseLayer",
     "Circle",
@@ -63,6 +70,7 @@ __all__ = [
     "Rectangle",
     "SVGOverlay",
     "ScaleControl",
+    "StreetLabelProvider",
     "TileLayer",
     "Tooltip",
     "VideoOverlay",
