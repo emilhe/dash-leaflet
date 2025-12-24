@@ -1,15 +1,13 @@
-// import { VectorTileLayer } from '@mapbox/vector-tile'
 import {
     createElementObject,
-    createTileLayerComponent,
+    createLayerComponent,
     updateGridLayer,
     withPane,
+    LeafletContextInterface,
 } from '@react-leaflet/core'
-// import { TileLayer } from 'leaflet'
 import { default as leafletVectorTileLayer } from 'leaflet-vector-tile-layer'
 import { DashFunction, Modify, resolveProps, TileLayerProps } from "../props";
-import { omit, pick } from "../utils";
-import { GridLayer, TileLayer } from 'leaflet';
+import { GridLayer } from 'leaflet';
 
 export type VectorTileLayerOptions = {
     /**
@@ -64,7 +62,7 @@ export type VectorTileLayerOptions = {
      * function that receives the vector-tile feature, the layer name
      * and the zoom level and returns the appropriate style options.
      */
-    style?: DashFunction; // default undefined
+    style?: DashFunction | object; // default undefined
 
     /**
      * This works like the same option for `Leaflet.VectorGrid`.
@@ -72,6 +70,15 @@ export type VectorTileLayerOptions = {
      */
     vectorTileLayerStyles?: object; // default undefined
 
+    /**
+     * Style function applied on hover. [MUTABLE, DL]
+     */
+    hoverStyle?: DashFunction | object; // default undefined
+
+    /**
+     * If true, the component will be interactive (clickable). [MUTABLE, DL]
+     */
+    interactive?: boolean; // default true
 }
 
 export type VectorTileLayerProps = Modify<TileLayerProps, {
@@ -81,23 +88,42 @@ export type VectorTileLayerProps = Modify<TileLayerProps, {
     url?: string
 }> & VectorTileLayerOptions
 
-const _funcOptions = ["featureToLayer", "filter", "layerOrder", "style"]
+const _funcOptions = ["featureToLayer", "filter", "layerOrder", "style", "hoverStyle"]
 
-export const VectorTileLayer = createTileLayerComponent<
-    TileLayer,  // MAKE PROPER CLASS (might be equal though?)
+function createVectorTileLayer(
+    { url, ...options }: VectorTileLayerProps,
+    context: LeafletContextInterface
+) {
+    const resolvedOptions = resolveProps({...options}, _funcOptions, context);
+    // Set interactive to true by default for click events
+    if (resolvedOptions.interactive === undefined) {
+        resolvedOptions.interactive = true;
+    }
+    const layer = leafletVectorTileLayer(url, withPane(resolvedOptions, context))
+    return createElementObject(layer, context)
+}
+
+function updateVectorTileLayer(
+    layer: GridLayer,
+    props: VectorTileLayerProps,
+    prevProps: VectorTileLayerProps
+) {
+    updateGridLayer(layer, props, prevProps)
+    const { url, style } = props
+
+    // Update URL if changed
+    if (url != null && url !== prevProps.url) {
+        (layer as any).setUrl(url)
+    }
+
+    // Update style if changed (leaflet-vector-tile-layer supports setStyle)
+    if (style !== prevProps.style && (layer as any).setStyle) {
+        (layer as any).setStyle(style)
+    }
+}
+
+// Use createLayerComponent which is more appropriate for layers with events
+export const VectorTileLayer = createLayerComponent<
+    GridLayer,
     VectorTileLayerProps
->(
-    function createTileLayer({ url, ...options }, context) {
-        const resolvedOptions = resolveProps(options, _funcOptions, context);
-        const layer = leafletVectorTileLayer(url, withPane(resolvedOptions, context))
-        return createElementObject(layer, context)
-    },
-    function updateTileLayer(layer, props, prevProps) {
-        updateGridLayer(layer, props, prevProps)
-        const { url } = props
-        // TODO: Double check property stuff here
-        if (url != null && url !== prevProps.url) {
-            layer.setUrl(url)
-        }
-    },
-)
+>(createVectorTileLayer, updateVectorTileLayer)
