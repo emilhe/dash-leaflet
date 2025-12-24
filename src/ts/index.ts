@@ -32,6 +32,7 @@ import MeasureControl from './components/MeasureControl';
 import EditControl from './components/EditControl';
 import GeoJSON from './components/GeoJSON';
 import MousePosition from "./components/MousePosition";
+import VectorTileLayer from './components/VectorTileLayer';
 
 export {
     MapContainer,
@@ -67,5 +68,6 @@ export {
     MeasureControl,
     EditControl,
     GeoJSON,
-    MousePosition
+    MousePosition,
+    VectorTileLayer
 }
