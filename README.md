@@ -28,7 +28,7 @@ That's it! If you visit http://127.0.0.1:8050/ in your browser, you should see a
 
 ## Documentation
 
-The documentation has been moved to [a separate page](https://dash-leaflet.com) to enable an interactive example gallery.
+The documentation has been moved to [a separate page](https://dash-leaflet-docs.onrender.com/) to enable an interactive example gallery.
 
 NB: The 1.0.0 release contains a wide range of breaking changes, please refer to the migration guidelines
 
