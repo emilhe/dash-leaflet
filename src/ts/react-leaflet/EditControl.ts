@@ -22,6 +22,11 @@ export type EditControlProps = {
      */
     edit?: object;
 
+    /**
+     * Customize toolbar button tooltips. See default values here https://github.com/Leaflet/Leaflet.draw/blob/master/src/Leaflet.draw.js#L99
+     */
+    buttons?: object;
+
     // Custom properties.
 
     /**
@@ -73,7 +78,7 @@ const manipulateToolbar = (toolbar, mode, action) => {
 function createEditControl(){
     function createDrawElement(props, ctx) {
         const {layerContainer} = ctx;
-        const {draw, edit, position} = props;
+        const {draw, edit, buttons, position} = props;
         const options = {
             edit: {
                 ...edit,
@@ -85,6 +90,11 @@ function createEditControl(){
         }
         if (position) {
             options["position"] = position;
+        }
+        if (buttons) {
+            L.drawLocal.draw.toolbar.buttons = {
+                ...L.drawLocal.draw.toolbar.buttons, ...buttons
+            }
         }
         return createElementObject(new L.Control.Draw(options), ctx)
     }
